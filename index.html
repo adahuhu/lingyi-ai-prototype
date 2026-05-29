@@ -8535,6 +8535,17 @@
       resultSummary.textContent = '暂无图片，生成后支持平铺或翻页查看';
     };
 
+    const selectLatestTaskRecord = () => {
+      const taskOptions = Array.from(document.querySelectorAll('[data-task-record]'));
+      const latestTask = taskOptions.reduce((latest, option) => {
+        if (!latest) return option;
+        return (option.dataset.taskRecordTime || '').localeCompare(latest.dataset.taskRecordTime || '') > 0 ? option : latest;
+      }, null);
+      if (!latestTask) return;
+      taskOptions.forEach((item) => item.classList.toggle('selected', item === latestTask));
+      taskRecordLabel.textContent = `任务记录 ${latestTask.dataset.taskRecord}`;
+    };
+
     const applyReusableHistory = ({ label = '历史记录 IMG-2401', title = 'Reusable Silicone Food Storage Bags' } = {}) => {
       const taskId = label.replace('历史记录 ', '');
       productSourceLabel.textContent = label;
@@ -8553,6 +8564,7 @@
       referencePreview.src = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="144" height="144" viewBox="0 0 144 144"><rect width="144" height="144" rx="16" fill="#f4f7ff"/><rect x="46" y="54" width="64" height="42" rx="17" fill="#3370ff" opacity=".82" transform="rotate(-8 78 75)"/><rect x="64" y="42" width="56" height="38" rx="16" fill="#79a8ff" opacity=".78"/><rect x="32" y="68" width="58" height="36" rx="16" fill="#3370ff" opacity=".7"/></svg>');
       productPreviewUpload.classList.add('has-image');
       hasReferenceImage = true;
+      selectLatestTaskRecord();
       setRunButtonsReady(true);
       showGeneratedResults();
     };
