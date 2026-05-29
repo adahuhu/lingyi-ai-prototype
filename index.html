@@ -529,8 +529,8 @@
     }
 
     .product-composer .product-main-row {
-      grid-template-columns: 64px minmax(0, 1fr);
-      min-height: 72px;
+      grid-template-columns: minmax(0, 1fr);
+      min-height: 56px;
       gap: 14px;
       padding: 10px 12px;
       border: 1px solid var(--line);
@@ -541,6 +541,16 @@
     .product-composer.empty-product .product-main-row {
       border-color: #d9e6ff;
       background: linear-gradient(180deg, #fbfdff 0%, #ffffff 100%);
+    }
+
+    .product-composer.empty-product:not(.has-reference) .product-main-row {
+      display: flex;
+      align-items: center;
+    }
+
+    .product-composer.has-reference .product-main-row,
+    .product-composer.ready-product .product-main-row {
+      grid-template-columns: 64px minmax(0, 1fr);
     }
 
     .product-strip.empty-product .product-kicker,
@@ -584,6 +594,10 @@
       width: 56px;
       height: 56px;
       font-size: 11px;
+    }
+
+    .product-composer.empty-product:not(.has-reference) .product-preview {
+      display: none;
     }
 
     .product-preview:hover {
@@ -6081,12 +6095,10 @@
               </button>
               <button class="btn text" id="openBrandData">品牌信息</button>
             </div>
-            <div class="step-action-row">
-              <button class="btn primary product-generate-btn" id="productQuickGenerate" type="button" hidden>
-                <svg class="icon" viewBox="0 0 24 24"><path d="M6 4v16l13-8L6 4Z"/></svg>
-                直接生成套图
-              </button>
-            </div>
+            <button class="btn primary product-generate-btn" id="productQuickGenerate" type="button" hidden>
+              <svg class="icon" viewBox="0 0 24 24"><path d="M6 4v16l13-8L6 4Z"/></svg>
+              直接生成套图
+            </button>
           </div>
           <div class="product-main-row">
             <label class="product-preview" for="referenceImageInput" id="productPreviewUpload">
@@ -8408,7 +8420,6 @@
     };
 
     const setProductPrimaryAction = (ready) => {
-      productQuickGenerate.hidden = !ready;
       openProductData.classList.toggle('primary', !ready);
       openProductData.classList.toggle('recommended-action', !ready);
       openProductData.classList.toggle('text', ready);
