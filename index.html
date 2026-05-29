@@ -9142,7 +9142,7 @@
         const hasProductData = currentTitle && currentTitle !== '未命名产品' && currentTitle !== '商品图已上传';
         if (!hasProductData) {
           currentProductTitle.textContent = '商品图已上传';
-          currentProductMeta.innerHTML = '<span>可继续补充产品资料提升生成质量</span>';
+          currentProductMeta.innerHTML = '';
         }
         setCreationProgress(hasProductData ? 3 : 2, hasProductData ? '商品图已更新，可继续生成' : undefined);
         productStrip.classList.toggle('empty-product', !hasProductData);
