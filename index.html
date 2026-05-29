@@ -2170,13 +2170,12 @@
 
     .dimension-inputs {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr)) 64px;
+      grid-template-columns: 1fr;
       gap: 8px;
       min-width: 0;
     }
 
-    .dimension-inputs input,
-    .dimension-inputs select {
+    .dimension-inputs input {
       min-width: 0;
     }
 
@@ -7253,12 +7252,9 @@
           </div>
           <div class="editable-field"><label for="materialField">材质</label><input id="materialField" value="食品级硅胶" /></div>
           <div class="editable-field">
-            <label>尺寸</label>
+            <label for="sizeField">尺寸</label>
             <div class="dimension-inputs">
-              <input id="sizeLengthField" type="number" min="0" step="0.1" value="8.5" placeholder="长" aria-label="长度" />
-              <input id="sizeWidthField" type="number" min="0" step="0.1" value="7" placeholder="宽" aria-label="宽度" />
-              <input id="sizeHeightField" type="number" min="0" step="0.1" placeholder="高" aria-label="高度" />
-              <span class="dimension-unit" id="sizeUnitField">cm</span>
+              <input id="sizeField" type="text" placeholder="如长*宽*高  cm" aria-label="尺寸" />
             </div>
           </div>
           <div class="editable-field"><label for="sellingPointsField">核心卖点</label><textarea id="sellingPointsField">防漏、可复用、可清洗</textarea></div>
@@ -8190,10 +8186,7 @@
     const secondaryCategoryField = document.getElementById('secondaryCategoryField');
     const secondaryCategoryOptions = document.getElementById('secondaryCategoryOptions');
     const materialField = document.getElementById('materialField');
-    const sizeLengthField = document.getElementById('sizeLengthField');
-    const sizeWidthField = document.getElementById('sizeWidthField');
-    const sizeHeightField = document.getElementById('sizeHeightField');
-    const sizeUnitField = document.getElementById('sizeUnitField');
+    const sizeField = document.getElementById('sizeField');
     const sellingPointsField = document.getElementById('sellingPointsField');
     let hasReferenceImage = false;
     const escapeHTML = (value) => String(value || '').replace(/[&<>"']/g, (char) => ({
@@ -10167,8 +10160,7 @@
       const category = primaryCategoryField.value.trim() || '待识别类目';
       const secondaryCategory = secondaryCategoryField.value.trim();
       const material = materialField.value.trim();
-      const sizeParts = [sizeLengthField.value.trim(), sizeWidthField.value.trim(), sizeHeightField.value.trim()].filter(Boolean);
-      const sizeText = sizeParts.length ? `${sizeParts.join(' × ')} ${sizeUnitField.textContent.trim()}` : '';
+      const sizeText = sizeField.value.trim();
       const sellingPoint = sellingPointsField.value.trim().split(/[、,，]/).filter(Boolean).slice(0, 2).join(' / ');
       currentProductTitle.textContent = productName;
       currentProductMeta.innerHTML = `
