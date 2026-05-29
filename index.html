@@ -488,6 +488,39 @@
       margin-bottom: 12px;
     }
 
+    .product-composer {
+      padding: 12px 14px 14px;
+      gap: 10px;
+    }
+
+    .product-composer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .composer-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      min-width: 0;
+    }
+
+    .composer-upload-btn {
+      cursor: pointer;
+      color: var(--blue);
+      border-color: #bfd0ff;
+      background: #f3f7ff;
+      box-shadow: none;
+    }
+
+    .composer-upload-btn:hover {
+      border-color: var(--blue);
+      background: var(--blue-soft);
+    }
+
     .product-main-row {
       display: grid;
       grid-template-columns: 84px minmax(0, 1fr) auto;
@@ -495,10 +528,33 @@
       gap: 16px;
     }
 
+    .product-composer .product-main-row {
+      grid-template-columns: 64px minmax(0, 1fr);
+      min-height: 72px;
+      gap: 14px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: #fbfcff;
+    }
+
+    .product-composer.empty-product .product-main-row {
+      border-color: #d9e6ff;
+      background: linear-gradient(180deg, #fbfdff 0%, #ffffff 100%);
+    }
+
     .product-strip.empty-product .product-kicker,
     .product-strip.empty-product #currentProductTitle,
     .product-strip.empty-product #currentProductMeta {
       display: none;
+    }
+
+    .product-strip.empty-product.has-reference #currentProductTitle {
+      display: block;
+    }
+
+    .product-strip.empty-product.has-reference #currentProductMeta {
+      display: flex;
     }
 
     .product-strip.empty-product .product-empty-hint {
@@ -522,6 +578,12 @@
       font-weight: 700;
       cursor: pointer;
       transition: border-color .16s ease, background .16s ease, box-shadow .16s ease;
+    }
+
+    .product-composer .product-preview {
+      width: 56px;
+      height: 56px;
+      font-size: 11px;
     }
 
     .product-preview:hover {
@@ -628,6 +690,15 @@
       font-size: 13px;
       font-weight: 720;
       line-height: 1.35;
+    }
+
+    .product-composer .next-guide {
+      min-height: 0;
+    }
+
+    .product-composer.empty-product .next-guide {
+      color: #8f959e;
+      font-weight: 650;
     }
 
     .product-strip.empty-product .prep-status {
@@ -755,6 +826,10 @@
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .product-composer .step-action-row {
       justify-content: flex-end;
     }
 
@@ -5994,7 +6069,25 @@
           </div>
         </div>
 
-        <section class="panel product-strip empty-product" id="productStrip">
+        <section class="panel product-strip product-composer empty-product" id="productStrip">
+          <div class="product-composer-top">
+            <div class="composer-actions">
+              <label class="btn composer-upload-btn" for="referenceImageInput">上传商品图</label>
+              <button class="btn primary recommended-action" id="openProductData" type="button">
+                产品资料
+                <span class="recommend-badge" title="推荐优先补充" aria-label="推荐优先补充">
+                  <svg viewBox="0 0 24 24"><path d="m12 3 1.9 5.2L19 10l-5.1 1.8L12 17l-1.9-5.2L5 10l5.1-1.8L12 3Z"/></svg>
+                </span>
+              </button>
+              <button class="btn text" id="openBrandData">品牌信息</button>
+            </div>
+            <div class="step-action-row">
+              <button class="btn primary product-generate-btn" id="productQuickGenerate" type="button" hidden>
+                <svg class="icon" viewBox="0 0 24 24"><path d="M6 4v16l13-8L6 4Z"/></svg>
+                直接生成套图
+              </button>
+            </div>
+          </div>
           <div class="product-main-row">
             <label class="product-preview" for="referenceImageInput" id="productPreviewUpload">
               <span>上传商品图</span>
@@ -6002,26 +6095,13 @@
             </label>
             <div class="product-info">
               <div class="next-guide" id="creationProgressSteps" aria-label="图片创作引导">
-                <span id="nextGuideTitle">推荐下一步：上传真实商品图</span>
+                <span id="nextGuideTitle">上传商品图，补充更多产品资料，生成高质量图片</span>
               </div>
               <strong id="currentProductTitle">未命名产品</strong>
               <div class="product-meta" id="currentProductMeta">
                 <span>待补充信息</span>
               </div>
               <div class="prep-status" id="productPrepStatus"></div>
-            </div>
-            <div class="step-action-row">
-              <button class="btn primary product-generate-btn" id="productQuickGenerate" type="button" hidden>
-                <svg class="icon" viewBox="0 0 24 24"><path d="M6 4v16l13-8L6 4Z"/></svg>
-                直接生成套图
-              </button>
-              <button class="btn primary recommended-action" id="openProductData" type="button">
-                补充产品资料
-                <span class="recommend-badge" title="推荐优先补充" aria-label="推荐优先补充">
-                  <svg viewBox="0 0 24 24"><path d="m12 3 1.9 5.2L19 10l-5.1 1.8L12 17l-1.9-5.2L5 10l5.1-1.8L12 3Z"/></svg>
-                </span>
-              </button>
-              <button class="btn text" id="openBrandData">品牌信息</button>
             </div>
           </div>
           <input id="referenceImageInput" type="file" accept="image/*" hidden />
@@ -8337,9 +8417,9 @@
     const setCreationProgress = (currentStep, customTitle) => {
       if (!nextGuideTitle) return;
       const guideTitles = {
-        1: '推荐下一步：上传真实商品图',
-        2: '推荐下一步：补充产品资料',
-        3: '已准备好生成',
+        1: '上传商品图，补充更多产品资料，生成高质量图片',
+        2: '已上传商品图，可继续补充产品资料提升生成质量',
+        3: '已准备好生成高质量图片',
         4: '已生成套图，可继续调整',
       };
       const hasVisibleProduct = !productStrip.classList.contains('empty-product');
@@ -8416,7 +8496,7 @@
       productStrip.classList.add('has-reference');
       productStrip.classList.add('ready-product');
       productPrepStatus.innerHTML = '';
-      setCreationProgress(3, fromHistory ? '历史资料已带入，可再次生成' : '已准备好生成');
+      setCreationProgress(3, fromHistory ? '历史资料已带入，可再次生成' : '已准备好生成高质量图片');
       setProductPrimaryAction(true);
       setRunButtonsReady(true);
     };
@@ -9047,12 +9127,18 @@
         referencePreview.src = reader.result;
         productPreviewUpload.classList.add('has-image');
         hasReferenceImage = true;
-        setCreationProgress(2);
-        productStrip.classList.add('empty-product');
+        const currentTitle = currentProductTitle.textContent.trim();
+        const hasProductData = currentTitle && currentTitle !== '未命名产品' && currentTitle !== '商品图已上传';
+        if (!hasProductData) {
+          currentProductTitle.textContent = '商品图已上传';
+          currentProductMeta.innerHTML = '<span>可继续补充产品资料提升生成质量</span>';
+        }
+        setCreationProgress(hasProductData ? 3 : 2, hasProductData ? '商品图已更新，可继续生成' : undefined);
+        productStrip.classList.toggle('empty-product', !hasProductData);
         productStrip.classList.add('has-reference');
-        productStrip.classList.remove('ready-product');
+        productStrip.classList.toggle('ready-product', hasProductData);
         productPrepStatus.innerHTML = '';
-        setProductPrimaryAction(false);
+        setProductPrimaryAction(hasProductData);
         setRunButtonsReady(true);
         toast.textContent = '真实商品图已上传，主图将基于该图生成';
         toast.classList.add('show');
