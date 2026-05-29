@@ -8331,8 +8331,12 @@
         1: '推荐下一步：上传真实商品图',
         2: '推荐下一步：补充产品资料',
         3: '已准备好生成',
+        4: '已生成套图，可继续调整',
       };
-      nextGuideTitle.textContent = customTitle || guideTitles[currentStep] || guideTitles[1];
+      const hasVisibleProduct = !productStrip.classList.contains('empty-product');
+      const hasUploadedImage = productPreviewUpload.classList.contains('has-image');
+      const fallbackTitle = hasVisibleProduct || hasUploadedImage ? guideTitles[3] : guideTitles[1];
+      nextGuideTitle.textContent = customTitle || guideTitles[currentStep] || fallbackTitle;
     };
 
     const setListingFlowStep = (step) => {
@@ -8370,7 +8374,8 @@
 
     const showGeneratedResults = () => {
       hasGeneratedResults = true;
-      setCreationProgress(4);
+      const sourceLabel = productSourceLabel.textContent.trim();
+      setCreationProgress(4, sourceLabel.startsWith('历史记录') ? '历史资料已带入，可再次生成' : '已生成套图，可继续调整');
       gallery.classList.remove('empty');
       if (pagerView.classList.contains('active')) {
         gallery.classList.add('pager-mode');
@@ -8433,7 +8438,6 @@
     const applyReusableHistory = ({ label = '历史记录 IMG-2401', title = 'Reusable Silicone Food Storage Bags' } = {}) => {
       const taskId = label.replace('历史记录 ', '');
       productSourceLabel.textContent = label;
-      setCreationProgress(3);
       currentProductTitle.textContent = title === 'Reusable Silicone Food Storage Bags' ? 'Reusable Silicone Food Storage Bags, 10 Pack' : title;
       currentProductMeta.innerHTML = `
         <span>Amazon US</span>
