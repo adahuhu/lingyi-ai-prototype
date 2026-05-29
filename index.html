@@ -381,6 +381,38 @@
       font-size: 12px;
     }
 
+    .task-record-switch .product-source-trigger {
+      color: var(--text);
+      border-color: var(--line);
+      background: white;
+    }
+
+    .task-record-menu {
+      width: 244px;
+    }
+
+    .task-record-option {
+      grid-template-columns: 32px 1fr;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .task-record-option strong {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+    }
+
+    .task-record-option span {
+      color: var(--text);
+      font-weight: 600;
+    }
+
     .platform-select {
       height: 28px;
       min-width: 106px;
@@ -1614,7 +1646,7 @@
     }
 
     .prompt-compact textarea::placeholder {
-      color: #a8abb2;
+      color: #b7bdc8;
     }
 
     .drawer {
@@ -2138,7 +2170,7 @@
 
     .dimension-inputs {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr)) 78px;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) 64px;
       gap: 8px;
       min-width: 0;
     }
@@ -2146,6 +2178,18 @@
     .dimension-inputs input,
     .dimension-inputs select {
       min-width: 0;
+    }
+
+    .dimension-unit {
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #f7f8fa;
+      color: var(--muted);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 650;
     }
 
     .brand-color-row {
@@ -5827,27 +5871,38 @@
                 </button>
                 <button class="product-source-option" type="button" data-product-source="history" data-history-label="历史记录 IMG-2401">
                   <strong>Reusable Silicone Food Storage Bags</strong>
-                  <span>历史任务 IMG-2401</span>
                 </button>
                 <button class="product-source-option" type="button" data-product-source="history" data-history-label="历史记录 IMG-2398">
                   <strong>Black Waterproof Smart Watch</strong>
-                  <span>历史任务 IMG-2398</span>
                 </button>
                 <button class="product-source-option" type="button" data-product-source="history" data-history-label="历史记录 IMG-2386">
                   <strong>Portable Makeup Organizer</strong>
-                  <span>历史任务 IMG-2386</span>
                 </button>
                 <button class="product-source-option" type="button" data-product-source="history" data-history-label="历史记录 IMG-2379">
                   <strong>Kitchen Sink Soap Dispenser</strong>
-                  <span>历史任务 IMG-2379</span>
                 </button>
                 <button class="product-source-option" type="button" data-product-source="history" data-history-label="历史记录 IMG-2364">
                   <strong>Stainless Steel Measuring Cups</strong>
-                  <span>历史任务 IMG-2364</span>
                 </button>
                 <button class="product-source-option" type="button" data-product-source="history-list">
                   <strong>更多历史记录</strong>
                   <span>打开历史列表</span>
+                </button>
+              </div>
+            </div>
+            <div class="product-source-switch task-record-switch" id="taskRecordSwitch">
+              <button class="product-source-trigger" id="taskRecordTrigger" type="button">
+                <span id="taskRecordLabel">任务记录</span>
+                <svg viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></svg>
+              </button>
+              <div class="product-source-menu task-record-menu" id="taskRecordMenu">
+                <button class="product-source-option task-record-option" type="button" data-task-record="1" data-task-record-time="2026-05-09 12:00:00">
+                  <strong>1</strong>
+                  <span>2026-05-09&nbsp;&nbsp;12：00：00</span>
+                </button>
+                <button class="product-source-option task-record-option" type="button" data-task-record="3" data-task-record-time="2026-05-09 12:00:02">
+                  <strong>3</strong>
+                  <span>2026-05-09&nbsp;&nbsp;12：00：02</span>
                 </button>
               </div>
             </div>
@@ -7161,11 +7216,7 @@
               <input id="sizeLengthField" type="number" min="0" step="0.1" value="8.5" placeholder="长" aria-label="长度" />
               <input id="sizeWidthField" type="number" min="0" step="0.1" value="7" placeholder="宽" aria-label="宽度" />
               <input id="sizeHeightField" type="number" min="0" step="0.1" placeholder="高" aria-label="高度" />
-              <select id="sizeUnitField" aria-label="尺寸单位">
-                <option selected>in</option>
-                <option>cm</option>
-                <option>mm</option>
-              </select>
+              <span class="dimension-unit" id="sizeUnitField">cm</span>
             </div>
           </div>
           <div class="editable-field"><label for="sellingPointsField">核心卖点</label><textarea id="sellingPointsField">防漏、可复用、可清洗</textarea></div>
@@ -8051,6 +8102,9 @@
     const productSourceSwitch = document.getElementById('productSourceSwitch');
     const productSourceTrigger = document.getElementById('productSourceTrigger');
     const productSourceLabel = document.getElementById('productSourceLabel');
+    const taskRecordSwitch = document.getElementById('taskRecordSwitch');
+    const taskRecordTrigger = document.getElementById('taskRecordTrigger');
+    const taskRecordLabel = document.getElementById('taskRecordLabel');
     const currentCrumbTitle = document.getElementById('currentCrumbTitle');
     const customStyleToggle = document.getElementById('customStyleToggle');
     const customStyleWrap = document.getElementById('customStyleWrap');
@@ -9976,6 +10030,26 @@
     productSourceTrigger.addEventListener('click', (event) => {
       event.stopPropagation();
       productSourceSwitch.classList.toggle('open');
+      taskRecordSwitch.classList.remove('open');
+    });
+
+    taskRecordTrigger.addEventListener('click', (event) => {
+      event.stopPropagation();
+      taskRecordSwitch.classList.toggle('open');
+      productSourceSwitch.classList.remove('open');
+    });
+
+    document.querySelectorAll('[data-task-record]').forEach((option) => {
+      option.addEventListener('click', (event) => {
+        event.stopPropagation();
+        document.querySelectorAll('[data-task-record]').forEach((item) => item.classList.remove('selected'));
+        option.classList.add('selected');
+        taskRecordLabel.textContent = `任务记录 ${option.dataset.taskRecord}`;
+        taskRecordSwitch.classList.remove('open');
+        toast.textContent = `已选择任务记录 ${option.dataset.taskRecord}`;
+        toast.classList.add('show');
+        window.setTimeout(() => toast.classList.remove('show'), 1800);
+      });
     });
 
     document.querySelectorAll('[data-product-source]').forEach((option) => {
@@ -10002,7 +10076,10 @@
       });
     });
 
-    document.addEventListener('click', () => productSourceSwitch.classList.remove('open'));
+    document.addEventListener('click', () => {
+      productSourceSwitch.classList.remove('open');
+      taskRecordSwitch.classList.remove('open');
+    });
 
     document.querySelectorAll('[data-history-option]').forEach((option) => {
       option.addEventListener('click', () => {
@@ -10049,7 +10126,7 @@
       const secondaryCategory = secondaryCategoryField.value.trim();
       const material = materialField.value.trim();
       const sizeParts = [sizeLengthField.value.trim(), sizeWidthField.value.trim(), sizeHeightField.value.trim()].filter(Boolean);
-      const sizeText = sizeParts.length ? `${sizeParts.join(' × ')} ${sizeUnitField.value}` : '';
+      const sizeText = sizeParts.length ? `${sizeParts.join(' × ')} ${sizeUnitField.textContent.trim()}` : '';
       const sellingPoint = sellingPointsField.value.trim().split(/[、,，]/).filter(Boolean).slice(0, 2).join(' / ');
       currentProductTitle.textContent = productName;
       currentProductMeta.innerHTML = `
