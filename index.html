@@ -609,11 +609,25 @@
       margin-top: 4px;
     }
 
+    .prep-status:empty {
+      display: none;
+    }
+
     .prep-copy {
       color: var(--muted);
       font-size: 12px;
       line-height: 1.45;
       font-weight: 600;
+    }
+
+    .next-guide {
+      display: flex;
+      align-items: center;
+      min-height: 28px;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 720;
+      line-height: 1.35;
     }
 
     .product-strip.empty-product .prep-status {
@@ -750,6 +764,14 @@
       font-weight: 600;
       margin-right: auto;
       max-width: 520px;
+    }
+
+    .product-generate-btn[hidden] {
+      display: none;
+    }
+
+    .product-strip.ready-product #openProductData .recommend-badge {
+      display: none;
     }
 
     .product-info > .hint {
@@ -5979,24 +6001,20 @@
               <img id="referencePreview" alt="商品图预览" />
             </label>
             <div class="product-info">
-              <div class="creation-progress" id="creationProgressSteps" aria-label="图片创作引导">
-                <span class="mini-step-path">
-                  <span data-progress-step="1" class="active">1 上传商品图</span>
-                  <i class="mini-step-separator"></i>
-                  <span data-progress-step="2">2 补充资料</span>
-                  <i class="mini-step-separator"></i>
-                  <span data-progress-step="3">3 生成套图</span>
-                </span>
+              <div class="next-guide" id="creationProgressSteps" aria-label="图片创作引导">
+                <span id="nextGuideTitle">推荐下一步：上传真实商品图</span>
               </div>
               <strong id="currentProductTitle">未命名产品</strong>
               <div class="product-meta" id="currentProductMeta">
                 <span>待补充信息</span>
               </div>
-              <div class="prep-status" id="productPrepStatus">
-                <span class="prep-copy">先上传商品图，系统会基于真实商品生成主图与套图。</span>
-              </div>
+              <div class="prep-status" id="productPrepStatus"></div>
             </div>
             <div class="step-action-row">
+              <button class="btn primary product-generate-btn" id="productQuickGenerate" type="button" hidden>
+                <svg class="icon" viewBox="0 0 24 24"><path d="M6 4v16l13-8L6 4Z"/></svg>
+                直接生成套图
+              </button>
               <button class="btn primary recommended-action" id="openProductData" type="button">
                 补充产品资料
                 <span class="recommend-badge" title="推荐优先补充" aria-label="推荐优先补充">
@@ -8180,7 +8198,9 @@
     const referencePreview = document.getElementById('referencePreview');
     const productPreviewUpload = document.getElementById('productPreviewUpload');
     const creationProgressSteps = document.getElementById('creationProgressSteps');
-    const currentStepPill = document.getElementById('currentStepPill');
+    const nextGuideTitle = document.getElementById('nextGuideTitle');
+    const productQuickGenerate = document.getElementById('productQuickGenerate');
+    const openProductData = document.getElementById('openProductData');
     const runButtons = document.querySelectorAll('.runBtn');
     const customSizeChip = document.getElementById('customSizeChip');
     const customSizePanel = document.getElementById('customSizePanel');
@@ -8298,14 +8318,21 @@
       });
     };
 
-    const setCreationProgress = (currentStep) => {
-      if (!creationProgressSteps) return;
-      if (currentStepPill) currentStepPill.textContent = `当前步骤 ${currentStep}/4`;
-      creationProgressSteps.querySelectorAll('[data-progress-step]').forEach((step) => {
-        const value = Number(step.dataset.progressStep);
-        step.classList.toggle('done', value < currentStep);
-        step.classList.toggle('active', value === currentStep);
-      });
+    const setProductPrimaryAction = (ready) => {
+      productQuickGenerate.hidden = !ready;
+      openProductData.classList.toggle('primary', !ready);
+      openProductData.classList.toggle('recommended-action', !ready);
+      openProductData.classList.toggle('text', ready);
+    };
+
+    const setCreationProgress = (currentStep, customTitle) => {
+      if (!nextGuideTitle) return;
+      const guideTitles = {
+        1: '推荐下一步：上传真实商品图',
+        2: '推荐下一步：补充产品资料',
+        3: '已准备好生成',
+      };
+      nextGuideTitle.textContent = customTitle || guideTitles[currentStep] || guideTitles[1];
     };
 
     const setListingFlowStep = (step) => {
@@ -8373,10 +8400,10 @@
     const markProductReady = ({ fromHistory = false } = {}) => {
       productStrip.classList.remove('empty-product');
       productStrip.classList.add('has-reference');
-      productPrepStatus.innerHTML = `
-        <span class="prep-copy">${fromHistory ? '历史资料已带入，可直接生成或继续调整。' : '产品资料已补充，可生成更稳定的套图。'}</span>
-      `;
-      setCreationProgress(3);
+      productStrip.classList.add('ready-product');
+      productPrepStatus.innerHTML = '';
+      setCreationProgress(3, fromHistory ? '历史资料已带入，可再次生成' : '已准备好生成');
+      setProductPrimaryAction(true);
       setRunButtonsReady(true);
     };
 
@@ -8387,14 +8414,14 @@
       currentProductMeta.innerHTML = `
         <span>待补充信息</span>
       `;
-      productPrepStatus.innerHTML = `
-        <span class="prep-copy">先上传商品图，系统会基于真实商品生成主图与套图。</span>
-      `;
+      productPrepStatus.innerHTML = '';
       productStrip.classList.add('empty-product');
       productStrip.classList.remove('has-reference');
+      productStrip.classList.remove('ready-product');
       referencePreview.removeAttribute('src');
       productPreviewUpload.classList.remove('has-image');
       hasReferenceImage = false;
+      setProductPrimaryAction(false);
       setRunButtonsReady(false);
       mainPrompt.value = '';
       gallery.classList.add('empty');
@@ -9010,9 +9037,9 @@
         setCreationProgress(2);
         productStrip.classList.add('empty-product');
         productStrip.classList.add('has-reference');
-        productPrepStatus.innerHTML = `
-          <span class="prep-copy">已上传商品图，可直接生成；补充产品资料可提升一致性。</span>
-        `;
+        productStrip.classList.remove('ready-product');
+        productPrepStatus.innerHTML = '';
+        setProductPrimaryAction(false);
         setRunButtonsReady(true);
         toast.textContent = '真实商品图已上传，主图将基于该图生成';
         toast.classList.add('show');
@@ -10057,7 +10084,13 @@
     };
 
     document.getElementById('openMoreSettings').addEventListener('click', () => settingsDrawer.classList.add('open'));
-    document.getElementById('openProductData').addEventListener('click', openProductDrawer);
+    openProductData.addEventListener('click', openProductDrawer);
+    productQuickGenerate.addEventListener('click', () => {
+      showGeneratedResults();
+      toast.textContent = '已开始生成：系统会自动完成出图、质检和一次修复';
+      toast.classList.add('show');
+      window.setTimeout(() => toast.classList.remove('show'), 2600);
+    });
     document.addEventListener('click', (event) => {
       if (event.target.closest('#openProductData')) {
         openProductDrawer(event);
