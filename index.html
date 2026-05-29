@@ -5869,7 +5869,7 @@
             </label>
             <div class="product-info">
               <div class="creation-progress" id="creationProgressSteps" aria-label="图片创作进度">
-                <span class="current-step-pill" id="currentStepPill">当前步骤 1/4 · 上传商品图</span>
+                <span class="current-step-pill" id="currentStepPill">当前步骤 1/4</span>
                 <span class="mini-step-path">
                   <span data-progress-step="1" class="active">上传商品图</span>
                   <i class="mini-step-separator"></i>
@@ -8203,13 +8203,7 @@
 
     const setCreationProgress = (currentStep) => {
       if (!creationProgressSteps) return;
-      const stepNames = {
-        1: '上传商品图',
-        2: '补充产品信息',
-        3: '品牌与规则',
-        4: '生成套图',
-      };
-      if (currentStepPill) currentStepPill.textContent = `当前步骤 ${currentStep}/4 · ${stepNames[currentStep] || '上传商品图'}`;
+      if (currentStepPill) currentStepPill.textContent = `当前步骤 ${currentStep}/4`;
       creationProgressSteps.querySelectorAll('[data-progress-step]').forEach((step) => {
         const value = Number(step.dataset.progressStep);
         step.classList.toggle('done', value < currentStep);
