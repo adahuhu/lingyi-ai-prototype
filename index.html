@@ -2241,12 +2241,57 @@
       width: 100%;
       height: 42px;
       justify-content: flex-start;
-      margin-bottom: 12px;
       color: var(--blue);
       border-color: #bfd0ff;
       background: #f3f7ff;
       box-shadow: none;
       cursor: pointer;
+    }
+
+    .drawer-upload-top {
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .drawer-product-image-preview {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      border: 1px solid #d9e6ff;
+      border-radius: 8px;
+      background: #fbfdff;
+    }
+
+    .drawer-product-image-preview[hidden] {
+      display: none;
+    }
+
+    .drawer-product-image-preview img {
+      width: 54px;
+      height: 54px;
+      border-radius: 7px;
+      object-fit: cover;
+      background: #f4f7ff;
+      border: 1px solid #d9e6ff;
+    }
+
+    .drawer-product-image-preview strong {
+      display: block;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .drawer-product-image-preview span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
     }
 
     .editable-field input,
@@ -7290,10 +7335,21 @@
 
   <aside class="drawer" id="productDrawer">
     <div class="drawer-head">
-      <strong>补充产品资料</strong>
+      <strong>产品资料</strong>
       <button class="btn text closeDrawer">关闭</button>
     </div>
     <div class="drawer-body">
+      <div class="drawer-upload-top">
+        <label class="btn drawer-upload-product-btn" for="referenceImageInput">上传商品图</label>
+        <div class="drawer-product-image-preview" id="drawerProductImagePreview" hidden>
+          <img id="drawerReferencePreview" alt="商品图预览" />
+          <div>
+            <strong>商品图已上传</strong>
+            <span>将用于当前图片生成任务。</span>
+          </div>
+        </div>
+      </div>
+
       <section class="drawer-section product-source-deferred" data-deferred-source>
         <h3>资料来源</h3>
         <p>补充后的资料会进入当前产品档案，并用于图片生成、规则检测和后续 Listing 场景。</p>
@@ -7324,7 +7380,6 @@
       </section>
 
       <section class="drawer-section">
-        <label class="btn drawer-upload-product-btn" for="referenceImageInput">上传商品图</label>
         <h3>关键字段</h3>
         <div class="editable-fields">
           <div class="editable-field"><label for="productNameField">商品名称</label><input id="productNameField" value="Reusable Silicone Food Storage Bags, 10 Pack" /></div>
@@ -8297,6 +8352,8 @@
     const referenceImageInput = document.getElementById('referenceImageInput');
     const referencePreview = document.getElementById('referencePreview');
     const productPreviewUpload = document.getElementById('productPreviewUpload');
+    const drawerProductImagePreview = document.getElementById('drawerProductImagePreview');
+    const drawerReferencePreview = document.getElementById('drawerReferencePreview');
     const creationProgressSteps = document.getElementById('creationProgressSteps');
     const nextGuideTitle = document.getElementById('nextGuideTitle');
     const productQuickGenerate = document.getElementById('productQuickGenerate');
@@ -8438,6 +8495,17 @@
       nextGuideTitle.textContent = customTitle || guideTitles[currentStep] || fallbackTitle;
     };
 
+    const syncDrawerProductImage = (src) => {
+      if (!drawerProductImagePreview || !drawerReferencePreview) return;
+      if (src) {
+        drawerReferencePreview.src = src;
+        drawerProductImagePreview.hidden = false;
+      } else {
+        drawerReferencePreview.removeAttribute('src');
+        drawerProductImagePreview.hidden = true;
+      }
+    };
+
     const setListingFlowStep = (step) => {
       document.body.dataset.listingStage = step;
     };
@@ -8523,6 +8591,7 @@
       productStrip.classList.remove('has-reference');
       productStrip.classList.remove('ready-product');
       referencePreview.removeAttribute('src');
+      syncDrawerProductImage('');
       productPreviewUpload.classList.remove('has-image');
       hasReferenceImage = false;
       setProductPrimaryAction(false);
@@ -8560,7 +8629,9 @@
       `;
       mainPrompt.value = `基于历史任务 ${taskId} 再次生成：保持商品颜色、材质、封口结构和包装数量一致；在原套图基础上优化厨房场景光线、尺寸文字移动端可读性和包装图完整度。`;
       markProductReady({ fromHistory: true });
-      referencePreview.src = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="144" height="144" viewBox="0 0 144 144"><rect width="144" height="144" rx="16" fill="#f4f7ff"/><rect x="46" y="54" width="64" height="42" rx="17" fill="#3370ff" opacity=".82" transform="rotate(-8 78 75)"/><rect x="64" y="42" width="56" height="38" rx="16" fill="#79a8ff" opacity=".78"/><rect x="32" y="68" width="58" height="36" rx="16" fill="#3370ff" opacity=".7"/></svg>');
+      const historyImageSrc = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="144" height="144" viewBox="0 0 144 144"><rect width="144" height="144" rx="16" fill="#f4f7ff"/><rect x="46" y="54" width="64" height="42" rx="17" fill="#3370ff" opacity=".82" transform="rotate(-8 78 75)"/><rect x="64" y="42" width="56" height="38" rx="16" fill="#79a8ff" opacity=".78"/><rect x="32" y="68" width="58" height="36" rx="16" fill="#3370ff" opacity=".7"/></svg>');
+      referencePreview.src = historyImageSrc;
+      syncDrawerProductImage(historyImageSrc);
       productPreviewUpload.classList.add('has-image');
       hasReferenceImage = true;
       selectLatestTaskRecord();
@@ -9147,6 +9218,7 @@
       const reader = new FileReader();
       reader.onload = () => {
         referencePreview.src = reader.result;
+        syncDrawerProductImage(reader.result);
         productPreviewUpload.classList.add('has-image');
         hasReferenceImage = true;
         const currentTitle = currentProductTitle.textContent.trim();
@@ -10320,7 +10392,11 @@
       const secondaryCategory = secondaryCategoryField.value.trim();
       const material = materialField.value.trim();
       const sizeText = sizeField.value.trim();
-      const sellingPoint = sellingPointsField.value.trim().split(/[、,，]/).filter(Boolean).slice(0, 2).join(' / ');
+      const sellingPointsText = sellingPointsField.value.trim();
+      const restrictedClaims = restrictedClaimsField.value.trim();
+      const audienceProfile = audienceProfileField.value.trim();
+      const ageRange = ageRangeField.value.trim();
+      const consumptionLevel = consumptionLevelField.value.trim();
       currentProductTitle.textContent = productName;
       currentProductMeta.innerHTML = `
         <span>${escapeHTML(platform)}</span>
@@ -10328,10 +10404,14 @@
         <span>${escapeHTML(country)}</span>
         <span>/</span>
         <span>${escapeHTML(category)}</span>
-        ${secondaryCategory ? `<span class="tag">${escapeHTML(secondaryCategory)}</span>` : ''}
-        ${material ? `<span class="tag">${escapeHTML(material)}</span>` : ''}
-        ${sizeText ? `<span class="tag">${escapeHTML(sizeText)}</span>` : ''}
-        ${sellingPoint ? `<span class="tag">${escapeHTML(sellingPoint)}</span>` : ''}
+        ${secondaryCategory ? `<span class="tag">二级类目 ${escapeHTML(secondaryCategory)}</span>` : ''}
+        ${material ? `<span class="tag">材质 ${escapeHTML(material)}</span>` : ''}
+        ${sizeText ? `<span class="tag">尺寸 ${escapeHTML(sizeText)}</span>` : ''}
+        ${sellingPointsText ? `<span class="tag">卖点 ${escapeHTML(sellingPointsText)}</span>` : ''}
+        ${restrictedClaims ? `<span class="tag">禁用 ${escapeHTML(restrictedClaims)}</span>` : ''}
+        ${audienceProfile ? `<span class="tag">受众 ${escapeHTML(audienceProfile)}</span>` : ''}
+        ${ageRange && ageRange !== '不指定' ? `<span class="tag">年龄 ${escapeHTML(ageRange)}</span>` : ''}
+        ${consumptionLevel && consumptionLevel !== '不指定' ? `<span class="tag">消费 ${escapeHTML(consumptionLevel)}</span>` : ''}
       `;
       markProductReady();
       productDrawer.classList.remove('open');
