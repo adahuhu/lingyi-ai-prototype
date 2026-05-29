@@ -5947,7 +5947,6 @@
                 </button>
               </div>
             </div>
-            <span class="tag orange" id="productStatusTag">资料待补充</span>
           </div>
         </div>
 
@@ -5973,11 +5972,10 @@
               <strong id="currentProductTitle">未命名产品</strong>
               <div class="product-meta" id="currentProductMeta">
                 <span>待补充信息</span>
-                <span class="tag orange">资料待补充</span>
               </div>
               <div class="prep-status" id="productPrepStatus">
-                <span class="prep-item warn">商品资料待补充</span>
-                <span class="prep-item warn">真实商品图未上传</span>
+                <span class="prep-item warn">需补充商品资料</span>
+                <span class="prep-item warn">需上传真实商品图</span>
                 <span class="prep-item">品牌信息可选</span>
               </div>
             </div>
@@ -8360,9 +8358,11 @@
       productStrip.classList.remove('empty-product');
       productStrip.classList.add('has-reference');
       productPrepStatus.innerHTML = '';
-      productStatusTag.textContent = fromHistory ? '历史资料已带入' : '产品资料 92%';
-      productStatusTag.classList.remove('orange');
-      productStatusTag.classList.add('green');
+      if (productStatusTag) {
+        productStatusTag.textContent = fromHistory ? '历史资料已带入' : '产品资料 92%';
+        productStatusTag.classList.remove('orange');
+        productStatusTag.classList.add('green');
+      }
       setCreationProgress(3);
       setRunButtonsReady(true);
     };
@@ -8373,16 +8373,17 @@
       currentProductTitle.textContent = '未命名产品';
       currentProductMeta.innerHTML = `
         <span>待补充信息</span>
-        <span class="tag orange">资料待补充</span>
       `;
       productPrepStatus.innerHTML = `
-        <span class="prep-item warn">商品资料待补充</span>
-        <span class="prep-item warn">真实商品图未上传</span>
+        <span class="prep-item warn">需补充商品资料</span>
+        <span class="prep-item warn">需上传真实商品图</span>
         <span class="prep-item">品牌信息可选</span>
       `;
-      productStatusTag.textContent = '资料待补充';
-      productStatusTag.classList.remove('green');
-      productStatusTag.classList.add('orange');
+      if (productStatusTag) {
+        productStatusTag.textContent = '资料待补充';
+        productStatusTag.classList.remove('green');
+        productStatusTag.classList.add('orange');
+      }
       productStrip.classList.add('empty-product');
       productStrip.classList.remove('has-reference');
       referencePreview.removeAttribute('src');
@@ -9004,7 +9005,7 @@
         productStrip.classList.add('empty-product');
         productStrip.classList.add('has-reference');
         productPrepStatus.innerHTML = `
-          <span class="prep-item warn">商品资料待补充</span>
+          <span class="prep-item warn">需补充商品资料</span>
           <span class="prep-item done">真实商品图已上传</span>
           <span class="prep-item">品牌信息可选</span>
         `;
@@ -10174,9 +10175,11 @@
         ${sizeText ? `<span class="tag">${escapeHTML(sizeText)}</span>` : ''}
         ${sellingPoint ? `<span class="tag">${escapeHTML(sellingPoint)}</span>` : ''}
       `;
-      productStatusTag.textContent = '产品资料 92%';
-      productStatusTag.classList.remove('orange');
-      productStatusTag.classList.add('green');
+      if (productStatusTag) {
+        productStatusTag.textContent = '产品资料 92%';
+        productStatusTag.classList.remove('orange');
+        productStatusTag.classList.add('green');
+      }
       markProductReady();
       productDrawer.classList.remove('open');
       toast.textContent = '产品资料已更新，已同步到当前生成任务';
