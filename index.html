@@ -8133,7 +8133,6 @@
     const currentProductTitle = document.getElementById('currentProductTitle');
     const currentProductMeta = document.getElementById('currentProductMeta');
     const productStrip = document.getElementById('productStrip');
-    const productStatusTag = document.getElementById('productStatusTag');
     const productPrepStatus = document.getElementById('productPrepStatus');
     const productSourceSwitch = document.getElementById('productSourceSwitch');
     const productSourceTrigger = document.getElementById('productSourceTrigger');
@@ -8358,11 +8357,6 @@
       productStrip.classList.remove('empty-product');
       productStrip.classList.add('has-reference');
       productPrepStatus.innerHTML = '';
-      if (productStatusTag) {
-        productStatusTag.textContent = fromHistory ? '历史资料已带入' : '产品资料 92%';
-        productStatusTag.classList.remove('orange');
-        productStatusTag.classList.add('green');
-      }
       setCreationProgress(3);
       setRunButtonsReady(true);
     };
@@ -8379,11 +8373,6 @@
         <span class="prep-item warn">需上传真实商品图</span>
         <span class="prep-item">品牌信息可选</span>
       `;
-      if (productStatusTag) {
-        productStatusTag.textContent = '资料待补充';
-        productStatusTag.classList.remove('green');
-        productStatusTag.classList.add('orange');
-      }
       productStrip.classList.add('empty-product');
       productStrip.classList.remove('has-reference');
       referencePreview.removeAttribute('src');
@@ -10175,11 +10164,6 @@
         ${sizeText ? `<span class="tag">${escapeHTML(sizeText)}</span>` : ''}
         ${sellingPoint ? `<span class="tag">${escapeHTML(sellingPoint)}</span>` : ''}
       `;
-      if (productStatusTag) {
-        productStatusTag.textContent = '产品资料 92%';
-        productStatusTag.classList.remove('orange');
-        productStatusTag.classList.add('green');
-      }
       markProductReady();
       productDrawer.classList.remove('open');
       toast.textContent = '产品资料已更新，已同步到当前生成任务';
