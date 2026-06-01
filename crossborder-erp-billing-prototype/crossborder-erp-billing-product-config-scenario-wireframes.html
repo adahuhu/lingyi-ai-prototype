@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商品配置场景线框图</title>
+  <link rel="stylesheet" href="billing-erp-platform.css">
+  <style>
+    :root {
+      --blue: #3370ff;
+      --blue-soft: #edf4ff;
+      --line: #dfe5ef;
+      --line-soft: #edf1f7;
+      --text: #1f2329;
+      --muted: #646a73;
+      --subtle: #8f959e;
+      --bg: #f5f7fb;
+      --panel: #fff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      letter-spacing: 0;
+    }
+    .page {
+      padding: 24px;
+      max-width: 1520px;
+      margin: 0 auto;
+    }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .top h1 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+    .top p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .legend {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      height: 26px;
+      padding: 0 10px;
+      border: 1px solid #c8d8ff;
+      border-radius: 999px;
+      background: #fff;
+      color: #245bdb;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .scenario-nav {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .scenario-nav a {
+      display: block;
+      padding: 12px 14px;
+      color: var(--text);
+      text-decoration: none;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .scenario-nav strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .scenario-nav span {
+      color: var(--subtle);
+      font-size: 12px;
+    }
+    .scenario {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      margin-bottom: 18px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(31, 35, 41, .04);
+    }
+    .scenario-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line-soft);
+      background: #fbfcff;
+    }
+    .scenario-head h2 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .scenario-head .meta {
+      color: var(--subtle);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .scenario-body {
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr) 280px;
+      min-height: 520px;
+    }
+    .path,
+    .effect {
+      padding: 18px;
+      background: #fcfdff;
+    }
+    .path {
+      border-right: 1px solid var(--line-soft);
+    }
+    .effect {
+      border-left: 1px solid var(--line-soft);
+    }
+    .col-title {
+      margin: 0 0 14px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+    .step::after {
+      content: "";
+      position: absolute;
+      left: 13px;
+      top: 28px;
+      bottom: 28px;
+      width: 1px;
+      background: #cfd8ea;
+      z-index: 0;
+    }
+    .step.no-line::after { display: none; }
+    .num {
+      position: relative;
+      z-index: 1;
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--blue);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .step-card {
+      padding: 10px 11px;
+      min-height: 54px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .step-card b {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 3px;
+    }
+    .step-card span {
+      color: var(--subtle);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .wire {
+      padding: 18px;
+    }
+    .mock-page {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .mock-tabs {
+      display: flex;
+      height: 42px;
+      border-bottom: 1px solid var(--line-soft);
+      background: #f8faff;
+    }
+    .mock-tab {
+      min-width: 132px;
+      display: grid;
+      place-items: center;
+      border-right: 1px solid var(--line-soft);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .mock-tab.active {
+      background: #fff;
+      color: var(--blue);
+      font-weight: 600;
+      box-shadow: inset 0 2px 0 var(--blue);
+    }
+    .mock-section {
+      padding: 16px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .mock-section:last-child { border-bottom: 0; }
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .section-title span {
+      font-size: 12px;
+      color: var(--subtle);
+      font-weight: 400;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px 14px;
+    }
+    .form-grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .form-grid .full { grid-column: 1 / -1; }
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .box,
+    .select,
+    .textarea {
+      min-height: 34px;
+      border: 1px solid #ccd4e2;
+      border-radius: 4px;
+      background: #fff;
+      color: var(--text);
+      font-size: 13px;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .select::after {
+      content: "⌄";
+      margin-left: auto;
+      color: var(--subtle);
+      font-size: 13px;
+    }
+    .textarea {
+      min-height: 58px;
+      align-items: flex-start;
+      color: var(--subtle);
+    }
+    .seg {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .seg button {
+      height: 36px;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .seg button.active {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: var(--blue-soft);
+      font-weight: 600;
+    }
+    .systems {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .sys {
+      height: 34px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px;
+      border: 1px solid #ccd4e2;
+      border-radius: 4px;
+      color: var(--text);
+      font-size: 13px;
+      background: #fff;
+    }
+    .check {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      border: 1px solid #aeb8c9;
+      background: #fff;
+    }
+    .sys.on .check {
+      background: var(--blue);
+      border-color: var(--blue);
+      box-shadow: inset 0 0 0 3px #fff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th,
+    td {
+      border: 1px solid var(--line);
+      padding: 9px 10px;
+      text-align: left;
+      vertical-align: middle;
+    }
+    th {
+      background: #f8faff;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    td.light {
+      color: var(--subtle);
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: #f1f5ff;
+      color: #245bdb;
+      border: 1px solid #d8e3ff;
+      font-size: 12px;
+    }
+    .ghost {
+      height: 34px;
+      border: 1px dashed #c8d2e2;
+      border-radius: 4px;
+      color: var(--subtle);
+      display: grid;
+      place-items: center;
+      margin-top: 10px;
+      font-size: 12px;
+      background: #fbfcff;
+    }
+    .effect-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .effect-item {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      padding: 11px 12px;
+    }
+    .effect-item b {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    .effect-item span {
+      color: var(--subtle);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .matrix {
+      margin-top: 18px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .matrix h2 {
+      margin: 0;
+      padding: 14px 18px;
+      font-size: 16px;
+      border-bottom: 1px solid var(--line-soft);
+      background: #fbfcff;
+    }
+    .matrix table th,
+    .matrix table td {
+      padding: 11px 12px;
+    }
+    @media (max-width: 1180px) {
+      .scenario-body { grid-template-columns: 1fr; }
+      .path, .effect { border: 0; border-bottom: 1px solid var(--line-soft); }
+      .scenario-nav { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="top">
+      <div>
+        <h1>商品新建配置场景线框图</h1>
+        <p>按“主套餐 / 增值服务”拆开四种配置形态，重点确认权益区如何随场景变化。</p>
+      </div>
+      <div class="legend">
+        <span class="tag">主套餐：基础权益</span>
+        <span class="tag">增值服务：增量 / 按量 / 交付</span>
+        <span class="tag">适用系统：ERP / SCM / WMS</span>
+      </div>
+    </header>
+
+    <nav class="scenario-nav">
+      <a href="#main"><strong>01 主套餐</strong><span>开系统 + 生成基础权益</span></a>
+      <a href="#addon-quota"><strong>02 增值服务 · 扩容包</strong><span>给已有权益增加额度</span></a>
+      <a href="#addon-metered"><strong>03 增值服务 · 按量服务</strong><span>按实际使用量计费</span></a>
+      <a href="#addon-delivery"><strong>04 增值服务 · 交付服务</strong><span>一次性服务或线下报价</span></a>
+    </nav>
+
+    <section class="scenario" id="main">
+      <div class="scenario-head">
+        <h2>01 主套餐配置</h2>
+        <div class="meta">示例：ERP 旗舰版</div>
+      </div>
+      <div class="scenario-body">
+        <aside class="path">
+          <h3 class="col-title">配置路径</h3>
+          <div class="steps">
+            <div class="step"><div class="num">1</div><div class="step-card"><b>选择主套餐</b><span>商品类型选“主套餐”。</span></div></div>
+            <div class="step"><div class="num">2</div><div class="step-card"><b>配置适用系统</b><span>选择 ERP / SCM / WMS，可多选。</span></div></div>
+            <div class="step"><div class="num">3</div><div class="step-card"><b>填写价格</b><span>按年订阅或线下报价。</span></div></div>
+            <div class="step"><div class="num">4</div><div class="step-card"><b>配置基础权益</b><span>订单量、MSKU、店铺、子账号、平台授权。</span></div></div>
+            <div class="step"><div class="num">5</div><div class="step-card"><b>保存并发布</b><span>租户侧可见，平台可录单。</span></div></div>
+          </div>
+        </aside>
+
+        <section class="wire">
+          <div class="mock-page">
+            <div class="mock-tabs">
+              <div class="mock-tab">商品配置</div>
+              <div class="mock-tab active">商品维护</div>
+            </div>
+            <div class="mock-section">
+              <div class="section-title">商品信息 <span>商品编码自动生成，可修改</span></div>
+              <div class="seg">
+                <button class="active">主套餐</button>
+                <button>增值服务</button>
+              </div>
+              <div class="form-grid">
+                <div class="field"><label>商品编码</label><div class="box">SKU_AUTO_20260601_001</div></div>
+                <div class="field"><label>商品名称</label><div class="box">ERP 旗舰版</div></div>
+                <div class="field full">
+                  <label>适用系统</label>
+                  <div class="systems">
+                    <div class="sys on"><span class="check"></span>ERP</div>
+                    <div class="sys"><span class="check"></span>SCM</div>
+                    <div class="sys"><span class="check"></span>WMS</div>
+                  </div>
+                </div>
+                <div class="field full"><label>备注</label><div class="textarea">合同、商务口径、特殊说明</div></div>
+              </div>
+            </div>
+            <div class="mock-section">
+              <div class="section-title">价格与基础权益 <span>主套餐展示“基础权益”</span></div>
+              <div class="form-grid three">
+                <div class="field"><label>计价模式</label><div class="select">按年订阅</div></div>
+                <div class="field"><label>销售价格</label><div class="box">¥69,800/年</div></div>
+                <div class="field"><label>单位</label><div class="box">年</div></div>
+              </div>
+              <div style="height:12px"></div>
+              <table>
+                <thead><tr><th>权益项</th><th>计量方式</th><th>数值</th><th>单位</th></tr></thead>
+                <tbody>
+                  <tr><td>年订单量</td><td><span class="pill">限额</span></td><td>3000000</td><td>单/年</td></tr>
+                  <tr><td>MSKU 额度</td><td><span class="pill">限额</span></td><td>100000</td><td>个</td></tr>
+                  <tr><td>店铺 / 站点</td><td><span class="pill">限额</span></td><td>500</td><td>个</td></tr>
+                  <tr><td>平台授权</td><td><span class="pill">不限</span></td><td class="light">不填</td><td>个</td></tr>
+                </tbody>
+              </table>
+              <div class="ghost">+ 添加基础权益</div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="effect">
+          <h3 class="col-title">开通结果</h3>
+          <div class="effect-list">
+            <div class="effect-item"><b>系统入口</b><span>按适用系统开通 ERP / SCM / WMS。</span></div>
+            <div class="effect-item"><b>权益实例</b><span>每个基础权益生成客户权益实例。</span></div>
+            <div class="effect-item"><b>权益池</b><span>同客户 + 同权益项 + 有效期汇总为当前可用额度。</span></div>
+            <div class="effect-item"><b>租户展示</b><span>我的订阅展示套餐、权益用量和订单记录。</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="scenario" id="addon-quota">
+      <div class="scenario-head">
+        <h2>02 增值服务配置 · 扩容包</h2>
+        <div class="meta">示例：订单扩容包</div>
+      </div>
+      <div class="scenario-body">
+        <aside class="path">
+          <h3 class="col-title">配置路径</h3>
+          <div class="steps">
+            <div class="step"><div class="num">1</div><div class="step-card"><b>选择增值服务</b><span>商品类型选“增值服务”。</span></div></div>
+            <div class="step"><div class="num">2</div><div class="step-card"><b>选择作用系统</b><span>扩容包通常作用于 ERP。</span></div></div>
+            <div class="step"><div class="num">3</div><div class="step-card"><b>填写价格</b><span>按包售卖，如 ¥1,000/包。</span></div></div>
+            <div class="step"><div class="num">4</div><div class="step-card"><b>配置增加额度</b><span>选择已有额度类权益项，填写增加值。</span></div></div>
+            <div class="step"><div class="num">5</div><div class="step-card"><b>订单开通后叠加</b><span>叠加到客户当前权益池。</span></div></div>
+          </div>
+        </aside>
+
+        <section class="wire">
+          <div class="mock-page">
+            <div class="mock-tabs">
+              <div class="mock-tab">商品配置</div>
+              <div class="mock-tab active">商品维护</div>
+            </div>
+            <div class="mock-section">
+              <div class="section-title">商品信息 <span>增值服务不单独开系统入口</span></div>
+              <div class="seg">
+                <button>主套餐</button>
+                <button class="active">增值服务</button>
+              </div>
+              <div class="form-grid">
+                <div class="field"><label>商品编码</label><div class="box">SKU_AUTO_20260601_002</div></div>
+                <div class="field"><label>商品名称</label><div class="box">订单扩容包</div></div>
+                <div class="field full">
+                  <label>适用系统</label>
+                  <div class="systems">
+                    <div class="sys on"><span class="check"></span>ERP</div>
+                    <div class="sys"><span class="check"></span>SCM</div>
+                    <div class="sys"><span class="check"></span>WMS</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mock-section">
+              <div class="section-title">价格与增量权益 <span>扩容包展示“增加额度”</span></div>
+              <div class="form-grid three">
+                <div class="field"><label>计价模式</label><div class="select">按年订阅</div></div>
+                <div class="field"><label>销售价格</label><div class="box">¥1,000/包</div></div>
+                <div class="field"><label>单位</label><div class="box">包</div></div>
+              </div>
+              <div style="height:12px"></div>
+              <table>
+                <thead><tr><th>权益项</th><th>计量方式</th><th>增加值</th><th>单位</th></tr></thead>
+                <tbody>
+                  <tr><td>年订单量</td><td><span class="pill">额度增加</span></td><td>100000</td><td>单/年</td></tr>
+                </tbody>
+              </table>
+              <div class="ghost">+ 添加增量权益</div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="effect">
+          <h3 class="col-title">开通结果</h3>
+          <div class="effect-list">
+            <div class="effect-item"><b>不新增系统入口</b><span>只作用于已开通系统的额度。</span></div>
+            <div class="effect-item"><b>额度叠加</b><span>订单开通后增加客户年订单量。</span></div>
+            <div class="effect-item"><b>独立有效期</b><span>按订单生效时间和到期时间参与汇总。</span></div>
+            <div class="effect-item"><b>消耗校验</b><span>ERP 校验时读取叠加后的可用额度。</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="scenario" id="addon-metered">
+      <div class="scenario-head">
+        <h2>03 增值服务配置 · 按量服务</h2>
+        <div class="meta">示例：物流轨迹查询</div>
+      </div>
+      <div class="scenario-body">
+        <aside class="path">
+          <h3 class="col-title">配置路径</h3>
+          <div class="steps">
+            <div class="step"><div class="num">1</div><div class="step-card"><b>选择增值服务</b><span>商品类型选“增值服务”。</span></div></div>
+            <div class="step"><div class="num">2</div><div class="step-card"><b>选择作用系统</b><span>选择上报消耗的业务系统。</span></div></div>
+            <div class="step"><div class="num">3</div><div class="step-card"><b>选择按量计费</b><span>展示阶梯价格配置。</span></div></div>
+            <div class="step"><div class="num">4</div><div class="step-card"><b>配置计费对象</b><span>选择“物流轨迹查询”等按量权益项。</span></div></div>
+            <div class="step"><div class="num">5</div><div class="step-card"><b>业务系统上报</b><span>按查询次数写入消耗明细。</span></div></div>
+          </div>
+        </aside>
+
+        <section class="wire">
+          <div class="mock-page">
+            <div class="mock-tabs">
+              <div class="mock-tab">商品配置</div>
+              <div class="mock-tab active">商品维护</div>
+            </div>
+            <div class="mock-section">
+              <div class="section-title">商品信息 <span>按量服务仍属于增值服务</span></div>
+              <div class="seg">
+                <button>主套餐</button>
+                <button class="active">增值服务</button>
+              </div>
+              <div class="form-grid">
+                <div class="field"><label>商品编码</label><div class="box">SKU_AUTO_20260601_003</div></div>
+                <div class="field"><label>商品名称</label><div class="box">物流轨迹查询</div></div>
+                <div class="field full">
+                  <label>适用系统</label>
+                  <div class="systems">
+                    <div class="sys on"><span class="check"></span>ERP</div>
+                    <div class="sys"><span class="check"></span>SCM</div>
+                    <div class="sys"><span class="check"></span>WMS</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mock-section">
+              <div class="section-title">价格与按量规则 <span>按量服务展示“阶梯价格 + 计费对象”</span></div>
+              <div class="form-grid three">
+                <div class="field"><label>计价模式</label><div class="select">按量计费</div></div>
+                <div class="field"><label>销售价格</label><div class="box">¥0.05 ~ 0.10/次</div></div>
+                <div class="field"><label>单位</label><div class="box">次</div></div>
+              </div>
+              <div style="height:12px"></div>
+              <table>
+                <thead><tr><th>起量</th><th>止量</th><th>单价</th></tr></thead>
+                <tbody>
+                  <tr><td>0</td><td>10000</td><td>¥0.10/次</td></tr>
+                  <tr><td>10001</td><td>不限</td><td>¥0.08/次</td></tr>
+                </tbody>
+              </table>
+              <div style="height:12px"></div>
+              <table>
+                <thead><tr><th>权益 / 服务项</th><th>计量方式</th><th>数值</th><th>单位</th></tr></thead>
+                <tbody>
+                  <tr><td>物流轨迹查询</td><td><span class="pill">按量扣减</span></td><td class="light">按实际发生</td><td>次</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <aside class="effect">
+          <h3 class="col-title">开通结果</h3>
+          <div class="effect-list">
+            <div class="effect-item"><b>启用计费对象</b><span>客户可使用对应按量服务。</span></div>
+            <div class="effect-item"><b>不预置固定额度</b><span>按业务系统上报的实际数量计算。</span></div>
+            <div class="effect-item"><b>生成消耗明细</b><span>每次查询形成一条或一批消耗记录。</span></div>
+            <div class="effect-item"><b>订单记录</b><span>租户和平台可查看该服务购买记录。</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="scenario" id="addon-delivery">
+      <div class="scenario-head">
+        <h2>04 增值服务配置 · 交付服务</h2>
+        <div class="meta">示例：金蝶云星空对接</div>
+      </div>
+      <div class="scenario-body">
+        <aside class="path">
+          <h3 class="col-title">配置路径</h3>
+          <div class="steps">
+            <div class="step"><div class="num">1</div><div class="step-card"><b>选择增值服务</b><span>商品类型选“增值服务”。</span></div></div>
+            <div class="step"><div class="num">2</div><div class="step-card"><b>选择适用系统</b><span>服务涉及 ERP / SCM / WMS 中的哪个系统。</span></div></div>
+            <div class="step"><div class="num">3</div><div class="step-card"><b>填写服务价格</b><span>一次性或线下报价。</span></div></div>
+            <div class="step"><div class="num">4</div><div class="step-card"><b>配置服务内容</b><span>填写服务项和次数。</span></div></div>
+            <div class="step"><div class="num">5</div><div class="step-card"><b>展示订单与进度</b><span>不进入资源扣减，进入服务履约视图。</span></div></div>
+          </div>
+        </aside>
+
+        <section class="wire">
+          <div class="mock-page">
+            <div class="mock-tabs">
+              <div class="mock-tab">商品配置</div>
+              <div class="mock-tab active">商品维护</div>
+            </div>
+            <div class="mock-section">
+              <div class="section-title">商品信息 <span>交付服务仍统一归入增值服务</span></div>
+              <div class="seg">
+                <button>主套餐</button>
+                <button class="active">增值服务</button>
+              </div>
+              <div class="form-grid">
+                <div class="field"><label>商品编码</label><div class="box">SKU_AUTO_20260601_004</div></div>
+                <div class="field"><label>商品名称</label><div class="box">金蝶云星空对接</div></div>
+                <div class="field full">
+                  <label>适用系统</label>
+                  <div class="systems">
+                    <div class="sys on"><span class="check"></span>ERP</div>
+                    <div class="sys on"><span class="check"></span>SCM</div>
+                    <div class="sys"><span class="check"></span>WMS</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mock-section">
+              <div class="section-title">价格与服务内容 <span>交付服务展示“服务项”</span></div>
+              <div class="form-grid three">
+                <div class="field"><label>计价模式</label><div class="select">一次性</div></div>
+                <div class="field"><label>销售价格</label><div class="box">¥20,000/次</div></div>
+                <div class="field"><label>单位</label><div class="box">次</div></div>
+              </div>
+              <div style="height:12px"></div>
+              <table>
+                <thead><tr><th>权益 / 服务项</th><th>计量方式</th><th>数值</th><th>单位</th></tr></thead>
+                <tbody>
+                  <tr><td>金蝶云星空对接</td><td><span class="pill">服务交付</span></td><td>1</td><td>次</td></tr>
+                </tbody>
+              </table>
+              <div class="ghost">+ 添加服务项</div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="effect">
+          <h3 class="col-title">开通结果</h3>
+          <div class="effect-list">
+            <div class="effect-item"><b>生成服务订单</b><span>进入订单记录和服务进度。</span></div>
+            <div class="effect-item"><b>不参与额度池</b><span>不影响订单量、MSKU 等资源额度。</span></div>
+            <div class="effect-item"><b>支持附件</b><span>合同、水单等附件跟随订单查看。</span></div>
+            <div class="effect-item"><b>租户展示</b><span>我的订阅中展示已购买增值服务。</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <h2>四种场景字段差异</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>场景</th>
+            <th>商品类型</th>
+            <th>权益区名称</th>
+            <th>计价方式</th>
+            <th>权益区重点字段</th>
+            <th>开通后的作用</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>主套餐</td>
+            <td>主套餐</td>
+            <td>基础权益</td>
+            <td>按年订阅 / 线下报价</td>
+            <td>权益项、计量方式、数值、单位</td>
+            <td>开系统入口，生成基础权益池</td>
+          </tr>
+          <tr>
+            <td>扩容包</td>
+            <td>增值服务</td>
+            <td>增量权益</td>
+            <td>按年订阅 / 按包售卖</td>
+            <td>权益项、计量方式、增加值、单位</td>
+            <td>叠加到已有权益池</td>
+          </tr>
+          <tr>
+            <td>按量服务</td>
+            <td>增值服务</td>
+            <td>按量规则</td>
+            <td>按量计费</td>
+            <td>阶梯价格、计费对象、单位</td>
+            <td>业务系统上报消耗，计费模块记录明细</td>
+          </tr>
+          <tr>
+            <td>交付服务</td>
+            <td>增值服务</td>
+            <td>服务内容</td>
+            <td>一次性 / 线下报价</td>
+            <td>服务项、计量方式、次数、单位</td>
+            <td>生成服务订单，不进入资源扣减</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>
