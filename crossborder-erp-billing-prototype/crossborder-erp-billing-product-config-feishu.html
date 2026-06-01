@@ -401,7 +401,7 @@
                 <td>线下报价</td>
                 <td><div class="mvp-system-tags"><span>SCM</span></div></td>
                 <td><span class="sort-cell"><input type="number" value="10"><span class="arrows"><span>▲</span><span>▼</span></span></span></td>
-                <td><span style="color:#8c8c8c">面议</span></td>
+                <td><span style="color:#8c8c8c">线下报价</span></td>
                 <td><div class="mvp-quota-summary">SCM 全链路 · 线下定制</div></td>
                 <td><label class="switch-mini"><input type="checkbox" checked><span class="slider"></span></label></td>
                 <td><span class="ly-status">已发布</span></td>
@@ -598,7 +598,7 @@
                 <td>线下报价</td>
                 <td><div class="mvp-system-tags"><span>ERP</span><span>SCM</span></div></td>
                 <td><span class="sort-cell"><input type="number" value="95"><span class="arrows"><span>▲</span><span>▼</span></span></span></td>
-                <td><span style="color:#8c8c8c">面议</span></td>
+                <td><span style="color:#8c8c8c">线下报价</span></td>
                 <td><div class="mvp-quota-summary">线下实施培训</div></td>
                 <td><label class="switch-mini"><input type="checkbox" checked><span class="slider"></span></label></td>
                 <td><span class="ly-status">已发布</span></td>
@@ -698,7 +698,7 @@
     SKU_ERP_STD_001:       { status: 'published', hasThumb: true,  name: 'ERP 标准版',       desc: '50 万单/年 · 1 万 MSKU · 3 平台 · 50 子账号 · 50 店铺',  price: '¥9,800',  priceUnit: '/年', zone: 'ERP 主套餐',           sort: 10, btn: '联系商务' },
     SKU_ERP_PRO_001:       { status: 'draft',     hasThumb: false, name: 'ERP 专业版',       desc: '150 万单/年 · 3 万 MSKU · 10 平台 · 150 子账号 · 200 店铺', price: '¥29,800', priceUnit: '/年', zone: 'ERP 主套餐',           sort: 20, btn: '联系商务' },
     SKU_ERP_FLAGSHIP_001:  { status: 'published', hasThumb: true,  name: 'ERP 旗舰版',       desc: '300 万单/年 · 10 万 MSKU · 不限平台 · 300 子账号 · 500 店铺', price: '¥69,800', priceUnit: '/年', zone: 'ERP 主套餐',           sort: 30, btn: '联系商务' },
-    SKU_SCM_ENT_001:       { status: 'published', hasThumb: true,  name: 'SCM 企业版',       desc: '供应链企业版 · 全链路 SCM 能力 · 价格按规模面议',                price: '面议',     priceUnit: '',     zone: 'SCM 套餐',             sort: 10, btn: '联系商务' },
+    SKU_SCM_ENT_001:       { status: 'published', hasThumb: true,  name: 'SCM 企业版',       desc: '供应链企业版 · 全链路 SCM 能力 · 价格按规模面议',                price: '线下报价', priceUnit: '',     zone: 'SCM 套餐',             sort: 10, btn: '联系商务' },
     SKU_ORDER_PACK_10W:    { status: 'published', hasThumb: false, name: '订单扩容包',       desc: '+10 万订单/年 · 跟随主订阅到期',                                 price: '¥1,000',  priceUnit: '/包', zone: '资源扩容与增值服务',   sort: 10, btn: '申请扩容' },
     SKU_MSKU_PACK_1W:      { status: 'published', hasThumb: false, name: 'MSKU 扩容包',     desc: '+1 万 MSKU · 跟随主订阅到期',                                   price: '¥500',    priceUnit: '/包', zone: '资源扩容与增值服务',   sort: 20, btn: '申请扩容' },
     SKU_SHOP_PACK_5:       { status: 'published', hasThumb: false, name: '店铺 / 站点扩容',  desc: '+5 个店铺 / 站点 · 跟随主订阅到期',                              price: '¥800',    priceUnit: '/包', zone: '资源扩容与增值服务',   sort: 30, btn: '申请扩容' },
@@ -709,7 +709,7 @@
     SKU_FOLLOW_SELLER_100: { status: 'published', hasThumb: false, name: '跟卖监控',         desc: '+100 个跟卖监控对象 / 年',                                      price: '¥350',    priceUnit: '/包', zone: '资源扩容与增值服务',   sort: 70, btn: '申请扩容' },
     SKU_LOG_TRACK_METER:   { status: 'published', hasThumb: false, name: '物流轨迹查询',     desc: '按次后付 · 阶梯定价（¥0.10 / ¥0.08 / ¥0.05 三档）',           price: '¥0.05~0.10', priceUnit: '/次', zone: '资源扩容与增值服务', sort: 80, btn: '申请扩容' },
     SKU_KDCS_INTEGRATION:  { status: 'published', hasThumb: false, name: '金蝶云星空对接',   desc: '一次性交付 · 走服务里程碑（需求 → 联调 → UAT）',               price: '¥20,000', priceUnit: '/次', zone: '资源扩容与增值服务',   sort: 90, btn: '预约服务' },
-    SKU_TRAIN_ONSITE:      { status: 'published', hasThumb: false, name: '线下实施培训',     desc: '按工时面议 · 走服务里程碑',                                     price: '面议',     priceUnit: '',     zone: '资源扩容与增值服务',   sort: 95, btn: '预约服务' }
+    SKU_TRAIN_ONSITE:      { status: 'published', hasThumb: false, name: '线下实施培训',     desc: '按工时面议 · 走服务里程碑',                                     price: '线下报价', priceUnit: '',     zone: '资源扩容与增值服务',   sort: 95, btn: '预约服务' }
   };
   window.openTenantPreview = function (sku) {
     var d = DB[sku]; if (!d) return;

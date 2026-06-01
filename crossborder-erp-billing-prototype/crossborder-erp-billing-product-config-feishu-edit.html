@@ -1552,6 +1552,13 @@ function mvpSetSystems(list) {
   });
 }
 
+function createDefaultSkuCode() {
+  var now = new Date();
+  var pad = function(n) { return String(n).padStart(2, '0'); };
+  var ymd = now.getFullYear() + pad(now.getMonth() + 1) + pad(now.getDate());
+  return 'SKU_AUTO_' + ymd + '_001';
+}
+
 function mvpApplyType(type) {
   var priceMode = document.getElementById('mvpPriceMode');
   var unit = document.getElementById('mvpUnit');
@@ -1598,9 +1605,12 @@ function refreshMapping() {
   if (q.get('mode') === 'new') {
     /* D1-1：新建模式同步重置侧栏字段 + 标题 */
     var crumbEl = document.getElementById('crumbName'); if (crumbEl) crumbEl.textContent = '新建商品';
-    document.getElementById('skuCode').value = '';
+    var defaultSkuCode = createDefaultSkuCode();
+    document.getElementById('skuCode').value = defaultSkuCode;
     var nameInputs = document.querySelectorAll('.form-grid input[type=text], .form-grid textarea');
-    nameInputs.forEach(function (el) { el.value = ''; });
+    nameInputs.forEach(function (el) {
+      if (el.id !== 'skuCode') el.value = '';
+    });
     var priceShow = document.querySelector('.form-grid input[value^="¥"]'); if (priceShow) priceShow.value = '';
     var sort = document.querySelector('input[type=number][value="30"]'); if (sort) sort.value = '';
     document.getElementById('bizZone').selectedIndex = 0;
@@ -1634,7 +1644,7 @@ function refreshMapping() {
   var q = new URLSearchParams(location.search);
   if (q.get('mode') === 'new') {
     if (name) name.value = '';
-    if (code) code.value = '';
+    if (code) code.value = document.getElementById('skuCode').value || createDefaultSkuCode();
     if (price) price.value = '';
   } else {
     if (name) name.value = document.getElementById('prodName').value || 'ERP 旗舰版';
