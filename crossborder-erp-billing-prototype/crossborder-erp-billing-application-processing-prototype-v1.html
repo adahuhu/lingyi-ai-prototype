@@ -1,0 +1,978 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>申请处理 v1 - 计费模块</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --subtle: #f1f4f8;
+      --text: #1f2937;
+      --muted: #667085;
+      --line: #e5eaf0;
+      --blue: #1677ff;
+      --blue-dark: #0f5fd7;
+      --blue-soft: #eaf3ff;
+      --green: #12a150;
+      --green-soft: #e9f8ef;
+      --orange: #d9822b;
+      --orange-soft: #fff4e5;
+      --red: #d92d20;
+      --red-soft: #fff1f0;
+      --purple: #7a5af8;
+      --purple-soft: #f1efff;
+      --radius: 8px;
+      --shadow: 0 14px 36px rgba(16, 24, 40, .10);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button, input, select, textarea { font: inherit; }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      background: #fff;
+      border-right: 1px solid var(--line);
+      padding: 18px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 6px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, #1677ff, #19c37d);
+      font-weight: 800;
+    }
+
+    .logo strong { display: block; font-size: 15px; line-height: 1.2; }
+    .logo span { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+    .nav-title {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 22px 8px 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 40px;
+      padding: 0 10px;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      color: #445064;
+      font-size: 14px;
+    }
+
+    .nav-item.active {
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+      font-weight: 700;
+    }
+
+    .nav-item.disabled { color: #a1aab8; }
+
+    .main {
+      min-width: 0;
+      padding: 18px 22px 28px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .crumb { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+    h1 { margin: 0; font-size: 24px; line-height: 1.25; letter-spacing: 0; }
+
+    .subtitle {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 880px;
+      line-height: 1.55;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      min-height: 36px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      padding: 0 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .btn.primary {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(22, 119, 255, .20);
+    }
+
+    .btn.green {
+      border-color: var(--green);
+      background: var(--green);
+      color: #fff;
+    }
+
+    .btn.danger {
+      border-color: var(--red);
+      color: var(--red);
+      background: #fff;
+    }
+
+    .btn.ghost { background: transparent; }
+
+    .icon {
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      color: currentColor;
+    }
+
+    .content-tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid var(--line);
+      margin: -2px 0 14px;
+      overflow-x: auto;
+    }
+
+    .content-tab {
+      border: 1px solid transparent;
+      border-bottom: 0;
+      background: transparent;
+      color: var(--muted);
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .content-tab.active {
+      background: #fff;
+      color: var(--blue-dark);
+      border-color: var(--line);
+      font-weight: 700;
+    }
+
+    .content-tab.hidden { display: none; }
+    .page-panel { display: none; }
+    .page-panel.active { display: block; }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+
+    .metric strong { display: block; font-size: 24px; line-height: 1; margin-bottom: 6px; }
+    .metric span { color: var(--muted); font-size: 13px; }
+
+    .workspace, .detail-page {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .workspace-head {
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .field, .select {
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      padding: 0 10px;
+    }
+
+    .field { min-width: 260px; }
+    .select { min-width: 124px; }
+
+    .quick-tabs {
+      display: flex;
+      gap: 8px;
+      padding: 12px 14px 0;
+      overflow-x: auto;
+    }
+
+    .pill-tab {
+      min-height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #445064;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .pill-tab.active {
+      border-color: var(--blue);
+      color: var(--blue-dark);
+      background: var(--blue-soft);
+      font-weight: 700;
+    }
+
+    .table-wrap { overflow-x: auto; padding: 14px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1080px;
+      font-size: 14px;
+    }
+
+    th {
+      text-align: left;
+      color: var(--muted);
+      background: #f8fafc;
+      font-weight: 600;
+      padding: 11px 10px;
+      border-bottom: 1px solid var(--line);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 13px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+
+    tr:hover td { background: #fbfdff; }
+
+    .request-title { font-weight: 700; color: var(--text); }
+    .request-sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+    .tag, .status {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    .tag.blue, .status.processing { color: var(--blue-dark); background: var(--blue-soft); }
+    .tag.green, .status.approved { color: var(--green); background: var(--green-soft); }
+    .tag.orange, .status.pending { color: var(--orange); background: var(--orange-soft); }
+    .tag.purple, .status.confirm { color: var(--purple); background: var(--purple-soft); }
+    .tag.gray { color: #475467; background: #eef2f7; }
+    .status.rejected { color: var(--red); background: var(--red-soft); }
+
+    .link-btn {
+      border: 0;
+      background: transparent;
+      color: var(--blue-dark);
+      padding: 0;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .detail-page { padding: 0; }
+
+    .detail-head {
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .detail-title { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .detail-title h2 { margin: 0; font-size: 20px; letter-spacing: 0; }
+
+    .detail-meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 8px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .detail-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(320px, .85fr);
+      gap: 14px;
+      padding: 14px;
+    }
+
+    .section {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+
+    .section-title {
+      min-height: 42px;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-weight: 700;
+    }
+
+    .section-content { padding: 14px; }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .info-item {
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfcfe;
+    }
+
+    .info-label { color: var(--muted); font-size: 12px; margin-bottom: 5px; }
+    .info-value { font-weight: 700; line-height: 1.35; }
+    .info-note { color: var(--muted); font-size: 12px; margin-top: 4px; line-height: 1.45; }
+
+    .process-line {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .process-step {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px;
+      background: #fbfcfe;
+      min-height: 78px;
+    }
+
+    .process-step.done {
+      border-color: #b7ebc6;
+      background: var(--green-soft);
+    }
+
+    .process-step.current {
+      border-color: #8cc7ff;
+      background: var(--blue-soft);
+    }
+
+    .step-name { font-weight: 700; font-size: 13px; }
+    .step-time { color: var(--muted); font-size: 12px; margin-top: 6px; line-height: 1.45; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .form-item label {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .form-item input, .form-item select, .form-item textarea {
+      width: 100%;
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 10px;
+      background: #fff;
+      color: var(--text);
+    }
+
+    .form-item textarea { min-height: 78px; resize: vertical; }
+    .span-2 { grid-column: span 2; }
+
+    .upload-box {
+      border: 1px dashed #b8c6d9;
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfdff;
+      display: grid;
+      gap: 10px;
+    }
+
+    .upload-box input { padding: 0; border: 0; background: transparent; }
+
+    .upload-note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .timeline { display: grid; gap: 12px; }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 10px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--blue);
+      margin-top: 5px;
+    }
+
+    .timeline-title { font-weight: 700; font-size: 13px; }
+    .timeline-text { color: var(--muted); font-size: 12px; line-height: 1.5; margin-top: 3px; }
+
+    .result-box {
+      border: 1px solid #b7d9ff;
+      background: #f3f9ff;
+      border-radius: var(--radius);
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+      color: #174a7c;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .footer-actions {
+      padding: 14px 16px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+      background: #fbfcfe;
+    }
+
+    .notice {
+      border: 1px solid var(--line);
+      background: #fbfcfe;
+      border-radius: var(--radius);
+      padding: 12px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 13px;
+    }
+
+    @media (max-width: 1080px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+      .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .detail-body { grid-template-columns: 1fr; }
+      .info-grid, .process-line { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      .main { padding: 14px; }
+      .topbar, .workspace-head, .detail-head { grid-template-columns: 1fr; display: grid; }
+      .summary, .info-grid, .process-line, .form-grid { grid-template-columns: 1fr; }
+      .span-2 { grid-column: auto; }
+      .field, .select { min-width: 100%; }
+      h1 { font-size: 21px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-mark">LY</div>
+        <div>
+          <strong>凌羿计费</strong>
+          <span>商业化中台</span>
+        </div>
+      </div>
+      <div class="nav-title">计费管理</div>
+      <div class="nav-item">商品配置 <span>3</span></div>
+      <div class="nav-item">客户管理 <span>128</span></div>
+      <div class="nav-title">后续能力</div>
+      <div class="nav-item disabled">账单管理</div>
+      <div class="nav-item disabled">发票管理</div>
+      <div class="nav-item disabled">收入看板</div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div>
+          <div class="crumb">计费管理 / 申请处理</div>
+          <h1>申请处理</h1>
+          <div class="subtitle">统一承接租户提交的新购、续费、升级、扩容、服务预约和定制咨询。申请通过后，按类型生成购买记录、权益变化或服务记录。</div>
+        </div>
+        <div class="actions">
+          <button class="btn">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+            导出
+          </button>
+          <button class="btn primary">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+            手动创建申请
+          </button>
+        </div>
+      </div>
+
+      <div class="content-tabs">
+        <button class="content-tab active" data-tab="list">申请列表</button>
+        <button class="content-tab hidden" data-tab="detail" id="detailTab">处理申请：MSKU 扩容</button>
+      </div>
+
+      <section class="page-panel active" id="listPanel">
+        <div class="summary">
+          <div class="metric"><strong>18</strong><span>待处理申请</span></div>
+          <div class="metric"><strong>7</strong><span>今日新增</span></div>
+          <div class="metric"><strong>5</strong><span>待客户确认</span></div>
+          <div class="metric"><strong>3</strong><span>待排期服务</span></div>
+        </div>
+
+        <div class="workspace">
+          <div class="workspace-head">
+            <div class="filters">
+              <input class="field" value="凌羿科技 / 续费 / 扩容" aria-label="搜索申请" />
+              <select class="select" aria-label="申请类型">
+                <option>全部类型</option>
+                <option>新购</option>
+                <option>续费</option>
+                <option>升级</option>
+                <option>资源扩容</option>
+                <option>服务预约</option>
+                <option>定制咨询</option>
+              </select>
+              <select class="select" aria-label="处理状态">
+                <option>全部状态</option>
+                <option>待处理</option>
+                <option>处理中</option>
+                <option>待客户确认</option>
+                <option>已通过</option>
+                <option>已驳回</option>
+              </select>
+            </div>
+            <div class="actions">
+              <button class="btn ghost">重置</button>
+              <button class="btn">查询</button>
+            </div>
+          </div>
+
+          <div class="quick-tabs">
+            <button class="pill-tab active">全部 64</button>
+            <button class="pill-tab">待处理 18</button>
+            <button class="pill-tab">处理中 12</button>
+            <button class="pill-tab">待客户确认 5</button>
+            <button class="pill-tab">服务预约 9</button>
+            <button class="pill-tab">定制咨询 4</button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>申请内容</th>
+                  <th>客户</th>
+                  <th>类型</th>
+                  <th>金额 / 数量</th>
+                  <th>提交时间</th>
+                  <th>负责人</th>
+                  <th>状态</th>
+                  <th>下一步</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="request-title">MSKU 扩容包 x2</div>
+                    <div class="request-sub">当前已用 68,000 / 100,000，申请增加 10,000 个 MSKU</div>
+                  </td>
+                  <td>海拓优品</td>
+                  <td><span class="tag blue">资源扩容</span></td>
+                  <td>¥4,000 / 2 份</td>
+                  <td>2026-05-19 10:22</td>
+                  <td>林佳</td>
+                  <td><span class="status pending">待处理</span></td>
+                  <td>确认金额与生效时间</td>
+                  <td><button class="link-btn" data-open-detail>处理</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="request-title">ERP 旗舰版续费 1 年</div>
+                    <div class="request-sub">原到期时间 2026-12-31，客户希望续到 2027-12-31</div>
+                  </td>
+                  <td>云帆贸易</td>
+                  <td><span class="tag green">续费</span></td>
+                  <td>¥69,800 / 年</td>
+                  <td>2026-05-19 09:48</td>
+                  <td>周敏</td>
+                  <td><span class="status confirm">待客户确认</span></td>
+                  <td>等待客户确认续费金额</td>
+                  <td><button class="link-btn" data-open-detail>查看</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="request-title">金蝶云星空对接预约</div>
+                    <div class="request-sub">客户已购买服务，期望 2026-05-28 远程对接</div>
+                  </td>
+                  <td>星谷供应链</td>
+                  <td><span class="tag purple">服务预约</span></td>
+                  <td>已购服务</td>
+                  <td>2026-05-18 17:12</td>
+                  <td>何宁</td>
+                  <td><span class="status processing">处理中</span></td>
+                  <td>确认实施顾问和时间</td>
+                  <td><button class="link-btn" data-open-detail>处理</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="request-title">SCM&ERP 定制版咨询</div>
+                    <div class="request-sub">集团型客户，需供应链、质检、经营看板联合方案</div>
+                  </td>
+                  <td>远洲集团</td>
+                  <td><span class="tag orange">定制咨询</span></td>
+                  <td>线下报价</td>
+                  <td>2026-05-18 15:36</td>
+                  <td>陈晨</td>
+                  <td><span class="status pending">待处理</span></td>
+                  <td>分配商务并记录需求</td>
+                  <td><button class="link-btn" data-open-detail>处理</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="request-title">ERP 专业版升级旗舰版</div>
+                    <div class="request-sub">需要经营分析、运营大屏、竞品监控能力</div>
+                  </td>
+                  <td>麦森电商</td>
+                  <td><span class="tag blue">升级</span></td>
+                  <td>待确认差价</td>
+                  <td>2026-05-18 13:07</td>
+                  <td>林佳</td>
+                  <td><span class="status processing">处理中</span></td>
+                  <td>确认升级生效日</td>
+                  <td><button class="link-btn" data-open-detail>处理</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-panel" id="detailPanel">
+        <div class="detail-page">
+          <div class="detail-head">
+            <div>
+              <div class="detail-title">
+                <h2>处理申请：MSKU 扩容包 x2</h2>
+                <span class="tag blue">资源扩容</span>
+                <span class="status pending">待处理</span>
+              </div>
+              <div class="detail-meta">
+                <span>申请单号：APP-20260519-0008</span>
+                <span>客户：海拓优品</span>
+                <span>提交人：赵珂</span>
+                <span>提交时间：2026-05-19 10:22</span>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="btn" data-back-list>返回列表</button>
+              <button class="btn primary">保存处理</button>
+            </div>
+          </div>
+
+          <div class="detail-body">
+            <div>
+              <div class="section">
+                <div class="section-title">申请信息</div>
+                <div class="section-content">
+                  <div class="info-grid">
+                    <div class="info-item">
+                      <div class="info-label">当前主套餐</div>
+                      <div class="info-value">ERP 旗舰版</div>
+                      <div class="info-note">2026-01-01 至 2026-12-31</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">申请商品</div>
+                      <div class="info-value">MSKU 扩容包</div>
+                      <div class="info-note">¥2,000 / 年，每份增加 5,000 个 MSKU</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">申请数量</div>
+                      <div class="info-value">2 份</div>
+                      <div class="info-note">预计增加 10,000 个 MSKU</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">当前用量</div>
+                      <div class="info-value">68,000 / 100,000</div>
+                      <div class="info-note">扩容后额度为 110,000</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">建议金额</div>
+                      <div class="info-value">¥4,000</div>
+                      <div class="info-note">最终金额由平台确认</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">建议有效期</div>
+                      <div class="info-value">跟随主套餐</div>
+                      <div class="info-note">到期时间 2026-12-31</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="section-title">处理进度</div>
+                <div class="section-content">
+                  <div class="process-line">
+                    <div class="process-step done">
+                      <div class="step-name">租户提交</div>
+                      <div class="step-time">2026-05-19 10:22<br />赵珂提交申请</div>
+                    </div>
+                    <div class="process-step current">
+                      <div class="step-name">平台确认</div>
+                      <div class="step-time">确认金额、生效时间、收款方式</div>
+                    </div>
+                    <div class="process-step">
+                      <div class="step-name">客户确认</div>
+                      <div class="step-time">需要时推送确认结果到租户侧</div>
+                    </div>
+                    <div class="process-step">
+                      <div class="step-name">更新权益</div>
+                      <div class="step-time">通过后进入客户管理并叠加额度</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="section-title">平台处理</div>
+                <div class="section-content">
+                  <div class="form-grid">
+                    <div class="form-item">
+                      <label>处理结果</label>
+                      <select>
+                        <option>通过并生成购买记录</option>
+                        <option>待客户确认</option>
+                        <option>驳回申请</option>
+                        <option>取消申请</option>
+                      </select>
+                    </div>
+                    <div class="form-item">
+                      <label>收款状态</label>
+                      <select>
+                        <option>待收款</option>
+                        <option>已收款</option>
+                        <option>无需收款</option>
+                      </select>
+                    </div>
+                    <div class="form-item">
+                      <label>成交金额</label>
+                      <input value="¥4,000" />
+                    </div>
+                    <div class="form-item">
+                      <label>生效时间</label>
+                      <input value="2026-05-20" />
+                    </div>
+                    <div class="form-item">
+                      <label>到期时间</label>
+                      <input value="2026-12-31" />
+                    </div>
+                    <div class="form-item">
+                      <label>负责人</label>
+                      <select>
+                        <option>林佳</option>
+                        <option>周敏</option>
+                        <option>何宁</option>
+                      </select>
+                    </div>
+                    <div class="form-item span-2">
+                      <label>收款凭证 / 银行水单</label>
+                      <div class="upload-box">
+                        <input type="file" accept=".jpg,.jpeg,.png,.pdf" />
+                        <div class="upload-note">线下付款可上传银行水单，也可先标记待补充。凭证用于财务确认，不改变商品规则。</div>
+                      </div>
+                    </div>
+                    <div class="form-item span-2">
+                      <label>处理备注</label>
+                      <textarea>客户当前 MSKU 增长较快，本次按 2 份扩容包处理。资源包默认跟随主套餐到期。</textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <aside>
+              <div class="section">
+                <div class="section-title">通过后的落点</div>
+                <div class="section-content">
+                  <div class="result-box">
+                    <div><strong>生成购买记录：</strong>MSKU 扩容包 x2，金额 ¥4,000。</div>
+                    <div><strong>更新客户权益：</strong>MSKU 总额度从 100,000 增至 110,000。</div>
+                    <div><strong>补充收款凭证：</strong>线下付款可上传银行水单，或标记为待补充。</div>
+                    <div><strong>同步租户侧：</strong>我的订阅展示最新额度、订单记录和处理状态。</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="section-title">申请类型处理口径</div>
+                <div class="section-content">
+                  <div class="result-box">
+                    <div><strong>资源扩容：</strong>生成购买记录，并叠加到对应权益额度。</div>
+                    <div><strong>预约交付：</strong>金蝶对接、线下培训进入服务记录和排期。</div>
+                    <div><strong>配置开通：</strong>竞品、关键词、跟卖监控生成配置任务，不走上门预约。</div>
+                    <div><strong>定制咨询：</strong>成交后回到客户管理录入购买记录。</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="section-title">客户上下文</div>
+                <div class="section-content">
+                  <div class="timeline">
+                    <div class="timeline-item">
+                      <div class="dot"></div>
+                      <div>
+                        <div class="timeline-title">2026-04-28 购买金蝶云星空对接</div>
+                        <div class="timeline-text">服务中，实施顾问已确认，预计 2026-05-28 完成。</div>
+                      </div>
+                    </div>
+                    <div class="timeline-item">
+                      <div class="dot"></div>
+                      <div>
+                        <div class="timeline-title">2026-03-18 购买订单扩容包 x2</div>
+                        <div class="timeline-text">订单额度已从 300 万增加到 310 万。</div>
+                      </div>
+                    </div>
+                    <div class="timeline-item">
+                      <div class="dot"></div>
+                      <div>
+                        <div class="timeline-title">2026-01-01 开通 ERP 旗舰版</div>
+                        <div class="timeline-text">主套餐有效期至 2026-12-31。</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="notice">
+                申请处理只负责过程确认。客户最终买了什么、能用什么、用了多少，仍以客户管理中的购买记录、权益额度和消耗计算为准。
+              </div>
+            </aside>
+          </div>
+
+          <div class="footer-actions">
+            <button class="btn danger">驳回</button>
+            <button class="btn">转待客户确认</button>
+            <button class="btn green">通过并更新客户权益</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const listTab = document.querySelector('[data-tab="list"]');
+    const detailTab = document.getElementById('detailTab');
+    const listPanel = document.getElementById('listPanel');
+    const detailPanel = document.getElementById('detailPanel');
+
+    function showList() {
+      listTab.classList.add('active');
+      detailTab.classList.remove('active');
+      listPanel.classList.add('active');
+      detailPanel.classList.remove('active');
+    }
+
+    function showDetail() {
+      detailTab.classList.remove('hidden');
+      detailTab.classList.add('active');
+      listTab.classList.remove('active');
+      detailPanel.classList.add('active');
+      listPanel.classList.remove('active');
+    }
+
+    document.querySelectorAll('[data-open-detail]').forEach((button) => {
+      button.addEventListener('click', showDetail);
+    });
+
+    document.querySelectorAll('[data-back-list]').forEach((button) => {
+      button.addEventListener('click', showList);
+    });
+
+    listTab.addEventListener('click', showList);
+    detailTab.addEventListener('click', showDetail);
+  </script>
+</body>
+</html>

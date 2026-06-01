@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>申请处理</title>
+  <link rel="stylesheet" href="billing-simple.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="side">
+    <div class="side-title">计费管理</div>
+    <div class="side-group">平台</div>
+    <a href="crossborder-erp-billing-product-config-simple.html">商品配置</a>
+    <a href="crossborder-erp-billing-customer-management-simple.html">客户管理</a>
+    <div class="side-group">客户</div>
+    <a href="crossborder-erp-billing-my-subscription-simple.html">我的订阅</a>
+  </aside>
+  <div class="main">
+    <header class="header">
+      <div><h1>申请处理</h1><div class="path">处理续费、升级、扩容、试用、咨询；成交后在客户管理录入购买</div></div>
+    </header>
+    <div class="body">
+      <div class="toolbar">
+        <select><option>待处理</option><option>全部</option></select>
+        <select><option>全部类型</option><option>续费</option><option>升级</option><option>扩容</option><option>试用</option><option>新购咨询</option></select>
+        <input placeholder="客户名称">
+        <button class="btn">查询</button>
+      </div>
+      <div class="panel">
+        <table>
+          <thead>
+            <tr><th>申请内容</th><th>客户</th><th>类型</th><th>提交时间</th><th>状态</th><th>操作</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ERP 旗舰版续费 1 年</td><td>杭州星河跨境</td><td>续费</td><td>2026-05-18</td>
+              <td><span class="tag tag-orange">待处理</span></td>
+              <td><button class="btn-link" onclick="openProcess('续费')">处理</button></td>
+            </tr>
+            <tr>
+              <td>MSKU 扩容包 x2</td><td>广州蓝海贸易</td><td>扩容</td><td>2026-05-17</td>
+              <td><span class="tag tag-orange">待处理</span></td>
+              <td><button class="btn-link" onclick="openProcess('扩容')">处理</button></td>
+            </tr>
+            <tr>
+              <td>申请试用 ERP 专业版 15 天</td><td>深圳速卖通科技</td><td>试用</td><td>2026-05-16</td>
+              <td><span class="tag tag-orange">待处理</span></td>
+              <td><button class="btn-link" onclick="openProcess('试用')">处理</button></td>
+            </tr>
+            <tr>
+              <td>了解 SCM 企业版</td><td>某新客户</td><td>新购咨询</td><td>2026-05-15</td>
+              <td><span class="tag tag-gray">已跟进</span></td>
+              <td><button class="btn-link" onclick="openProcess('咨询')">查看</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-mask" id="modal">
+  <div class="modal">
+    <div class="modal-head">处理申请 <button class="btn-link" onclick="closeModal()">关闭</button></div>
+    <div class="modal-body">
+      <div class="form-row"><label>处理结果</label>
+        <select id="resultType"><option>通过</option><option>驳回</option><option>仅记录咨询</option></select>
+      </div>
+      <div id="trialFields">
+        <div class="form-row"><label>试用套餐</label><select><option>ERP 专业版</option><option>ERP 标准版</option></select></div>
+        <div class="form-row"><label>试用天数</label><input type="number" value="15"></div>
+        <div class="form-hint">试用不走正式订单，直接开通试用权益</div>
+      </div>
+      <div id="dealFields" style="display:none">
+        <div class="form-row"><label>说明</label><div class="form-hint">通过后请到「客户管理 → 新增购买」录入订单并上传水单开通</div></div>
+      </div>
+      <div class="form-row"><label>备注</label><textarea></textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal()">取消</button>
+      <button class="btn btn-primary" onclick="closeModal()">确定</button>
+    </div>
+  </div>
+</div>
+<script>
+function openProcess(type) {
+  document.getElementById('modal').classList.add('show');
+  document.getElementById('trialFields').style.display = type==='试用' ? '' : 'none';
+  document.getElementById('dealFields').style.display = ['续费','扩容','升级'].includes(type) ? '' : 'none';
+}
+function closeModal() { document.getElementById('modal').classList.remove('show'); }
+</script>
+</body>
+</html>

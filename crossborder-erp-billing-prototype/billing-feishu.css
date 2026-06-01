@@ -1,0 +1,341 @@
+/* 计费模块 — 飞书费用中心 + 凌羿 ERP 平台侧共用 */
+:root {
+  --erp-primary: #1677ff;
+  --erp-primary-hover: #4096ff;
+  --erp-primary-bg: #e6f4ff;
+  --erp-bg: #f0f2f5;
+  --erp-panel: #ffffff;
+  --erp-text: #262626;
+  --erp-muted: #8c8c8c;
+  --erp-border: #f0f0f0;
+  --erp-side-width: 200px;
+
+  --feishu-bg: #f2f3f5;
+  --feishu-side: #eef0f3;
+  --feishu-blue: #3370ff;
+  --feishu-text: #1f2329;
+  --feishu-muted: #646a73;
+  --feishu-line: #dee0e3;
+  --feishu-green: #14a35b;
+  --feishu-orange: #d9822b;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; font-size: 14px; color: var(--erp-text); }
+
+/* ========== 凌羿 ERP 平台侧布局 ========== */
+.erp-app { display: flex; min-height: 100vh; background: var(--erp-bg); }
+.erp-side {
+  width: var(--erp-side-width);
+  background: var(--erp-panel);
+  border-right: 1px solid var(--erp-border);
+  flex-shrink: 0;
+  padding: 16px 0;
+}
+.erp-side-brand {
+  padding: 0 16px 16px;
+  border-bottom: 1px solid var(--erp-border);
+  margin-bottom: 8px;
+}
+.erp-side-brand strong { font-size: 15px; display: block; }
+.erp-side-brand span { font-size: 12px; color: var(--erp-muted); }
+.erp-nav-label { font-size: 12px; color: var(--erp-muted); padding: 12px 16px 4px; }
+.erp-nav a {
+  display: block;
+  padding: 10px 16px;
+  color: var(--erp-text);
+  text-decoration: none;
+  font-size: 14px;
+  border-right: 3px solid transparent;
+}
+.erp-nav a:hover { background: #fafafa; }
+.erp-nav a.active {
+  background: var(--erp-primary-bg);
+  color: var(--erp-primary);
+  border-right-color: var(--erp-primary);
+  font-weight: 500;
+}
+.erp-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.erp-header {
+  background: var(--erp-panel);
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--erp-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.erp-header h1 { font-size: 20px; font-weight: 600; margin: 4px 0 0; }
+.erp-crumb { font-size: 13px; color: var(--erp-muted); }
+.erp-body { padding: 16px 24px 24px; flex: 1; }
+
+.erp-toolbar {
+  background: var(--erp-panel);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border: 1px solid var(--erp-border);
+  border-radius: 2px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.erp-panel {
+  background: var(--erp-panel);
+  border: 1px solid var(--erp-border);
+  border-radius: 2px;
+}
+.erp-panel-head {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--erp-border);
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ========== 飞书客户侧布局 ========== */
+.feishu-top {
+  height: 56px;
+  background: #fff;
+  border-bottom: 1px solid var(--feishu-line);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.feishu-top .brand { font-weight: 600; font-size: 16px; color: var(--feishu-text); }
+.feishu-top .user { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.feishu-top .avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--feishu-blue); color: #fff;
+  display: grid; place-items: center; font-size: 13px;
+}
+.feishu-shell { display: flex; min-height: calc(100vh - 56px); }
+.feishu-side {
+  width: 220px;
+  background: var(--feishu-side);
+  border-right: 1px solid var(--feishu-line);
+  padding: 12px 8px;
+  flex-shrink: 0;
+}
+.feishu-nav-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--feishu-text);
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+}
+.feishu-nav-item {
+  padding: 8px 12px 8px 28px;
+  font-size: 14px;
+  color: var(--feishu-text);
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 2px 0;
+}
+.feishu-nav-item:hover { background: rgba(51,112,255,.08); }
+.feishu-nav-item.active { background: #e7efff; color: var(--feishu-blue); font-weight: 500; }
+.feishu-main { flex: 1; padding: 20px 28px 40px; background: var(--feishu-bg); min-width: 0; }
+.feishu-crumb { color: var(--feishu-muted); font-size: 14px; margin-bottom: 16px; }
+.feishu-content {
+  background: #fff;
+  border-radius: 4px;
+  min-height: 480px;
+  padding: 24px 20px 32px;
+}
+.feishu-inner { max-width: 1120px; margin: 0 auto; }
+
+/* 套餐横幅 */
+.plan-bar {
+  height: 48px;
+  background: linear-gradient(90deg, #dfe8ff 0%, #edf2ff 100%);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px 0 18px;
+  margin-bottom: 24px;
+}
+.plan-bar .name { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+.plan-bar .mark {
+  width: 28px; height: 28px; border-radius: 6px;
+  background: var(--feishu-blue); color: #fff;
+  display: grid; place-items: center; font-size: 13px; font-weight: 700;
+}
+
+/* 权益卡片网格 */
+.quota-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.quota-card {
+  border: 1px solid var(--feishu-line);
+  border-radius: 8px;
+  padding: 20px;
+  background: #fff;
+}
+.quota-card h3 { font-size: 16px; margin-bottom: 20px; font-weight: 600; }
+.quota-card .meta { color: var(--feishu-muted); font-size: 13px; margin-bottom: 8px; }
+.quota-card .num { font-size: 24px; font-weight: 600; margin-bottom: 12px; }
+.quota-card .num span { font-size: 15px; font-weight: 400; }
+.quota-card .progress { height: 4px; background: #eceff3; border-radius: 99px; margin-bottom: 16px; overflow: hidden; }
+.quota-card .progress i { display: block; height: 100%; background: var(--feishu-blue); border-radius: 99px; }
+.quota-card .acts { display: flex; gap: 8px; }
+
+/* 飞书分区 — 套餐方案 */
+.feishu-section { margin-bottom: 28px; }
+.feishu-section-head {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--feishu-text);
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--feishu-line);
+}
+.plan-rows { display: flex; flex-direction: column; gap: 12px; }
+.plan-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 18px;
+  border: 1px solid var(--feishu-line);
+  border-radius: 8px;
+  background: #fafbfc;
+}
+.plan-row.current { border-color: #91b4ff; background: #f5f8ff; }
+.plan-row h4 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.plan-row .desc { font-size: 13px; color: var(--feishu-muted); line-height: 1.5; }
+.plan-row .price { font-size: 18px; font-weight: 600; color: #f54a45; white-space: nowrap; }
+.plan-row .price small { font-size: 12px; font-weight: 400; color: var(--feishu-muted); }
+
+/* 表格区 */
+.table-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.table-box { border: 1px solid var(--feishu-line); border-radius: 8px; overflow: hidden; }
+.table-box .head {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--feishu-line);
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fafbfc;
+}
+
+/* 通用组件 */
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 10px 16px; text-align: left; border-bottom: 1px solid var(--feishu-line); font-size: 13px; }
+th { background: #fafbfc; color: var(--feishu-muted); font-weight: 500; }
+tr:last-child td { border-bottom: none; }
+
+.btn {
+  height: 32px;
+  padding: 0 14px;
+  border: 1px solid var(--feishu-blue);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--feishu-blue);
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.btn:hover { background: #f0f5ff; }
+.btn.primary, .btn-primary {
+  background: var(--feishu-blue);
+  border-color: var(--feishu-blue);
+  color: #fff;
+}
+.btn.primary:hover, .btn-primary:hover { opacity: .92; }
+.erp-body .btn {
+  border-color: var(--erp-primary);
+  color: var(--erp-primary);
+  border-radius: 2px;
+  height: 32px;
+}
+.erp-body .btn-primary {
+  background: var(--erp-primary);
+  border-color: var(--erp-primary);
+  color: #fff;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0 7px;
+  font-size: 12px;
+  line-height: 20px;
+  border-radius: 2px;
+}
+.tag-green { background: #f6ffed; color: var(--feishu-green); border: 1px solid #b7eb8f; }
+.tag-orange { background: #fff7e6; color: var(--feishu-orange); border: 1px solid #ffd591; }
+.tag-blue { background: #e6f4ff; color: var(--erp-primary); border: 1px solid #91caff; }
+.tag-gray { background: #fafafa; color: var(--erp-muted); border: 1px solid #d9d9d9; }
+
+.erp-body input, .erp-body select {
+  height: 32px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  padding: 0 8px;
+  font-size: 14px;
+}
+
+.drawer-mask {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  z-index: 200;
+}
+.drawer-mask.open { display: block; }
+.drawer {
+  position: fixed;
+  top: 0; right: 0;
+  width: 400px;
+  max-width: 100%;
+  height: 100%;
+  background: #fff;
+  box-shadow: -4px 0 16px rgba(0,0,0,.08);
+  z-index: 201;
+  padding: 20px;
+  transform: translateX(100%);
+  transition: transform .2s;
+}
+.drawer-mask.open .drawer { transform: translateX(0); }
+.drawer h3 { font-size: 16px; margin-bottom: 20px; }
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 13px; color: var(--feishu-muted); margin-bottom: 6px; }
+.field input, .field select, .field textarea {
+  width: 100%;
+  border: 1px solid var(--feishu-line);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+.field textarea { min-height: 72px; resize: vertical; }
+
+.page-view { display: none; }
+.page-view.active { display: block; }
+
+.info-strip {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  background: #fafafa;
+  border: 1px solid var(--erp-border);
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+.info-strip span { color: var(--erp-muted); }
+.info-strip b { margin-left: 4px; font-weight: 500; }
+
+@media (max-width: 900px) {
+  .quota-grid { grid-template-columns: 1fr; }
+  .table-row { grid-template-columns: 1fr; }
+  .feishu-side { display: none; }
+}

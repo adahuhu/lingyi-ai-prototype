@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>套餐方案 - 费用中心</title>
+  <link rel="stylesheet" href="billing-erp-platform.css">
+  <style>
+    /* 高亮（来自商品编辑页 ?highlight=SKU） */
+    .ly-tenant-plan-row.highlight {
+      outline: 2px solid #faad14; outline-offset: 1px;
+      background: #fffbe6;
+    }
+
+    .pkg-tip {
+      background: #f0f7ff; border: 1px solid #91caff;
+      padding: 8px 12px; font-size: 12px; color: var(--ly-text);
+      border-radius: 2px; margin-bottom: 12px;
+    }
+
+    .price-tax {
+      font-size: 11px; color: var(--ly-muted); display: block; line-height: 1.4;
+    }
+
+    /* Tooltip 锁定按钮 */
+    .lock-wrap { position: relative; display: inline-block; }
+    .lock-wrap .lock-tip {
+      display: none; position: absolute; right: 0; bottom: calc(100% + 6px);
+      width: 240px; padding: 8px 10px; background: #262626; color: #fff;
+      font-size: 12px; line-height: 1.5; border-radius: 4px;
+      z-index: 10;
+    }
+    .lock-wrap .lock-tip::after {
+      content: ""; position: absolute; right: 14px; top: 100%;
+      border: 6px solid transparent; border-top-color: #262626;
+    }
+    .lock-wrap:hover .lock-tip { display: block; }
+  </style>
+</head>
+<body>
+<div class="ly-app">
+  <aside class="ly-side">
+    <div class="ly-side-logo"><span class="logo-mark">凌</span> 凌羿 ERP</div>
+    <nav class="ly-nav">
+      <div class="ly-nav-group">
+        <span class="ly-nav-item active"><span class="ico">▾</span> 费用中心</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-my-subscription-feishu.html" class="active">我的订阅</a>
+          <a href="crossborder-erp-billing-tenant-order-center.html">订单记录</a>
+        </div>
+      </div>
+    </nav>
+    <div class="ly-side-foot">收起导航</div>
+  </aside>
+
+  <div class="ly-wrap">
+    <header class="ly-topbar">
+      <div class="ly-tabs">
+        <a class="ly-tab active" href="#">套餐方案 <span class="close">×</span></a>
+      </div>
+      <div class="ly-topbar-right">
+        <span>🔍</span><span>🔔</span>
+        <span class="user"><span class="avatar">杭</span> 杭州星河跨境</span>
+      </div>
+    </header>
+
+    <main class="ly-tenant-main">
+      <div class="ly-tenant-crumb">费用中心 &gt; 套餐方案</div>
+      <div class="ly-tenant-card ly-tenant-plans">
+        <p class="hint" style="background:#f0f7ff;border:1px solid #91caff;padding:8px 12px;border-radius:2px">
+          📢 已发布商品 · 价格<strong>统一含 6% 增值税</strong>；不支持在线下单，购买/续费请联系商务。
+        </p>
+
+        <!-- ERP 主套餐 -->
+        <div class="ly-tenant-plan-block">
+          <div class="block-head">ERP 主套餐</div>
+
+          <div class="pkg-tip">
+            <strong>建议先看版本对比</strong>：横向对比标准 / 专业 / 旗舰，再决定是否升级或续费。
+          </div>
+
+          <div class="compare-toggle open" id="cmpToggle" onclick="toggleCompare()">
+            <span><strong>版本对比表</strong> <span style="color:var(--ly-muted)">· 标准 / 专业 / 旗舰差异</span></span>
+            <span class="arrow">▲</span>
+          </div>
+          <div class="compare-wrap open" id="cmpWrap">
+            <table class="compare-table">
+              <thead>
+                <tr>
+                  <th class="row-label">权益</th>
+                  <th>ERP 标准版</th>
+                  <th>ERP 专业版</th>
+                  <th class="current">ERP 旗舰版<span class="current-flag">当前</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="price-row">
+                  <td class="row-label">年费（含税）</td>
+                  <td>¥9,800/年</td>
+                  <td>¥29,800/年</td>
+                  <td>¥69,800/年</td>
+                </tr>
+                <tr>
+                  <td class="row-label">年订单量</td>
+                  <td>20 万</td>
+                  <td>100 万</td>
+                  <td><strong>300 万</strong></td>
+                </tr>
+                <tr>
+                  <td class="row-label">MSKU 额度</td>
+                  <td>5,000</td>
+                  <td>30,000</td>
+                  <td><strong>100,000</strong></td>
+                </tr>
+                <tr>
+                  <td class="row-label">店铺 / 站点</td>
+                  <td>20</td>
+                  <td>100</td>
+                  <td><strong>500</strong></td>
+                </tr>
+                <tr>
+                  <td class="row-label">平台授权</td>
+                  <td>1 个</td>
+                  <td>5 个</td>
+                  <td><strong>不限</strong></td>
+                </tr>
+                <tr>
+                  <td class="row-label">子账号</td>
+                  <td>30</td>
+                  <td>100</td>
+                  <td><strong>300</strong></td>
+                </tr>
+                <tr>
+                  <td class="row-label">金蝶云星空对接</td>
+                  <td><span class="miss">—</span></td>
+                  <td><span class="miss">—</span></td>
+                  <td><span class="check">✓ 含 1 次</span></td>
+                </tr>
+                <tr>
+                  <td class="row-label">免费试用</td>
+                  <td><span class="check">✓ 15 天</span></td>
+                  <td><span class="check">✓ 15 天</span></td>
+                  <td><span class="miss">—</span></td>
+                </tr>
+                <tr class="cta">
+                  <td class="row-label">操作</td>
+                  <td><button type="button" class="ly-btn" onclick="openContact('咨询-标准版')">联系商务</button></td>
+                  <td><button type="button" class="ly-btn" onclick="openContact('咨询-专业版')">联系商务</button></td>
+                  <td><button type="button" class="ly-btn" disabled style="opacity:.6;cursor:default">已购买</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="ly-tenant-plan-rows">
+            <div class="ly-tenant-plan-row" data-sku="SKU_ERP_STD_001">
+              <div>
+                <h4>ERP 标准版 <span class="plan-pill trial">支持 15 天试用</span></h4>
+                <div class="desc">20万单/年 · 5,000 MSKU · 1 平台 · 30 子账号 · 20 店铺</div>
+              </div>
+              <div class="price">¥9,800<small>/年</small></div>
+              <div class="plan-cta-group">
+                <button type="button" class="ly-btn" onclick="openContact('申请试用-标准版')">申请试用</button>
+                <button type="button" class="ly-btn" onclick="openContact('咨询-标准版')">联系商务</button>
+              </div>
+            </div>
+            <div class="ly-tenant-plan-row" data-sku="SKU_ERP_PRO_001">
+              <div>
+                <h4>ERP 专业版 <span class="plan-pill trial">支持 15 天试用</span></h4>
+                <div class="desc">100万单/年 · 3万 MSKU · 5 平台 · 100 子账号 · 100 店铺</div>
+              </div>
+              <div class="price">¥29,800<small>/年</small></div>
+              <div class="plan-cta-group">
+                <button type="button" class="ly-btn" onclick="openContact('申请试用-专业版')">申请试用</button>
+                <button type="button" class="ly-btn" onclick="openContact('咨询-专业版')">联系商务</button>
+              </div>
+            </div>
+            <div class="ly-tenant-plan-row ly-tenant-plan-row-media current" data-sku="SKU_ERP_FLAGSHIP_001">
+              <div class="row-main">
+                <div class="ly-tenant-plan-thumb" role="img" aria-label="套餐主图占位"></div>
+                <div>
+                  <h4>ERP 旗舰版 <span class="ly-tenant-tag blue">当前套餐</span></h4>
+                  <div class="desc">300万单/年 · 10万 MSKU · 不限平台 · 300 子账号 · 500 店铺 · 含金蝶云星空对接 1 次</div>
+                  <div class="ly-tenant-plan-sku">商品编码 SKU_ERP_FLAGSHIP_001</div>
+                </div>
+              </div>
+              <div class="price">¥69,800<small>/年</small></div>
+              <div class="plan-cta-group">
+                <button type="button" class="ly-btn ly-btn-primary" onclick="openContact('续费-旗舰版')">续费</button>
+                <button type="button" class="ly-btn" onclick="openContact('咨询-旗舰版')">联系商务</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCM 套餐 -->
+        <div class="ly-tenant-plan-block">
+          <div class="block-head">SCM 套餐</div>
+          <div class="ly-tenant-plan-rows">
+            <div class="ly-tenant-plan-row">
+              <div>
+                <h4>SCM 企业版</h4>
+                <div class="desc">供应链企业版 · 全链路 SCM 能力</div>
+              </div>
+              <div class="price">¥10万起<small>/年</small></div>
+              <div class="plan-cta-group">
+                <button type="button" class="ly-btn" onclick="openContact('咨询-SCM企业版')">联系商务</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 资源扩容与增值服务 -->
+        <div class="ly-tenant-plan-block">
+          <div class="block-head">资源扩容与增值服务</div>
+          <div class="ly-tenant-plan-rows">
+            <div class="ly-tenant-plan-row">
+              <div>
+                <h4>订单扩容包 <span class="plan-pill trial">您当前套餐适用</span></h4>
+                <div class="desc">每增加 5 万单 / 年</div>
+              </div>
+              <div class="price">¥1,000<small>/年</small></div>
+              <div class="plan-cta-group">
+                <button type="button" class="ly-btn ly-btn-primary" onclick="openContact('扩容-订单包')">申请扩容</button>
+              </div>
+            </div>
+            <div class="ly-tenant-plan-row">
+              <div>
+                <h4>MSKU 扩容包 <span class="plan-pill trial">您当前套餐适用</span></h4>
+                <div class="desc">每增加 5,000 MSKU / 年</div>
+              </div>
+              <div class="price">¥2,000<small>/年</small></div>
+              <div class="plan-cta-group">
+                <button type="button" class="ly-btn ly-btn-primary" onclick="openContact('扩容-MSKU包')">申请扩容</button>
+              </div>
+            </div>
+            <div class="ly-tenant-plan-row">
+              <div>
+                <h4>金蝶云星空对接 <span class="plan-pill trial">您当前套餐适用</span></h4>
+                <div class="desc">仅限 ERP 旗舰版、SCM 企业版客户购买</div>
+              </div>
+              <div class="price">¥20,000<small>/次</small></div>
+              <div class="plan-cta-group">
+                <button type="button" class="ly-btn" onclick="openContact('预约-金蝶对接')">预约服务</button>
+              </div>
+            </div>
+            <div class="ly-tenant-plan-row">
+              <div>
+                <h4>高级数据服务（示例） <span class="plan-pill dep">需先购买 SCM 企业版</span></h4>
+                <div class="desc">仅 SCM 企业版客户可购买</div>
+              </div>
+              <div class="price">¥30,000<small>/年</small></div>
+              <div class="plan-cta-group">
+                <span class="lock-wrap">
+                  <button type="button" class="ly-btn" disabled style="opacity:.55;cursor:not-allowed">无法购买</button>
+                  <span class="lock-tip">该服务依赖「SCM 企业版」。您当前为「ERP 旗舰版」，无法直接购买。需要请<a style="color:#91caff" href="#" onclick="openContact('咨询-SCM企业版');return false">联系商务</a>升级。</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-size:13px;color:var(--ly-muted)">
+          <a class="ly-link" href="crossborder-erp-billing-my-subscription-feishu.html">← 返回权益数据</a>
+        </p>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="ly-drawer-mask" id="drawerMask" onclick="if(event.target===this)closeDrawer()">
+  <aside class="ly-drawer" onclick="event.stopPropagation()">
+    <h3 id="drawerTitle">提交申请</h3>
+    <div class="ly-field-block"><label>类型</label><input id="applyType" readonly></div>
+    <div class="ly-field-block"><label>说明</label><textarea placeholder="选填，提交后由商务联系您"></textarea></div>
+    <p style="font-size:12px;color:#999;margin-bottom:16px">正式购买由平台录入订单并上传水单后开通；试用提交后由商务联系开通。</p>
+    <button type="button" class="ly-btn" onclick="closeDrawer()">取消</button>
+    <button type="button" class="ly-btn ly-btn-primary" onclick="alert('已提交');closeDrawer()">提交</button>
+  </aside>
+</div>
+
+<script>
+function toggleCompare() {
+  document.getElementById('cmpToggle').classList.toggle('open');
+  document.getElementById('cmpWrap').classList.toggle('open');
+}
+function openContact(type) {
+  document.getElementById('applyType').value = type;
+  document.getElementById('drawerTitle').textContent = '提交申请 · ' + type;
+  document.getElementById('drawerMask').classList.add('open');
+}
+function closeDrawer() {
+  document.getElementById('drawerMask').classList.remove('open');
+}
+
+/* 来自商品编辑页的 ?highlight=SKU */
+(function () {
+  var q = new URLSearchParams(location.search);
+  var sku = q.get('highlight');
+  if (sku) {
+    var row = document.querySelector('[data-sku="' + sku + '"]');
+    if (row) {
+      row.classList.add('highlight');
+      setTimeout(function() { row.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+    }
+  }
+})();
+</script>
+</body>
+</html>

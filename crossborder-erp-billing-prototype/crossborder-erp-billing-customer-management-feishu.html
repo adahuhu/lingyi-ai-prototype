@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>客户配置 - 用户中心</title>
+  <link rel="stylesheet" href="billing-erp-platform.css">
+  <style>
+    .risk-dot { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; }
+    .risk-dot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; }
+    .risk-ok::before { background: #52c41a; }
+    .risk-warn::before { background: #faad14; }
+    .risk-danger::before { background: #ff4d4f; }
+    .quick-filter {
+      display: inline-flex; gap: 4px; align-items: center;
+      padding: 2px 8px; font-size: 12px; line-height: 22px;
+      border: 1px dashed #d9d9d9; color: var(--ly-muted); border-radius: 2px;
+      cursor: pointer; background: #fff; user-select: none;
+    }
+    .quick-filter.active { color: var(--ly-primary); border-color: var(--ly-primary); background: #e6f4ff; border-style: solid; }
+    .quick-filter-applied {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-left: 8px; padding: 2px 8px; font-size: 12px; line-height: 22px;
+      background: #e6f4ff; color: var(--ly-primary); border-radius: 2px;
+    }
+    .quick-filter-applied .clear { cursor: pointer; opacity: .65; }
+    .quick-filter-applied .clear:hover { opacity: 1; }
+
+    /* 服务里程碑抽屉 */
+    .milestone-list { padding: 16px; }
+    .milestone-list li {
+      list-style: none; padding: 10px 0 10px 24px;
+      border-left: 2px solid var(--ly-border);
+      margin-left: 6px; position: relative; font-size: 13px;
+    }
+    .milestone-list li::before {
+      content: ""; position: absolute; left: -7px; top: 12px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: #fff; border: 2px solid var(--ly-border);
+    }
+    .milestone-list li.done::before { background: #52c41a; border-color: #52c41a; }
+    .milestone-list li.cur::before { background: var(--ly-primary); border-color: var(--ly-primary); }
+    .milestone-list .step-title { font-weight: 500; }
+    .milestone-list .step-meta { color: var(--ly-muted); font-size: 12px; margin-top: 2px; }
+
+    /* 水单查看抽屉 */
+    .receipt-box { padding: 16px; text-align: center; }
+    .receipt-img {
+      width: 100%; max-width: 320px;
+      height: 180px; background: linear-gradient(135deg, #f0f5ff, #fafafa);
+      border: 1px solid var(--ly-border); margin: 0 auto 12px;
+      display: grid; place-items: center; color: var(--ly-muted); font-size: 13px;
+    }
+
+    /* 「来源订单」抽屉 */
+    .source-box { padding: 16px; }
+    .source-box h4 { margin: 0 0 4px; font-size: 14px; }
+    .source-box .total {
+      padding: 14px; background: #f0f7ff; border: 1px solid #91caff;
+      border-radius: 2px; margin-bottom: 12px;
+    }
+    .source-box .total .num { font-size: 22px; font-weight: 700; color: var(--ly-primary); }
+    .source-box .total .sub { font-size: 12px; color: var(--ly-muted); }
+    .source-box table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .source-box th, .source-box td { border: 1px solid var(--ly-border); padding: 8px 10px; text-align: left; }
+    .source-box th { background: var(--ly-table-head); font-weight: 500; }
+
+    /* 录入购买 · 组合购买 */
+    .cart-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .cart-table th, .cart-table td {
+      border: 1px solid var(--ly-border); padding: 8px 10px; vertical-align: middle;
+    }
+    .cart-table th { background: var(--ly-table-head); font-weight: 500; text-align: left; }
+    .cart-table input[type=number], .cart-table input[type=text], .cart-table select {
+      width: 100%; height: 28px; box-sizing: border-box;
+      border: 1px solid #d9d9d9; border-radius: 2px; padding: 0 6px; font-size: 13px;
+    }
+    .cart-total {
+      padding: 12px 16px; background: #fafafa; border-top: 1px solid var(--ly-border);
+      display: flex; justify-content: flex-end; gap: 18px; font-size: 14px;
+    }
+    .cart-total .amt { color: #ff4d4f; font-weight: 600; font-size: 18px; }
+
+    /* 录入购买权益预填 */
+    .auto-quota {
+      margin: 12px 16px 0;
+      border: 1px solid #91caff;
+      background: #e6f4ff;
+      border-radius: 2px;
+      padding: 10px 14px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .auto-quota strong { color: var(--ly-primary); }
+    .auto-quota-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12px; }
+    .auto-quota-table th, .auto-quota-table td {
+      border: 1px solid #bdd5ff; padding: 6px 8px; background: #fff; text-align: left;
+    }
+    .auto-quota-table th { background: #f0f7ff; font-weight: 500; }
+
+    .trial-banner {
+      margin: 12px 16px 0;
+      border: 1px solid #b7eb8f; background: #f6ffed;
+      border-radius: 2px; padding: 10px 14px; font-size: 13px;
+    }
+    .trial-banner strong { color: #389e0d; }
+
+    /* (二期 · AI 子账号均分预览，本期未启用) */
+    .alloc-preview {
+      margin: 12px 16px 0;
+      border: 1px solid #d3adf7;
+      background: #f9f0ff;
+      border-radius: var(--ly-radius-sm);
+      padding: 10px 14px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .alloc-preview strong { color: #722ed1; }
+    .alloc-preview .meta { font-size: 12px; color: var(--ly-muted); margin: 6px 0 8px; }
+    .alloc-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+    .alloc-table th, .alloc-table td {
+      border: 1px solid #e9d8fd; padding: 6px 8px; background: #fff; text-align: left;
+    }
+    .alloc-table th { background: #f9f0ff; font-weight: 500; }
+    .alloc-table tr.admin td { background: #fffbe6; }
+
+    body.customer-management-page .ly-main {
+      padding: 18px 20px 28px;
+      background: #f6f7fb;
+    }
+    body.customer-management-page #viewList .ly-card {
+      border-color: #e9edf5;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(31, 35, 41, .035);
+    }
+    body.customer-management-page #viewList .ly-filter {
+      padding: 14px 16px;
+      gap: 12px;
+      border-bottom: 1px solid #eef1f5;
+      background: #fff;
+      align-items: flex-end;
+    }
+    body.customer-management-page #viewList .ly-field {
+      gap: 8px;
+    }
+    body.customer-management-page #viewList .ly-filter-actions {
+      margin-left: auto;
+    }
+    body.customer-management-page #viewList .ly-table-wrap {
+      border: 0;
+      overflow-x: auto;
+    }
+    body.customer-management-page #viewList table {
+      min-width: 1180px;
+      table-layout: fixed;
+    }
+    body.customer-management-page #viewList table th,
+    body.customer-management-page #viewList table td {
+      padding: 13px 12px;
+      border-bottom: 1px solid #f0f2f6;
+      line-height: 1.45;
+      vertical-align: middle;
+      word-break: normal;
+    }
+    body.customer-management-page #viewList table th {
+      background: #fbfcfe;
+      color: #697386;
+      font-size: 12px;
+      font-weight: 600;
+      box-shadow: inset 0 -1px 0 #edf1f7;
+    }
+    body.customer-management-page #viewList table th:nth-child(1) { width: 118px; }
+    body.customer-management-page #viewList table th:nth-child(2) { width: 92px; }
+    body.customer-management-page #viewList table th:nth-child(3) { width: 96px; }
+    body.customer-management-page #viewList table th:nth-child(4) { width: 108px; }
+    body.customer-management-page #viewList table th:nth-child(5) { width: 82px; }
+    body.customer-management-page #viewList table th:nth-child(6) { width: 74px; }
+    body.customer-management-page #viewList table th:nth-child(7) { width: 116px; }
+    body.customer-management-page #viewList table th:nth-child(8) { width: 160px; }
+    body.customer-management-page #viewList table th:nth-child(9) { width: 72px; }
+    body.customer-management-page #viewList table th:nth-child(10) { width: 132px; }
+    body.customer-management-page #viewList table th:nth-child(11) { width: 160px; }
+    body.customer-management-page #viewList table th:nth-child(12) { width: 58px; }
+    body.customer-management-page #viewList table tbody tr:hover td {
+      background: #f8fbff;
+    }
+    body.customer-management-page #viewList .billing-mini .plan {
+      display: block;
+      font-weight: 600;
+      color: #1f2329;
+    }
+    body.customer-management-page #viewList .billing-mini .sub {
+      display: block;
+      margin-top: 3px;
+      color: #8f9aaa;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    /* 授权范围概览 · 一期 · ADR-006 */
+    .auth-overview-grid {
+      padding: 16px; display: grid; gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    }
+    .auth-overview-card {
+      border: 1px solid var(--ly-border); border-radius: 6px;
+      background: #fafbfc; overflow: hidden; transition: box-shadow .15s, border-color .15s;
+    }
+    .auth-overview-card:hover { border-color: var(--ly-primary); box-shadow: 0 2px 8px rgba(22,119,255,0.08); }
+    .auth-overview-card .ao-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px; background: #f0f7ff; border-bottom: 1px solid #d6e4ff;
+      font-size: 13px; font-weight: 500;
+    }
+    .auth-overview-card .ao-validity { font-weight: 400; font-size: 12px; color: var(--ly-muted); }
+    .auth-overview-card .ao-validity.ao-expired { color: #ff4d4f; }
+    .auth-overview-card .ao-validity strong { font-weight: 500; }
+    .auth-overview-card .ao-menus {
+      padding: 12px 14px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+    }
+    .ao-chip {
+      display: inline-block; padding: 2px 10px; font-size: 12px;
+      background: #fff; border: 1px solid var(--ly-border); border-radius: 12px; color: var(--ly-text);
+    }
+    .ao-chip-more {
+      font-size: 11px; color: var(--ly-primary); padding: 2px 0; margin-left: auto; cursor: default;
+    }
+    .ao-tag-manual {
+      display: inline-block; padding: 1px 8px; font-size: 11px;
+      background: #fff7e6; border: 1px solid #ffd591; border-radius: 4px; color: #d46b08;
+    }
+    .auth-overview-card .ao-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 14px; border-top: 1px dashed var(--ly-border);
+      font-size: 12px; color: var(--ly-muted); background: #fff;
+    }
+    .auth-overview-card--expired { border-color: #ffccc7; background: #fff2f0; }
+    .auth-overview-card--expired .ao-head { background: #fff2f0; border-bottom-color: #ffccc7; }
+
+    .billing-mini {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 150px;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .billing-mini .plan {
+      color: var(--ly-text);
+      font-weight: 500;
+    }
+    .billing-mini .sub {
+      color: var(--ly-muted);
+    }
+    .service-mini {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--ly-muted);
+      white-space: nowrap;
+    }
+    .service-mini.warn { color: #d97706; }
+    .service-mini::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .billing-overview-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      padding: 16px;
+    }
+    .billing-overview-card {
+      border: 1px solid var(--ly-border);
+      border-radius: 6px;
+      background: #fff;
+      padding: 14px;
+      min-height: 92px;
+    }
+    .billing-overview-card .label {
+      color: var(--ly-muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+    .billing-overview-card .value {
+      color: var(--ly-text);
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+    .billing-overview-card .meta {
+      margin-top: 6px;
+      color: var(--ly-muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .detail-subtabs {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 0 16px;
+      height: 46px;
+      border-top: 1px solid var(--ly-border);
+      border-bottom: 1px solid var(--ly-border);
+      background: #fff;
+    }
+    .detail-subtab {
+      position: relative;
+      border: 0;
+      background: transparent;
+      height: 46px;
+      padding: 0;
+      color: var(--ly-muted);
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .detail-subtab.active {
+      color: var(--ly-primary);
+      font-weight: 500;
+    }
+    .detail-subtab.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 2px;
+      background: var(--ly-primary);
+    }
+    .detail-panel { display: none; }
+    .detail-panel.active { display: block; }
+    .section-head-tools {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 400;
+    }
+    .order-detail-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--ly-border);
+      margin-bottom: 14px;
+    }
+    .order-detail-head h3 { margin: 0; }
+    .order-detail-close {
+      border: 0;
+      background: transparent;
+      color: var(--ly-muted);
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .order-detail-body {
+      flex: 1;
+      overflow: auto;
+      padding-right: 4px;
+    }
+    .order-detail-section {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--ly-border);
+    }
+    .order-detail-section h4 {
+      margin: 0 0 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ly-muted);
+    }
+    .order-info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 32px;
+      font-size: 13px;
+    }
+    .order-info-grid .item {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 8px;
+      min-height: 24px;
+      align-items: center;
+    }
+    .order-info-grid .label { color: var(--ly-muted); }
+    .order-info-grid .value { color: var(--ly-text); }
+    .order-detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .order-detail-table th,
+    .order-detail-table td {
+      border: 1px solid var(--ly-border);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: middle;
+    }
+    .order-detail-table th {
+      background: var(--ly-table-head);
+      font-weight: 500;
+    }
+    .order-detail-table .num { text-align: right; }
+    .attachment-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .attachment-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 6px 10px;
+      border: 1px solid var(--ly-border);
+      border-radius: 4px;
+      background: #fff;
+      color: var(--ly-text);
+      font-size: 13px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .attachment-chip:hover {
+      color: var(--ly-primary);
+      border-color: var(--ly-primary);
+      background: #f0f7ff;
+    }
+    .attachment-chip .file-icon {
+      width: 22px;
+      height: 26px;
+      border: 1px solid #91caff;
+      border-radius: 3px;
+      background: #e6f4ff;
+      position: relative;
+      flex: 0 0 auto;
+    }
+    .attachment-chip .file-icon::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: -1px;
+      border-left: 7px solid transparent;
+      border-bottom: 7px solid #91caff;
+    }
+    .attachment-empty {
+      color: var(--ly-muted);
+      font-size: 13px;
+      line-height: 34px;
+    }
+    .order-detail-foot {
+      padding-top: 14px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      border-top: 1px solid var(--ly-border);
+      margin-top: 12px;
+    }
+    @media (max-width: 1180px) {
+      .billing-overview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 760px) {
+      body { --ly-side-width: 0px; }
+      .ly-side { display: none; }
+      .ly-topbar { padding-right: 8px; }
+      .ly-tabs { max-width: calc(100vw - 112px); overflow-x: auto; }
+      .ly-tab { padding: 0 10px; white-space: nowrap; }
+      .ly-main { padding: 12px 10px; }
+      .billing-overview-grid { grid-template-columns: 1fr; }
+      .ly-detail-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .ly-detail-title .left,
+      .ly-detail-title .actions {
+        flex-wrap: wrap;
+      }
+      .ly-basic-grid {
+        grid-template-columns: 1fr;
+      }
+      .ly-basic-grid .ly-basic-cell {
+        border-right: none;
+      }
+      .auth-overview-grid {
+        grid-template-columns: 1fr;
+        padding: 12px;
+      }
+      .auth-overview-card .ao-head,
+      .auth-overview-card .ao-foot {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .ly-auth-layout {
+        overflow-x: auto;
+      }
+      .ly-auth-main {
+        min-width: 680px;
+      }
+      .order-info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="customer-management-page">
+<div class="ly-app">
+  <aside class="ly-side">
+    <div class="ly-side-logo"><span class="logo-mark">凌</span> 用户中心</div>
+    <nav class="ly-nav">
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▸</span> 组织架构</span>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▾</span> 租户管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-tenant-config-real.html">租户配置</a>
+        </div>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item active"><span class="ico">▾</span> 客户管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-customer-management-feishu.html" class="active">客户配置</a>
+        </div>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▾</span> 计费管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-product-config-feishu.html">商品配置</a>
+          <a href="crossborder-erp-billing-product-config-dictionary.html">字典维护</a>
+          <a href="crossborder-erp-billing-order-management-feishu.html">订单管理</a>
+        </div>
+      </div>
+      <div class="ly-nav-group"><span class="ly-nav-item"><span class="ico">▸</span> 授权设置</span></div>
+      <div class="ly-nav-group"><span class="ly-nav-item"><span class="ico">▸</span> 个人中心</span></div>
+    </nav>
+    <div class="ly-side-foot">收起导航</div>
+  </aside>
+
+  <div class="ly-wrap">
+    <header class="ly-topbar">
+      <div class="ly-tabs" id="pageTabs">
+        <a class="ly-tab active" href="#" id="tabList">客户配置 <span class="close">×</span></a>
+        <a class="ly-tab" href="#" id="tabDetail" style="display:none">客户配置详情 <span class="close" onclick="showView('list');return false">×</span></a>
+      </div>
+      <div class="ly-topbar-right">
+        <span>🔍</span><span>🔔</span>
+        <span class="user"><span class="avatar">胡</span> 胡仕玲</span>
+      </div>
+    </header>
+
+    <main class="ly-main">
+      <div id="viewList" class="view active">
+        <div class="ly-card">
+          <div class="ly-filter">
+            <div class="ly-field">
+              <label>客户状态</label>
+              <select id="fStatus"><option value="">全部</option><option>正常</option><option>试用</option><option>已到期</option></select>
+            </div>
+            <div class="ly-field">
+              <label>客户类型</label>
+              <select id="fPlan"><option value="">全部</option><option>海外仓客户</option><option>打单系统客户</option></select>
+            </div>
+            <div class="ly-field">
+              <label>更新时间</label>
+              <div class="range">
+                <input type="date" id="fStart" value="2026-04-26"><span>~</span><input type="date" id="fEnd" value="2026-05-25">
+              </div>
+            </div>
+            <div class="ly-field">
+              <select style="min-width:100px"><option>客户名称</option><option>客户编码</option></select>
+              <input type="text" placeholder="模糊搜索">
+            </div>
+            <div class="ly-filter-actions">
+              <button class="ly-btn ly-btn-primary" onclick="alert('原系统能力：批量更新权限')">批量更新权限</button>
+            </div>
+          </div>
+          <div class="ly-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>客户名称</th><th>客户编码</th><th>客户类型</th><th>管理员账号</th>
+                  <th>管理员姓名</th><th>联系人</th><th>电话</th><th>邮箱</th>
+                  <th>状态</th><th>临期授权</th><th>计费信息</th><th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>杭州星河跨境</td><td>LY-HZ001</td><td>海外仓客户</td><td>hzxh_admin</td>
+                  <td>张经理</td><td>张经理</td><td>18163382509</td><td>zhang@hzxh.com</td>
+                  <td><span class="ly-status">正常</span></td>
+                  <td>ERP 系统（有效期 224 天）</td>
+                  <td><div class="billing-mini"><span class="plan">ERP 旗舰版</span><span class="sub">2025-01-01 ~ 2026-12-31</span></div></td>
+                  <td><a class="ly-link" href="#" onclick="openDetail();return false">详情</a></td>
+                </tr>
+                <tr>
+                  <td>深圳速卖通科技</td><td>LY-SZ018</td><td>海外仓客户</td><td>szsmt01</td>
+                  <td>李娜</td><td>李娜</td><td>18600001234</td><td>lina@example.com</td>
+                  <td><span class="ly-status warn">试用</span></td>
+                  <td>ERP 系统（有效期 20 天）</td>
+                  <td><div class="billing-mini"><span class="plan">ERP 标准版试用</span><span class="sub">2026-05-01 ~ 2026-06-15</span></div></td>
+                  <td><a class="ly-link" href="#" onclick="openDetail();return false">详情</a></td>
+                </tr>
+                <tr>
+                  <td>宁波海外仓供应链</td><td>LY-NB006</td><td>海外仓客户</td><td>nbhwc01</td>
+                  <td>周启</td><td>周启</td><td>13800008888</td><td>zhou@example.com</td>
+                  <td><span class="ly-status">正常</span></td>
+                  <td>SCM 系统（有效期 6 天）</td>
+                  <td><div class="billing-mini"><span class="plan">SCM 企业版</span><span class="sub">2024-06-01 ~ 2026-06-01</span></div></td>
+                  <td><a class="ly-link" href="#" onclick="openDetail();return false">详情</a></td>
+                </tr>
+                <tr>
+                  <td>广州云仓科技</td><td>LY-GZ022</td><td>打单系统客户</td><td>gzyc01</td>
+                  <td>陈晨</td><td>陈晨</td><td>13900007777</td><td>-</td>
+                  <td><span class="ly-status danger">已到期</span></td>
+                  <td><span class="ly-text-danger">ERP 系统 已到期</span></td>
+                  <td><div class="billing-mini"><span class="plan">无有效套餐</span><span class="sub">最近到期 2025-04-30</span></div></td>
+                  <td><a class="ly-link" href="#" onclick="openDetail();return false">详情</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="ly-pagination">
+            <span>共 4 条</span>
+            <div class="pages"><span class="page active">1</span></div>
+            <select><option>20 条/页</option></select>
+          </div>
+        </div>
+      </div>
+
+      <div id="viewDetail" class="view">
+        <div class="ly-card ly-detail-page">
+          <div class="ly-detail-title">
+            <div class="left">
+              <a class="ly-link" href="#" onclick="showView('list');return false">← 返回列表</a>
+              <h2>杭州星河跨境</h2>
+              <span class="ly-status">正常</span>
+            </div>
+            <div class="actions">
+              <button class="ly-btn ly-btn-primary" type="button" onclick="showView('purchase')">录入购买</button>
+            </div>
+          </div>
+
+          <div class="ly-basic-card">
+            <div class="ly-basic-grid">
+              <div class="ly-basic-cell"><span class="label">客户编码</span><span class="value">LY-HZ001</span></div>
+              <div class="ly-basic-cell"><span class="label">管理员账号</span><span class="value">hzxh_admin</span></div>
+              <div class="ly-basic-cell"><span class="label">联系人</span><span class="value">张经理</span></div>
+              <div class="ly-basic-cell"><span class="label">电话</span><span class="value">18163382509</span></div>
+              <div class="ly-basic-cell"><span class="label">当前套餐</span><span class="value">ERP 旗舰版</span></div>
+              <div class="ly-basic-cell"><span class="label">状态</span><span class="value"><span class="ly-status">正常</span></span></div>
+              <div class="ly-basic-cell"><span class="label">生效时间</span><span class="value">2025-01-01</span></div>
+              <div class="ly-basic-cell"><span class="label">到期时间</span><span class="value">2026-12-31 <span style="color:var(--ly-muted);font-size:12px">（剩余 224 天）</span></span></div>
+              <div class="ly-basic-cell"><span class="label">负责人</span><span class="value">林珊</span></div>
+            </div>
+          </div>
+
+          <div class="detail-subtabs" role="tablist" aria-label="客户详情内容">
+            <button class="detail-subtab active" type="button" id="subtabAuth" onclick="switchDetailTab('auth')">授权明细</button>
+            <button class="detail-subtab" type="button" id="subtabBilling" onclick="switchDetailTab('billing')">计费信息</button>
+          </div>
+
+          <div class="detail-panel active" id="detailPanelAuth">
+            <section class="ly-section" id="sectionAuth">
+              <div class="ly-section-head"><span class="title">授权详情</span></div>
+              <div class="ly-auth-layout">
+                <nav class="ly-auth-side">
+                  <a href="#" class="active">OMS 系统</a>
+                  <a href="#">WMS 系统</a>
+                </nav>
+                <div class="ly-auth-main">
+                  <div class="ly-auth-valid">有效期至：2028-08-05 23:59:59</div>
+                  <table>
+                    <thead><tr><th>一级菜单</th><th>二级菜单</th><th>操作项</th></tr></thead>
+                    <tbody>
+                      <tr><td rowspan="2">商品管理</td><td>商品列表</td><td>查看、新增/编辑、提交、删除、导出</td></tr>
+                      <tr><td>商品分类</td><td>查看、新增/编辑、删除</td></tr>
+                      <tr><td>入库管理</td><td>入库单</td><td>查看、新增/编辑、提交、删除、导出</td></tr>
+                      <tr><td>出库管理</td><td>出库单</td><td>查看、新增/编辑、提交、删除、导出</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="detail-panel" id="detailPanelBilling">
+          <section class="ly-section">
+            <div class="ly-section-head">
+              <span class="title">当前额度使用</span>
+            </div>
+            <div class="ly-section-body">
+              <div class="ly-table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>资源名称</th><th>总量</th><th>已用</th><th>剩余</th><th>使用率</th><th>操作</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>年订单量</td><td>300万</td><td>246万</td><td>54万</td>
+                      <td><div class="ly-progress-cell"><div class="ly-progress warn"><i style="width:82%"></i></div><span class="pct">82%</span></div></td>
+                      <td><a class="ly-link" href="crossborder-erp-billing-consumption-detail-feishu.html">明细</a></td>
+                    </tr>
+                    <tr>
+                      <td>MSKU 额度</td><td>10万</td><td>6.8万</td><td>3.2万</td>
+                      <td><div class="ly-progress-cell"><div class="ly-progress"><i style="width:68%"></i></div><span class="pct">68%</span></div></td>
+                      <td><a class="ly-link" href="#">明细</a></td>
+                    </tr>
+                    <tr>
+                      <td>店铺 / 站点</td><td>500</td><td>426</td><td>74</td>
+                      <td><div class="ly-progress-cell"><div class="ly-progress warn"><i style="width:85%"></i></div><span class="pct">85%</span></div></td>
+                      <td><a class="ly-link" href="#">明细</a></td>
+                    </tr>
+                    <tr>
+                      <td>子账号</td><td>300</td><td>218</td><td>82</td>
+                      <td><div class="ly-progress-cell"><div class="ly-progress"><i style="width:73%"></i></div><span class="pct">73%</span></div></td>
+                      <td>—</td>
+                    </tr>
+                    <tr>
+                      <td>物流轨迹（按量）</td><td>按量计量</td><td>12,480</td><td>—</td>
+                      <td><span class="pct">—</span></td>
+                      <td><a class="ly-link" href="#">明细</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="ly-section">
+            <div class="ly-section-head"><span class="title">购买记录</span></div>
+            <div class="ly-section-body">
+              <div class="ly-table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>订单编号</th><th>购买类型</th><th>商品</th><th>成交金额</th>
+                      <th>生效时间</th><th>到期时间</th><th>订单状态</th><th>水单</th>
+                      <th>录入人</th><th>录入时间</th><th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>PO-20250101001</td><td>新购主套餐</td><td>ERP 旗舰版</td><td>¥69,800</td>
+                      <td>2025-01-01</td><td>2026-12-31</td>
+                      <td><span class="ly-status">已开通</span></td>
+                      <td><a class="ly-link" href="#" onclick="openReceipt('PO-20250101001');return false">已上传</a></td>
+                      <td>林珊</td><td>2025-01-02 10:20</td>
+                      <td><a class="ly-link" href="#" onclick="openOrderDetail('PO-20250101001');return false">查看</a></td>
+                    </tr>
+                    <tr>
+                      <td>PO-20260315002</td><td>加购增值服务</td><td>订单扩容包 ×2</td><td>¥2,000</td>
+                      <td>2026-03-15</td><td>2026-12-31</td>
+                      <td><span class="ly-status">已开通</span></td>
+                      <td><a class="ly-link" href="#" onclick="openReceipt('PO-20260315002');return false">已上传</a></td>
+                      <td>林珊</td><td>2026-03-15 16:40</td>
+                      <td><a class="ly-link" href="#" onclick="openOrderDetail('PO-20260315002');return false">查看</a></td>
+                    </tr>
+                    <tr>
+                      <td>PO-20260420003</td><td>加购增值服务</td><td>金蝶云星空对接</td><td>¥20,000</td>
+                      <td>2026-04-20</td><td>—</td>
+                      <td><span class="ly-status">已开通</span></td>
+                      <td><a class="ly-link" href="#" onclick="openReceipt('PO-20260420003');return false">已上传</a></td>
+                      <td>林珊</td><td>2026-04-20 11:00</td>
+                      <td><a class="ly-link" href="#" onclick="openOrderDetail('PO-20260420003');return false">查看</a></td>
+                    </tr>
+                    <tr>
+                      <td>PO-20260518004</td><td>续费主套餐</td><td>ERP 旗舰版</td><td>¥69,800</td>
+                      <td>2026-12-31</td><td>2027-12-31</td>
+                      <td><span class="ly-status">已开通</span></td>
+                      <td><a class="ly-link" href="#" onclick="openReceipt('PO-20260518004');return false">已上传</a></td>
+                      <td>王磊</td><td>2026-05-18 09:30</td>
+                      <td><a class="ly-link" href="#" onclick="openOrderDetail('PO-20260518004');return false">查看</a></td>
+                    </tr>
+                    <tr>
+                      <td>PO-20251001001</td><td>加购增值服务</td><td>MSKU 扩容包</td><td>¥2,000</td>
+                      <td>2025-10-01</td><td>2026-09-30</td>
+                      <td><span class="ly-status muted">已作废</span></td><td>—</td>
+                      <td>林珊</td><td>2025-10-01 14:00</td>
+                      <td><a class="ly-link" href="#" onclick="openOrderDetail('PO-20251001001');return false">查看</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div style="padding:8px 16px;font-size:12px;color:var(--ly-muted);background:#fafafa;border-top:1px solid var(--ly-border)">
+                状态说明：草稿 · 已开通 · 已到期 · 已作废；本期水单必填，不支持先开通后补水单
+              </div>
+            </div>
+          </section>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- 录入购买（组合 + 试用） -->
+      <div id="viewPurchase" class="view">
+        <div class="ly-card">
+          <div class="ly-detail-head">
+            <a class="ly-link" href="#" onclick="cancelPurchase();return false">← 返回</a>
+          </div>
+
+          <div class="ly-form-grid">
+            <div><label>客户</label><input id="buyerCustomer" value="杭州星河跨境" disabled></div>
+            <div>
+              <label>购买类型</label>
+              <select id="purchaseType" onchange="onTypeChange()">
+                <option value="new">新购主套餐</option>
+                <option value="renew">续费主套餐</option>
+                <option value="upgrade">升级主套餐</option>
+                <option value="addon">加购增值服务</option>
+                <option value="trial">试用</option>
+              </select>
+            </div>
+            <div><label>生效时间</label><input type="date" value="2025-01-01"></div>
+            <div><label>到期时间</label><input type="date" value="2026-12-31"></div>
+          </div>
+
+          <div class="trial-banner" id="trialBanner" style="display:none">
+            <strong>试用模式：</strong>不需上传水单，提交后立即按试用配置开通；试用结束后将按商品「试用结束后行为」处理。
+          </div>
+
+          <!-- 组合购买商品行 -->
+          <div style="padding: 8px 16px 0;font-weight:500">商品明细</div>
+          <div style="padding: 8px 16px 0">
+            <table class="cart-table" id="cartTable">
+              <thead>
+                <tr>
+                  <th style="width:36%">商品</th>
+                  <th style="width:120px">数量</th>
+                  <th style="width:140px">单价</th>
+                  <th>小计</th>
+                  <th style="width:60px;text-align:center">操作</th>
+                </tr>
+              </thead>
+              <tbody id="cartBody">
+                <!-- JS 填充 -->
+              </tbody>
+            </table>
+            <div style="margin-top:8px"><button type="button" class="ly-btn" onclick="addCartRow()">+ 添加商品行</button></div>
+          </div>
+
+          <div class="auto-quota" id="autoQuota">
+            <strong>权益模板自动带入（组合汇总）</strong> · 来源：商品配置已发布版本；保存后将累加到客户当前额度
+            <table class="auto-quota-table" id="autoQuotaTable">
+              <thead>
+                <tr><th>权益项</th><th>本次合计增量</th><th>单位</th><th>说明</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="cart-total">
+            <div>合计金额：<span class="amt" id="cartTotal">¥0</span></div>
+          </div>
+
+          <div style="padding: 0 16px 16px">
+            <div class="ly-form-grid" style="padding:0">
+              <div class="full" id="receiptField"><label>银行水单（必填）</label><input type="file" id="receiptUpload" required></div>
+              <div class="full" id="contractField"><label>合同（必填）</label><input type="file" id="contractUpload" required></div>
+              <div class="full"><label>备注</label><input placeholder="选填"></div>
+            </div>
+          </div>
+
+          <div class="ly-form-foot">
+            <button class="ly-btn" onclick="cancelPurchase()">取消</button>
+            <button class="ly-btn ly-btn-primary" onclick="submitPurchase()">保存并开通</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- 购买记录详情抽屉 -->
+<div class="ly-drawer-mask" id="orderDetailMask" onclick="if(event.target===this)closeOrderDetail()">
+  <aside class="ly-drawer" onclick="event.stopPropagation()" style="width:760px">
+    <div class="order-detail-head">
+      <h3><span id="orderDetailNo">PO-20260518004</span> <span id="orderDetailStatus" class="ly-status">已开通</span></h3>
+      <button type="button" class="order-detail-close" onclick="closeOrderDetail()">×</button>
+    </div>
+    <div class="order-detail-body" id="orderDetailBody"></div>
+    <div class="order-detail-foot" id="orderDetailFoot"></div>
+  </aside>
+</div>
+
+<!-- 附件预览抽屉 -->
+<div class="ly-drawer-mask" id="receiptMask" onclick="if(event.target===this)closeReceipt()">
+  <aside class="ly-drawer" onclick="event.stopPropagation()" style="width:720px">
+    <h3 id="receiptTitle">附件预览</h3>
+    <div class="receipt-box">
+      <div class="receipt-img" id="receiptPreview" style="max-width:560px;height:360px">[ 银行水单大图预览 ]</div>
+      <p id="receiptMeta" style="font-size:13px;color:var(--ly-muted);line-height:1.6">
+        付款方：杭州星河跨境贸易有限公司<br>
+        金额：¥69,800.00<br>
+        付款日期：2025-01-02<br>
+        银行流水号：BANK202501020123456
+      </p>
+      <div style="margin-top:16px">
+        <button type="button" class="ly-btn">下载</button>
+        <button type="button" class="ly-btn" onclick="closeReceipt()">关闭</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- 服务里程碑抽屉 -->
+<div class="ly-drawer-mask" id="msMask" onclick="if(event.target===this)closeMilestone()">
+  <aside class="ly-drawer" onclick="event.stopPropagation()" style="width:480px">
+    <h3 id="msTitle">服务进度 · 金蝶云星空对接</h3>
+    <div style="padding:0 16px;font-size:13px;color:var(--ly-muted)">
+      订单 PO-20260420003 · 负责人 周启 · 计划完成 2026-06-30
+    </div>
+    <ul class="milestone-list">
+      <li class="done"><div class="step-title">需求确认</div><div class="step-meta">2026-04-22 完成 · 周启</div></li>
+      <li class="done"><div class="step-title">环境对接</div><div class="step-meta">2026-05-08 完成 · 周启 / 客户运维</div></li>
+      <li class="cur"><div class="step-title">数据映射与联调</div><div class="step-meta">进行中 · 预计 2026-05-30</div></li>
+      <li><div class="step-title">UAT 验收</div><div class="step-meta">未开始 · 计划 2026-06-15</div></li>
+      <li><div class="step-title">正式切换</div><div class="step-meta">未开始 · 计划 2026-06-30</div></li>
+    </ul>
+    <div style="padding:12px 16px;text-align:right">
+      <button type="button" class="ly-btn" onclick="closeMilestone()">关闭</button>
+    </div>
+  </aside>
+</div>
+
+<!-- 来源订单抽屉（A5-1 / C-1） -->
+<div class="ly-drawer-mask" id="sourceMask" onclick="if(event.target===this)closeSource()">
+  <aside class="ly-drawer" onclick="event.stopPropagation()" style="width:520px">
+    <h3 id="sourceTitle">权益来源订单</h3>
+    <div class="source-box" id="sourceBody"></div>
+    <div style="padding:12px 16px;text-align:right;border-top:1px solid var(--ly-border)">
+      <button type="button" class="ly-btn" onclick="closeSource()">关闭</button>
+    </div>
+  </aside>
+</div>
+
+<!-- 权益详情抽屉（D2-5：与租户「我的订阅」同款） -->
+<div class="ly-drawer-mask" id="benefitDetailMask" onclick="if(event.target===this)closeBenefitDetail()">
+  <aside class="ly-drawer" onclick="event.stopPropagation()" style="width:540px">
+    <h3>ERP 旗舰版 · 权益详情 <span style="font-size:12px;color:var(--ly-muted);font-weight:400">（与租户「我的订阅 → 查看权益详情」同源）</span></h3>
+    <div style="padding:12px 16px">
+      <p style="color:var(--ly-muted);font-size:12px;margin-bottom:12px">
+        总量 = 主套餐 + 已购扩容；已用 / 剩余实时同步。运营查看时与租户看到完全一致。
+      </p>
+      <h4 style="margin:8px 0;font-size:14px">主套餐权益</h4>
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead>
+          <tr style="background:var(--ly-table-head)">
+            <th style="border:1px solid var(--ly-border);padding:8px 10px;text-align:left;width:130px">权益项</th>
+            <th style="border:1px solid var(--ly-border);padding:8px 10px;text-align:left;width:90px">已用</th>
+            <th style="border:1px solid var(--ly-border);padding:8px 10px;text-align:left;width:90px">总量</th>
+            <th style="border:1px solid var(--ly-border);padding:8px 10px;text-align:left">使用率</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="border:1px solid var(--ly-border);padding:8px 10px">年订单量</td><td style="border:1px solid var(--ly-border);padding:8px 10px">246 万</td><td style="border:1px solid var(--ly-border);padding:8px 10px">300 万</td><td style="border:1px solid var(--ly-border);padding:8px 10px">82% <span style="color:#d97706">即将用尽</span></td></tr>
+          <tr><td style="border:1px solid var(--ly-border);padding:8px 10px">MSKU 额度</td><td style="border:1px solid var(--ly-border);padding:8px 10px">68,000</td><td style="border:1px solid var(--ly-border);padding:8px 10px">100,000</td><td style="border:1px solid var(--ly-border);padding:8px 10px">68%</td></tr>
+          <tr><td style="border:1px solid var(--ly-border);padding:8px 10px">店铺 / 站点</td><td style="border:1px solid var(--ly-border);padding:8px 10px">426</td><td style="border:1px solid var(--ly-border);padding:8px 10px">500</td><td style="border:1px solid var(--ly-border);padding:8px 10px">85% <span style="color:#d97706">即将用尽</span></td></tr>
+          <tr><td style="border:1px solid var(--ly-border);padding:8px 10px">子账号</td><td style="border:1px solid var(--ly-border);padding:8px 10px">218</td><td style="border:1px solid var(--ly-border);padding:8px 10px">300</td><td style="border:1px solid var(--ly-border);padding:8px 10px">73%</td></tr>
+          <tr><td style="border:1px solid var(--ly-border);padding:8px 10px">平台授权</td><td style="border:1px solid var(--ly-border);padding:8px 10px">7</td><td style="border:1px solid var(--ly-border);padding:8px 10px">不限</td><td style="border:1px solid var(--ly-border);padding:8px 10px">—</td></tr>
+        </tbody>
+      </table>
+      <h4 style="margin:14px 0 8px;font-size:14px">增值服务</h4>
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead>
+          <tr style="background:var(--ly-table-head)">
+            <th style="border:1px solid var(--ly-border);padding:8px 10px;text-align:left">服务项</th>
+            <th style="border:1px solid var(--ly-border);padding:8px 10px;text-align:left">已开通</th>
+            <th style="border:1px solid var(--ly-border);padding:8px 10px;text-align:left">状态</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="border:1px solid var(--ly-border);padding:8px 10px">金蝶云星空对接</td><td style="border:1px solid var(--ly-border);padding:8px 10px">1 / 1</td><td style="border:1px solid var(--ly-border);padding:8px 10px"><span class="ly-status warn">服务中 60%</span> · <a class="ly-link" href="#" onclick="closeBenefitDetail();openMilestone();return false">查看里程碑</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="padding:12px 16px;text-align:right;border-top:1px solid var(--ly-border)">
+      <button type="button" class="ly-btn" onclick="closeBenefitDetail()">关闭</button>
+    </div>
+  </aside>
+</div>
+
+<script>
+/* ===== 列表筛选与快捷筛选联动 (A4-1) ===== */
+function applyQuick(key) {
+  document.querySelectorAll('.quick-filter').forEach(function(el) {
+    el.classList.toggle('active', el.dataset.qf === key);
+  });
+  var status = document.getElementById('fStatus');
+  var plan = document.getElementById('fPlan');
+  var fStart = document.getElementById('fStart');
+  var fEnd = document.getElementById('fEnd');
+  var applied = document.getElementById('qfApplied');
+
+  status.value = ''; plan.value = ''; fStart.value = ''; fEnd.value = '';
+  applied.style.display = 'none';
+  applied.innerHTML = '';
+
+  var label = '';
+  if (key === 'risk') {
+    label = '用量风险 ≥80%';
+  } else if (key === 'expire30') {
+    var today = new Date();
+    var in30 = new Date(today.getTime() + 30 * 86400 * 1000);
+    fStart.value = today.toISOString().slice(0, 10);
+    fEnd.value = in30.toISOString().slice(0, 10);
+    label = '到期时间 = 今天 ~ 未来 30 天';
+  } else if (key === 'expired') {
+    status.value = '已到期';
+    label = '客户状态 = 已到期';
+  } else if (key === 'trial') {
+    status.value = '试用';
+    label = '客户状态 = 试用';
+  }
+  if (label) {
+    applied.innerHTML = '<span class="quick-filter-applied">已应用：' + label +
+      ' <span class="clear" onclick="applyQuick(\'all\')" title="清除">×</span></span>';
+    applied.style.display = '';
+  }
+}
+function resetFilter() {
+  ['fStatus','fPlan','fStart','fEnd'].forEach(function(id){ var el=document.getElementById(id); if (el) el.value=''; });
+  applyQuick('all');
+}
+
+/* ===== view 切换 ===== */
+function showView(v) {
+  ['list', 'detail', 'purchase'].forEach(function(id) {
+    document.getElementById('view' + id.charAt(0).toUpperCase() + id.slice(1)).classList.remove('active');
+  });
+  document.getElementById('view' + v.charAt(0).toUpperCase() + v.slice(1)).classList.add('active');
+  var tabList = document.getElementById('tabList');
+  var tabDetail = document.getElementById('tabDetail');
+  if (v === 'detail' || v === 'purchase') {
+    tabList.classList.remove('active');
+    tabDetail.style.display = '';
+    tabDetail.classList.add('active');
+  } else {
+    tabDetail.style.display = 'none';
+    tabDetail.classList.remove('active');
+    tabList.classList.add('active');
+  }
+}
+function cancelPurchase() {
+  if (window.purchaseFromOrder) {
+    window.location.href = 'crossborder-erp-billing-order-management-feishu.html';
+    return;
+  }
+  showView('detail');
+}
+function switchDetailTab(type) {
+  var isAuth = type === 'auth';
+  document.getElementById('subtabAuth').classList.toggle('active', isAuth);
+  document.getElementById('subtabBilling').classList.toggle('active', !isAuth);
+  document.getElementById('detailPanelAuth').classList.toggle('active', isAuth);
+  document.getElementById('detailPanelBilling').classList.toggle('active', !isAuth);
+}
+function openDetail() {
+  showView('detail');
+  switchDetailTab('auth');
+}
+
+function openAttachmentPreview(type, no, fileName) {
+  var isReceipt = type === 'receipt';
+  document.getElementById('receiptTitle').textContent = (isReceipt ? '银行水单' : '合同/补充材料') + ' · ' + no;
+  document.getElementById('receiptPreview').textContent = isReceipt ? '[ 银行水单大图预览 ]' : '[ 文件预览：' + fileName + ' ]';
+  document.getElementById('receiptMeta').innerHTML = isReceipt
+    ? '文件名：' + fileName + '<br>付款方：杭州星河跨境贸易有限公司<br>金额：¥69,800.00<br>付款日期：2026-05-18'
+    : '文件名：' + fileName + '<br>文件类型：PDF<br>关联订单：' + no;
+  document.getElementById('receiptMask').classList.add('open');
+}
+function openReceipt(no) {
+  var d = ORDER_DETAIL_DB[no];
+  openAttachmentPreview('receipt', no, d && d.receiptFile ? d.receiptFile : '银行水单-' + no + '.png');
+}
+function closeReceipt() { document.getElementById('receiptMask').classList.remove('open'); }
+function openMilestone() { document.getElementById('msMask').classList.add('open'); }
+function closeMilestone() { document.getElementById('msMask').classList.remove('open'); }
+
+/* ===== 购买记录详情 ===== */
+var ORDER_DETAIL_DB = {
+  'PO-20250101001': {
+    no: 'PO-20250101001',
+    status: '已开通',
+    statusClass: '',
+    customer: '杭州星河跨境',
+    type: '新购主套餐',
+    creator: '林珊 · 2025-01-02 10:20',
+    start: '2025-01-01',
+    end: '2026-12-31',
+    amount: '¥69,800',
+    receipt: '已上传',
+    receiptFile: '银行水单-PO-20250101001.png',
+    contractFile: 'ERP旗舰版合同-PO-20250101001.pdf',
+    items: [['ERP 旗舰版', '1', '¥69,800', '¥69,800']]
+  },
+  'PO-20260315002': {
+    no: 'PO-20260315002',
+    status: '已开通',
+    statusClass: '',
+    customer: '杭州星河跨境',
+    type: '加购增值服务',
+    creator: '林珊 · 2026-03-15 16:40',
+    start: '2026-03-15',
+    end: '2026-12-31',
+    amount: '¥2,000',
+    receipt: '已上传',
+    receiptFile: '银行水单-PO-20260315002.png',
+    contractFile: '订单扩容确认单-PO-20260315002.pdf',
+    items: [['订单扩容包 (×5万)', '2', '¥1,000', '¥2,000']]
+  },
+  'PO-20260420003': {
+    no: 'PO-20260420003',
+    status: '已开通',
+    statusClass: '',
+    customer: '杭州星河跨境',
+    type: '加购增值服务',
+    creator: '林珊 · 2026-04-20 11:00',
+    start: '2026-04-20',
+    end: '服务交付完成',
+    amount: '¥20,000',
+    receipt: '已上传',
+    receiptFile: '银行水单-PO-20260420003.png',
+    contractFile: '金蝶云星空对接合同-PO-20260420003.pdf',
+    items: [['金蝶云星空对接', '1', '¥20,000', '¥20,000']],
+    milestone: true
+  },
+  'PO-20260518004': {
+    no: 'PO-20260518004',
+    status: '已开通',
+    statusClass: '',
+    customer: '杭州星河跨境',
+    type: '续费主套餐',
+    creator: '王磊 · 2026-05-18 09:30',
+    start: '2026-12-31',
+    end: '2027-12-31',
+    amount: '¥69,800',
+    receipt: '已上传',
+    receiptFile: '银行水单-PO-20260518004.png',
+    contractFile: 'ERP旗舰版续费确认单-PO-20260518004.pdf',
+    items: [['ERP 旗舰版（续费）', '1', '¥69,800', '¥69,800']]
+  },
+  'PO-20251001001': {
+    no: 'PO-20251001001',
+    status: '已作废',
+    statusClass: ' muted',
+    customer: '杭州星河跨境',
+    type: '加购增值服务',
+    creator: '林珊 · 2025-10-01 14:00',
+    start: '2025-10-01',
+    end: '2026-09-30',
+    amount: '¥2,000',
+    receipt: '—',
+    receiptFile: '',
+    contractFile: 'MSKU扩容退款确认单-PO-20251001001.pdf',
+    items: [['MSKU 扩容包', '1', '¥2,000', '¥2,000']]
+  }
+};
+
+function orderRows(rows, cls) {
+  return rows.map(function(r) {
+    return '<tr>' + r.map(function(c, idx) {
+      var tdCls = cls && cls[idx] ? ' class="' + cls[idx] + '"' : '';
+      return '<td' + tdCls + '>' + c + '</td>';
+    }).join('') + '</tr>';
+  }).join('');
+}
+function attachmentChip(fileName, label, type, no) {
+  if (!fileName) return '<span class="attachment-empty">未上传</span>';
+  return "<a class=\"attachment-chip\" href=\"#\" onclick=\"openAttachmentPreview('" + type + "','" + no + "','" + fileName + "');return false\">" +
+    '<span class="file-icon"></span><span>' + label + '：' + fileName + '</span></a>';
+}
+function openOrderDetail(no) {
+  var d = ORDER_DETAIL_DB[no] || ORDER_DETAIL_DB['PO-20260518004'];
+  document.getElementById('orderDetailNo').textContent = d.no;
+  document.getElementById('orderDetailStatus').className = 'ly-status' + d.statusClass;
+  document.getElementById('orderDetailStatus').textContent = d.status;
+
+  var html = '';
+  html += '<section class="order-detail-section"><h4>基础信息</h4><div class="order-info-grid">' +
+    '<div class="item"><span class="label">客户</span><span class="value">' + d.customer + '</span></div>' +
+    '<div class="item"><span class="label">订单类型</span><span class="value">' + d.type + '</span></div>' +
+    '<div class="item"><span class="label">创建人</span><span class="value">' + d.creator + '</span></div>' +
+    '<div class="item"><span class="label">生效时间</span><span class="value">' + d.start + '</span></div>' +
+    '<div class="item"><span class="label">到期时间</span><span class="value">' + d.end + '</span></div>' +
+    '</div></section>';
+  html += '<section class="order-detail-section"><h4>订单项</h4><table class="order-detail-table"><thead><tr><th>商品</th><th class="num">数量</th><th class="num">单价</th><th class="num">小计</th></tr></thead><tbody>' +
+    orderRows(d.items, ['', 'num', 'num', 'num']) +
+    '<tr><td colspan="3" class="num"><strong>合计（含税）</strong></td><td class="num"><strong>' + d.amount + '</strong></td></tr></tbody></table></section>';
+  html += '<section class="order-detail-section"><h4>附件</h4><div class="attachment-list">' +
+    attachmentChip(d.receiptFile, '银行水单', 'receipt', d.no) +
+    attachmentChip(d.contractFile, '合同/补充材料', 'contract', d.no) +
+    '</div></section>';
+  document.getElementById('orderDetailBody').innerHTML = html;
+
+  var foot = '';
+  if (d.milestone) foot += '<button type="button" class="ly-btn" onclick="openMilestone()">查看里程碑</button>';
+  if (d.status !== '已作废') foot += '<button type="button" class="ly-btn" style="color:#ff4d4f;border-color:#ffccc7">作废</button>';
+  document.getElementById('orderDetailFoot').innerHTML = foot;
+  document.getElementById('orderDetailFoot').style.display = foot ? 'flex' : 'none';
+  document.getElementById('orderDetailMask').classList.add('open');
+}
+function closeOrderDetail() { document.getElementById('orderDetailMask').classList.remove('open'); }
+
+/* ===== 来源订单抽屉 (A5-1) ===== */
+var SOURCE_DB = {
+  QUOTA_ORDER_QTY: {
+    name: '年订单量',
+    unit: '单/年',
+    totalText: '310 万 / 年',
+    totalNum: 3100000,
+    rows: [
+      { no: 'PO-20250101001', product: 'ERP 旗舰版（主套餐）', delta: '+ 300 万', startEnd: '2025-01-01 ~ 2026-12-31' },
+      { no: 'PO-20260315002', product: '订单扩容包 ×2', delta: '+ 10 万', startEnd: '2026-03-15 ~ 2026-12-31' }
+    ]
+  },
+  QUOTA_MSKU: { name: 'MSKU 额度', unit: '个', totalText: '10 万', totalNum: 100000,
+    rows: [{ no: 'PO-20250101001', product: 'ERP 旗舰版（主套餐）', delta: '+ 10 万', startEnd: '2025-01-01 ~ 2026-12-31' }] },
+  QUOTA_SHOP: { name: '店铺 / 站点', unit: '个', totalText: '500', totalNum: 500,
+    rows: [{ no: 'PO-20250101001', product: 'ERP 旗舰版（主套餐）', delta: '+ 500', startEnd: '2025-01-01 ~ 2026-12-31' }] },
+  QUOTA_SUB_USER: { name: '子账号', unit: '个', totalText: '300', totalNum: 300,
+    rows: [{ no: 'PO-20250101001', product: 'ERP 旗舰版（主套餐）', delta: '+ 300', startEnd: '2025-01-01 ~ 2026-12-31' }] },
+  QUOTA_PLATFORM: { name: '平台授权', unit: '个', totalText: '不限', totalNum: '不限',
+    rows: [{ no: 'PO-20250101001', product: 'ERP 旗舰版（主套餐）', delta: '不限', startEnd: '2025-01-01 ~ 2026-12-31' }] },
+  QUOTA_TRACK: { name: '物流轨迹', unit: '次', totalText: '按量计费 · 无总量', totalNum: '按量',
+    rows: [{ no: 'METERED', product: '物流轨迹查询（按量计费）', delta: '本月已用 12,480', startEnd: '本月计量' }] }
+};
+function openSource(code) {
+  var d = SOURCE_DB[code]; if (!d) return;
+  document.getElementById('sourceTitle').textContent = '权益来源 · ' + d.name;
+  var html = '<div class="total"><div class="sub">当前总量 / 计量方式</div>' +
+             '<div class="num">' + d.totalText + '</div>' +
+             '<div class="sub" style="margin-top:6px">由以下订单（含扩容/续费）累加得出，权益按订单生效期独立计算</div></div>';
+  html += '<h4>来源订单明细</h4>';
+  html += '<table><thead><tr><th>订单编号</th><th>商品</th><th>权益增量</th><th>有效期</th></tr></thead><tbody>';
+  d.rows.forEach(function(r){
+    html += '<tr><td><code style="font-size:11px">' + r.no + '</code></td><td>' + r.product + '</td><td>' + r.delta + '</td><td>' + r.startEnd + '</td></tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById('sourceBody').innerHTML = html;
+  document.getElementById('sourceMask').classList.add('open');
+}
+function closeSource() { document.getElementById('sourceMask').classList.remove('open'); }
+function openBenefitDetail() { document.getElementById('benefitDetailMask').classList.add('open'); }
+function closeBenefitDetail() { document.getElementById('benefitDetailMask').classList.remove('open'); }
+
+/* ===== 录入购买 · 组合 (A5-3) + 试用 (A5-4) ===== */
+var PROD_LIB = {
+  ERP_STD: { name: 'ERP 标准版', type: 'main', price: 9800, unit: '/年', rows: [['年订单量','+200,000','单/年','主套餐'],['MSKU 额度','+5,000','个','主套餐'],['店铺 / 站点','+20','个','主套餐']] },
+  ERP_PRO: { name: 'ERP 专业版', type: 'main', price: 29800, unit: '/年', rows: [['年订单量','+1,000,000','单/年','主套餐'],['MSKU 额度','+30,000','个','主套餐'],['店铺 / 站点','+100','个','主套餐']] },
+  ERP_FLAGSHIP: { name: 'ERP 旗舰版', type: 'main', price: 69800, unit: '/年', rows: [['年订单量','+3,000,000','单/年','主套餐'],['MSKU 额度','+100,000','个','主套餐'],['店铺 / 站点','+500','个','主套餐'],['平台授权','不限','个','主套餐'],['子账号','+300','个','主套餐'],['金蝶云星空对接','+1','次','增值']] },
+  SCM_ENT: { name: 'SCM 企业版', type: 'main', price: 100000, unit: '/年', rows: [['物流轨迹（基础）','+100,000','次/年','按量配额']] },
+  ORDER_PACK_5W: { name: '订单扩容包 (×5万)', type: 'addon', price: 1000, unit: '/年', rows: [['年订单量','+50,000','单/年','增值服务']] },
+  MSKU_PACK_5K: { name: 'MSKU 扩容包 (×5千)', type: 'addon', price: 2000, unit: '/年', rows: [['MSKU 额度','+5,000','个','增值服务']] },
+  KDCS: { name: '金蝶云星空对接', type: 'addon', price: 20000, unit: '/次', rows: [['金蝶云星空对接','+1','次','增值服务']] },
+  LOGISTICS_TRACK: { name: '物流轨迹查询', type: 'addon', price: 0.1, unit: '/单', rows: [['物流轨迹','按量计费','单','增值服务']] },
+  COMPETITOR_MONITOR: { name: '竞品链接监控', type: 'addon', price: 500, unit: '/个/年', rows: [['竞品链接监控','+1','个/年','增值服务']] }
+};
+
+var cart = [{ key: 'ERP_FLAGSHIP', qty: 1 }];
+
+function productTypeLabel(type) {
+  return type === 'main' ? '主套餐' : '增值服务';
+}
+function isMainProduct(key) {
+  return PROD_LIB[key] && PROD_LIB[key].type === 'main';
+}
+function getAllowedProductKeys() {
+  var t = document.getElementById('purchaseType').value;
+  if (t === 'addon') return Object.keys(PROD_LIB).filter(function(k){ return PROD_LIB[k].type === 'addon'; });
+  if (t === 'trial') return Object.keys(PROD_LIB).filter(function(k){ return PROD_LIB[k].type === 'main'; });
+  return Object.keys(PROD_LIB);
+}
+
+function renderCart() {
+  var body = document.getElementById('cartBody');
+  body.innerHTML = '';
+  var total = 0;
+  cart.forEach(function (item, idx) {
+    var p = PROD_LIB[item.key];
+    var allowedKeys = getAllowedProductKeys();
+    if (allowedKeys.indexOf(item.key) === -1) {
+      item.key = allowedKeys[0];
+      p = PROD_LIB[item.key];
+    }
+    var subtotal = p.price * item.qty;
+    total += subtotal;
+    var tr = document.createElement('tr');
+    var options = allowedKeys.map(function (k) {
+      var sel = (k === item.key) ? 'selected' : '';
+      return '<option value="' + k + '" ' + sel + '>' + PROD_LIB[k].name + ' · ' + productTypeLabel(PROD_LIB[k].type) + '</option>';
+    }).join('');
+    tr.innerHTML =
+      '<td><select onchange="updateCart(' + idx + ',\'key\',this.value)">' + options + '</select></td>' +
+      '<td><input type="number" min="1" value="' + item.qty + '" onchange="updateCart(' + idx + ',\'qty\',this.value)"></td>' +
+      '<td>¥' + p.price.toLocaleString() + ' <span style="color:#999;font-size:12px">' + p.unit + '</span></td>' +
+      '<td>¥' + subtotal.toLocaleString() + '</td>' +
+      '<td style="text-align:center">' + (cart.length > 1 ? '<a class="ly-link" href="#" onclick="removeCartRow(' + idx + ');return false">删除</a>' : '<span style="color:#ccc">—</span>') + '</td>';
+    body.appendChild(tr);
+  });
+  document.getElementById('cartTotal').textContent = '¥' + total.toLocaleString();
+  renderAutoQuota();
+}
+
+function updateCart(idx, field, val) {
+  if (field === 'qty') cart[idx][field] = Math.max(1, parseInt(val) || 1);
+  else cart[idx][field] = val;
+  renderCart();
+}
+function removeCartRow(idx) {
+  cart.splice(idx, 1);
+  renderCart();
+}
+function addCartRow() {
+  cart.push({ key: 'ORDER_PACK_5W', qty: 1 });
+  renderCart();
+}
+/* D2-4：权益预填表按权益项求和 */
+function renderAutoQuota() {
+  var tbody = document.querySelector('#autoQuotaTable tbody');
+  tbody.innerHTML = '';
+  // 按 [name + unit] 聚合：name 相同合并
+  var agg = {};   // key=name|unit -> { name, unit, qtyText, type, sources: [] }
+  cart.forEach(function (item) {
+    var p = PROD_LIB[item.key];
+    p.rows.forEach(function (r) {
+      var name = r[0], qtyRaw = r[1], unit = r[2], type = r[3];
+      var key = name + '||' + unit;
+      var numeric = /^[+]?[\d,]+/.test(qtyRaw.trim());
+      var qty = qtyRaw === '不限' ? Infinity : (numeric ? parseInt(qtyRaw.replace(/[+,]/g, '').trim(), 10) : 0);
+      var totalQty = qty === Infinity ? Infinity : qty * item.qty;
+      if (!agg[key]) agg[key] = { name: name, unit: unit, type: type, sum: 0, unlimited: false, text: '', sources: [] };
+      if (totalQty === Infinity) agg[key].unlimited = true;
+      else if (numeric) agg[key].sum += totalQty;
+      else agg[key].text = qtyRaw;
+      agg[key].sources.push(p.name + (item.qty > 1 ? ' ×' + item.qty : ''));
+    });
+  });
+  Object.keys(agg).forEach(function (k) {
+    var d = agg[k];
+    var deltaText = d.unlimited ? '不限' : (d.text || '+ ' + d.sum.toLocaleString());
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td>' + d.name + '</td>' +
+      '<td><strong>' + deltaText + '</strong></td>' +
+      '<td>' + d.unit + '</td>' +
+      '<td>' + d.type + ' · 来自 ' + d.sources.join(' + ') + '</td>';
+    tbody.appendChild(tr);
+  });
+}
+/* D2-2 / D2-3：购买类型联动 cart */
+function onTypeChange() {
+  var t = document.getElementById('purchaseType').value;
+  var isTrial = t === 'trial';
+  document.getElementById('trialBanner').style.display = isTrial ? '' : 'none';
+  var purchaseAlert = document.getElementById('purchaseAlert');
+  if (purchaseAlert) purchaseAlert.style.display = isTrial ? 'none' : '';
+  document.getElementById('receiptField').style.display = isTrial ? 'none' : '';
+  document.getElementById('contractField').style.display = isTrial ? 'none' : '';
+
+  if (t === 'trial') {
+    // D2-2：试用只允许 1 条主套餐
+    cart = [{ key: 'ERP_STD', qty: 1 }];
+  } else if (t === 'addon') {
+    cart = [{ key: 'ORDER_PACK_5W', qty: 1 }];
+  } else if (t === 'new' || t === 'renew' || t === 'upgrade') {
+    // D2-3：续费/升级 默认带入客户当前主套餐（旗舰版）
+    cart = [{ key: 'ERP_FLAGSHIP', qty: 1 }];
+  }
+  renderCart();
+}
+function submitPurchase() {
+  var t = document.getElementById('purchaseType').value;
+  if (t === 'trial') {
+    if (cart.length !== 1 || !isMainProduct(cart[0].key)) {
+      alert('试用类型仅允许 1 条主套餐商品，请调整后再提交。');
+      return;
+    }
+    alert('已提交试用申请，按商品试用配置开通；试用结束后将自动失效。');
+  } else {
+    var receipt = document.getElementById('receiptUpload');
+    if (!receipt || !receipt.files || receipt.files.length === 0) {
+      alert('请先上传银行水单，再保存并开通。');
+      return;
+    }
+    var contract = document.getElementById('contractUpload');
+    if (!contract || !contract.files || contract.files.length === 0) {
+      alert('请先上传合同，再保存并开通。');
+      return;
+    }
+    if ((t === 'new' || t === 'renew' || t === 'upgrade') && !cart.some(function(item){ return isMainProduct(item.key); })) {
+      alert('主套餐购买类型至少需要选择 1 个主套餐商品。');
+      return;
+    }
+    if (t === 'addon' && cart.some(function(item){ return isMainProduct(item.key); })) {
+      alert('加购增值服务仅允许选择增值服务商品。');
+      return;
+    }
+    alert('已保存并开通；客户额度已更新（' + cart.length + ' 条商品组合）。\n\n订单已开通授权将同步写入用户中心 · 客户授权。');
+  }
+  showView('detail');
+  switchDetailTab('billing');
+}
+
+/* D2-2 增强：试用模式禁用「添加商品行」 */
+var _addCartRow = addCartRow;
+addCartRow = function () {
+  var t = document.getElementById('purchaseType').value;
+  if (t === 'trial') {
+    alert('试用类型仅允许 1 条主套餐商品，无法添加多条。');
+    return;
+  }
+  _addCartRow();
+};
+
+/* 初始化 */
+renderCart();
+onTypeChange();
+var pageParams = new URLSearchParams(window.location.search);
+var directOrderNo = pageParams.get('order');
+if (directOrderNo) {
+  showView('detail');
+  switchDetailTab('billing');
+  setTimeout(function () { openOrderDetail(directOrderNo); }, 0);
+} else if (pageParams.get('view') === 'purchase') {
+  window.purchaseFromOrder = pageParams.get('from') === 'order';
+  var buyer = document.getElementById('buyerCustomer');
+  var buyerName = pageParams.get('buyer');
+  if (buyerName && buyer) {
+    buyer.value = buyerName;
+    buyer.disabled = true;
+  }
+  if (window.purchaseFromOrder && buyer) {
+    buyer.disabled = false;
+    buyer.value = '';
+    buyer.placeholder = '请输入客户名称';
+  }
+  showView('purchase');
+}
+</script>
+</body>
+</html>

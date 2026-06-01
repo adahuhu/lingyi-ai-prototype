@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>订单记录 - 费用中心</title>
+  <link rel="stylesheet" href="billing-erp-platform.css">
+  <style>
+    .order-toolbar {
+      padding: 12px 16px; border-bottom: 1px solid var(--ly-border);
+      display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center;
+    }
+    .filter-tab {
+      padding: 4px 12px; font-size: 13px; cursor: pointer;
+      border: 1px solid #d9d9d9; color: var(--ly-muted); border-radius: 2px;
+      background: #fff;
+    }
+    .filter-tab.active {
+      color: var(--ly-primary); border-color: var(--ly-primary); background: #e6f4ff;
+    }
+    .tenant-search-group {
+      display: inline-flex;
+      align-items: center;
+      height: 32px;
+      border: 1px solid #dfe3eb;
+      border-radius: 4px;
+      background: #fff;
+      overflow: hidden;
+    }
+    .tenant-search-group select {
+      width: 96px;
+      height: 30px;
+      border: 0;
+      border-right: 1px solid #edf0f5;
+      border-radius: 0;
+      background: #fbfcfe;
+      padding: 0 8px;
+      color: #1f2329;
+    }
+    .tenant-search-group input {
+      width: 220px;
+      height: 30px;
+      border: 0;
+      border-radius: 0;
+      padding: 0 10px;
+    }
+    .tenant-search-group select:focus,
+    .tenant-search-group input:focus { box-shadow: none; outline: none; }
+  </style>
+</head>
+<body>
+<div class="ly-app">
+  <aside class="ly-side">
+    <div class="ly-side-logo"><span class="logo-mark">凌</span> 凌羿 ERP</div>
+    <nav class="ly-nav">
+      <div class="ly-nav-group">
+        <span class="ly-nav-item active"><span class="ico">▾</span> 费用中心</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-my-subscription-feishu.html">我的订阅</a>
+          <a href="crossborder-erp-billing-tenant-order-center.html" class="active">订单记录</a>
+        </div>
+      </div>
+    </nav>
+    <div class="ly-side-foot">收起导航</div>
+  </aside>
+
+  <div class="ly-wrap">
+    <header class="ly-topbar">
+      <div class="ly-tabs">
+        <a class="ly-tab active" href="#">订单记录 <span class="close">×</span></a>
+      </div>
+      <div class="ly-topbar-right">
+        <span>🔍</span><span>🔔</span>
+        <span class="user"><span class="avatar">杭</span> 杭州星河跨境</span>
+      </div>
+    </header>
+
+    <main class="ly-tenant-main">
+      <div class="ly-tenant-crumb">费用中心 &gt; 订单记录</div>
+
+      <div class="ly-tenant-card" style="padding:0">
+        <div class="order-toolbar">
+          <span class="filter-tab active" id="tabAll" onclick="setTab(this)">全部</span>
+          <span class="filter-tab" onclick="setTab(this)">已生效</span>
+          <span class="filter-tab" onclick="setTab(this)">已到期</span>
+          <div class="tenant-search-group">
+            <select id="tenantSearchType">
+              <option value="product" selected>商品名称</option>
+              <option value="code">订单编号</option>
+            </select>
+            <input id="tenantKeyword" type="text" placeholder="输入后回车搜索" onkeydown="if(event.key==='Enter')applyTenantOrderFilter()">
+          </div>
+          <span style="margin-left:16px;font-size:13px;color:var(--ly-muted)">时间</span>
+          <input type="date" value="2024-01-01" style="height:30px;border:1px solid #d9d9d9;padding:0 6px">
+          <span>~</span>
+          <input type="date" value="2026-12-31" style="height:30px;border:1px solid #d9d9d9;padding:0 6px">
+        </div>
+        <div class="ly-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>订单编号</th>
+                <th>购买内容</th>
+                <th>订单类型</th>
+                <th>金额</th>
+                <th>生效时间</th>
+                <th>到期时间</th>
+                <th>状态</th>
+              </tr>
+            </thead>
+            <tbody id="tenantOrderBody">
+              <tr data-code="PO-20260518004" data-product="ERP 旗舰版（续费）" data-status="已生效">
+                <td>PO-20260518004</td>
+                <td>ERP 旗舰版（续费）</td>
+                <td>续费</td>
+                <td>¥69,800</td>
+                <td>2027-01-01</td>
+                <td>2027-12-31</td>
+                <td><span class="ly-tenant-tag green">已生效</span></td>
+              </tr>
+              <tr data-code="PO-20260420003" data-product="金蝶云星空对接" data-status="已生效">
+                <td>PO-20260420003</td>
+                <td>金蝶云星空对接</td>
+                <td>新购</td>
+                <td>¥20,000</td>
+                <td>2026-04-20</td>
+                <td>—</td>
+                <td><span class="ly-tenant-tag green">已生效</span></td>
+              </tr>
+              <tr data-code="PO-20260315002" data-product="订单扩容包 ×2" data-status="已生效">
+                <td>PO-20260315002</td>
+                <td>订单扩容包 ×2</td>
+                <td>扩容</td>
+                <td>¥2,000</td>
+                <td>2026-03-15</td>
+                <td>2026-12-31</td>
+                <td><span class="ly-tenant-tag green">已生效</span></td>
+              </tr>
+              <tr data-code="PO-20250101001" data-product="ERP 旗舰版" data-status="已生效">
+                <td>PO-20250101001</td>
+                <td>ERP 旗舰版</td>
+                <td>新购</td>
+                <td>¥69,800</td>
+                <td>2025-01-02</td>
+                <td>2026-12-31</td>
+                <td><span class="ly-tenant-tag green">已生效</span></td>
+              </tr>
+              <tr data-code="PO-20251001001" data-product="MSKU 扩容包" data-status="已到期">
+                <td>PO-20251001001</td>
+                <td>MSKU 扩容包</td>
+                <td>新购</td>
+                <td>¥2,000</td>
+                <td>2024-10-01</td>
+                <td>2025-09-30</td>
+                <td><span class="ly-tenant-tag" style="background:#f5f5f5;color:#999;border-color:#d9d9d9">已到期</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ly-pagination">
+          <div class="pages"><span class="page active">1</span></div>
+          <select><option>20 条/页</option></select>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+function setTab(el) {
+  document.querySelectorAll('.filter-tab').forEach(function(t) { t.classList.remove('active'); });
+  el.classList.add('active');
+  applyTenantOrderFilter();
+}
+function applyTenantOrderFilter() {
+  var activeTab = document.querySelector('.filter-tab.active').textContent.trim();
+  var type = document.getElementById('tenantSearchType').value;
+  var keyword = (document.getElementById('tenantKeyword').value || '').trim().toLowerCase();
+  document.querySelectorAll('#tenantOrderBody tr').forEach(function(row) {
+    var statusMatched = activeTab === '全部' || row.dataset.status === activeTab;
+    var value = type === 'code' ? row.dataset.code : row.dataset.product;
+    var keywordMatched = !keyword || String(value || '').toLowerCase().indexOf(keyword) > -1;
+    row.style.display = statusMatched && keywordMatched ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

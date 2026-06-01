@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商品维护 - 用户中心</title>
+  <link rel="stylesheet" href="billing-erp-platform.css">
+  <style>
+    .edit-page {
+      padding: 12px 16px 88px;
+      max-width: none;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .edit-alert {
+      margin: 0 0 16px;
+      padding: 12px 14px;
+      background: #f0f7ff;
+      border: 1px solid #91caff;
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--ly-text);
+      border-radius: 2px;
+    }
+    .edit-alert strong { color: var(--ly-primary); }
+
+    .edit-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 1280px) {
+      .edit-layout { grid-template-columns: minmax(0, 1fr) 320px; }
+    }
+    .edit-main { min-width: 0; }
+    .edit-side { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px 24px;
+      padding: 16px;
+    }
+    .form-grid .full { grid-column: 1 / -1; }
+    .form-grid label { display: block; font-size: 13px; color: var(--ly-muted); margin-bottom: 6px; }
+    .form-grid input, .form-grid select, .form-grid textarea {
+      width: 100%; min-height: 32px; box-sizing: border-box;
+      border: 1px solid #d9d9d9; border-radius: 2px;
+      padding: 6px 10px; font-size: 14px; background: #fff;
+    }
+    .form-grid textarea { min-height: 72px; resize: vertical; }
+    .hint { font-size: 12px; color: var(--ly-muted); margin-top: 4px; line-height: 1.5; }
+    .req { color: #ff4d4f; }
+
+    /* 内部用 字段标签 */
+    .ly-tag-internal {
+      display: inline-block; margin-left: 6px; padding: 0 6px;
+      font-size: 11px; line-height: 16px; color: #8c8c8c;
+      background: #f0f0f0; border: 1px solid #d9d9d9; border-radius: 2px;
+      vertical-align: middle; cursor: help;
+    }
+
+    /* 商品类型 业务规则提示 chips */
+    .prod-type-rules { margin-top: 6px; display: flex; gap: 6px; flex-wrap: wrap; }
+    .rule-chip {
+      display: inline-block; padding: 1px 8px; font-size: 11px; line-height: 18px;
+      border-radius: 10px; white-space: nowrap;
+    }
+    .rule-chip-on  { background: #f6ffed; color: #389e0d; border: 1px solid #b7eb8f; }
+    .rule-chip-off { background: #fafafa; color: #8c8c8c; border: 1px solid #d9d9d9; }
+
+    /* 权益模板表 */
+    .quota-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .quota-table th, .quota-table td {
+      border: 1px solid var(--ly-border); padding: 8px 10px; vertical-align: middle;
+    }
+    .quota-table th { background: var(--ly-table-head); font-weight: 500; text-align: left; }
+    .quota-table input[type=number], .quota-table input[type=text], .quota-table select {
+      height: 28px; width: 100%; box-sizing: border-box;
+      border: 1px solid #d9d9d9; border-radius: 2px; padding: 0 6px; font-size: 13px;
+    }
+    .quota-table .col-name { width: 18%; }
+    .quota-table .col-num { width: 26%; }
+    .quota-table .col-type { width: 14%; }
+    .quota-table .col-op { width: 70px; text-align: center; }
+    .quota-table tr.empty td {
+      padding: 20px; text-align: center; color: var(--ly-muted); background: #fafafa;
+    }
+    .quota-add {
+      padding: 10px 16px;
+      border-top: 1px solid var(--ly-border);
+      background: #fafafa;
+      font-size: 13px;
+    }
+
+    /* 阶梯计价 */
+    .tier-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .tier-table th, .tier-table td {
+      border: 1px solid var(--ly-border); padding: 8px 10px; text-align: left;
+    }
+    .tier-table th { background: var(--ly-table-head); font-weight: 500; }
+    .tier-table input[type=number], .tier-table input[type=text] {
+      height: 28px; box-sizing: border-box;
+      border: 1px solid #d9d9d9; border-radius: 2px; padding: 0 6px; font-size: 13px;
+      width: 100%;
+    }
+
+    /* 上传缩略图 */
+    .upload-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .upload-box {
+      width: 120px; height: 90px;
+      border: 1px dashed #d9d9d9; border-radius: 2px;
+      display: grid; place-items: center; font-size: 12px;
+      color: var(--ly-muted); background: #fafafa; cursor: pointer;
+    }
+    .preview-strip {
+      margin-top: 12px; padding: 10px 12px;
+      background: #fafafa; border: 1px solid var(--ly-border);
+      font-size: 12px; color: var(--ly-muted); border-radius: 2px;
+    }
+
+    /* 开关 */
+    .switch-row { display: flex; align-items: center; gap: 10px; padding: 4px 0; }
+    .switch-row .lab { font-size: 13px; color: var(--ly-text); }
+    .switch {
+      position: relative; display: inline-block; width: 36px; height: 20px; flex-shrink: 0;
+    }
+    .switch input { display: none; }
+    .switch .slider {
+      position: absolute; inset: 0; background: #d9d9d9;
+      border-radius: 999px; transition: background .15s;
+    }
+    .switch .slider::before {
+      content: ""; position: absolute; left: 2px; top: 2px;
+      width: 16px; height: 16px; background: #fff;
+      border-radius: 50%; transition: transform .15s;
+    }
+    .switch input:checked + .slider { background: var(--ly-primary); }
+    .switch input:checked + .slider::before { transform: translateX(16px); }
+
+    /* 依赖 chips */
+    .chips {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      padding: 8px; border: 1px solid #d9d9d9; border-radius: 2px;
+      background: #fff; min-height: 44px;
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 10px; font-size: 12px;
+      background: #e6f4ff; color: var(--ly-primary);
+      border: 1px solid #91caff; border-radius: 12px;
+      cursor: pointer;
+    }
+    .chip.selected { background: var(--ly-primary); color: #fff; border-color: var(--ly-primary); }
+    .chip:hover:not(.selected) { background: #bae0ff; }
+
+    /* 吸底操作栏 */
+    .sticky-actions {
+      position: fixed;
+      left: var(--ly-side-width);
+      right: 0;
+      bottom: 0;
+      background: #fff;
+      border-top: 1px solid var(--ly-border);
+      padding: 10px 24px;
+      display: flex; gap: 10px; align-items: center;
+      z-index: 50;
+      box-shadow: 0 -2px 6px rgba(0,0,0,.04);
+    }
+    .sticky-actions .meta { font-size: 12px; color: var(--ly-muted); margin-right: auto; }
+
+    /* 辅助侧卡片 */
+    .side-card { background: #fff; border: 1px solid var(--ly-border); }
+    .side-card .head {
+      padding: 12px 14px; border-bottom: 1px solid var(--ly-border);
+      font-size: 14px; font-weight: 600;
+    }
+    .side-card .body { padding: 12px 14px; font-size: 13px; line-height: 1.7; }
+    .side-card .body p { margin: 6px 0; color: var(--ly-text); }
+    .side-card .body small { color: var(--ly-muted); font-size: 12px; }
+    .mapping-preview-v2 { display: flex; flex-direction: column; gap: 6px; }
+    .mapping-preview-v2 .mp-row { display: flex; gap: 10px; font-size: 13px; line-height: 22px; }
+    .mapping-preview-v2 .mp-key { width: 36px; color: var(--ly-muted); flex-shrink: 0; }
+    .mapping-preview-v2 .mp-val { color: var(--ly-text); flex: 1; word-break: break-all; }
+    .mapping-preview-v2 .mp-mono { font-family: ui-monospace, monospace; font-size: 12px; }
+
+    /* 添加权益项弹层 */
+    .picker-mask {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.45); z-index: 1000;
+    }
+    .picker-mask.open { display: block; }
+    .picker {
+      position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      width: 480px; max-width: calc(100% - 32px);
+      background: #fff; border-radius: 4px; z-index: 1001;
+      box-shadow: 0 6px 24px rgba(0,0,0,.12);
+    }
+    .picker h3 { padding: 16px; border-bottom: 1px solid var(--ly-border); margin: 0; font-size: 15px; }
+    .picker-body { padding: 12px 16px; max-height: 360px; overflow-y: auto; }
+    .picker-body label {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px; border-bottom: 1px solid #f5f5f5;
+      font-size: 13px; cursor: pointer;
+    }
+    .picker-body label:hover { background: #fafafa; }
+    .picker-body label .code { font-family: ui-monospace, monospace; font-size: 11px; color: var(--ly-muted); margin-left: auto; }
+    .picker-foot { padding: 12px 16px; border-top: 1px solid var(--ly-border); display: flex; justify-content: flex-end; gap: 8px; }
+
+    /* 关联授权模板 · 菜单树 */
+    .auth-tree { border: 1px solid var(--ly-border); border-radius: 6px; max-height: 360px; overflow: auto; background: #fff; }
+    .auth-tree .l1 { border-bottom: 1px solid var(--ly-border); }
+    .auth-tree .l1:last-child { border-bottom: none; }
+    .auth-tree .l1-head {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 12px; background: #fafbfc; cursor: pointer;
+      font-size: 13px; font-weight: 500;
+    }
+    .auth-tree .l1-head .arrow { display: inline-block; transition: transform .15s; color: var(--ly-muted); font-size: 11px; width: 12px; }
+    .auth-tree .l1.open .l1-head .arrow { transform: rotate(90deg); }
+    .auth-tree .l1-head .count { margin-left: auto; font-weight: 400; font-size: 12px; color: var(--ly-muted); }
+    .auth-tree .l2-list { display: none; padding: 4px 12px 8px 36px; background: #fff; }
+    .auth-tree .l1.open .l2-list { display: block; }
+    .auth-tree .l2 { display: flex; align-items: center; gap: 8px; padding: 4px 0; font-size: 13px; }
+    .auth-tree .l2 .ops { margin-left: auto; font-size: 11px; color: var(--ly-muted); }
+    .auth-tree input[type=checkbox] { margin: 0; }
+    .auth-summary {
+      padding: 8px 12px; background: #f0f7ff; border: 1px solid #91caff;
+      border-radius: 4px; font-size: 12px; color: var(--ly-text); line-height: 1.6;
+    }
+    .auth-summary strong { color: var(--ly-primary); }
+    #authBodyWrap.disabled { opacity: .5; pointer-events: none; }
+
+    /* MVP 重构版：轻量 SaaS 配置台 */
+    body.mvp-product-edit .ly-main.edit-page {
+      padding: 18px 20px 92px;
+      background: #f5f7fb;
+    }
+    body.mvp-product-edit .edit-alert,
+    body.mvp-product-edit .edit-layout {
+      display: none !important;
+    }
+    .mvp-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: #fff7e6;
+      color: #b45309;
+      border: 1px solid #fed7aa;
+      font-size: 12px;
+    }
+    .mvp-checkbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 0 0 14px;
+      padding: 10px 14px;
+      background: #ffffff;
+      border: 1px solid #e5e8ef;
+      border-radius: 6px;
+      color: #646a73;
+      font-size: 13px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, .03);
+    }
+    .mvp-checkbar strong {
+      color: #1f2329;
+      font-weight: 650;
+    }
+    .mvp-checkbar span:not(:first-child) {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #3f4754;
+    }
+    .mvp-checkbar span:not(:first-child)::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #00b578;
+      flex-shrink: 0;
+    }
+    .mvp-checkbar .warn::before {
+      background: #ff8f1f !important;
+    }
+    .mvp-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+    .mvp-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 0;
+    }
+    .mvp-section {
+      background: #fff;
+      border: 1px solid #e5e8ef;
+      border-radius: 6px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, .03);
+    }
+    .mvp-section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px 10px;
+      border-bottom: 1px solid #eef1f5;
+    }
+    .mvp-section-head h2 {
+      margin: 0;
+      font-size: 15px;
+      color: #1f2329;
+      font-weight: 650;
+    }
+    .mvp-section-head span {
+      color: #86909c;
+      font-size: 12px;
+    }
+    .mvp-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px 18px;
+      padding: 16px 18px 18px;
+    }
+    .mvp-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .mvp-grid .full { grid-column: 1 / -1; }
+    @media (max-width: 900px) {
+      .mvp-grid,
+      .mvp-grid.three { grid-template-columns: 1fr; }
+    }
+    .mvp-field label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 6px;
+      color: #646a73;
+      font-size: 12px;
+    }
+    .mvp-field input,
+    .mvp-field select,
+    .mvp-field textarea {
+      width: 100%;
+      height: 34px;
+      border: 1px solid #d8dde8;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 14px;
+      color: #1f2329;
+      background: #fff;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s, background .15s;
+    }
+    .mvp-field textarea {
+      height: 64px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+    .mvp-field input:focus,
+    .mvp-field select:focus,
+    .mvp-field textarea:focus {
+      border-color: #3370ff;
+      box-shadow: 0 0 0 3px rgba(51, 112, 255, .10);
+    }
+    .mvp-segment {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      padding: 16px 18px 0;
+    }
+    .mvp-segment button {
+      border: 1px solid #d8dde8;
+      background: #fff;
+      color: #3f4754;
+      border-radius: 5px;
+      min-height: 40px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .mvp-segment button.active {
+      border-color: #3370ff;
+      color: #1d4ed8;
+      background: #eef4ff;
+      font-weight: 600;
+    }
+    .mvp-hint {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #86909c;
+      line-height: 1.45;
+    }
+    .mvp-toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 34px;
+    }
+    .mvp-toggle-row span {
+      font-size: 13px;
+      color: #3f4754;
+    }
+    .mvp-visibility {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .mvp-visibility .mvp-toggle-row {
+      border: 1px solid #e5e8ef;
+      border-radius: 5px;
+      padding: 9px 10px;
+      background: #fbfcff;
+    }
+    .mvp-quota-table,
+    .mvp-tier-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .mvp-quota-table th,
+    .mvp-quota-table td,
+    .mvp-tier-table th,
+    .mvp-tier-table td {
+      border-bottom: 1px solid #edf0f5;
+      padding: 9px 10px;
+      text-align: left;
+      vertical-align: middle;
+    }
+    .mvp-quota-table th,
+    .mvp-tier-table th {
+      color: #646a73;
+      font-size: 12px;
+      font-weight: 500;
+      background: #fafbfc;
+    }
+    .mvp-quota-table td input,
+    .mvp-quota-table td select,
+    .mvp-tier-table td input {
+      height: 30px;
+      border: 1px solid #d8dde8;
+      border-radius: 4px;
+      padding: 4px 8px;
+      width: 100%;
+      font-size: 13px;
+    }
+    .quota-amount {
+      display: grid;
+      grid-template-columns: 82px minmax(92px, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+    }
+    .quota-amount select,
+    .quota-amount input {
+      min-width: 0;
+    }
+    .quota-amount .unit-suffix {
+      min-width: 44px;
+      color: #646a73;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .quota-amount.is-unlimited {
+      grid-template-columns: 82px 1fr;
+    }
+    .quota-amount.is-unlimited .unit-suffix {
+      display: none;
+    }
+    .quota-amount.is-unlimited input {
+      color: #3370ff;
+      background: #f3f7ff;
+      border-color: #d8e3ff;
+      font-weight: 500;
+    }
+    .quota-structure-note {
+      display: block;
+      margin-top: 6px;
+      color: #8f959e;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .mvp-table-wrap { padding: 0 18px 14px; }
+    .mvp-table-actions {
+      padding: 10px 18px 16px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .mvp-auth-empty {
+      margin: 0 18px 16px;
+      border: 1px solid #d8dde8;
+      background: #fbfcff;
+      border-radius: 6px;
+      padding: 13px 14px;
+      color: #3f4754;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+    }
+    .mvp-auth-panel {
+      margin: 0 18px 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+    }
+    .mvp-tree-shell {
+      border: 1px solid #e5e8ef;
+      border-radius: 6px;
+      background: #fff;
+      max-height: 230px;
+      overflow: auto;
+      padding: 4px 0;
+    }
+    .mvp-tree-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      font-size: 13px;
+      color: #1f2329;
+    }
+    .mvp-tree-row.child {
+      padding-left: 34px;
+      color: #646a73;
+    }
+    .mvp-system-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .mvp-system-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 0 12px;
+      border: 1px solid #d8dde8;
+      border-radius: 5px;
+      background: #fbfcff;
+      color: #1f2329;
+      font-size: 13px;
+    }
+    .mvp-system-option input {
+      width: 16px !important;
+      height: 16px !important;
+      margin: 0;
+      padding: 0;
+      flex-shrink: 0;
+    }
+    @media (max-width: 900px) {
+      .mvp-system-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    details.mvp-more {
+      background: #fff;
+      border: 1px solid #e5e8ef;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    details.mvp-more summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 13px 18px;
+      color: #1f2329;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    details.mvp-more summary::-webkit-details-marker { display: none; }
+    details.mvp-more summary::after {
+      content: "展开";
+      font-size: 12px;
+      color: #86909c;
+      font-weight: 400;
+    }
+    details.mvp-more[open] summary::after { content: "收起"; }
+    .mvp-preview {
+      margin: 14px 15px 15px;
+      border: 1px solid #e5e8ef;
+      border-radius: 6px;
+      padding: 13px;
+      background: #fbfcff;
+    }
+    .mvp-preview-title {
+      font-size: 14px;
+      color: #1f2329;
+      font-weight: 650;
+      margin-bottom: 6px;
+    }
+    .mvp-preview-desc {
+      color: #646a73;
+      font-size: 12px;
+      line-height: 1.55;
+      min-height: 36px;
+    }
+    .mvp-preview-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      gap: 10px;
+    }
+    .mvp-preview-price {
+      color: #1f2329;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .mvp-pill {
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      padding: 0 9px;
+      border-radius: 999px;
+      background: #eef4ff;
+      color: #1d4ed8;
+      font-size: 12px;
+    }
+    body.mvp-product-edit .sticky-actions {
+      align-items: center;
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, .96);
+      backdrop-filter: blur(10px);
+    }
+    @media (max-width: 760px) {
+      body.mvp-product-edit { --ly-side-width: 0px; }
+      body.mvp-product-edit .ly-side { display: none; }
+      body.mvp-product-edit .ly-topbar { padding-right: 8px; }
+      body.mvp-product-edit .ly-tabs { max-width: calc(100vw - 112px); overflow-x: auto; }
+      body.mvp-product-edit .ly-tab { padding: 0 10px; white-space: nowrap; }
+      body.mvp-product-edit .ly-main.edit-page { padding: 12px 10px 92px; }
+      .mvp-segment { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 12px 12px 0; }
+      .mvp-grid,
+      .mvp-grid.three { grid-template-columns: 1fr; padding: 14px 12px; }
+      .mvp-section-head { padding: 13px 12px 9px; align-items: flex-start; }
+      .mvp-section-head span { max-width: 180px; text-align: right; }
+      .mvp-visibility { grid-template-columns: 1fr; }
+      .mvp-table-wrap { overflow-x: auto; padding: 0 12px 12px; }
+      .mvp-quota-table,
+      .mvp-tier-table { min-width: 560px; }
+      .mvp-table-actions { padding: 10px 12px 14px; flex-wrap: wrap; }
+      .mvp-auth-empty { margin: 0 12px 14px; flex-direction: column; align-items: flex-start; }
+      .mvp-auth-panel { margin: 0 12px 14px; }
+      body.mvp-product-edit .sticky-actions {
+        left: 0;
+        right: 0;
+        padding: 10px 12px;
+        overflow-x: auto;
+      }
+      body.mvp-product-edit .sticky-actions .meta { display: none; }
+      body.mvp-product-edit .sticky-actions .ly-btn { white-space: nowrap; }
+    }
+  </style>
+</head>
+<body class="mvp-product-edit">
+<div class="ly-app">
+  <aside class="ly-side">
+    <div class="ly-side-logo"><span class="logo-mark">凌</span> 用户中心</div>
+    <nav class="ly-nav">
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▸</span> 组织架构</span>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▾</span> 租户管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-tenant-config-real.html">租户配置</a>
+        </div>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▾</span> 客户管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-customer-management-feishu.html">客户配置</a>
+        </div>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item active"><span class="ico">▾</span> 计费管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-product-config-feishu.html" class="active">商品配置</a>
+          <a href="crossborder-erp-billing-product-config-dictionary.html">字典维护</a>
+          <a href="crossborder-erp-billing-order-management-feishu.html">订单管理</a>
+        </div>
+      </div>
+      <div class="ly-nav-group"><span class="ly-nav-item"><span class="ico">▸</span> 授权设置</span></div>
+      <div class="ly-nav-group"><span class="ly-nav-item"><span class="ico">▸</span> 个人中心</span></div>
+    </nav>
+    <div class="ly-side-foot">收起导航</div>
+  </aside>
+
+  <div class="ly-wrap">
+    <header class="ly-topbar">
+      <div class="ly-tabs">
+        <a class="ly-tab" href="crossborder-erp-billing-product-config-feishu.html">商品配置 <span class="close">×</span></a>
+        <a class="ly-tab active" href="#">商品维护 <span class="close">×</span></a>
+      </div>
+      <div class="ly-topbar-right">
+        <span>🔍</span><span>🔔</span>
+        <span class="user"><span class="avatar">胡</span> 胡仕玲</span>
+      </div>
+    </header>
+
+    <main class="ly-main edit-page">
+
+      <div id="demoBanner" class="edit-alert" style="display:none">
+        <strong>当前为「ERP 旗舰版」完整填法示例</strong>　— 一期 15 个商品共用同一份维护表单。
+        其它商品的字段含义相同，请参照「售卖形式实例化手册」按方案值填写：
+        资源扩容包勾「<em>不涉及菜单授权</em>」+ 选「<em>依赖前置主套餐</em>」；
+        SCM 企业版选「<em>线下报价</em>」+「<em>隐藏价格</em>」；
+        按量服务展开「<em>阶梯定价</em>」；
+        专项服务勾「<em>走里程碑</em>」。
+      </div>
+
+      <div class="mvp-layout">
+        <div class="mvp-stack">
+          <section class="mvp-section">
+            <div class="mvp-section-head">
+              <h2>① 商品信息</h2>
+            </div>
+            <div class="mvp-segment" id="mvpTypeSegment">
+              <button type="button" class="active" data-type="MAIN">主套餐</button>
+              <button type="button" data-type="ADDON">增值服务</button>
+            </div>
+            <div class="mvp-grid">
+              <div class="mvp-field">
+                <label>商品编码 <span class="req">*</span></label>
+                <input id="mvpCode" value="" placeholder="自动生成，可手动修改">
+              </div>
+              <div class="mvp-field">
+                <label>商品名称 <span class="req">*</span></label>
+                <input id="mvpName" value="" placeholder="如 ERP 旗舰版">
+              </div>
+              <div class="mvp-field full">
+                <label>适用系统 <span class="req">*</span></label>
+                <div class="mvp-system-grid">
+                  <label class="mvp-system-option"><input type="checkbox" data-system="ERP" checked> ERP</label>
+                  <label class="mvp-system-option"><input type="checkbox" data-system="SCM"> SCM</label>
+                  <label class="mvp-system-option"><input type="checkbox" data-system="WMS"> WMS</label>
+                </div>
+              </div>
+              <div class="mvp-field full">
+                <label>备注</label>
+                <textarea placeholder="合同、商务口径、特殊说明，仅平台内部可见"></textarea>
+              </div>
+              <div class="full mvp-visibility">
+                <label class="mvp-toggle-row">
+                  <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                  <span>租户可见</span>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <section class="mvp-section">
+            <div class="mvp-section-head">
+              <h2>② 价格与权益</h2>
+              <span>权益摘要由表格自动生成</span>
+            </div>
+            <div class="mvp-grid three">
+              <div class="mvp-field">
+                <label>计价模式 <span class="req">*</span></label>
+                <select id="mvpPriceMode" onchange="mvpToggleTier()">
+                  <option>按年订阅</option>
+                  <option>一次性</option>
+                  <option>按量计费</option>
+                  <option>线下报价</option>
+                </select>
+              </div>
+              <div class="mvp-field">
+                <label>销售价格</label>
+                <input id="mvpPrice" placeholder="如 ¥69,800/年">
+              </div>
+              <div class="mvp-field">
+                <label>单位</label>
+                <input id="mvpUnit" value="年" placeholder="由计价模式带出">
+              </div>
+            </div>
+            <div class="mvp-table-wrap" id="mvpTierPanel" style="display:none">
+              <table class="mvp-tier-table">
+                <thead><tr><th>起量</th><th>止量</th><th>单价</th></tr></thead>
+                <tbody>
+                  <tr><td><input value="0"></td><td><input value="10000"></td><td><input value="¥0.10/次"></td></tr>
+                  <tr><td><input value="10001"></td><td><input value="不限"></td><td><input value="¥0.08/次"></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="mvp-table-wrap">
+              <table class="mvp-quota-table">
+                <thead><tr><th>权益项</th><th style="width:320px">额度</th><th style="width:80px">操作</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><select><option>年订单量</option><option>MSKU 额度</option><option>店铺 / 站点</option><option>子账号</option></select></td>
+                    <td>
+                      <div class="quota-amount">
+                        <select><option selected>限额</option><option>不限</option></select>
+                        <input type="number" value="3000000">
+                        <span class="unit-suffix">单/年</span>
+                      </div>
+                    </td>
+                    <td><a class="ly-link" href="#" onclick="return false">删除</a></td>
+                  </tr>
+                  <tr>
+                    <td><select><option>MSKU 额度</option><option>年订单量</option><option>店铺 / 站点</option><option>子账号</option></select></td>
+                    <td>
+                      <div class="quota-amount">
+                        <select><option selected>限额</option><option>不限</option></select>
+                        <input type="number" value="100000">
+                        <span class="unit-suffix">个</span>
+                      </div>
+                    </td>
+                    <td><a class="ly-link" href="#" onclick="return false">删除</a></td>
+                  </tr>
+                  <tr>
+                    <td><select><option>平台授权</option><option>年订单量</option><option>MSKU 额度</option><option>子账号</option></select></td>
+                    <td>
+                      <div class="quota-amount is-unlimited">
+                        <select><option>限额</option><option selected>不限</option></select>
+                        <input value="不限" disabled>
+                        <span class="unit-suffix">个</span>
+                      </div>
+                    </td>
+                    <td><a class="ly-link" href="#" onclick="return false">删除</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="mvp-table-actions">
+              <a class="ly-link" href="#" onclick="return false">+ 添加权益项</a>
+            </div>
+          </section>
+        </div>
+
+      </div>
+
+      <div class="edit-layout">
+        <div class="edit-main">
+
+          <!-- 基本信息 -->
+          <section class="ly-section">
+            <div class="ly-section-head"><span class="title">基本信息</span></div>
+            <div class="form-grid">
+              <div>
+                <label>商品编码 <span class="req">*</span></label>
+                <input id="skuCode" value="SKU_ERP_FLAGSHIP_001" placeholder="如 SKU_ERP_FLAGSHIP_001">
+              </div>
+              <div>
+                <label>商品名称 <span class="req">*</span></label>
+                <input id="prodName" value="ERP 旗舰版">
+              </div>
+              <div>
+                <label>
+                  商品类型 <span class="req">*</span>
+                  <span class="ly-tag-internal" title="租户不可见，仅平台内部分类用">内部用</span>
+                </label>
+                <select id="prodType" onchange="onProdTypeChange()">
+                  <option value="MAIN" data-price="按年订阅" data-renewable="1" data-milestone="0" selected>主套餐</option>
+                  <option value="EXPAND" data-price="按年订阅" data-renewable="0" data-milestone="0">资源扩容</option>
+                  <option value="METERED" data-price="按量计费" data-renewable="0" data-milestone="0">按量服务</option>
+                  <option value="PROFESSIONAL" data-price="一次性" data-renewable="0" data-milestone="1">专项服务</option>
+                </select>
+                <div id="prodTypeRules" class="prod-type-rules"></div>
+              </div>
+              <div class="full">
+                <label>内部备注（租户不可见）</label>
+                <textarea placeholder="商务话术、合同映射、例外说明…"></textarea>
+              </div>
+            </div>
+          </section>
+
+          <!-- 计价配置 -->
+          <section class="ly-section">
+            <div class="ly-section-head"><span class="title">计价配置</span></div>
+            <div class="form-grid">
+              <div>
+                <label>计价模式 <span class="req">*</span></label>
+                <select id="priceMode" onchange="toggleTier()">
+                  <option selected>按年订阅</option>
+                  <option>按月订阅</option>
+                  <option>一次性</option>
+                  <option value="metered">按量计费</option>
+                  <option>线下报价</option>
+                </select>
+              </div>
+              <div>
+                <label>销售价格</label>
+                <input id="salePrice" value="¥69,800/年">
+              </div>
+              <div>
+                <label>最高折扣</label>
+                <input placeholder="如 8 折（80%）">
+              </div>
+              <div class="full" id="tierBlock" style="display:none">
+                <label>阶梯计价（按量）<span style="font-weight:400;color:var(--ly-muted);font-size:12px">· 用量进入不同区间按对应单价计费</span></label>
+                <table class="tier-table">
+                  <thead>
+                    <tr>
+                      <th style="width:120px">区间起（含）</th>
+                      <th style="width:120px">区间止</th>
+                      <th style="width:120px">单价</th>
+                      <th>说明</th>
+                      <th style="width:60px;text-align:center">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tierBody">
+                    <tr>
+                      <td><input type="number" value="0"></td>
+                      <td><input type="number" value="10000"></td>
+                      <td><input type="text" value="¥0.10/次"></td>
+                      <td><input type="text" value="前 1 万次"></td>
+                      <td style="text-align:center"><a class="ly-link" href="#" onclick="return false">删除</a></td>
+                    </tr>
+                    <tr>
+                      <td><input type="number" value="10001"></td>
+                      <td><input type="number" value="100000"></td>
+                      <td><input type="text" value="¥0.08/次"></td>
+                      <td><input type="text" value="1 万 ~ 10 万次"></td>
+                      <td style="text-align:center"><a class="ly-link" href="#" onclick="return false">删除</a></td>
+                    </tr>
+                    <tr>
+                      <td><input type="number" value="100001"></td>
+                      <td><input type="text" value="不限" placeholder="留空=不限"></td>
+                      <td><input type="text" value="¥0.05/次"></td>
+                      <td><input type="text" value="10 万次以上"></td>
+                      <td style="text-align:center"><a class="ly-link" href="#" onclick="return false">删除</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p class="hint" style="margin-top:6px">最后一档「区间止」可填「不限」或留空。仅在「按量计费」时生效。</p>
+                <button type="button" class="ly-btn" style="margin-top:8px" onclick="addTierRow()">+ 添加阶梯</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- 权益模板 -->
+          <section class="ly-section">
+            <div class="ly-section-head">
+              <span class="title">权益模板</span>
+            </div>
+            <div class="ly-section-body">
+              <table class="quota-table" id="quotaTable">
+                <thead>
+                  <tr>
+                    <th class="col-name">权益项</th>
+                    <th class="col-num">额度</th>
+                    <th class="col-type">类型</th>
+                    <th>说明 / 客户卡片描述</th>
+                    <th class="col-op">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="quotaBody">
+                  <!-- 由 JS 注入；新建模式为空 -->
+                </tbody>
+              </table>
+              <div class="quota-add">
+                <a class="ly-link" href="#" onclick="openPicker();return false">+ 添加权益项</a>
+                <a class="ly-link" href="crossborder-erp-billing-product-config-dictionary.html" style="margin-left:16px;color:var(--ly-muted)">字典维护 →</a>
+              </div>
+            </div>
+          </section>
+
+          <!-- 客户侧展示映射 -->
+          <section class="ly-section">
+            <div class="ly-section-head"><span class="title">客户侧展示映射</span></div>
+            <div class="form-grid">
+              <div>
+                <label>客户侧分区 <span class="req">*</span></label>
+                <select id="bizZone">
+                  <option selected>ERP 主套餐</option>
+                  <option>SCM 套餐</option>
+                  <option>资源扩容与增值服务</option>
+                </select>
+              </div>
+              <div>
+                <label>分区内排序</label>
+                <input type="number" value="30" min="0" step="10">
+              </div>
+              <div>
+                <label>租户按钮文案</label>
+                <select>
+                  <option selected>联系商务</option>
+                  <option>申请扩容</option>
+                  <option>预约服务</option>
+                  <option>申请试用</option>
+                </select>
+              </div>
+              <div>
+                <label>价格展示策略</label>
+                <select>
+                  <option selected>显示价格</option>
+                  <option>隐藏价格（线下报价）</option>
+                </select>
+              </div>
+              <div>
+                <label>可见性 · 租户</label>
+                <div class="switch-row">
+                  <label class="switch"><input type="checkbox" id="visTenant" checked><span class="slider"></span></label>
+                  <span class="lab">租户在「套餐方案」可见</span>
+                </div>
+              </div>
+              <div>
+                <label>可见性 · 后台</label>
+                <div class="switch-row">
+                  <label class="switch"><input type="checkbox" id="visAdmin" checked><span class="slider"></span></label>
+                  <span class="lab">客户配置 · 新增购买可选</span>
+                </div>
+              </div>
+              <div class="full">
+                <label>权益摘要（租户卡片灰色说明）</label>
+                <textarea>300万单/年 · 10万 MSKU · 不限平台 · 300 子账号 · 500 店铺</textarea>
+              </div>
+            </div>
+          </section>
+
+          <!-- 试用配置 -->
+          <section class="ly-section">
+            <div class="ly-section-head"><span class="title">试用配置</span></div>
+            <div class="form-grid">
+              <div>
+                <label>允许试用</label>
+                <div class="switch-row">
+                  <label class="switch"><input type="checkbox" id="trialOn" checked><span class="slider"></span></label>
+                  <span class="lab">开启后租户可申请试用</span>
+                </div>
+              </div>
+              <div>
+                <label>试用时长（天）</label>
+                <input type="number" value="15">
+              </div>
+              <div>
+                <label>是否需要审核</label>
+                <select>
+                  <option selected>不需审核（提交后直接开通）</option>
+                  <option>需要商务审核</option>
+                </select>
+              </div>
+              <div>
+                <label>试用结束后行为</label>
+                <select>
+                  <option selected>自动失效（停止访问，保留数据 30 天）</option>
+                  <option>仅提示，保持只读</option>
+                  <option>自动续付（不推荐）</option>
+                </select>
+              </div>
+              <div>
+                <label>试用期间能否扩容</label>
+                <select>
+                  <option selected>不允许</option>
+                  <option>允许（与正式同价）</option>
+                </select>
+              </div>
+              <div class="full">
+                <label>试用期权益缩减说明</label>
+                <textarea placeholder="如：年订单量按 1 万单上限、店铺 5 个、不含金蝶对接…">试用期：1万单上限 · 5 店铺 · 不含金蝶对接</textarea>
+              </div>
+            </div>
+          </section>
+
+          <!-- 依赖与适用 -->
+          <section class="ly-section">
+            <div class="ly-section-head"><span class="title">依赖与适用规则</span></div>
+            <div class="form-grid">
+              <div>
+                <label>同分区互斥</label>
+                <select>
+                  <option selected>否</option>
+                  <option>是（同分区只能持有一个）</option>
+                </select>
+              </div>
+              <div>
+                <label>最大可购数量</label>
+                <input type="number" placeholder="留空=不限">
+              </div>
+              <div class="full">
+                <label>依赖前置商品 <span style="font-weight:400;color:var(--ly-muted);font-size:12px">· 满足任一即可购买</span></label>
+                <div class="chips" id="depChips">
+                  <span class="chip" data-key="ERP_STD" onclick="toggleChip(this)">ERP 标准版</span>
+                  <span class="chip" data-key="ERP_PRO" onclick="toggleChip(this)">ERP 专业版</span>
+                  <span class="chip selected" data-key="ERP_FLAGSHIP" onclick="toggleChip(this)">ERP 旗舰版</span>
+                  <span class="chip selected" data-key="SCM_ENT" onclick="toggleChip(this)">SCM 企业版</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 关联授权模板 -->
+          <section class="ly-section" id="sectionAuthTemplate">
+            <div class="ly-section-head">
+              <span class="title">关联授权模板</span>
+            </div>
+            <div style="padding:16px">
+              <div class="form-grid">
+                <div class="full">
+                  <label style="display:flex;align-items:center;gap:8px">
+                    <input type="checkbox" id="authNotInvolved" onchange="toggleAuthInvolved()">
+                    <span>本商品 <strong>不涉及菜单授权</strong>（适用于纯额度商品，如订单扩容包、MSKU 包、物流轨迹按量包）</span>
+                  </label>
+                </div>
+                <div id="authBodyWrap" class="full">
+                  <div class="form-grid">
+                    <div>
+                      <label>适用系统 <span style="color:#ff4d4f">*</span></label>
+                      <select id="authSystem" onchange="renderAuthTree()">
+                        <option value="ERP" selected>ERP</option>
+                        <option value="SCM">SCM</option>
+                        <option value="WMS">WMS</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label>有效期口径 <span style="color:#ff4d4f">*</span></label>
+                      <select id="authValidity">
+                        <option value="follow_order" selected>跟随订单到期</option>
+                        <option value="fixed_days">固定天数</option>
+                      </select>
+                    </div>
+                    <div class="full">
+                      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+                        <label style="margin:0">授权范围 <span style="color:#ff4d4f">*</span> <span style="font-weight:400;color:var(--ly-muted);font-size:12px">· 勾选一级菜单 = 含全部下级</span></label>
+                        <div style="display:flex;gap:8px">
+                          <button class="ly-btn" type="button" onclick="authTreeAll(true)" style="padding:2px 10px;font-size:12px">全选</button>
+                          <button class="ly-btn" type="button" onclick="authTreeAll(false)" style="padding:2px 10px;font-size:12px">全清</button>
+                        </div>
+                      </div>
+                      <div id="authTree" class="auth-tree"></div>
+                      <div id="authSummary" class="auth-summary" style="margin-top:10px"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 售卖素材 -->
+          <section class="ly-section">
+            <div class="ly-section-head"><span class="title">售卖素材</span></div>
+            <div style="padding:16px">
+              <label style="font-size:13px;color:var(--ly-muted);display:block;margin-bottom:8px">套餐主图（推荐 800×450）</label>
+              <div class="upload-row">
+                <div class="upload-box">+ 上传</div>
+                <div class="upload-box">+ 上传</div>
+              </div>
+              <label style="font-size:13px;color:var(--ly-muted);display:block;margin:16px 0 8px">详情配图（可选，最多 5 张）</label>
+              <div class="upload-row">
+                <div class="upload-box">+</div>
+                <div class="upload-box">+</div>
+                <div class="upload-box">+</div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <aside class="edit-side">
+          <div class="side-card">
+            <div class="head">发布信息</div>
+            <div class="body">
+              <p>当前：<span class="ly-status warn">草稿未保存</span></p>
+              <p>线上：<span class="ly-status">已发布 v3</span></p>
+              <p>上次发布：2026-05-10 15:22<br><small>胡仕玲</small></p>
+              <p>最近修改：2026-05-20 16:20<br><small>胡仕玲</small></p>
+            </div>
+          </div>
+
+          <div class="side-card">
+            <div class="head">租户侧映射</div>
+            <div class="body">
+              <div id="mappingPreview" class="mapping-preview-v2">
+                <div class="mp-row"><span class="mp-key">分区</span><span class="mp-val" id="mpZone">ERP 主套餐</span></div>
+                <div class="mp-row"><span class="mp-key">编码</span><span class="mp-val mp-mono" id="mpCode">SKU_ERP_FLAGSHIP_001</span></div>
+                <div class="mp-row"><span class="mp-key">可见</span><span class="mp-val" id="mpVis">租户 + 后台</span></div>
+              </div>
+              <p style="margin-top:12px;text-align:right">
+                <a class="ly-link" href="crossborder-erp-billing-tenant-package-plans.html?highlight=SKU_ERP_FLAGSHIP_001" target="_blank" rel="noopener">租户视图预览 →</a>
+              </p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- 权益项选择弹层（连字典） -->
+<div class="picker-mask" id="pickerMask" onclick="if(event.target===this)closePicker()">
+  <div class="picker">
+    <h3>从字典选择权益项</h3>
+    <div class="picker-body" id="pickerBody"></div>
+    <div class="picker-foot">
+      <button type="button" class="ly-btn" onclick="closePicker()">取消</button>
+      <button type="button" class="ly-btn ly-btn-primary" onclick="confirmPicker()">添加所选</button>
+    </div>
+  </div>
+</div>
+
+<div class="sticky-actions">
+  <span class="meta">改动会先保存为草稿；发布后租户立即可见。</span>
+  <button type="button" class="ly-btn" onclick="history.back()">取消</button>
+  <button type="button" class="ly-btn" onclick="alert('已保存草稿')">保存草稿</button>
+  <button type="button" class="ly-btn ly-btn-primary" onclick="confirmPublish()">保存并发布</button>
+</div>
+
+<script>
+/* 字典：权益项库（与字典维护页同源；实际接入应来自接口） */
+var QUOTA_LIB = [
+  { code: 'QUOTA_ORDER_QTY', name: '年订单量', unit: '单/年', type: '主套餐配额' },
+  { code: 'QUOTA_MSKU', name: 'MSKU 额度', unit: '个', type: '主套餐配额' },
+  { code: 'QUOTA_SHOP', name: '店铺 / 站点', unit: '个', type: '主套餐配额' },
+  { code: 'QUOTA_SUB_USER', name: '子账号', unit: '个', type: '主套餐配额' },
+  { code: 'QUOTA_PLATFORM', name: '平台授权', unit: '个', type: '主套餐配额' },
+  { code: 'QUOTA_TRACK', name: '物流轨迹', unit: '次', type: '按量配额' },
+  { code: 'SVC_KDCS', name: '金蝶云星空对接', unit: '次', type: '专项服务' }
+];
+
+/* 编辑商品的初始权益（编辑模式默认填充） */
+var INIT_ROWS_EDIT = [
+  { code: 'QUOTA_ORDER_QTY', value: 3000000, unit: '单/年', unlimited: false, type: '主套餐配额', desc: '跨境订单创建计入' },
+  { code: 'QUOTA_MSKU', value: 100000, unit: '个', unlimited: false, type: '主套餐配额', desc: '新建/激活 MSKU 计入' },
+  { code: 'QUOTA_SHOP', value: 500, unit: '个', unlimited: false, type: '主套餐配额', desc: '授权绑定店铺数' },
+  { code: 'QUOTA_SUB_USER', value: 300, unit: '个', unlimited: false, type: '主套餐配额', desc: '可创建的系统用户数' },
+  { code: 'QUOTA_PLATFORM', value: 0, unit: '个', unlimited: true, type: '主套餐配额', desc: '可对接的电商平台数（不限）' },
+  { code: 'SVC_KDCS', value: 1, unit: '次', unlimited: false, type: '增值服务', desc: '含 1 次对接服务' }
+];
+
+var quotaRows = [];
+
+function renderQuota() {
+  var tbody = document.getElementById('quotaBody');
+  tbody.innerHTML = '';
+  if (quotaRows.length === 0) {
+    var tr = document.createElement('tr');
+    tr.className = 'empty';
+    tr.innerHTML = '<td colspan="5">尚未选择权益项 · 点击下方「+ 添加权益项」从字典挑选</td>';
+    tbody.appendChild(tr);
+    return;
+  }
+  quotaRows.forEach(function (r, idx) {
+    var def = QUOTA_LIB.find(function (q) { return q.code === r.code; }) || {};
+    var unit = r.unit || def.unit || '';
+    var amountHtml = r.unlimited
+      ? '<div class="quota-amount is-unlimited">'
+        + '<select onchange="toggleUnlimited(' + idx + ',this.value===&quot;unlimited&quot;)"><option value="limited">限额</option><option value="unlimited" selected>不限</option></select>'
+        + '<input type="text" value="不限" disabled>'
+        + '<span class="unit-suffix">' + unit + '</span>'
+        + '</div>'
+      : '<div class="quota-amount">'
+        + '<select onchange="toggleUnlimited(' + idx + ',this.value===&quot;unlimited&quot;)"><option value="limited" selected>限额</option><option value="unlimited">不限</option></select>'
+        + '<input type="number" value="' + r.value + '" onchange="quotaRows[' + idx + '].value=this.value">'
+        + '<span class="unit-suffix">' + unit + '</span>'
+        + '</div>';
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td>' + (def.name || r.code) + '</td>' +
+      '<td>' + amountHtml + '</td>' +
+      '<td>' + (r.type || def.type || '') + '</td>' +
+      '<td><input type="text" value="' + (r.desc || '') + '"></td>' +
+      '<td class="col-op"><a class="ly-link" href="#" onclick="removeQuota(' + idx + ');return false">删除</a></td>';
+    tbody.appendChild(tr);
+  });
+}
+function toggleUnlimited(idx, checked) {
+  quotaRows[idx].unlimited = checked;
+  renderQuota();
+}
+function removeQuota(idx) {
+  quotaRows.splice(idx, 1);
+  renderQuota();
+}
+
+/* 权益项 picker */
+function openPicker() {
+  var used = quotaRows.map(function (r) { return r.code; });
+  var body = document.getElementById('pickerBody');
+  body.innerHTML = '';
+  QUOTA_LIB.forEach(function (q) {
+    var disabled = used.indexOf(q.code) >= 0;
+    var label = document.createElement('label');
+    label.innerHTML =
+      '<input type="checkbox" value="' + q.code + '" ' + (disabled ? 'disabled' : '') + '>' +
+      '<span>' + q.name + (disabled ? '（已选）' : '') + '</span>' +
+      '<span class="code">' + q.code + ' · ' + q.unit + '</span>';
+    body.appendChild(label);
+  });
+  document.getElementById('pickerMask').classList.add('open');
+}
+function closePicker() {
+  document.getElementById('pickerMask').classList.remove('open');
+}
+function confirmPicker() {
+  var picked = [];
+  document.querySelectorAll('#pickerBody input[type=checkbox]:checked:not(:disabled)').forEach(function (cb) {
+    picked.push(cb.value);
+  });
+  picked.forEach(function (code) {
+    var def = QUOTA_LIB.find(function (q) { return q.code === code; });
+    quotaRows.push({
+      code: code,
+      value: 0,
+      unit: def ? def.unit : '',
+      unlimited: false,
+      type: def ? def.type : '',
+      desc: ''
+    });
+  });
+  renderQuota();
+  closePicker();
+}
+
+/* 依赖 chips */
+function toggleChip(el) { el.classList.toggle('selected'); }
+
+/* ============ 关联授权模板（菜单级 · 一期） ============ */
+/* 菜单字典 mock（实际由用户中心 GET /menu-dictionary?system= 提供） */
+var MENU_DICT = {
+  ERP: {
+    name: 'ERP',
+    l1Menus: [
+      { code: 'PRODUCT', name: '产品管理', l2: [
+        { code: 'PROD_LIST', name: '产品列表', ops: 10 }
+      ]},
+      { code: 'INBOUND', name: '入库管理', l2: [
+        { code: 'SN_MGMT', name: '序列号管理', ops: 6 },
+        { code: 'INBOUND_ORDER', name: '入库单', ops: 8 },
+        { code: 'WAREHOUSE_RES', name: '预约送仓管理', ops: 7 },
+        { code: 'INBOUND_CLAIM', name: '入库认领', ops: 2 }
+      ]},
+      { code: 'OUTBOUND', name: '出库管理', l2: [
+        { code: 'DROPSHIP', name: '一件代发出库', ops: 11 },
+        { code: 'TRANSFER', name: '备货中转出库', ops: 8 },
+        { code: 'SHIPPING_CALC', name: '运费试算', ops: 3 }
+      ]},
+      { code: 'STOCK', name: '库存管理', l2: [
+        { code: 'STOCK_LIST', name: '库存列表', ops: 5 },
+        { code: 'STOCK_ADJUST', name: '库存调整', ops: 4 }
+      ]},
+      { code: 'FINANCE', name: '财务管理', l2: [
+        { code: 'BILL_RECON', name: '账单对账', ops: 6 },
+        { code: 'KINGDEE', name: '金蝶云星空对接', ops: 4 }
+      ]},
+      { code: 'BI', name: 'BI 报表', l2: [
+        { code: 'DASHBOARD', name: '运营看板', ops: 3 },
+        { code: 'EXPORT', name: '报表导出', ops: 2 }
+      ]},
+      { code: 'SYSTEM', name: '系统设置', l2: [
+        { code: 'ROLE', name: '角色管理', ops: 5 },
+        { code: 'AUDIT', name: '操作审计', ops: 2 }
+      ]}
+    ]
+  },
+  SCM: {
+    name: 'SCM',
+    l1Menus: [
+      { code: 'DELIVERY', name: '配送管理', l2: [
+        { code: 'ROUTE', name: '路线规划', ops: 4 },
+        { code: 'TRACK', name: '配送跟踪', ops: 3 }
+      ]},
+      { code: 'CARRIER', name: '承运商管理', l2: [
+        { code: 'CARRIER_LIST', name: '承运商列表', ops: 5 }
+      ]}
+    ]
+  },
+  WMS: {
+    name: 'WMS',
+    l1Menus: [
+      { code: 'LABEL_PRINT', name: '面单打印', l2: [
+        { code: 'BATCH_PRINT', name: '批量打单', ops: 6 }
+      ]},
+      { code: 'LABEL_TEMPLATE', name: '模板管理', l2: [
+        { code: 'TPL_LIST', name: '模板列表', ops: 4 }
+      ]}
+    ]
+  },
+  AI: {
+    name: 'AI 工具集（二期 · 占位）',
+    l1Menus: []
+  }
+};
+
+/* 默认勾选示例：ERP 全部一级菜单（演示「ERP 旗舰版」配置） */
+var DEFAULT_AUTH = {
+  ERP: ['PRODUCT','INBOUND','OUTBOUND','STOCK','FINANCE','BI','SYSTEM']
+};
+
+function renderAuthTree() {
+  var sys = document.getElementById('authSystem').value;
+  var data = MENU_DICT[sys];
+  var box = document.getElementById('authTree');
+  if (!data) { box.innerHTML = '<div style="padding:20px;text-align:center;color:#999">该系统暂无菜单字典</div>'; return; }
+  var preSelected = DEFAULT_AUTH[sys] || [];
+  var html = '';
+  data.l1Menus.forEach(function(l1, idx) {
+    var checked = preSelected.indexOf(l1.code) !== -1 ? 'checked' : '';
+    var totalOps = l1.l2.reduce(function(s, l2) { return s + l2.ops; }, 0);
+    html += '<div class="l1' + (idx < 2 ? ' open' : '') + '" data-l1="' + l1.code + '">';
+    html += '  <div class="l1-head" onclick="toggleL1(this)">';
+    html += '    <span class="arrow">▶</span>';
+    html += '    <input type="checkbox" class="cb-l1" ' + checked + ' onclick="event.stopPropagation();onL1Change(this)">';
+    html += '    <span>' + l1.name + '</span>';
+    html += '    <span class="count">' + l1.l2.length + ' 个二级 · ' + totalOps + ' 操作项</span>';
+    html += '  </div>';
+    html += '  <div class="l2-list">';
+    l1.l2.forEach(function(l2) {
+      html += '<div class="l2"><input type="checkbox" class="cb-l2" ' + checked + ' onchange="onL2Change(this)"><span>' + l2.name + '</span><span class="ops">' + l2.ops + ' 个操作项 · 默认全开</span></div>';
+    });
+    html += '  </div>';
+    html += '</div>';
+  });
+  box.innerHTML = html;
+  computeAuthSummary();
+}
+
+function toggleL1(headEl) {
+  headEl.parentElement.classList.toggle('open');
+}
+
+function onL1Change(cb) {
+  var l1 = cb.closest('.l1');
+  l1.querySelectorAll('.cb-l2').forEach(function(c) { c.checked = cb.checked; });
+  computeAuthSummary();
+}
+
+function onL2Change(cb) {
+  var l1 = cb.closest('.l1');
+  var allL2 = l1.querySelectorAll('.cb-l2');
+  var checkedCount = l1.querySelectorAll('.cb-l2:checked').length;
+  var l1cb = l1.querySelector('.cb-l1');
+  l1cb.checked = checkedCount === allL2.length;
+  l1cb.indeterminate = checkedCount > 0 && checkedCount < allL2.length;
+  computeAuthSummary();
+}
+
+function authTreeAll(on) {
+  document.querySelectorAll('#authTree input[type=checkbox]').forEach(function(c) {
+    c.checked = on; c.indeterminate = false;
+  });
+  computeAuthSummary();
+}
+
+function computeAuthSummary() {
+  var sys = document.getElementById('authSystem').value;
+  var data = MENU_DICT[sys];
+  if (!data) { document.getElementById('authSummary').innerHTML = ''; return; }
+  var l1Checked = [], l2Checked = [];
+  document.querySelectorAll('#authTree .l1').forEach(function(l1) {
+    var name = l1.querySelector('.l1-head span:nth-of-type(2)').textContent;
+    var cb = l1.querySelector('.cb-l1');
+    var l2cbs = l1.querySelectorAll('.cb-l2:checked');
+    if (cb.checked && l2cbs.length === l1.querySelectorAll('.cb-l2').length) {
+      l1Checked.push(name);
+    } else if (l2cbs.length > 0) {
+      l2cbs.forEach(function(c) {
+        l2Checked.push(name + ' / ' + c.parentElement.querySelector('span').textContent);
+      });
+    }
+  });
+  var html = '<strong>授权汇总（' + data.name + '）：</strong>';
+  if (l1Checked.length === 0 && l2Checked.length === 0) {
+    html += '<span style="color:#ff4d4f">未选择任何菜单</span>';
+  } else {
+    if (l1Checked.length > 0) html += '<br>· 完整开放 <strong>' + l1Checked.length + '</strong> 个一级菜单：' + l1Checked.join('、');
+    if (l2Checked.length > 0) html += '<br>· 部分开放 <strong>' + l2Checked.length + '</strong> 个二级菜单：' + l2Checked.join('、');
+    html += '<br><span style="color:var(--ly-muted)">所有勾选菜单下的 <strong>所有操作项默认全部开放</strong>；如需「同菜单内只读 / 读写」差异化，待二期支持操作项级颗粒度。</span>';
+  }
+  document.getElementById('authSummary').innerHTML = html;
+}
+
+function toggleAuthInvolved() {
+  var notInvolved = document.getElementById('authNotInvolved').checked;
+  document.getElementById('authBodyWrap').classList.toggle('disabled', notInvolved);
+}
+
+/* 初始化授权树（首次加载） */
+window.addEventListener('DOMContentLoaded', function() {
+  if (document.getElementById('authTree')) renderAuthTree();
+});
+
+/* 阶梯计价显隐 */
+function toggleTier() {
+  var mode = document.getElementById('priceMode').value;
+  var isMetered = mode === 'metered' || document.getElementById('priceMode').options[document.getElementById('priceMode').selectedIndex].text === '按量计费';
+  document.getElementById('tierBlock').style.display = isMetered ? '' : 'none';
+}
+
+/* 商品类型 → 预填计价模式 + 展示业务规则提示 */
+function onProdTypeChange() {
+  var sel = document.getElementById('prodType');
+  var opt = sel.options[sel.selectedIndex];
+  var priceDefault = opt.getAttribute('data-price') || '';
+  var renewable = opt.getAttribute('data-renewable') === '1';
+  var milestone = opt.getAttribute('data-milestone') === '1';
+
+  // 预填计价模式（用户后续可改）
+  var priceSel = document.getElementById('priceMode');
+  if (priceSel && priceDefault) {
+    for (var i = 0; i < priceSel.options.length; i++) {
+      if (priceSel.options[i].text === priceDefault) {
+        priceSel.selectedIndex = i;
+        break;
+      }
+    }
+    if (typeof toggleTier === 'function') toggleTier();
+  }
+
+  // 渲染规则提示
+  var rulesEl = document.getElementById('prodTypeRules');
+  if (rulesEl) {
+    var chips = [];
+    chips.push('<span class="rule-chip ' + (renewable ? 'rule-chip-on' : 'rule-chip-off') + '">'
+      + (renewable ? '✓' : '✗') + ' 支持续费/升级</span>');
+    chips.push('<span class="rule-chip ' + (milestone ? 'rule-chip-on' : 'rule-chip-off') + '">'
+      + (milestone ? '✓' : '✗') + ' 走服务里程碑</span>');
+    rulesEl.innerHTML = chips.join('');
+  }
+}
+document.addEventListener('DOMContentLoaded', onProdTypeChange);
+function addTierRow() {
+  var tr = document.createElement('tr');
+  tr.innerHTML =
+    '<td><input type="number"></td>' +
+    '<td><input type="number"></td>' +
+    '<td><input type="text"></td>' +
+    '<td><input type="text"></td>' +
+    '<td style="text-align:center"><a class="ly-link" href="#" onclick="this.closest(\'tr\').remove();return false">删除</a></td>';
+  document.getElementById('tierBody').appendChild(tr);
+}
+
+/* 发布 confirm 文案（不可逆性预警挪到这里） */
+function confirmPublish() {
+  var msg = '确认发布？\n\n'
+          + '• 租户侧将立即看到最新内容与权益模板\n'
+          + '• 商品编码发布后不可修改\n'
+          + '• 配置变更不会回溯影响已售订单的权益';
+  if (confirm(msg)) alert('已发布 v4');
+}
+
+function mvpToggleTier() {
+  var mode = document.getElementById('mvpPriceMode');
+  var panel = document.getElementById('mvpTierPanel');
+  if (!mode || !panel) return;
+  panel.style.display = mode.value === '按量计费' ? '' : 'none';
+}
+
+function mvpToggleSystemOpen() {
+  var sw = document.getElementById('mvpSystemSwitch');
+  var panel = document.getElementById('mvpSystemPanel');
+  if (!sw || !panel) return;
+  panel.style.display = sw.checked ? 'grid' : 'none';
+}
+
+function mvpSetSystems(list) {
+  document.querySelectorAll('.mvp-system-option input[type=checkbox]').forEach(function(cb) {
+    cb.checked = list.indexOf(cb.getAttribute('data-system')) >= 0;
+  });
+}
+
+function mvpApplyType(type) {
+  var priceMode = document.getElementById('mvpPriceMode');
+  var unit = document.getElementById('mvpUnit');
+
+  if (type === 'MAIN') {
+    if (priceMode) priceMode.value = '按年订阅';
+    mvpSetSystems(['ERP']);
+    if (unit) unit.value = '年';
+  }
+  if (type === 'ADDON') {
+    if (priceMode) priceMode.value = '按年订阅';
+    if (unit) unit.value = '包';
+  }
+  mvpToggleTier();
+}
+
+/* 映射预览实时更新 */
+function refreshMapping() {
+  var code = document.getElementById('skuCode').value || '—';
+  var zoneSel = document.getElementById('bizZone');
+  var zone = zoneSel.options[zoneSel.selectedIndex].text;
+  var visT = document.getElementById('visTenant').checked;
+  var visA = document.getElementById('visAdmin').checked;
+  var visText = (visT && visA) ? '租户 + 后台'
+              : visT ? '仅租户'
+              : visA ? '仅后台'
+              : '均不可见';
+  var elZone = document.getElementById('mpZone'); if (elZone) elZone.textContent = zone;
+  var elCode = document.getElementById('mpCode'); if (elCode) elCode.textContent = code;
+  var elVis  = document.getElementById('mpVis');  if (elVis)  elVis.textContent  = visText;
+}
+
+/* 初始化 */
+(function init() {
+  var q = new URLSearchParams(location.search);
+
+  /* 示例 Banner：仅当点击非旗舰版进来时显示，提示这是 ERP 旗舰版的完整填法示例 */
+  var demoBanner = document.getElementById('demoBanner');
+  var codeParam = q.get('code');
+  if (demoBanner && codeParam && codeParam !== 'SKU_ERP_FLAGSHIP_001' && q.get('mode') !== 'new') {
+    demoBanner.style.display = 'block';
+  }
+
+  if (q.get('mode') === 'new') {
+    /* D1-1：新建模式同步重置侧栏字段 + 标题 */
+    var crumbEl = document.getElementById('crumbName'); if (crumbEl) crumbEl.textContent = '新建商品';
+    document.getElementById('skuCode').value = '';
+    var nameInputs = document.querySelectorAll('.form-grid input[type=text], .form-grid textarea');
+    nameInputs.forEach(function (el) { el.value = ''; });
+    var priceShow = document.querySelector('.form-grid input[value^="¥"]'); if (priceShow) priceShow.value = '';
+    var sort = document.querySelector('input[type=number][value="30"]'); if (sort) sort.value = '';
+    document.getElementById('bizZone').selectedIndex = 0;
+    document.getElementById('visTenant').checked = true;
+    document.getElementById('visAdmin').checked = true;
+    // 发布信息侧栏：新建态文案
+    var sideMetas = document.querySelectorAll('.side-card .body p');
+    if (sideMetas.length) {
+      sideMetas[0].innerHTML = '当前：<span class="ly-status muted">新建草稿</span>';
+      if (sideMetas[1]) sideMetas[1].innerHTML = '线上：—';
+      if (sideMetas[2]) sideMetas[2].innerHTML = '上次发布：—';
+      if (sideMetas[3]) sideMetas[3].innerHTML = '创建人：胡仕玲 · ' + new Date().toLocaleString('zh-CN');
+    }
+    quotaRows = [];
+  } else {
+    quotaRows = INIT_ROWS_EDIT.slice();
+  }
+  renderQuota();
+  toggleTier();
+  refreshMapping();
+
+  ['skuCode','bizZone','visTenant','visAdmin'].forEach(function (id) {
+    var el = document.getElementById(id); if (!el) return;
+    el.addEventListener('change', refreshMapping);
+    el.addEventListener('input', refreshMapping);
+  });
+
+  var name = document.getElementById('mvpName');
+  var code = document.getElementById('mvpCode');
+  var price = document.getElementById('mvpPrice');
+  var q = new URLSearchParams(location.search);
+  if (q.get('mode') === 'new') {
+    if (name) name.value = '';
+    if (code) code.value = '';
+    if (price) price.value = '';
+  } else {
+    if (name) name.value = document.getElementById('prodName').value || 'ERP 旗舰版';
+    if (code) code.value = document.getElementById('skuCode').value || 'SKU_ERP_FLAGSHIP_001';
+    if (price) price.value = document.getElementById('salePrice').value || '¥69,800/年';
+  }
+  document.querySelectorAll('#mvpTypeSegment button').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('#mvpTypeSegment button').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      mvpApplyType(btn.getAttribute('data-type'));
+    });
+  });
+  mvpApplyType('MAIN');
+})();
+</script>
+</body>
+</html>

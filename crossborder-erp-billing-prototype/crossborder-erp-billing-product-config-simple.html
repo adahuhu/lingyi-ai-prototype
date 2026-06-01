@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商品配置</title>
+  <link rel="stylesheet" href="billing-simple.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="side">
+    <div class="side-title">计费管理</div>
+    <div class="side-group">平台</div>
+    <a href="crossborder-erp-billing-product-config-simple.html" class="active">商品配置</a>
+    <a href="crossborder-erp-billing-customer-management-simple.html">客户管理</a>
+    <div class="side-group">客户</div>
+    <a href="crossborder-erp-billing-my-subscription-simple.html">我的订阅</a>
+  </aside>
+  <div class="main">
+    <header class="header">
+      <div>
+        <h1>商品配置</h1>
+        <div class="path">维护可售卖商品和价格，租户侧只展示、不自助下单</div>
+      </div>
+      <button class="btn btn-primary" onclick="openModal('edit')">新建商品</button>
+    </header>
+    <div class="body">
+      <div class="toolbar">
+        <select id="typeFilter" onchange="renderTable()">
+          <option value="">全部类型</option>
+          <option>主套餐</option>
+          <option>资源扩容</option>
+          <option>按量服务</option>
+          <option>专项服务</option>
+          <option>定制商品</option>
+        </select>
+        <input type="text" placeholder="商品名称" id="search" oninput="renderTable()">
+        <button class="btn" onclick="renderTable()">查询</button>
+      </div>
+      <div class="panel">
+        <table>
+          <thead>
+            <tr>
+              <th>商品名称</th>
+              <th>类型</th>
+              <th>价格</th>
+              <th>客户侧</th>
+              <th>状态</th>
+              <th width="100">操作</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-mask" id="editModal">
+  <div class="modal" style="width:640px">
+    <div class="modal-head">编辑商品 <button class="btn-link" onclick="closeModal()">关闭</button></div>
+    <div class="modal-body">
+      <div class="grid-2">
+        <div class="form-row"><label>商品名称 <span class="req">*</span></label><input value="ERP 专业版"></div>
+        <div class="form-row"><label>商品编码</label><input value="PLAN-ERP-PRO" disabled style="background:#f5f5f5"></div>
+        <div class="form-row"><label>类型 <span class="req">*</span></label>
+          <select><option>主套餐</option><option>资源扩容</option><option>按量服务</option><option>专项服务</option><option>定制商品</option></select>
+        </div>
+        <div class="form-row"><label>价格 <span class="req">*</span></label><input value="29800"></div>
+        <div class="form-row"><label>计价单位</label><select><option>年</option><option>单</option><option>次</option><option>人天</option><option>线下报价</option></select></div>
+        <div class="form-row"><label>客户侧展示</label><select><option>展示</option><option>仅联系商务</option><option>仅平台录入</option></select></div>
+        <div class="form-row"><label>展示名称</label><input value="ERP 专业版"></div>
+        <div class="form-row" style="grid-column:1/-1"><label>适用说明</label><input value="成长型卖家，100万单/年"></div>
+      </div>
+      <p class="form-hint">套餐额度、购买限制由系统按商品类型自动带出，此处不单独配置。</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal()">取消</button>
+      <button class="btn btn-primary" onclick="closeModal()">保存</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const products = [
+  ["ERP 标准版","主套餐","9800/年","展示","已发布"],
+  ["ERP 专业版","主套餐","29800/年","展示","已发布"],
+  ["ERP 旗舰版","主套餐","69800/年","展示","已发布"],
+  ["SCM 企业版","主套餐","100000起/年","联系商务","已发布"],
+  ["SCM&ERP 定制版","定制商品","线下报价","联系商务","已发布"],
+  ["订单扩容包","资源扩容","1000/每5万单/年","展示","已发布"],
+  ["MSKU 扩容包","资源扩容","2000/每5000/年","展示","已发布"],
+  ["金蝶云星空对接","专项服务","20000/次","联系商务","已发布"],
+  ["物流轨迹","按量服务","0.1/单","展示","已发布"],
+  ["邮件索评额度","资源扩容","1000/10万封/年","展示","已发布"],
+];
+function renderTable() {
+  const type = document.getElementById('typeFilter').value;
+  const q = document.getElementById('search').value.trim();
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = products.filter(p => (!type || p[1]===type) && (!q || p[0].includes(q)))
+    .map(p => `<tr>
+      <td><b>${p[0]}</b></td>
+      <td>${p[1]}</td>
+      <td>¥${p[2]}</td>
+      <td>${p[3]}</td>
+      <td><span class="tag tag-green">${p[4]}</span></td>
+      <td><button class="btn-link" onclick="openModal('edit')">编辑</button></td>
+    </tr>`).join('');
+}
+function openModal() { document.getElementById('editModal').classList.add('show'); }
+function closeModal() { document.getElementById('editModal').classList.remove('show'); }
+renderTable();
+</script>
+</body>
+</html>

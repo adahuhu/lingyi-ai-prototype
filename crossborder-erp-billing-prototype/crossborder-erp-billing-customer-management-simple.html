@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>客户管理</title>
+  <link rel="stylesheet" href="billing-simple.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="side">
+    <div class="side-title">计费管理</div>
+    <div class="side-group">平台</div>
+    <a href="crossborder-erp-billing-product-config-simple.html">商品配置</a>
+    <a href="crossborder-erp-billing-customer-management-simple.html" class="active">客户管理</a>
+    <div class="side-group">客户</div>
+    <a href="crossborder-erp-billing-my-subscription-simple.html">我的订阅</a>
+  </aside>
+  <div class="main">
+    <header class="header">
+      <div>
+        <h1 id="pageTitle">客户管理</h1>
+        <div class="path" id="pagePath">查看客户套餐、购买记录和额度使用</div>
+      </div>
+      <div id="listActions">
+        <button class="btn btn-primary" onclick="showPurchase()">新增购买</button>
+      </div>
+      <div id="detailActions" style="display:none">
+        <button class="btn" onclick="showList()">返回</button>
+        <button class="btn btn-primary" onclick="showPurchase()">新增购买</button>
+      </div>
+    </header>
+    <div class="body">
+      <!-- 列表 -->
+      <div id="viewList" class="page-view active">
+        <div class="toolbar">
+          <input type="text" placeholder="客户名称" id="q">
+          <select><option>全部套餐</option><option>ERP 标准版</option><option>ERP 专业版</option><option>ERP 旗舰版</option><option>SCM 企业版</option><option>试用中</option></select>
+          <button class="btn">查询</button>
+        </div>
+        <div class="panel">
+          <table>
+            <thead>
+              <tr><th>客户名称</th><th>当前套餐</th><th>状态</th><th>到期日</th><th>负责人</th><th>操作</th></tr>
+            </thead>
+            <tbody>
+              <tr onclick="showDetail('杭州星河跨境')">
+                <td><b>杭州星河跨境</b></td><td>ERP 旗舰版</td><td><span class="tag tag-green">正式</span></td><td>2026-12-31</td><td>林珊</td>
+                <td><button class="btn-link" onclick="event.stopPropagation();showDetail('杭州星河跨境')">查看</button></td>
+              </tr>
+              <tr onclick="showDetail('深圳速卖通科技')">
+                <td><b>深圳速卖通科技</b></td><td>ERP 标准版</td><td><span class="tag tag-orange">试用</span></td><td>2026-06-15</td><td>王磊</td>
+                <td><button class="btn-link" onclick="event.stopPropagation();showDetail('深圳速卖通科技')">查看</button></td>
+              </tr>
+              <tr>
+                <td><b>广州蓝海贸易</b></td><td>ERP 专业版</td><td><span class="tag tag-green">正式</span></td><td>2026-08-20</td><td>陈静</td>
+                <td><button class="btn-link" onclick="showDetail('广州蓝海贸易')">查看</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 详情 -->
+      <div id="viewDetail" class="page-view">
+        <div class="info-line">
+          <span>客户<b id="custName">杭州星河跨境</b></span>
+          <span>套餐<b id="custPlan">ERP 旗舰版</b></span>
+          <span>到期<b>2026-12-31</b></span>
+          <span>负责人<b>林珊</b></span>
+        </div>
+        <div class="tabs">
+          <button class="active" data-tab="quota" onclick="switchTab(this)">额度使用</button>
+          <button data-tab="purchase" onclick="switchTab(this)">购买记录</button>
+          <button data-tab="service" onclick="switchTab(this)">服务进度</button>
+        </div>
+        <div id="tabQuota" class="panel">
+          <table>
+            <thead><tr><th>资源</th><th>已用</th><th>总量</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>年订单量</td><td>246万</td><td>300万</td><td><a class="btn-link" href="crossborder-erp-billing-consumption-detail-simple.html">消耗明细</a></td></tr>
+              <tr><td>MSKU</td><td>6.8万</td><td>10万</td><td><a class="btn-link" href="crossborder-erp-billing-consumption-detail-simple.html">消耗明细</a></td></tr>
+              <tr><td>子账号</td><td>218</td><td>300</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="tabPurchase" class="panel" style="display:none">
+          <table>
+            <thead><tr><th>商品</th><th>金额</th><th>有效期</th><th>水单</th></tr></thead>
+            <tbody>
+              <tr><td>ERP 旗舰版</td><td>¥69,800</td><td>2026-01-01 ~ 2026-12-31</td><td><span class="tag tag-green">已上传·已开通</span></td></tr>
+              <tr><td>订单扩容包 x2</td><td>¥2,000</td><td>跟随主套餐</td><td><span class="tag tag-green">已上传·已开通</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="tabService" class="panel" style="display:none">
+          <table>
+            <thead><tr><th>服务</th><th>状态</th><th>负责人</th></tr></thead>
+            <tbody>
+              <tr><td>金蝶云星空对接</td><td><span class="tag tag-orange">进行中</span></td><td>周启</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 新增购买（同页表单，不用多 tab） -->
+      <div id="viewPurchase" class="page-view">
+        <div class="alert">上传银行水单后立即开通权益；未上传不能开通。</div>
+        <div class="panel">
+          <div class="panel-head">新增购买 · <span id="purchaseCust">杭州星河跨境</span></div>
+          <div class="panel-body" style="padding:16px">
+            <div class="grid-2">
+              <div class="form-row"><label>购买类型</label><select><option>新购</option><option>续费</option><option>升级</option><option>扩容</option><option>服务</option></select></div>
+              <div class="form-row"><label>商品 <span class="req">*</span></label>
+                <select><option>ERP 旗舰版</option><option>ERP 专业版</option><option>订单扩容包</option><option>金蝶云星空对接</option></select>
+              </div>
+              <div class="form-row"><label>成交金额 <span class="req">*</span></label><input value="69800"></div>
+              <div class="form-row"><label>有效期至</label><input type="date" value="2026-12-31"></div>
+              <div class="form-row" style="grid-column:1/-1"><label>银行水单 <span class="req">*</span></label>
+                <input type="file" accept=".jpg,.png,.pdf">
+                <div class="form-hint">上传后自动开通，无需等待财务审核</div>
+              </div>
+              <div class="form-row" style="grid-column:1/-1"><label>备注</label><textarea placeholder="选填"></textarea></div>
+            </div>
+            <div style="margin-top:16px">
+              <button class="btn" onclick="showDetail(document.getElementById('purchaseCust').textContent)">取消</button>
+              <button class="btn btn-primary" onclick="alert('已保存并开通');showDetail(document.getElementById('purchaseCust').textContent)">保存并开通</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function showList() {
+  document.getElementById('viewList').classList.add('active');
+  document.getElementById('viewDetail').classList.remove('active');
+  document.getElementById('viewPurchase').classList.remove('active');
+  document.getElementById('listActions').style.display='';
+  document.getElementById('detailActions').style.display='none';
+  document.getElementById('pageTitle').textContent='客户管理';
+}
+function showDetail(name) {
+  document.getElementById('custName').textContent=name;
+  document.getElementById('purchaseCust').textContent=name;
+  document.getElementById('viewList').classList.remove('active');
+  document.getElementById('viewDetail').classList.add('active');
+  document.getElementById('viewPurchase').classList.remove('active');
+  document.getElementById('listActions').style.display='none';
+  document.getElementById('detailActions').style.display='';
+  document.getElementById('pageTitle').textContent=name;
+}
+function showPurchase() {
+  document.getElementById('viewList').classList.remove('active');
+  document.getElementById('viewDetail').classList.remove('active');
+  document.getElementById('viewPurchase').classList.add('active');
+  document.getElementById('pageTitle').textContent='新增购买';
+}
+function switchTab(btn) {
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tabQuota').style.display = btn.dataset.tab==='quota'?'':'none';
+  document.getElementById('tabPurchase').style.display = btn.dataset.tab==='purchase'?'':'none';
+  document.getElementById('tabService').style.display = btn.dataset.tab==='service'?'':'none';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>字典维护 - 用户中心</title>
+  <link rel="stylesheet" href="billing-erp-platform.css">
+  <style>
+    .dict-panel { padding: 12px 16px 24px; }
+    .dict-card { background: #fff; border: 1px solid var(--ly-border); }
+    .dict-toolbar { padding: 12px 16px; border-bottom: 1px solid var(--ly-border); display: flex; align-items: center; gap: 8px; }
+    .dict-table { width: 100%; border-collapse: collapse; }
+    .dict-table th, .dict-table td { border-bottom: 1px solid var(--ly-border); padding: 10px 12px; font-size: 13px; text-align: left; }
+    .dict-table th { background: var(--ly-table-head); font-weight: 500; }
+    .dict-table input[type=text], .dict-table input[type=number] { height: 28px; border: 1px solid #d9d9d9; border-radius: 2px; padding: 0 6px; font-size: 13px; width: 100%; }
+    .dict-table .narrow { width: 90px; }
+    .dict-table .wide { width: 36%; }
+    .dict-table .op { width: 110px; }
+    .dict-help { font-size: 12px; color: var(--ly-muted); line-height: 1.6; padding: 10px 16px; background: #f7fafc; border-bottom: 1px solid var(--ly-border); }
+    .badge-builtin { background: #f5f5f5; color: var(--ly-muted); border: 1px solid #d9d9d9; padding: 0 6px; font-size: 11px; line-height: 18px; border-radius: 2px; }
+
+    /* 权益项库扩展样式 */
+    .dict-table-wide th { white-space: nowrap; }
+    .dict-table-wide th sup { font-size: 10px; color: #ff7a45; font-weight: 400; margin-left: 2px; }
+    .dict-table-wide td { vertical-align: middle; }
+    .dict-table-wide td input[type=text] { min-width: 90px; }
+
+    /* toolbar 靠右对齐 */
+    .dict-toolbar.dict-toolbar-end { justify-content: flex-end; }
+
+    /* 表格底部右下角计数 */
+    .dict-foot {
+      padding: 8px 12px;
+      text-align: right;
+      font-size: 12px;
+      color: var(--ly-muted);
+      border-top: 1px solid var(--ly-border);
+      background: #fafafa;
+    }
+
+    /* 行状态 */
+    .dict-table tr.row-dirty td { background: #fffbe6; }
+    .dict-table tr.row-disabled td { opacity: .55; }
+    .dict-table tr.row-disabled td:nth-child(4) { opacity: 1; }
+
+    /* 开关（iOS 风） */
+    .ly-switch { position: relative; display: inline-block; width: 36px; height: 20px; }
+    .ly-switch input { opacity: 0; width: 0; height: 0; }
+    .ly-switch span {
+      position: absolute; inset: 0; background: #d9d9d9; border-radius: 999px;
+      cursor: pointer; transition: background .15s;
+    }
+    .ly-switch span::before {
+      content: ""; position: absolute; left: 2px; top: 2px;
+      width: 16px; height: 16px; background: #fff; border-radius: 50%;
+      transition: transform .15s; box-shadow: 0 1px 2px rgba(0,0,0,.15);
+    }
+    .ly-switch input:checked + span { background: var(--ly-primary, #1677ff); }
+    .ly-switch input:checked + span::before { transform: translateX(16px); }
+
+    /* 弹框 */
+    .modal-mask {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.45); z-index: 1000;
+      align-items: center; justify-content: center;
+    }
+    .modal-mask.open { display: flex; }
+    .modal {
+      width: 460px; max-width: calc(100% - 32px);
+      background: #fff; border-radius: 4px;
+      box-shadow: 0 6px 24px rgba(0,0,0,.18);
+      display: flex; flex-direction: column;
+    }
+    .modal-head {
+      padding: 14px 16px; border-bottom: 1px solid var(--ly-border);
+      display: flex; align-items: center;
+    }
+    .modal-head h3 { margin: 0; font-size: 15px; font-weight: 500; }
+    .modal-close {
+      margin-left: auto; cursor: pointer; color: var(--ly-muted);
+      font-size: 18px; line-height: 1; padding: 0 4px;
+    }
+    .modal-close:hover { color: var(--ly-text); }
+    .modal-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+    .modal-field label {
+      display: block; font-size: 13px; color: var(--ly-text);
+      margin-bottom: 6px;
+    }
+    .modal-field-hint { font-size: 11px; color: var(--ly-muted); font-weight: 400; margin-left: 6px; }
+    .modal-field input {
+      width: 100%; height: 32px; box-sizing: border-box;
+      border: 1px solid #d9d9d9; border-radius: 2px;
+      padding: 0 10px; font-size: 14px;
+    }
+    .modal-field input[readonly] {
+      background: #f5f7fa;
+      color: var(--ly-muted);
+      cursor: not-allowed;
+    }
+    .modal-field input:focus { border-color: var(--ly-primary, #1677ff); outline: none; }
+    .modal-err { color: #ff4d4f; font-size: 12px; margin-top: 6px; line-height: 1.5; }
+    .req { color: #ff4d4f; }
+    .modal-foot {
+      padding: 12px 16px; border-top: 1px solid var(--ly-border);
+      display: flex; justify-content: flex-end; gap: 8px;
+    }
+  </style>
+</head>
+<body>
+<div class="ly-app">
+  <aside class="ly-side">
+    <div class="ly-side-logo"><span class="logo-mark">凌</span> 用户中心</div>
+    <nav class="ly-nav">
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▸</span> 组织架构</span>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▾</span> 租户管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-tenant-config-real.html">租户配置</a>
+        </div>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▾</span> 客户管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-customer-management-feishu.html">客户配置</a>
+        </div>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item active"><span class="ico">▾</span> 计费管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-product-config-feishu.html">商品配置</a>
+          <a href="crossborder-erp-billing-product-config-dictionary.html" class="active">字典维护</a>
+          <a href="crossborder-erp-billing-order-management-feishu.html">订单管理</a>
+        </div>
+      </div>
+      <div class="ly-nav-group"><span class="ly-nav-item"><span class="ico">▸</span> 授权设置</span></div>
+      <div class="ly-nav-group"><span class="ly-nav-item"><span class="ico">▸</span> 个人中心</span></div>
+    </nav>
+    <div class="ly-side-foot">收起导航</div>
+  </aside>
+
+  <div class="ly-wrap">
+    <header class="ly-topbar">
+      <div class="ly-tabs">
+        <a class="ly-tab" href="crossborder-erp-billing-product-config-feishu.html">商品配置 <span class="close">×</span></a>
+        <a class="ly-tab active" href="#">字典维护 <span class="close">×</span></a>
+      </div>
+      <div class="ly-topbar-right">
+        <span class="user"><span class="avatar">胡</span> 胡仕玲</span>
+      </div>
+    </header>
+
+    <main class="ly-main">
+      <!-- 权益项库 -->
+      <div id="panel-quota" class="dict-panel active">
+        <div class="dict-card">
+          <div class="dict-toolbar dict-toolbar-end">
+            <button class="ly-btn ly-btn-primary" onclick="openCreateModal()">+ 新增权益项</button>
+          </div>
+          <table class="dict-table dict-table-wide">
+            <thead>
+              <tr>
+                <th>名称</th>
+                <th>编码 <sup>不可改</sup></th>
+                <th class="narrow">默认单位</th>
+                <th class="narrow">启用</th>
+                <th class="op" style="min-width:140px">操作</th>
+              </tr>
+            </thead>
+            <tbody id="quotaBody"></tbody>
+          </table>
+          <div class="dict-foot">
+            <span id="quotaTotal">共 7 项</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- 新增权益项弹框 -->
+<div class="modal-mask" id="createMask" onclick="if(event.target===this)closeCreateModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>新增权益项</h3>
+      <span class="modal-close" onclick="closeCreateModal()">×</span>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field">
+        <label>名称 <span class="req">*</span></label>
+        <input type="text" id="newName" placeholder="如：年订单量">
+      </div>
+      <div class="modal-field">
+        <label>编码 <span class="req">*</span> <span class="modal-field-hint">建议命名：QUOTA_XXX（额度类）/ SVC_XXX（服务类）；保存后不可修改</span></label>
+        <input type="text" id="newCode" placeholder="如：QUOTA_PATENT" oninput="this.value=this.value.toUpperCase()">
+        <div class="modal-err" id="newCodeErr"></div>
+      </div>
+      <div class="modal-field">
+        <label>默认单位 <span class="req">*</span></label>
+        <input type="text" id="newUnit" placeholder="如：次 / 个 / 单/年" style="width:140px">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="ly-btn" onclick="closeCreateModal()">取消</button>
+      <button class="ly-btn ly-btn-primary" onclick="submitCreate()">创建</button>
+    </div>
+  </div>
+</div>
+
+<!-- 编辑权益项弹框 -->
+<div class="modal-mask" id="editMask" onclick="if(event.target===this)closeEditModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>编辑权益项</h3>
+      <span class="modal-close" onclick="closeEditModal()">×</span>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field">
+        <label>名称 <span class="req">*</span></label>
+        <input type="text" id="editName" placeholder="如：年订单量">
+      </div>
+      <div class="modal-field">
+        <label>编码 <span class="modal-field-hint">编码保存后不可修改</span></label>
+        <input type="text" id="editCode" readonly>
+      </div>
+      <div class="modal-field">
+        <label>默认单位 <span class="req">*</span></label>
+        <input type="text" id="editUnit" placeholder="如：次 / 个 / 单/年" style="width:140px">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="ly-btn" onclick="closeEditModal()">取消</button>
+      <button class="ly-btn ly-btn-primary" onclick="submitEdit()">保存</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== 数据：mock 字典 ===== */
+var QUOTAS = [
+  { code: 'QUOTA_ORDER_QTY',     name: '年订单量',       unit: '单/年', enabled: true, used: 4 },
+  { code: 'QUOTA_MSKU',          name: 'MSKU 额度',      unit: '个',    enabled: true, used: 3 },
+  { code: 'QUOTA_SHOP',          name: '店铺 / 站点',    unit: '个',    enabled: true, used: 4 },
+  { code: 'QUOTA_SUB_USER',      name: '子账号',         unit: '个',    enabled: true, used: 4 },
+  { code: 'QUOTA_PLATFORM',      name: '平台授权',       unit: '个',    enabled: true, used: 1 },
+  { code: 'QUOTA_TRACK',         name: '物流轨迹',       unit: '次',    enabled: true, used: 1 },
+  { code: 'QUOTA_COMP_LINK',     name: '竞品链接监控',   unit: '条',    enabled: true, used: 1 },
+  { code: 'QUOTA_KEYWORD_RANK',  name: '关键词排名监控', unit: '个',    enabled: true, used: 1 },
+  { code: 'QUOTA_FOLLOW_SELLER', name: '跟卖监控',       unit: '个',    enabled: true, used: 1 },
+  { code: 'SVC_KDCS',            name: '金蝶云星空对接', unit: '次',    enabled: true, used: 1 }
+];
+
+/* 编辑缓冲：保留旧逻辑兼容，不作为本期主交互 */
+var dirty = {};   // { code: { name?, unit? } }
+var editingCode = '';
+
+function escapeHtml(s) { return (s + '').replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]); }); }
+
+/* ===== 渲染 ===== */
+function renderQuota() {
+  var tbody = document.getElementById('quotaBody');
+  tbody.innerHTML = '';
+  QUOTAS.forEach(function (q) {
+    var d = dirty[q.code] || {};
+    var nameVal = d.name !== undefined ? d.name : q.name;
+    var unitVal = d.unit !== undefined ? d.unit : q.unit;
+    var ops = '<a class="ly-link" href="#" onclick="openEditModal(\'' + q.code + '\');return false">编辑</a>'
+      + ' · <a class="ly-link" href="#" style="color:#ff4d4f" onclick="tryDelete(\'' + q.code + '\');return false">删除</a>';
+
+    var tr = document.createElement('tr');
+    if (!q.enabled) tr.classList.add('row-disabled');
+
+    tr.innerHTML =
+      '<td>' + escapeHtml(nameVal) + '</td>' +
+      '<td><code>' + q.code + '</code></td>' +
+      '<td>' + escapeHtml(unitVal) + '</td>' +
+      '<td><label class="ly-switch"><input type="checkbox" ' + (q.enabled ? 'checked' : '') + ' onchange="onToggleEnabled(\'' + q.code + '\', this)"><span></span></label></td>' +
+      '<td class="op">' + ops + '</td>';
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('quotaTotal').textContent = '共 ' + QUOTAS.length + ' 项';
+}
+
+/* ===== 行级脏检测 ===== */
+function findQuota(code) { return QUOTAS.find(function (q) { return q.code === code; }); }
+
+function onFieldInput(code, field, value) {
+  var q = findQuota(code);
+  if (!q) return;
+  if (value === q[field]) {
+    // 改回原值 → 该字段从 dirty 中移除
+    if (dirty[code]) { delete dirty[code][field]; if (Object.keys(dirty[code]).length === 0) delete dirty[code]; }
+  } else {
+    if (!dirty[code]) dirty[code] = {};
+    dirty[code][field] = value;
+  }
+  // 仅刷新操作列（避免重渲染 input 失焦）
+  refreshRowOps(code);
+}
+
+function refreshRowOps(code) {
+  var input = document.querySelector('input[data-code="' + code + '"]');
+  if (!input) return;
+  var tr = input.closest('tr');
+  var d = dirty[code];
+  var isDirty = d && Object.keys(d).length > 0;
+  tr.classList.toggle('row-dirty', !!isDirty);
+  var opTd = tr.querySelector('.op');
+  if (isDirty) {
+    opTd.innerHTML = '<a class="ly-link" href="#" onclick="saveRow(\'' + code + '\');return false">保存</a>'
+      + ' · <a class="ly-link" href="#" style="color:#8c8c8c" onclick="cancelRow(\'' + code + '\');return false">撤销</a>';
+  } else {
+    opTd.innerHTML = '<a class="ly-link" href="#" style="color:#ff4d4f" onclick="tryDelete(\'' + code + '\');return false">删除</a>';
+  }
+}
+
+function saveRow(code) {
+  var q = findQuota(code);
+  var d = dirty[code];
+  if (!q || !d) return;
+  Object.assign(q, d);
+  delete dirty[code];
+  refreshRowOps(code);
+  // 简单提示
+  toast('已保存「' + q.name + '」');
+}
+
+function cancelRow(code) {
+  delete dirty[code];
+  renderQuota();
+}
+
+/* ===== 启用 toggle 即时生效（带 confirm） ===== */
+function onToggleEnabled(code, el) {
+  var q = findQuota(code);
+  if (!q) return;
+  var next = el.checked;
+  if (next === q.enabled) return;
+  var msg = next
+    ? '确认启用「' + q.name + '」？\n启用后将出现在商品维护的权益模板下拉中。'
+    : '确认禁用「' + q.name + '」？\n禁用后：\n• 已引用该权益项的商品保持原值，不受影响\n• 新商品的权益模板下拉将不再显示该项';
+  if (!confirm(msg)) {
+    el.checked = !next;
+    return;
+  }
+  q.enabled = next;
+  // toggle 状态变更不进脏，立即生效
+  el.closest('tr').classList.toggle('row-disabled', !q.enabled);
+  toast(next ? '已启用「' + q.name + '」' : '已禁用「' + q.name + '」');
+}
+
+/* ===== 删除（一律可点，按 used 给不同提示） ===== */
+function tryDelete(code) {
+  var q = findQuota(code);
+  if (!q) return;
+  if (q.used > 0) {
+    alert('当前权益项已被商品使用，不允许删除');
+    return;
+  }
+  if (confirm('确认删除「' + q.name + '」？\n此操作不可恢复。')) {
+    QUOTAS = QUOTAS.filter(function (x) { return x.code !== code; });
+    renderQuota();
+    toast('已删除「' + q.name + '」');
+  }
+}
+
+/* ===== 编辑弹框 ===== */
+function openEditModal(code) {
+  var q = findQuota(code);
+  if (!q) return;
+  editingCode = code;
+  document.getElementById('editName').value = q.name;
+  document.getElementById('editCode').value = q.code;
+  document.getElementById('editUnit').value = q.unit;
+  document.getElementById('editMask').classList.add('open');
+  setTimeout(function () { document.getElementById('editName').focus(); }, 50);
+}
+function closeEditModal() {
+  document.getElementById('editMask').classList.remove('open');
+  editingCode = '';
+}
+function submitEdit() {
+  var q = findQuota(editingCode);
+  if (!q) return;
+  var name = document.getElementById('editName').value.trim();
+  var unit = document.getElementById('editUnit').value.trim();
+  if (!name) { alert('请填写名称'); return; }
+  if (!unit) { alert('请填写默认单位'); return; }
+  q.name = name;
+  q.unit = unit;
+  renderQuota();
+  closeEditModal();
+  toast('已保存「' + q.name + '」');
+}
+
+/* ===== 新增弹框 ===== */
+function openCreateModal() {
+  document.getElementById('newName').value = '';
+  document.getElementById('newCode').value = '';
+  document.getElementById('newUnit').value = '';
+  document.getElementById('newCodeErr').textContent = '';
+  document.getElementById('createMask').classList.add('open');
+  setTimeout(function () { document.getElementById('newName').focus(); }, 50);
+}
+function closeCreateModal() {
+  document.getElementById('createMask').classList.remove('open');
+}
+function submitCreate() {
+  var name = document.getElementById('newName').value.trim();
+  var code = document.getElementById('newCode').value.trim();
+  var unit = document.getElementById('newUnit').value.trim();
+  var errEl = document.getElementById('newCodeErr');
+  errEl.textContent = '';
+
+  if (!name) { alert('请填写名称'); return; }
+  if (!code) { alert('请填写编码'); return; }
+  if (!unit) { alert('请填写默认单位'); return; }
+  if (!/^[A-Z][A-Z0-9_]{2,40}$/.test(code)) {
+    errEl.textContent = '编码格式：大写字母开头，仅允许大写字母 / 数字 / 下划线（3-41 位）';
+    return;
+  }
+  if (QUOTAS.some(function (q) { return q.code === code; })) {
+    errEl.textContent = '编码已存在：' + code;
+    return;
+  }
+  QUOTAS.push({ code: code, name: name, unit: unit, enabled: true, used: 0 });
+  renderQuota();
+  closeCreateModal();
+  toast('已新增「' + name + '」');
+}
+
+/* ===== 轻量 toast ===== */
+function toast(msg) {
+  var t = document.getElementById('__toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = '__toast';
+    t.style.cssText = 'position:fixed;left:50%;top:60px;transform:translateX(-50%);background:rgba(0,0,0,.78);color:#fff;padding:8px 16px;border-radius:4px;font-size:13px;z-index:2000;opacity:0;transition:opacity .2s';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(t._h);
+  t._h = setTimeout(function () { t.style.opacity = '0'; }, 1800);
+}
+
+renderQuota();
+</script>
+</body>
+</html>

@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>计费模块一期主流程泳道图 v2</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --ink: #1d2939;
+      --muted: #667085;
+      --line: #d9e2ef;
+      --line-soft: #ecf1f7;
+      --blue: #2f6bff;
+      --blue-deep: #174ea6;
+      --blue-soft: #eef4ff;
+      --amber: #f59e0b;
+      --amber-soft: #fff7ed;
+      --red: #e5484d;
+      --red-soft: #fff1f3;
+      --gray-soft: #f8fafc;
+      --green: #12b76a;
+      --green-soft: #ecfdf3;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      letter-spacing: 0;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      padding: 0 28px;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .meta {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    main {
+      min-width: 1880px;
+      padding: 24px;
+    }
+
+    .intro {
+      width: 1820px;
+      margin: 0 auto 16px;
+      display: grid;
+      grid-template-columns: 1.2fr 2fr;
+      gap: 12px;
+    }
+
+    .intro-card {
+      min-height: 86px;
+      padding: 16px 18px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.04);
+    }
+
+    .intro-card strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 15px;
+      color: #111827;
+    }
+
+    .intro-card p {
+      margin: 0;
+      color: #475467;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .legend {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-content: flex-start;
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: #475467;
+      font-size: 12px;
+    }
+
+    .swatch {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .swatch-main { background: var(--blue); }
+    .swatch-branch { background: var(--amber); }
+    .swatch-exception { background: var(--red); }
+    .swatch-rule { background: #98a2b3; }
+
+    .diagram {
+      position: relative;
+      width: 1820px;
+      height: 1496px;
+      margin: 0 auto;
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 16px 42px rgba(15, 23, 42, 0.07);
+    }
+
+    .lane-header {
+      position: absolute;
+      top: 22px;
+      width: 300px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: linear-gradient(180deg, #ffffff, #f8fbff);
+      color: #344054;
+      font-size: 14px;
+      font-weight: 700;
+      z-index: 3;
+    }
+
+    .lane-line {
+      position: absolute;
+      top: 86px;
+      bottom: 22px;
+      width: 1px;
+      background: var(--line-soft);
+      z-index: 0;
+    }
+
+    .stage {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      border: 1px solid #eef2f7;
+      border-radius: 14px;
+      background: rgba(248, 250, 252, 0.7);
+      z-index: 0;
+    }
+
+    .stage-label {
+      position: absolute;
+      left: 14px;
+      top: 12px;
+      height: 26px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: #475467;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .connectors {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .node {
+      position: absolute;
+      width: 250px;
+      min-height: 76px;
+      padding: 12px 14px 12px 48px;
+      border-radius: 12px;
+      border: 1px solid #c9d7ee;
+      background: #fff;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+      z-index: 2;
+    }
+
+    .node .num {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+      background: var(--blue);
+    }
+
+    .node strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #111827;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .node span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .node.main {
+      border-color: #b8ccff;
+      background: linear-gradient(180deg, #ffffff, var(--blue-soft));
+    }
+
+    .node.branch {
+      padding-left: 16px;
+      border-color: #fed7aa;
+      background: var(--amber-soft);
+      box-shadow: 0 6px 16px rgba(245, 158, 11, 0.1);
+    }
+
+    .node.exception {
+      padding-left: 16px;
+      border-color: #fecdd3;
+      background: var(--red-soft);
+      box-shadow: 0 6px 16px rgba(229, 72, 77, 0.08);
+    }
+
+    .node.rule {
+      padding-left: 16px;
+      border-color: #d7dee9;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+    }
+
+    .panel-row {
+      position: absolute;
+      left: 54px;
+      right: 54px;
+      bottom: 30px;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      z-index: 4;
+    }
+
+    .panel {
+      min-height: 128px;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+    }
+
+    .panel b {
+      display: block;
+      margin-bottom: 8px;
+      color: #111827;
+      font-size: 13px;
+    }
+
+    .panel p {
+      margin: 0;
+      color: #475467;
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    @media print {
+      header { position: static; }
+      body { background: #fff; }
+      main { padding: 0; min-width: 0; }
+      .intro, .diagram { width: 1820px; }
+      .diagram { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>计费模块一期主流程泳道图</h1>
+    <div class="meta">v2 · 唯一编号 · 5 条泳道 · 主链路清晰版</div>
+  </header>
+
+  <main>
+    <section class="intro" aria-label="读图说明">
+      <div class="intro-card">
+        <strong>读图方式</strong>
+        <p>先顺着蓝色主链路编号 01-15 阅读，再看底部规则说明。主图只表达业务如何从商品配置走到权益生效、消耗、到期和回收。</p>
+      </div>
+      <div class="intro-card legend">
+        <span><i class="swatch swatch-main"></i>蓝色：主链路节点，编号全局唯一</span>
+        <span><i class="swatch swatch-branch"></i>黄色：分支动作，不占主编号</span>
+        <span><i class="swatch swatch-exception"></i>红色：异常或拦截</span>
+        <span><i class="swatch swatch-rule"></i>灰色：规则说明，不参与流转</span>
+      </div>
+    </section>
+
+    <section class="diagram" aria-label="计费模块一期主流程泳道图">
+      <div class="lane-header" style="left: 50px;">租户</div>
+      <div class="lane-header" style="left: 400px;">商务 / 平台运营</div>
+      <div class="lane-header" style="left: 750px;">计费模块</div>
+      <div class="lane-header" style="left: 1100px;">用户中心</div>
+      <div class="lane-header" style="left: 1450px;">ERP / WMS / SCM</div>
+
+      <div class="lane-line" style="left: 375px;"></div>
+      <div class="lane-line" style="left: 725px;"></div>
+      <div class="lane-line" style="left: 1075px;"></div>
+      <div class="lane-line" style="left: 1425px;"></div>
+
+      <div class="stage" style="top: 92px; height: 350px;">
+        <div class="stage-label">阶段 1：商品上架与成交</div>
+      </div>
+      <div class="stage" style="top: 462px; height: 360px;">
+        <div class="stage-label">阶段 2：录单、开通与权益下发</div>
+      </div>
+      <div class="stage" style="top: 842px; height: 250px;">
+        <div class="stage-label">阶段 3：业务消耗与明细刷新</div>
+      </div>
+      <div class="stage" style="top: 1112px; height: 214px;">
+        <div class="stage-label">阶段 4：到期、续费、作废与回收</div>
+      </div>
+
+      <svg class="connectors" width="1820" height="1496" viewBox="0 0 1820 1496" aria-hidden="true">
+        <defs>
+          <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#2f6bff"></path>
+          </marker>
+          <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b"></path>
+          </marker>
+          <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#e5484d"></path>
+          </marker>
+        </defs>
+
+        <path d="M905 180 L905 248" stroke="#2f6bff" stroke-width="2.4" fill="none" marker-end="url(#arrow-blue)"></path>
+        <path d="M1030 290 L1130 290" stroke="#f59e0b" stroke-width="2" fill="none" stroke-dasharray="6 5" marker-end="url(#arrow-amber)"></path>
+        <path d="M780 290 L205 290 L205 358" stroke="#2f6bff" stroke-width="2.4" fill="none" marker-end="url(#arrow-blue)"></path>
+        <path d="M330 398 L430 398" stroke="#2f6bff" stroke-width="2.4" fill="none" marker-end="url(#arrow-blue)"></path>
+        <path d="M555 436 L555 478" stroke="#2f6bff" stroke-width="2.4" fill="none" marker-end="url(#arrow-blue)"></path>
+        <path d="M680 518 L780 518" stroke="#2f6bff" stroke-width="2.4" fill="none" marker-end="url(#arrow-blue)"></path>
+        <path d="M905 556 L905 598" stroke="#2f6bff" stroke-width="2.4" fill="none" marker-end="url(#arrow-blue)"></path>
+        <path d="M905 676 L905 718" stroke="#2f6bff" stroke-width="2.4" fill="none" marker-end="url(#arrow-blue)"></path>
+        <path d="M1030 758 L1130 758" stroke="#2f6bff" stroke-width="2.4" fill="none" marker-end="url(#arrow-blue)"></path>
+        <path d="M1380 758 L1480 758" stroke="#2f6bff" stroke-width="2.4" fill="none" marker-end="url(#arrow-blue)"></path>
+        <path d="M1605 796 L1605 858" stroke="#2f6bff" stroke-width="2.4" fill="none" marker-end="url(#arrow-blue)"></path>
+        <path d="M1605 936 L1605 978" stroke="#2f6bff" stroke-width="2.4" fill="none" marker-end="url(#arrow-blue)"></path>
+        <path d="M1480 1018 L1030 1018" stroke="#2f6bff" stroke-width="2.4" fill="none" marker-end="url(#arrow-blue)"></path>
+        <path d="M905 1056 L905 1118" stroke="#2f6bff" stroke-width="2.4" fill="none" marker-end="url(#arrow-blue)"></path>
+        <path d="M905 1196 L905 1238" stroke="#2f6bff" stroke-width="2.4" fill="none" marker-end="url(#arrow-blue)"></path>
+
+        <path d="M905 638 L700 638" stroke="#f59e0b" stroke-width="2" fill="none" stroke-dasharray="6 5" marker-end="url(#arrow-amber)"></path>
+        <path d="M1605 898 L1720 898 L1720 1084 L1605 1084" stroke="#e5484d" stroke-width="2" fill="none" stroke-dasharray="6 5" marker-end="url(#arrow-red)"></path>
+        <path d="M905 1018 L205 1018" stroke="#f59e0b" stroke-width="2" fill="none" stroke-dasharray="6 5" marker-end="url(#arrow-amber)"></path>
+        <path d="M1030 1158 L1130 1158" stroke="#f59e0b" stroke-width="2" fill="none" stroke-dasharray="6 5" marker-end="url(#arrow-amber)"></path>
+      </svg>
+
+      <div class="node main" style="left: 780px; top: 140px;">
+        <i class="num">01</i>
+        <strong>配置商品</strong>
+        <span>维护商品、价格、权益项、适用系统。</span>
+      </div>
+
+      <div class="node main" style="left: 780px; top: 250px;">
+        <i class="num">02</i>
+        <strong>商品上架</strong>
+        <span>上架后租户侧套餐与增值服务可见。</span>
+      </div>
+
+      <div class="node branch" style="left: 1130px; top: 250px;">
+        <strong>校验失败留草稿</strong>
+        <span>信息未校验通过时不允许上架，保留为草稿。</span>
+      </div>
+
+      <div class="node main" style="left: 80px; top: 360px;">
+        <i class="num">03</i>
+        <strong>查看并咨询</strong>
+        <span>租户在我的订阅查看方案，联系客户经理。</span>
+      </div>
+
+      <div class="node main" style="left: 430px; top: 360px;">
+        <i class="num">04</i>
+        <strong>线下成交</strong>
+        <span>确认商品、成交金额、生效时间、到期时间；如需审批先完成系统外确认。</span>
+      </div>
+
+      <div class="node main" style="left: 430px; top: 480px;">
+        <i class="num">05</i>
+        <strong>平台录单</strong>
+        <span>选择客户和商品，上传水单、合同等附件。</span>
+      </div>
+
+      <div class="node main" style="left: 780px; top: 480px;">
+        <i class="num">06</i>
+        <strong>生成订单快照</strong>
+        <span>固化购买当时的商品、价格、权益和系统范围。</span>
+      </div>
+
+      <div class="node main" style="left: 780px; top: 600px;">
+        <i class="num">07</i>
+        <strong>生成权益实例</strong>
+        <span>按商品权益模板生成客户权益或服务记录。</span>
+      </div>
+
+      <div class="node branch" style="left: 430px; top: 600px;">
+        <strong>商品类型分支</strong>
+        <span>主套餐生成基础权益；增值服务叠加额度或生成服务记录。</span>
+      </div>
+
+      <div class="node main" style="left: 780px; top: 720px;">
+        <i class="num">08</i>
+        <strong>重算权益池</strong>
+        <span>汇总当前有效权益，得到总量、已用、剩余。</span>
+      </div>
+
+      <div class="node main" style="left: 1130px; top: 720px;">
+        <i class="num">09</i>
+        <strong>开通系统入口</strong>
+        <span>主套餐按适用系统开通 ERP / WMS / SCM。</span>
+      </div>
+
+      <div class="node main" style="left: 1480px; top: 720px;">
+        <i class="num">10</i>
+        <strong>接收权益总量</strong>
+        <span>业务系统接收客户当前有效权益总量。</span>
+      </div>
+
+      <div class="node main" style="left: 1480px; top: 860px;">
+        <i class="num">11</i>
+        <strong>额度校验</strong>
+        <span>业务动作提交前，先判断对应权益是否足够。</span>
+      </div>
+
+      <div class="node main" style="left: 1480px; top: 980px;">
+        <i class="num">12</i>
+        <strong>上报消耗</strong>
+        <span>业务成功后上报扣减、返还或占用变化。</span>
+      </div>
+
+      <div class="node exception" style="left: 1480px; top: 1100px;">
+        <strong>余额不足</strong>
+        <span>拦截新增操作，提示联系客户经理。</span>
+      </div>
+
+      <div class="node main" style="left: 780px; top: 980px;">
+        <i class="num">13</i>
+        <strong>写入明细并刷新</strong>
+        <span>幂等校验后写入消耗明细，并刷新权益池。</span>
+      </div>
+
+      <div class="node branch" style="left: 80px; top: 980px;">
+        <strong>租户查看用量</strong>
+        <span>我的订阅和用量明细展示最新额度变化。</span>
+      </div>
+
+      <div class="node main" style="left: 780px; top: 1120px;">
+        <i class="num">14</i>
+        <strong>到期 / 续费 / 升级</strong>
+        <span>每日凌晨检查到期；续费或升级后重新进入录单链路。</span>
+      </div>
+
+      <div class="node branch" style="left: 1130px; top: 1120px;">
+        <strong>入口同步调整</strong>
+        <span>到期或续费后，用户中心同步最新系统入口。</span>
+      </div>
+
+      <div class="node main" style="left: 780px; top: 1240px;">
+        <i class="num">15</i>
+        <strong>作废 / 回收</strong>
+        <span>回收该订单贡献的权益，并同步入口和业务系统额度。</span>
+      </div>
+
+      <div class="panel-row">
+        <div class="panel">
+          <b>商品状态规则</b>
+          <p>校验失败保留草稿；商品下架后只影响后续可购买展示，不影响历史订单快照和已生效权益。</p>
+        </div>
+        <div class="panel">
+          <b>订单状态规则</b>
+          <p>订单状态只保留：草稿、已开通、已到期、已作废。录单未开通前为草稿；保存并开通成功后为已开通；到期自动变为已到期；人工作废变为已作废。</p>
+        </div>
+        <div class="panel">
+          <b>到期规则</b>
+          <p>每日凌晨检查订单；到期前 7 天提醒续费；到期后该订单权益不再计入有效权益池。</p>
+        </div>
+        <div class="panel">
+          <b>扩容包规则</b>
+          <p>扩容包有自己的生效时间和到期时间；只有同系统主套餐有效时，仍在有效期内的扩容包才计入权益池。</p>
+        </div>
+        <div class="panel">
+          <b>作废规则</b>
+          <p>作废订单时不删除历史消耗、不回滚业务数据；只重算当前权益池。回收后超用时，限制新增消耗动作。</p>
+        </div>
+        <div class="panel">
+          <b>异常规则</b>
+          <p>权益生成、系统入口开通、权益下发失败均进入异常；保留上一次成功权益，由平台重试或人工介入。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

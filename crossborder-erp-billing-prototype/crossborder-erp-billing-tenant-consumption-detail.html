@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用量明细 - 费用中心</title>
+  <link rel="stylesheet" href="billing-erp-platform.css">
+  <style>
+    .usage-summary {
+      display: grid;
+      grid-template-columns: 1.4fr repeat(3, 1fr) 1.5fr;
+      gap: 12px;
+      padding: 16px;
+      border-bottom: 1px solid var(--ly-border);
+      background: #fff;
+    }
+    .usage-summary .item {
+      min-height: 72px;
+      padding: 12px 14px;
+      border: 1px solid var(--ly-border);
+      border-radius: 6px;
+      background: #fbfcff;
+    }
+    .usage-summary .label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--ly-muted);
+      font-size: 12px;
+    }
+    .usage-summary .value {
+      color: var(--ly-text);
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+    .usage-summary .value.small {
+      font-size: 15px;
+      font-weight: 600;
+      padding-top: 2px;
+    }
+    .usage-summary .ly-progress-cell {
+      margin-top: 10px;
+      min-width: 0;
+    }
+    .usage-summary .ly-progress {
+      max-width: none;
+    }
+    @media (max-width: 1100px) {
+      .usage-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 720px) {
+      .usage-summary { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="ly-app">
+  <aside class="ly-side">
+    <div class="ly-side-logo"><span class="logo-mark">凌</span> 凌羿 ERP</div>
+    <nav class="ly-nav">
+      <div class="ly-nav-group">
+        <span class="ly-nav-item active"><span class="ico">▾</span> 费用中心</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-my-subscription-feishu.html" class="active">我的订阅</a>
+          <a href="crossborder-erp-billing-tenant-order-center.html">订单记录</a>
+        </div>
+      </div>
+    </nav>
+    <div class="ly-side-foot">收起导航</div>
+  </aside>
+
+  <div class="ly-wrap">
+    <header class="ly-topbar">
+      <div class="ly-tabs">
+        <a class="ly-tab" href="crossborder-erp-billing-my-subscription-feishu.html">我的订阅 <span class="close">×</span></a>
+        <a class="ly-tab active" href="#">用量明细 <span class="close">×</span></a>
+      </div>
+      <div class="ly-topbar-right">
+        <span>🔍</span><span>🔔</span>
+        <span class="user"><span class="avatar">杭</span> 杭州星河跨境</span>
+      </div>
+    </header>
+
+    <main class="ly-tenant-main">
+      <div class="ly-tenant-card" style="padding:0">
+        <div class="usage-summary">
+          <div class="item">
+            <span class="label">服务 / 商品</span>
+            <span class="value small" id="summaryName">年订单量</span>
+          </div>
+          <div class="item">
+            <span class="label">总量</span>
+            <span class="value" id="summaryTotal">300万</span>
+          </div>
+          <div class="item">
+            <span class="label">已用</span>
+            <span class="value" id="summaryUsed">246万</span>
+          </div>
+          <div class="item">
+            <span class="label">剩余</span>
+            <span class="value" id="summaryRemain">54万</span>
+          </div>
+          <div class="item">
+            <span class="label">使用率</span>
+            <span class="value" id="summaryRate">82%</span>
+            <div class="ly-progress-cell">
+              <div class="ly-progress"><i id="summaryBar" style="width:82%"></i></div>
+              <span class="pct" id="summaryPct">82%</span>
+            </div>
+          </div>
+        </div>
+        <div class="ly-filter">
+          <div class="ly-field">
+            <label>时间范围</label>
+            <div class="range">
+              <input type="date" value="2026-05-01">
+              <span>~</span>
+              <input type="date" value="2026-05-26">
+            </div>
+          </div>
+          <div class="ly-field">
+            <label>变动类型</label>
+            <select>
+              <option>全部</option>
+              <option>额度增加</option>
+              <option>扣减</option>
+              <option>返还</option>
+              <option>按量计量</option>
+            </select>
+          </div>
+          <div class="ly-field">
+            <label>来源系统</label>
+            <select>
+              <option>全部</option>
+              <option>ERP</option>
+              <option>SCM</option>
+              <option>平台录单</option>
+            </select>
+          </div>
+          <button class="ly-btn ly-btn-primary">查询</button>
+        </div>
+        <div class="ly-table-wrap">
+          <table>
+            <thead>
+              <tr><th>发生时间</th><th>变动类型</th><th>来源系统</th><th>业务对象</th><th>数量变化</th><th>来源</th></tr>
+            </thead>
+            <tbody id="detailRows"></tbody>
+          </table>
+        </div>
+        <div class="ly-pagination">
+          <div class="pages"><span class="page active">1</span></div>
+          <select><option>20 条/页</option></select>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+const summaries = {
+  order: ['年订单量', '300万', '246万', '54万', '82%'],
+  msku: ['MSKU 额度', '100,000', '68,000', '32,000', '68%'],
+  store: ['店铺 / 站点', '500', '426', '74', '85%'],
+  email: ['邮件索评额度', '100,000', '42,000', '58,000', '42%'],
+  logistics: ['物流轨迹', '按单计量', '12,480', '—', '—'],
+  competitor: ['竞品链接监控', '50', '36', '14', '72%']
+};
+const rows = [
+  ['2026-03-15 10:00', '额度增加', '平台录单', '订单量增值包', '+10万', 'PO-20260315002'],
+  ['2026-05-18 14:02', '扣减', 'ERP', 'AMZ-001', '-1', '—'],
+  ['2026-05-18 11:20', '返还', 'ERP', 'AMZ-088', '+1', '—'],
+  ['2026-05-17 18:40', '扣减', 'ERP', 'AMZ-077', '-1', '—']
+];
+const params = new URLSearchParams(window.location.search);
+const data = summaries[params.get('quota')] || summaries.order;
+document.getElementById('summaryName').textContent = data[0];
+document.getElementById('summaryTotal').textContent = data[1];
+document.getElementById('summaryUsed').textContent = data[2];
+document.getElementById('summaryRemain').textContent = data[3];
+document.getElementById('summaryRate').textContent = data[4];
+document.getElementById('summaryPct').textContent = data[4];
+document.getElementById('summaryBar').style.width = data[4] === '—' ? '0%' : data[4];
+document.getElementById('detailRows').innerHTML = rows.map(row => {
+  const source = row[5].startsWith('PO-') ? `<a class="ly-link" href="crossborder-erp-billing-tenant-order-center.html">${row[5]}</a>` : row[5];
+  return `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td><td>${row[3]}</td><td>${row[4]}</td><td>${source}</td></tr>`;
+}).join('');
+</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>租户配置 - 用户中心</title>
+  <link rel="stylesheet" href="billing-erp-platform.css">
+  <style>
+    :root { --uc-side:#071b31; --uc-top:#344765; --uc-blue:#1764ff; }
+    body { background:#f4f6f9; }
+    .uc-app { display:flex; min-height:100vh; color:#1f2329; font-size:14px; }
+    .uc-side { width:196px; background:var(--uc-side); color:rgba(255,255,255,.82); flex-shrink:0; }
+    .uc-logo { height:52px; display:flex; align-items:center; gap:10px; padding:0 18px; color:#fff; font-size:22px; font-weight:700; }
+    .uc-shield { width:24px; height:24px; border-radius:7px; background:#2f7cff; display:grid; place-items:center; font-size:14px; }
+    .uc-nav { padding:8px 0; }
+    .uc-nav-group { margin:4px 0; }
+    .uc-nav-title { padding:11px 18px; display:flex; justify-content:space-between; align-items:center; color:#dfe8f8; }
+    .uc-nav-title .ico { color:#19a2ff; margin-right:10px; }
+    .uc-sub a { display:block; padding:10px 18px 10px 50px; color:rgba(255,255,255,.78); text-decoration:none; }
+    .uc-sub a.active { background:#466aa8; color:#fff; font-weight:600; }
+    .uc-wrap { flex:1; min-width:0; display:flex; flex-direction:column; }
+    .uc-top { height:36px; background:var(--uc-top); display:flex; justify-content:space-between; align-items:center; color:#fff; }
+    .uc-tabs { display:flex; height:100%; align-items:flex-end; }
+    .uc-tab { height:36px; min-width:132px; padding:0 16px; display:flex; align-items:center; justify-content:center; gap:10px; color:#fff; text-decoration:none; border-right:1px solid rgba(255,255,255,.35); }
+    .uc-tab.active { background:#fff; color:#1f2329; border-radius:8px 8px 0 0; font-weight:600; }
+    .uc-top-right { display:flex; align-items:center; gap:12px; padding-right:16px; font-size:13px; }
+    .uc-main { padding:14px 16px 18px; overflow:auto; }
+    .uc-panel { background:#fff; min-height:calc(100vh - 68px); box-shadow:0 1px 3px rgba(15,23,42,.06); border:1px solid #edf0f5; }
+    .uc-filter { padding:16px 18px 14px; display:flex; align-items:center; flex-wrap:wrap; gap:10px; border-bottom:1px solid #edf0f5; }
+    .uc-filter select, .uc-filter input { height:32px; border:1px solid #d7dde8; border-radius:3px; padding:0 10px; background:#fff; min-width:146px; font-size:13px; }
+    .uc-search { display:flex; }
+    .uc-search select { min-width:92px; border-radius:3px 0 0 3px; }
+    .uc-search input { min-width:150px; border-left:0; border-radius:0 3px 3px 0; }
+    .uc-actions { margin-left:auto; display:flex; gap:10px; }
+    .uc-btn { height:32px; padding:0 16px; border:1px solid #cfd6e4; border-radius:3px; background:#fff; cursor:pointer; font-size:13px; white-space:nowrap; }
+    .uc-btn.primary { background:var(--uc-blue); border-color:var(--uc-blue); color:#fff; }
+    .uc-table-wrap { overflow:auto; padding:0 16px 8px; }
+    table.uc-table { width:100%; min-width:1250px; border-collapse:collapse; table-layout:fixed; }
+    .uc-table th, .uc-table td { padding:13px 12px; border-bottom:1px solid #eef1f5; text-align:left; vertical-align:middle; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .uc-table th { background:#fbfcfe; color:#4d596b; font-weight:600; font-size:13px; }
+    .uc-table tbody tr:hover td { background:#f7faff; }
+    .muted { color:#8a9099; }
+    .status-ok { display:inline-flex; align-items:center; gap:8px; }
+    .status-ok::before { content:""; width:6px; height:6px; border-radius:50%; background:#52c41a; }
+    .billing-cell b { display:block; font-weight:600; color:#1f2329; }
+    .billing-cell span { display:block; color:#8a9099; font-size:12px; margin-top:2px; }
+    .uc-link { color:#1764ff; text-decoration:none; }
+    .uc-link:hover { text-decoration:underline; }
+    .uc-pager { display:flex; justify-content:flex-end; gap:14px; align-items:center; padding:12px 16px; color:#6b7280; border-top:1px solid #edf0f5; }
+    .page { min-width:30px; height:30px; display:grid; place-items:center; background:#1764ff; color:#fff; border-radius:4px; }
+  </style>
+</head>
+<body>
+<div class="uc-app">
+  <aside class="uc-side">
+    <div class="uc-logo"><span class="uc-shield">◆</span>用户中心</div>
+    <nav class="uc-nav">
+      <div class="uc-nav-group">
+        <div class="uc-nav-title"><span><span class="ico">▣</span>业务系统管理</span><span>⌃</span></div>
+        <div class="uc-sub"><a href="#">业务系统配置</a></div>
+      </div>
+      <div class="uc-nav-group"><div class="uc-nav-title"><span><span class="ico">▦</span>组织架构</span><span>⌃</span></div><div class="uc-sub"><a href="#">组织管理</a><a href="#">角色管理</a><a href="#">用户管理</a><a href="#">团队管理</a></div></div>
+      <div class="uc-nav-group">
+        <div class="uc-nav-title"><span><span class="ico">▤</span>租户管理</span><span>⌃</span></div>
+        <div class="uc-sub"><a class="active" href="crossborder-erp-billing-tenant-config-real.html">租户配置</a></div>
+      </div>
+      <div class="uc-nav-group"><div class="uc-nav-title"><span><span class="ico">◇</span>授权设置</span><span>⌃</span></div><div class="uc-sub"><a href="#">钉钉授权</a><a href="#">E签宝管理</a><a href="#">开放平台授权</a></div></div>
+      <div class="uc-nav-group"><div class="uc-nav-title"><span><span class="ico">♙</span>个人中心</span><span>⌄</span></div></div>
+    </nav>
+  </aside>
+  <div class="uc-wrap">
+    <header class="uc-top">
+      <div class="uc-tabs">
+        <a class="uc-tab" href="#">业务系统配置 ×</a>
+        <a class="uc-tab active" href="crossborder-erp-billing-tenant-config-real.html">租户配置 ×</a>
+        <a class="uc-tab" href="crossborder-erp-billing-tenant-auth-detail-real.html">租户授权详情 ×</a>
+      </div>
+      <div class="uc-top-right"><span>🔔 99+</span><span>▣</span><span>SCM</span><span>平台管...</span></div>
+    </header>
+    <main class="uc-main">
+      <section class="uc-panel">
+        <div class="uc-filter">
+          <select><option>状态　全部</option><option>正常</option><option>停用</option></select>
+          <select><option>租户属性　全部</option><option>海外仓</option><option>电商卖家</option></select>
+          <select><option>创建时间</option><option>更新时间</option></select>
+          <input type="text" value="" placeholder="开始日期  →  结束日期">
+          <div class="uc-search">
+            <select><option>租户名称</option><option>租户编号</option><option>管理员账号</option></select>
+            <input type="text" placeholder="请输入">
+          </div>
+          <button class="uc-btn primary">查询</button>
+          <button class="uc-btn">重置</button>
+          <div class="uc-actions">
+            <button class="uc-btn primary" onclick="alert('原型占位：新增租户')">新增租户</button>
+            <button class="uc-btn primary" onclick="alert('原型占位：批量更新权限')">批量更新权限</button>
+          </div>
+        </div>
+        <div class="uc-table-wrap">
+          <table class="uc-table">
+            <thead>
+              <tr>
+                <th style="width:120px">租户名称</th>
+                <th style="width:86px">租户编号</th>
+                <th style="width:104px">租户编码</th>
+                <th style="width:92px">租户属性</th>
+                <th style="width:118px">管理员账号</th>
+                <th style="width:174px">计费信息</th>
+                <th style="width:108px">管理员姓名</th>
+                <th style="width:122px">管理员电话</th>
+                <th style="width:112px">临期授权</th>
+                <th style="width:92px">公司电话</th>
+                <th style="width:92px">公司地址</th>
+                <th style="width:70px">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>租户200066</td><td>200066</td><td>Logistar</td><td>海外仓</td><td>19820507615</td>
+                <td class="billing-cell"><b>ERP 旗舰版</b><span>2025-01-01 ~ 2026-12-31</span></td>
+                <td>用户202553</td><td>19820507615</td><td>-</td><td>-</td><td>-</td>
+                <td><a class="uc-link" href="crossborder-erp-billing-tenant-auth-detail-real.html">详情</a></td>
+              </tr>
+              <tr>
+                <td>租户200065</td><td>200065</td><td>26-01-27</td><td>电商卖家</td><td>19973171893</td>
+                <td class="billing-cell"><b>ERP 标准版</b><span>2026-01-27 ~ 2027-01-26</span></td>
+                <td>用户202434</td><td>19973171893</td><td>-</td><td>-</td><td>-</td>
+                <td><a class="uc-link" href="crossborder-erp-billing-tenant-auth-detail-real.html?tenant=200065">详情</a></td>
+              </tr>
+              <tr>
+                <td>租户200064</td><td>200064</td><td>26-01-20</td><td>电商卖家</td><td>zhouhaifeng</td>
+                <td class="billing-cell"><b>无有效套餐</b><span>最近到期 2026-01-20</span></td>
+                <td>用户202406</td><td>15344484462</td><td>-</td><td>-</td><td>-</td>
+                <td><a class="uc-link" href="crossborder-erp-billing-tenant-auth-detail-real.html?tenant=200064">详情</a></td>
+              </tr>
+              <tr>
+                <td>租户200063</td><td>200063</td><td>26-01-20</td><td>电商卖家</td><td>dengyuanrong</td>
+                <td class="billing-cell"><b>SCM 企业版</b><span>2026-01-20 ~ 2027-01-19</span></td>
+                <td>用户202405</td><td>15818811826</td><td>-</td><td>-</td><td>-</td>
+                <td><a class="uc-link" href="crossborder-erp-billing-tenant-auth-detail-real.html?tenant=200063">详情</a></td>
+              </tr>
+              <tr>
+                <td>租户200061</td><td>200061</td><td>26-01-07</td><td>电商卖家</td><td>liuzon001</td>
+                <td class="billing-cell"><b>ERP 专业版</b><span>2026-01-07 ~ 2027-01-06</span></td>
+                <td>用户202342</td><td>13243765917</td><td>-</td><td>-</td><td>-</td>
+                <td><a class="uc-link" href="crossborder-erp-billing-tenant-auth-detail-real.html?tenant=200061">详情</a></td>
+              </tr>
+              <tr>
+                <td>租户200059</td><td>200059</td><td>26-1-6</td><td>电商卖家</td><td>liuzon</td>
+                <td class="billing-cell"><b>ERP 旗舰版</b><span>2026-01-06 ~ 2028-01-05</span></td>
+                <td>用户202340</td><td>13243765918</td><td>-</td><td>-</td><td>-</td>
+                <td><a class="uc-link" href="crossborder-erp-billing-tenant-auth-detail-real.html?tenant=200059">详情</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="uc-pager"><span>共 6 条</span><span class="page">1</span><select><option>20 条/页</option></select></div>
+      </section>
+    </main>
+  </div>
+</div>
+</body>
+</html>

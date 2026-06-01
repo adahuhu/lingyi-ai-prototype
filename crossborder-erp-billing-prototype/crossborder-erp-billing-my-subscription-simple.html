@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的订阅</title>
+  <link rel="stylesheet" href="billing-simple.css">
+  <style>
+    .banner { background:#fff;border:1px solid var(--border);padding:16px 20px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center; }
+    .banner h2 { font-size:18px;font-weight:600; }
+    .banner .sub { color:var(--muted);font-size:13px;margin-top:4px; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <aside class="side">
+    <div class="side-title">服务与订阅</div>
+    <div class="side-group">客户</div>
+    <a href="crossborder-erp-billing-my-subscription-simple.html" class="active">我的订阅</a>
+    <a href="crossborder-erp-billing-product-config-simple.html" style="opacity:.5;font-size:12px">（平台入口）</a>
+  </aside>
+  <div class="main">
+    <header class="header">
+      <div><h1>我的订阅</h1><div class="path">查看套餐与用量，续费/扩容请提交申请，由商务跟进</div></div>
+    </header>
+    <div class="body">
+      <div class="tabs">
+        <button class="active" onclick="showTab('mine',this)">我的权益</button>
+        <button onclick="showTab('plans',this)">套餐方案</button>
+      </div>
+
+      <div id="tabMine">
+        <div class="banner">
+          <div>
+            <h2>ERP 旗舰版</h2>
+            <div class="sub">到期日 2026-12-31 · 负责人 林珊</div>
+          </div>
+          <div>
+            <button class="btn" onclick="openApply('续费')">续费</button>
+            <button class="btn" onclick="openApply('升级')">升级</button>
+            <button class="btn btn-primary" onclick="openApply('扩容')">扩容</button>
+          </div>
+        </div>
+        <div class="panel" style="margin-bottom:12px">
+          <div class="panel-head">额度使用</div>
+          <table>
+            <thead><tr><th>资源</th><th>已用 / 总量</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>年订单量</td><td>246万 / 300万</td><td><button class="btn-link" onclick="openApply('订单扩容')">申请扩容</button></td></tr>
+              <tr><td>MSKU</td><td>6.8万 / 10万</td><td><button class="btn-link" onclick="openApply('MSKU扩容')">申请扩容</button></td></tr>
+              <tr><td>子账号</td><td>218 / 300</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel">
+          <div class="panel-head">订单记录</div>
+          <table>
+            <thead><tr><th>内容</th><th>金额</th><th>有效期</th><th>状态</th></tr></thead>
+            <tbody>
+              <tr><td>ERP 旗舰版</td><td>¥69,800</td><td>至 2026-12-31</td><td><span class="tag tag-green">生效中</span></td></tr>
+              <tr><td>订单扩容包 x2</td><td>¥2,000</td><td>跟随主套餐</td><td><span class="tag tag-green">生效中</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="tabPlans" style="display:none">
+        <p class="form-hint" style="margin-bottom:12px">以下为可售方案，如需购买请联系商务，不支持在线下单。</p>
+        <div class="grid-3">
+          <div class="plan-card"><h4>ERP 标准版</h4><div class="price">¥9,800/年</div><div class="meta">20万单 · 5000 MSKU · 1平台</div><button class="btn" style="margin-top:12px;width:100%" onclick="openApply('咨询-标准版')">联系商务</button></div>
+          <div class="plan-card"><h4>ERP 专业版</h4><div class="price">¥29,800/年</div><div class="meta">100万单 · 3万 MSKU · 5平台</div><button class="btn" style="margin-top:12px;width:100%" onclick="openApply('咨询-专业版')">联系商务</button></div>
+          <div class="plan-card" style="border-color:#91d5ff"><h4>ERP 旗舰版 <span class="tag tag-blue">当前</span></h4><div class="price">¥69,800/年</div><div class="meta">300万单 · 10万 MSKU</div></div>
+          <div class="plan-card"><h4>SCM 企业版</h4><div class="price">¥10万起/年</div><div class="meta">供应链企业版</div><button class="btn" style="margin-top:12px;width:100%" onclick="openApply('咨询-SCM')">联系商务</button></div>
+          <div class="plan-card"><h4>SCM&ERP 定制版</h4><div class="price">线下报价</div><div class="meta">集团定制</div><button class="btn" style="margin-top:12px;width:100%" onclick="openApply('定制咨询')">联系商务</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-mask" id="applyModal">
+  <div class="modal">
+    <div class="modal-head">提交申请 <button class="btn-link" onclick="closeApply()">关闭</button></div>
+    <div class="modal-body">
+      <div class="form-row"><label>申请类型</label><input id="applyType" readonly></div>
+      <div class="form-row"><label>补充说明</label><textarea placeholder="选填"></textarea></div>
+      <p class="form-hint">提交后商务将在 1 个工作日内联系您。正式购买由平台录入并上传水单后开通。</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeApply()">取消</button>
+      <button class="btn btn-primary" onclick="alert('已提交');closeApply()">提交</button>
+    </div>
+  </div>
+</div>
+<script>
+function showTab(id, btn) {
+  document.getElementById('tabMine').style.display = id==='mine'?'':'none';
+  document.getElementById('tabPlans').style.display = id==='plans'?'':'none';
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function openApply(t) { document.getElementById('applyType').value=t; document.getElementById('applyModal').classList.add('show'); }
+function closeApply() { document.getElementById('applyModal').classList.remove('show'); }
+</script>
+</body>
+</html>

@@ -1,0 +1,1131 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>商品配置 v3 - 简洁操作版</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --subtle: #f1f4f8;
+      --text: #1f2937;
+      --muted: #667085;
+      --line: #e5eaf0;
+      --blue: #1677ff;
+      --blue-dark: #0f5fd7;
+      --blue-soft: #eaf3ff;
+      --green: #12a150;
+      --green-soft: #e9f8ef;
+      --orange: #d9822b;
+      --orange-soft: #fff4e5;
+      --red: #d92d20;
+      --red-soft: #fff1f0;
+      --radius: 8px;
+      --shadow: 0 14px 36px rgba(16, 24, 40, .10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      background: #ffffff;
+      border-right: 1px solid var(--line);
+      padding: 18px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 6px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, #1677ff, #19c37d);
+      font-weight: 800;
+    }
+
+    .logo strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .logo span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .nav-title {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 22px 8px 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 40px;
+      padding: 0 10px;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      color: #445064;
+      font-size: 14px;
+    }
+
+    .nav-item.active {
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+      font-weight: 700;
+    }
+
+    .nav-item.disabled {
+      color: #a1aab8;
+    }
+
+    .main {
+      min-width: 0;
+      padding: 18px 22px 28px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .crumb {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 860px;
+      line-height: 1.55;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      min-height: 36px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      padding: 0 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .btn.primary {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(22, 119, 255, .20);
+    }
+
+    .btn.ghost {
+      background: transparent;
+    }
+
+    .btn:hover,
+    .chip:hover,
+    .product-row:hover {
+      transform: translateY(-1px);
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .workspace {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .content-tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid var(--line);
+      margin: -2px 0 14px;
+      overflow-x: auto;
+    }
+
+    .content-tab {
+      border: 1px solid transparent;
+      border-bottom: 0;
+      background: transparent;
+      color: var(--muted);
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .content-tab.active {
+      background: #fff;
+      color: var(--blue-dark);
+      border-color: var(--line);
+      font-weight: 700;
+    }
+
+    .content-tab.hidden {
+      display: none;
+    }
+
+    .page-panel {
+      display: none;
+    }
+
+    .page-panel.active {
+      display: block;
+    }
+
+    .workspace-head {
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .search {
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 12px;
+      background: #fff;
+    }
+
+    .search input {
+      border: 0;
+      outline: 0;
+      min-width: 0;
+      width: 100%;
+      color: var(--text);
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    select {
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      padding: 0 10px;
+    }
+
+    .chips {
+      display: flex;
+      gap: 8px;
+      padding: 12px 14px 0;
+      overflow-x: auto;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #445064;
+      border-radius: 999px;
+      min-height: 32px;
+      padding: 0 12px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .chip.active {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+    }
+
+    .quick-rules {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      padding: 12px 14px;
+    }
+
+    .rule-card {
+      background: var(--subtle);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 78px;
+    }
+
+    .rule-card strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .rule-card span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .table-wrap {
+      padding: 0 14px 14px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 1040px;
+      border-collapse: separate;
+      border-spacing: 0 8px;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      text-align: left;
+      padding: 0 12px;
+      white-space: nowrap;
+    }
+
+    .product-row {
+      background: #fff;
+      box-shadow: 0 0 0 1px var(--line);
+      cursor: pointer;
+      transition: .16s ease;
+    }
+
+    .product-row td {
+      padding: 14px 12px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+
+    .product-row td:first-child {
+      border-left: 1px solid var(--line);
+      border-radius: 8px 0 0 8px;
+    }
+
+    .product-row td:last-child {
+      border-right: 1px solid var(--line);
+      border-radius: 0 8px 8px 0;
+      text-align: right;
+    }
+
+    .product-main {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+      flex: 0 0 auto;
+    }
+
+    .avatar.green {
+      background: var(--green);
+    }
+
+    .avatar.orange {
+      background: var(--orange);
+    }
+
+    .product-name {
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .code {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .price {
+      color: #0f3f78;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 0 8px;
+      font-size: 12px;
+      color: #344054;
+      background: #f2f4f7;
+      white-space: nowrap;
+    }
+
+    .tag.blue {
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+    }
+
+    .tag.green {
+      background: var(--green-soft);
+      color: #087443;
+    }
+
+    .tag.orange {
+      background: var(--orange-soft);
+      color: #9a5b13;
+    }
+
+    .tag.red {
+      background: var(--red-soft);
+      color: var(--red);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .drawer {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, .35);
+      display: none;
+      justify-content: flex-end;
+      z-index: 30;
+    }
+
+    .drawer.open {
+      display: flex;
+    }
+
+    .drawer-panel {
+      width: min(680px, 100%);
+      height: 100vh;
+      background: #fff;
+      box-shadow: -24px 0 50px rgba(15, 23, 42, .18);
+      overflow: auto;
+      animation: enter .2s ease-out;
+    }
+
+    @keyframes enter {
+      from {
+        transform: translateX(24px);
+        opacity: .72;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .drawer-head {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      padding: 16px 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .drawer-head h2 {
+      margin: 0 0 6px;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+
+    .drawer-body {
+      padding: 16px 18px 22px;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .detail-card {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .detail-card h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+    }
+
+    .kv {
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr);
+      gap: 7px 10px;
+      font-size: 13px;
+    }
+
+    .kv span:nth-child(odd) {
+      color: var(--muted);
+    }
+
+    .form-page {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .form-head {
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .form-head h2 {
+      margin: 0 0 6px;
+      font-size: 20px;
+    }
+
+    .form-section {
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .section-title h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 13px;
+      color: #344054;
+      font-weight: 600;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 10px;
+      color: var(--text);
+      background: #fff;
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 76px;
+      resize: vertical;
+    }
+
+    .checkline {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .check {
+      background: var(--subtle);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 13px;
+    }
+
+    .check b {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .drawer-footer {
+      position: sticky;
+      bottom: 0;
+      background: #fff;
+      border-top: 1px solid var(--line);
+      padding: 12px 18px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .page-footer {
+      padding: 12px 16px;
+      background: #fff;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    @media (max-width: 1040px) {
+      .summary,
+      .quick-rules {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .workspace-head {
+        grid-template-columns: 1fr;
+      }
+
+      .filters {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        height: auto;
+      }
+
+      .main {
+        padding: 14px;
+      }
+
+      .topbar {
+        flex-direction: column;
+      }
+
+      .actions {
+        justify-content: flex-start;
+      }
+
+      .summary,
+      .quick-rules,
+      .detail-grid,
+      .form-grid,
+      .checkline {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-mark">B</div>
+        <div>
+          <strong>计费管理</strong>
+          <span>商品配置中心</span>
+        </div>
+      </div>
+      <div class="nav-title">平台侧</div>
+      <div class="nav-item active"><span>商品配置</span><span>20</span></div>
+      <div class="nav-item"><span>客户管理</span><span>订阅</span></div>
+      <div class="nav-title">后续</div>
+      <div class="nav-item disabled"><span>方案报价</span><span>暂缓</span></div>
+      <div class="nav-item disabled"><span>预警策略</span><span>二期</span></div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div>
+          <div class="crumb">计费管理 / 商品配置</div>
+          <h1>商品配置</h1>
+          <div class="subtitle">以商品为核心维护套餐、扩容包、按量服务和专项服务。新增和编辑按系统统一多 tab 打开，配置项在同一页面上下分区完成。</div>
+        </div>
+        <div class="actions">
+          <button class="btn">导出</button>
+          <button class="btn primary" id="newBtn">新建商品</button>
+        </div>
+      </div>
+
+      <div class="content-tabs">
+        <button class="content-tab active" data-page="listPage">商品列表</button>
+        <button class="content-tab hidden" id="editPageTab" data-page="editPage">新建商品</button>
+      </div>
+
+      <section class="page-panel active" id="listPage">
+        <section class="summary">
+          <div class="metric"><strong>20</strong><span>售卖项</span></div>
+          <div class="metric"><strong>17</strong><span>已发布</span></div>
+          <div class="metric"><strong>3</strong><span>待完善</span></div>
+          <div class="metric"><strong>7</strong><span>计价模板</span></div>
+        </section>
+
+        <section class="workspace">
+          <div class="workspace-head">
+            <label class="search">
+              <span>⌕</span>
+              <input id="searchInput" placeholder="搜索商品、编码、场景" />
+            </label>
+            <div class="filters">
+              <select id="priceFilter">
+                <option value="全部计价">全部计价</option>
+                <option value="固定年费">固定年费</option>
+                <option value="增量包">增量包</option>
+                <option value="按量">按量</option>
+                <option value="线下报价">线下报价</option>
+              </select>
+              <select id="statusFilter">
+                <option value="全部状态">全部状态</option>
+                <option value="已发布">已发布</option>
+                <option value="待完善">待完善</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="chips" id="chips"></div>
+
+          <div class="quick-rules">
+            <div class="rule-card"><strong>主套餐</strong><span>固定年费 + 基础权益，生成客户订阅。</span></div>
+            <div class="rule-card"><strong>资源扩容</strong><span>增量包 + 额度叠加，通常跟随主套餐到期。</span></div>
+            <div class="rule-card"><strong>按量服务</strong><span>物流轨迹按单，专利按点数或流量，邮件按封扣减。</span></div>
+            <div class="rule-card"><strong>专项服务</strong><span>预约交付按次 / 人天，监控配置按对象开通。</span></div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>商品</th>
+                  <th>售卖类型</th>
+                  <th>价格</th>
+                  <th>购买方式</th>
+                  <th>权益 / 消耗</th>
+                  <th>状态</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="productBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section class="page-panel" id="editPage">
+        <section class="form-page">
+          <div class="form-head">
+            <div>
+              <h2 id="editTitle">新建商品</h2>
+              <div class="muted">只配置售卖内容和价格规则；权益、购买限制、消耗履约由需求规则预设，页面仅做预览确认。</div>
+            </div>
+            <button class="btn" id="backToList">返回列表</button>
+          </div>
+
+          <div class="form-section">
+            <div class="section-title">
+              <h3>基础设置</h3>
+              <span class="tag blue">客户看什么</span>
+            </div>
+            <div class="form-grid">
+              <div class="field"><label>商品名称</label><input value="订单扩容包" /></div>
+              <div class="field"><label>商品编码</label><input value="ADDON-ORDER-50K" /></div>
+              <div class="field"><label>售卖类型</label><select><option>资源扩容</option><option>主套餐</option><option>按量服务</option><option>专项服务</option><option>定制商品</option></select></div>
+              <div class="field"><label>所属系统</label><select><option>ERP</option><option>SCM</option><option>WMS</option><option>CRM</option><option>ADS</option><option>跨系统</option></select></div>
+              <div class="field"><label>售卖对象</label><select><option>订单额度</option><option>MSKU额度</option><option>平台数量</option><option>店铺 / 站点数量</option><option>子账号数量</option><option>物流轨迹查询</option><option>服务项目</option><option>定制资源</option></select></div>
+              <div class="field"><label>租户侧展示名称</label><input value="订单扩容包" /></div>
+              <div class="field"><label>是否租户侧展示</label><select><option>展示</option><option>仅符合条件展示</option><option>仅平台录入</option></select></div>
+              <div class="field"><label>展示排序</label><input value="5" /></div>
+              <div class="field"><label>推荐标识</label><select><option>无</option><option>推荐</option><option>热销</option><option>定制</option></select></div>
+              <div class="field"><label>展示副标题</label><input value="每年增加 5 万单订单额度" /></div>
+              <div class="field"><label>适用场景</label><textarea>适合低客单价、高频交易卖家。</textarea></div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-title">
+              <h3>价格规则</h3>
+              <span class="tag green">钱怎么算</span>
+            </div>
+            <div class="form-grid">
+              <div class="field"><label>计价方式</label><select><option>增量包</option><option>固定年费</option><option>按量</option><option>按点数</option><option>按次</option><option>按人天</option><option>线下报价</option></select></div>
+              <div class="field"><label>价格</label><input value="1000" /></div>
+              <div class="field"><label>价格展示文案</label><input value="¥1,000 / 年" /></div>
+              <div class="field"><label>计价单位</label><select><option>年</option><option>单</option><option>点数</option><option>平台 / 年</option><option>站点 / 年</option><option>账号 / 年</option><option>次</option><option>人天</option><option>10 万封 / 年</option></select></div>
+              <div class="field"><label>增量单位</label><input value="每增加 5 万单" /></div>
+              <div class="field"><label>有效期</label><select><option>跟随主套餐到期</option><option>购买日起一年</option><option>服务完成即结束</option></select></div>
+              <div class="field"><label>是否允许重复购买</label><select><option>允许</option><option>不允许</option><option>需平台确认</option></select></div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-title">
+              <h3>规则预览</h3>
+              <span class="tag orange">系统自动带出，不在此配置</span>
+            </div>
+            <div class="checkline">
+              <div class="check"><b>权益生成</b><span class="muted">购买后增加 5 万单订单额度，写入客户订阅。</span></div>
+              <div class="check"><b>购买限制</b><span class="muted">需已有主套餐；租户侧可直接申请扩容。</span></div>
+              <div class="check"><b>消耗履约</b><span class="muted">订单创建成功后占用额度；剩余额度在我的订阅展示。</span></div>
+            </div>
+          </div>
+
+          <div class="page-footer">
+            <button class="btn">保存草稿</button>
+            <button class="btn primary">保存并校验</button>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="drawer" id="detailDrawer">
+    <div class="drawer-panel">
+      <div class="drawer-head">
+        <div>
+          <div class="tags" id="detailTags"></div>
+          <h2 id="detailName">ERP 旗舰版</h2>
+          <div class="muted" id="detailSubtitle">规模型企业 · 全链路经营系统</div>
+        </div>
+        <button class="btn ghost" data-close="detailDrawer">关闭</button>
+      </div>
+      <div class="drawer-body">
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>价格规则</h3>
+            <div class="kv">
+              <span>价格</span><b id="detailPrice"></b>
+              <span>计价</span><b id="detailPriceType"></b>
+              <span>周期</span><b id="detailPeriod"></b>
+            </div>
+          </div>
+          <div class="detail-card">
+            <h3>购买限制</h3>
+            <div class="kv">
+              <span>适用</span><b id="detailScope"></b>
+              <span>动作</span><b id="detailAction"></b>
+              <span>前台</span><b id="detailDisplay"></b>
+            </div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <h3>权益 / 消耗 / 履约</h3>
+          <div class="muted" id="detailConsume"></div>
+        </div>
+        <div class="detail-card" style="margin-top:10px;">
+          <h3>下游影响</h3>
+          <div class="tags">
+            <span class="tag blue">客户管理</span>
+            <span class="tag green">我的订阅</span>
+          </div>
+        </div>
+      </div>
+      <div class="drawer-footer">
+        <button class="btn" id="editFromDetail">编辑商品</button>
+        <button class="btn primary">发布校验</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const products = [
+      ["ERP 标准版","PLAN-ERP-STD","主套餐","固定年费","¥9,800 / 年","全部新客户可见","20 万单、5,000 MSKU、1 平台、30 账号、20 店铺","已发布","基础经营系统","直接申请","基础版"],
+      ["ERP 专业版","PLAN-ERP-PRO","主套餐","固定年费","¥29,800 / 年","成长型客户","100 万单、30,000 MSKU、5 平台、100 账号、100 店铺","已发布","精细化运营系统","直接申请","专业版"],
+      ["ERP 旗舰版","PLAN-ERP-FLAG","主套餐","固定年费","¥69,800 / 年","规模型客户","300 万单、100,000 MSKU、不限平台、300 账号、500 店铺","已发布","全链路经营系统","直接申请","推荐"],
+      ["SCM&ERP 定制版","PLAN-SCM-ERP-CUSTOM","定制商品","线下报价","¥100,000 起 / 年","集团型客户","按合同生成不限 / 定制权益，可含驻场实施和数据迁移","已发布","供应链中枢系统","联系商务","定制"],
+      ["订单扩容包","ADDON-ORDER-50K","资源扩容","增量包","¥1,000 / 年","已有主套餐客户","每增加 5 万单，跟随主套餐到期，剩余额度展示","已发布","高频交易卖家","直接申请","订单"],
+      ["MSKU 扩容包","ADDON-MSKU-5K","资源扩容","增量包","¥2,000 / 年","已有主套餐客户","每增加 5,000 个 MSKU，活跃 MSKU 统计占用","已发布","铺货型卖家","直接申请","MSKU"],
+      ["多平台扩容包","ADDON-PLATFORM-1","资源扩容","增量包","¥2,000 / 平台 / 年","已有主套餐客户","新增 1 个平台授权，租户授权页读取","已发布","多平台卖家","直接申请","平台"],
+      ["店铺 / 站点扩容","ADDON-SITE-1","资源扩容","增量包","¥500 / 站点 / 年","已有主套餐客户","新增 1 个店铺 / 站点授权","已发布","多站点卖家","直接申请","站点"],
+      ["子账号扩容","ADDON-ACCOUNT-1","资源扩容","增量包","¥300 / 账号 / 年","超出套餐账号限制后购买","新增 1 个子账号额度，账号创建时占用","已发布","团队扩张","直接申请","账号"],
+      ["物流轨迹跟踪","USAGE-LOGISTICS-TRACE","按量服务","按量","¥0.1 / 单","ERP 客户","ERP 查询头程物流轨迹时按单扣费","已发布","头程轨迹查询","直接申请","按单"],
+      ["专利 / 侵权检测（智慧芽）","USAGE-PATENT-PATSNAP","按量服务","按量","按实际使用流量计费","侵权风险预防客户","按外部服务返回流量计费，支持后付费","待完善","侵权风险预防","联系商务","外部流量"],
+      ["专利 / 侵权检测（睿观）","USAGE-PATENT-RG","按量服务","按量","¥0.8 / 点数","侵权风险预防客户","检测时按点数扣减，剩余点数展示","已发布","侵权风险预防","直接申请","点数"],
+      ["金蝶云星空对接","SERVICE-KINGDEE","专项服务","按次","¥20,000 / 次","仅 ERP 旗舰版、SCM&ERP 定制版","生成对接服务单，完成后关闭","已发布","业财一体化","预约服务","限制"],
+      ["线下实施培训","SERVICE-OFFLINE-TRAINING","专项服务","按人天","¥3,000 / 人天","全部客户，不含差旅费","生成培训服务单，按人天登记履约","已发布","上门培训","预约服务","差旅另算"],
+      ["竞品链接监控","SERVICE-COMPETITOR-LINK","专项服务","增量包","¥500 / 个 / 年","专业版及以上推荐","新增监控对象额度，监控任务占用","已发布","竞品监控","直接申请","监控"],
+      ["关键词排名监控","SERVICE-KEYWORD-RANK","专项服务","增量包","¥200 / 个 / 年","专业版及以上推荐","新增关键词监控额度，监控任务占用","已发布","关键词排名","直接申请","监控"],
+      ["跟卖监控（次数 / 天）","SERVICE-FOLLOW-SELL","专项服务","增量包","¥500 / 个 / 年","专业版及以上推荐","新增跟卖监控对象，按配置频次执行","已发布","跟卖监控","直接申请","监控"],
+      ["邮件 / 索评额度","ADDON-EMAIL-100K","资源扩容","增量包","¥1,000 / 10 万封 / 年","邮件触达或索评客户","邮件发送成功后按封扣减，剩余额度展示","已发布","邮件索评","直接申请","邮件"],
+      ["API 扩容","ADDON-API-CUSTOM","定制商品","线下报价","线下报价","接口调用量较高客户","按合同配置接口额度、QPS 或调用量","待完善","接口扩展","联系商务","API"],
+      ["资源包定制","ADDON-RESOURCE-CUSTOM","定制商品","线下报价","线下报价","非标准额度组合客户","按合同生成组合权益","待完善","资源组合","联系商务","定制"]
+    ].map(([name, code, type, priceType, price, scope, consume, status, subtitle, action, badge]) => ({ name, code, type, priceType, price, scope, consume, status, subtitle, action, badge }));
+
+    const typeList = ["全部", "主套餐", "资源扩容", "按量服务", "专项服务", "定制商品"];
+    let activeType = "全部";
+    let activeProduct = products[2];
+
+    const productBody = document.getElementById("productBody");
+    const chips = document.getElementById("chips");
+    const searchInput = document.getElementById("searchInput");
+    const priceFilter = document.getElementById("priceFilter");
+    const statusFilter = document.getElementById("statusFilter");
+    const editPageTab = document.getElementById("editPageTab");
+
+    function typeColor(type) {
+      if (type === "主套餐") return "blue";
+      if (type === "资源扩容") return "green";
+      if (type === "定制商品") return "orange";
+      return "";
+    }
+
+    function statusColor(status) {
+      return status === "已发布" ? "green" : "orange";
+    }
+
+    function avatarClass(type) {
+      if (type === "资源扩容") return "green";
+      if (type === "定制商品" || type === "专项服务") return "orange";
+      return "";
+    }
+
+    function renderChips() {
+      chips.innerHTML = typeList.map(type => `<button class="chip ${type === activeType ? "active" : ""}" data-type="${type}">${type}</button>`).join("");
+      chips.querySelectorAll(".chip").forEach(chip => {
+        chip.addEventListener("click", () => {
+          activeType = chip.dataset.type;
+          renderChips();
+          renderRows();
+        });
+      });
+    }
+
+    function renderRows() {
+      const keyword = searchInput.value.trim().toLowerCase();
+      const priceValue = priceFilter.value;
+      const statusValue = statusFilter.value;
+      const rows = products.filter(item => {
+        const matchType = activeType === "全部" || item.type === activeType;
+        const matchPrice = priceValue === "全部计价" || item.priceType.includes(priceValue);
+        const matchStatus = statusValue === "全部状态" || item.status === statusValue;
+        const text = `${item.name} ${item.code} ${item.subtitle} ${item.scope}`.toLowerCase();
+        const matchKeyword = !keyword || text.includes(keyword);
+        return matchType && matchPrice && matchStatus && matchKeyword;
+      });
+
+      if (!rows.length) {
+        productBody.innerHTML = `
+          <tr class="product-row">
+            <td colspan="7" style="text-align:center;padding:34px 12px;color:var(--muted);">
+              未找到匹配商品，可调整分类、计价或状态筛选
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      productBody.innerHTML = rows.map((item, index) => `
+        <tr class="product-row" data-code="${item.code}">
+          <td>
+            <div class="product-main">
+              <div class="avatar ${avatarClass(item.type)}">${item.name.slice(0, 1)}</div>
+              <div>
+                <div class="product-name">${item.name}</div>
+                <div class="code">${item.code}</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="tag ${typeColor(item.type)}">${item.type}</span></td>
+          <td><div class="price">${item.price}</div><div class="muted">${item.priceType}</div></td>
+          <td><div>${item.action}</div><div class="muted">${item.scope}</div></td>
+          <td><div class="muted">${item.consume}</div></td>
+          <td><span class="tag ${statusColor(item.status)}">${item.status}</span></td>
+          <td><button class="btn ghost row-edit" data-code="${item.code}">编辑</button></td>
+        </tr>
+      `).join("");
+
+      productBody.querySelectorAll(".product-row").forEach(row => {
+        row.addEventListener("click", event => {
+          if (event.target.classList.contains("row-edit")) return;
+          activeProduct = products.find(item => item.code === row.dataset.code);
+          openDetail(activeProduct);
+        });
+      });
+      productBody.querySelectorAll(".row-edit").forEach(btn => {
+        btn.addEventListener("click", event => {
+          event.stopPropagation();
+          activeProduct = products.find(item => item.code === btn.dataset.code);
+          openEdit(`编辑商品：${activeProduct.name}`);
+        });
+      });
+    }
+
+    function openDetail(item) {
+      document.getElementById("detailTags").innerHTML = `<span class="tag ${typeColor(item.type)}">${item.type}</span><span class="tag ${statusColor(item.status)}">${item.status}</span><span class="tag">${item.badge}</span>`;
+      document.getElementById("detailName").textContent = item.name;
+      document.getElementById("detailSubtitle").textContent = item.subtitle;
+      document.getElementById("detailPrice").textContent = item.price;
+      document.getElementById("detailPriceType").textContent = item.priceType;
+      document.getElementById("detailPeriod").textContent = item.type === "专项服务" ? "按服务完成" : "按商品规则";
+      document.getElementById("detailScope").textContent = item.scope;
+      document.getElementById("detailAction").textContent = item.action;
+      document.getElementById("detailDisplay").textContent = item.subtitle;
+      document.getElementById("detailConsume").textContent = item.consume;
+      document.getElementById("detailDrawer").classList.add("open");
+    }
+
+    function openEdit(title) {
+      document.getElementById("editTitle").textContent = title;
+      editPageTab.textContent = title;
+      editPageTab.classList.remove("hidden");
+      switchPage("editPage");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function switchPage(pageId) {
+      document.querySelectorAll(".page-panel").forEach(panel => panel.classList.remove("active"));
+      document.querySelectorAll(".content-tab").forEach(tab => tab.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
+      document.querySelector(`.content-tab[data-page="${pageId}"]`).classList.add("active");
+    }
+
+    document.querySelectorAll("[data-close]").forEach(btn => {
+      btn.addEventListener("click", () => document.getElementById(btn.dataset.close).classList.remove("open"));
+    });
+    document.querySelectorAll(".drawer").forEach(drawer => {
+      drawer.addEventListener("click", event => {
+        if (event.target === drawer) drawer.classList.remove("open");
+      });
+    });
+    document.getElementById("newBtn").addEventListener("click", () => openEdit("新建商品"));
+    document.getElementById("backToList").addEventListener("click", () => switchPage("listPage"));
+    document.querySelectorAll(".content-tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        if (!tab.classList.contains("hidden")) switchPage(tab.dataset.page);
+      });
+    });
+    document.getElementById("editFromDetail").addEventListener("click", () => {
+      document.getElementById("detailDrawer").classList.remove("open");
+      openEdit(`编辑商品：${activeProduct.name}`);
+    });
+    [searchInput, priceFilter, statusFilter].forEach(item => item.addEventListener("input", renderRows));
+    priceFilter.addEventListener("change", renderRows);
+    statusFilter.addEventListener("change", renderRows);
+
+    renderChips();
+    renderRows();
+  </script>
+</body>
+</html>

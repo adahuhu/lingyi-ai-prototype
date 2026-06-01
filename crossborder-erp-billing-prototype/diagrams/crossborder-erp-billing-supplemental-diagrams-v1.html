@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>计费模块一期辅助图 v1</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --paper: #ffffff;
+      --ink: #172033;
+      --muted: #64748b;
+      --line: #dbe4f0;
+      --line-soft: #edf2f7;
+      --blue: #2f6bff;
+      --blue-deep: #1f4fd7;
+      --blue-soft: #eef4ff;
+      --green: #17b26a;
+      --green-soft: #ecfdf3;
+      --amber: #f59e0b;
+      --amber-soft: #fff7ed;
+      --red: #e5484d;
+      --red-soft: #fff1f3;
+      --violet: #7c3aed;
+      --violet-soft: #f5f3ff;
+      --shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      letter-spacing: 0;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      background: rgba(255, 255, 255, .94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 750;
+    }
+
+    .header-meta {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    main {
+      width: 1440px;
+      margin: 0 auto;
+      padding: 24px 24px 48px;
+    }
+
+    .intro {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .intro-card,
+    .diagram-section {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .intro-card {
+      padding: 18px 20px;
+    }
+
+    .intro-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    .intro-card p {
+      margin: 0;
+      color: #475467;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-content: flex-start;
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      height: 30px;
+      padding: 0 11px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #475467;
+      font-size: 12px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .dot-blue { background: var(--blue); }
+    .dot-green { background: var(--green); }
+    .dot-amber { background: var(--amber); }
+    .dot-red { background: var(--red); }
+    .dot-violet { background: var(--violet); }
+
+    .diagram-section {
+      margin-top: 18px;
+      overflow: hidden;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 20px 24px 14px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+      font-size: 18px;
+      font-weight: 750;
+    }
+
+    .section-title em {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: var(--blue);
+      color: #fff;
+      font-style: normal;
+      font-size: 13px;
+    }
+
+    .section-note {
+      max-width: 600px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+      text-align: right;
+    }
+
+    .svg-wrap {
+      padding: 14px 24px 22px;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #fbfdff 0%, #fff 100%);
+    }
+
+    .box {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 12px 14px;
+      border: 1px solid #cbd8eb;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+      color: var(--ink);
+    }
+
+    .box strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .box span {
+      color: #667085;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .box.blue { background: var(--blue-soft); border-color: #aac3ff; }
+    .box.green { background: var(--green-soft); border-color: #a7e3c2; }
+    .box.amber { background: var(--amber-soft); border-color: #ffd69b; }
+    .box.red { background: var(--red-soft); border-color: #ffc7cf; }
+    .box.violet { background: var(--violet-soft); border-color: #cdbbff; }
+    .box.gray { background: #f8fafc; border-color: #d8e2ef; }
+
+    .lane-title {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #d7e1ee;
+      border-radius: 12px;
+      background: #fff;
+      color: #344054;
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .mini-label {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid #d8e2ef;
+      background: #fff;
+      color: #475467;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .matrix {
+      padding: 20px 24px 26px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    th,
+    td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line-soft);
+      border-right: 1px solid var(--line-soft);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #344054;
+      font-weight: 750;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    th:last-child,
+    td:last-child { border-right: none; }
+
+    .group {
+      width: 96px;
+      color: #1d2939;
+      font-weight: 750;
+      background: #fbfdff;
+    }
+
+    .cell-ok {
+      color: #0f7a43;
+      font-weight: 700;
+    }
+
+    .cell-muted {
+      color: #98a2b3;
+    }
+
+    .rule-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      padding: 0 24px 24px;
+    }
+
+    .rule {
+      min-height: 90px;
+      padding: 13px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #fbfdff;
+    }
+
+    .rule strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    .rule p {
+      margin: 0;
+      color: #667085;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>计费模块一期辅助图 v1</h1>
+    <div class="header-meta">页面结构 / 状态流转 / 系统协作 / 售卖项覆盖</div>
+  </header>
+
+  <main>
+    <div class="intro">
+      <div class="intro-card">
+        <strong>读图方式</strong>
+        <p>先看蓝色主链路，再看绿色系统协作与橙色异常 / 规则。每张图只表达一个问题，避免把主流程、异常和说明混在一起。</p>
+      </div>
+      <div class="intro-card legend">
+        <span><i class="dot dot-blue"></i> 主流程 / 主页面</span>
+        <span><i class="dot dot-green"></i> 系统协作 / 生效</span>
+        <span><i class="dot dot-amber"></i> 分支 / 待处理</span>
+        <span><i class="dot dot-red"></i> 终止 / 异常</span>
+        <span><i class="dot dot-violet"></i> 展示 / 查看</span>
+      </div>
+    </div>
+
+    <section class="diagram-section" id="page-map">
+      <div class="section-head">
+        <h2 class="section-title"><em>01</em>页面结构图 / 菜单地图</h2>
+        <div class="section-note">用于放在 5.1 功能清单前，说明平台侧和租户侧分别有哪些页面。</div>
+      </div>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 1360 620" role="img" aria-label="页面结构图">
+          <defs>
+            <marker id="arrow1" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="#2f6bff"></path>
+            </marker>
+          </defs>
+          <line x1="680" y1="78" x2="680" y2="588" stroke="#edf2f7" stroke-width="2" />
+          <foreignObject x="80" y="28" width="520" height="48"><div xmlns="http://www.w3.org/1999/xhtml" class="lane-title">平台侧：用户中心 / 计费管理</div></foreignObject>
+          <foreignObject x="760" y="28" width="520" height="48"><div xmlns="http://www.w3.org/1999/xhtml" class="lane-title">租户侧：费用中心</div></foreignObject>
+
+          <path d="M340 126 L340 164" stroke="#2f6bff" stroke-width="2.5" marker-end="url(#arrow1)" />
+          <path d="M340 246 L180 286" stroke="#2f6bff" stroke-width="2.5" marker-end="url(#arrow1)" />
+          <path d="M340 246 L340 286" stroke="#2f6bff" stroke-width="2.5" marker-end="url(#arrow1)" />
+          <path d="M340 246 L500 286" stroke="#2f6bff" stroke-width="2.5" marker-end="url(#arrow1)" />
+          <path d="M340 368 L340 408" stroke="#2f6bff" stroke-width="2.5" marker-end="url(#arrow1)" />
+          <path d="M340 490 L180 530" stroke="#2f6bff" stroke-width="2.5" marker-end="url(#arrow1)" />
+          <path d="M340 490 L500 530" stroke="#2f6bff" stroke-width="2.5" marker-end="url(#arrow1)" />
+
+          <foreignObject x="215" y="100" width="250" height="74"><div xmlns="http://www.w3.org/1999/xhtml" class="box blue"><strong>计费管理</strong><span>商品配置、订单管理、申请处理保留归档。</span></div></foreignObject>
+          <foreignObject x="55" y="286" width="250" height="74"><div xmlns="http://www.w3.org/1999/xhtml" class="box"><strong>商品配置</strong><span>商品列表、新建 / 编辑、字典维护。</span></div></foreignObject>
+          <foreignObject x="215" y="286" width="250" height="74"><div xmlns="http://www.w3.org/1999/xhtml" class="box"><strong>订单管理</strong><span>平台录单、订单列表、订单详情、作废。</span></div></foreignObject>
+          <foreignObject x="375" y="286" width="250" height="74"><div xmlns="http://www.w3.org/1999/xhtml" class="box gray"><strong>申请处理</strong><span>本期不进入主流程，原型归档。</span></div></foreignObject>
+          <foreignObject x="215" y="408" width="250" height="74"><div xmlns="http://www.w3.org/1999/xhtml" class="box blue"><strong>客户 / 租户管理</strong><span>基于用户中心真实租户详情融合计费信息。</span></div></foreignObject>
+          <foreignObject x="55" y="530" width="250" height="74"><div xmlns="http://www.w3.org/1999/xhtml" class="box"><strong>授权明细</strong><span>默认页签，高频查看系统授权。</span></div></foreignObject>
+          <foreignObject x="375" y="530" width="250" height="74"><div xmlns="http://www.w3.org/1999/xhtml" class="box"><strong>计费信息</strong><span>当前额度、购买记录、创建订单、明细跳转。</span></div></foreignObject>
+
+          <path d="M1020 126 L1020 172" stroke="#2f6bff" stroke-width="2.5" marker-end="url(#arrow1)" />
+          <path d="M1020 254 L860 296" stroke="#2f6bff" stroke-width="2.5" marker-end="url(#arrow1)" />
+          <path d="M1020 254 L1020 296" stroke="#2f6bff" stroke-width="2.5" marker-end="url(#arrow1)" />
+          <path d="M1020 254 L1180 296" stroke="#2f6bff" stroke-width="2.5" marker-end="url(#arrow1)" />
+          <path d="M1020 378 L1020 420" stroke="#2f6bff" stroke-width="2.5" marker-end="url(#arrow1)" />
+          <foreignObject x="895" y="100" width="250" height="74"><div xmlns="http://www.w3.org/1999/xhtml" class="box blue"><strong>我的订阅</strong><span>租户侧唯一入口，承接套餐、权益和购买意向。</span></div></foreignObject>
+          <foreignObject x="735" y="296" width="250" height="74"><div xmlns="http://www.w3.org/1999/xhtml" class="box"><strong>权益数据</strong><span>总量、已用、剩余、使用率。</span></div></foreignObject>
+          <foreignObject x="895" y="296" width="250" height="74"><div xmlns="http://www.w3.org/1999/xhtml" class="box"><strong>可购买方案</strong><span>套餐、增值服务、联系客户经理。</span></div></foreignObject>
+          <foreignObject x="1055" y="296" width="250" height="74"><div xmlns="http://www.w3.org/1999/xhtml" class="box"><strong>服务进度</strong><span>交付类服务的预约、实施、完成。</span></div></foreignObject>
+          <foreignObject x="895" y="420" width="250" height="74"><div xmlns="http://www.w3.org/1999/xhtml" class="box violet"><strong>订单记录</strong><span>已生效、已到期订单；可进入订单详情。</span></div></foreignObject>
+        </svg>
+      </div>
+    </section>
+
+    <section class="diagram-section" id="order-state">
+      <div class="section-head">
+        <h2 class="section-title"><em>02</em>订单状态机图</h2>
+        <div class="section-note">用于放在 4.9，订单主状态只保留四个，异常不进入主状态。</div>
+      </div>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 1360 430" role="img" aria-label="订单状态机图">
+          <defs>
+            <marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="#2f6bff"></path>
+            </marker>
+            <marker id="arrow2r" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="#e5484d"></path>
+            </marker>
+          </defs>
+          <foreignObject x="80" y="80" width="230" height="88"><div xmlns="http://www.w3.org/1999/xhtml" class="box amber"><strong>草稿</strong><span>录单保存后进入；开通失败仍保留草稿并打异常标记。</span></div></foreignObject>
+          <foreignObject x="430" y="80" width="230" height="88"><div xmlns="http://www.w3.org/1999/xhtml" class="box green"><strong>已开通</strong><span>订单快照、权益实例、系统入口、权益下发均成功。</span></div></foreignObject>
+          <foreignObject x="780" y="80" width="230" height="88"><div xmlns="http://www.w3.org/1999/xhtml" class="box gray"><strong>已到期</strong><span>到期后由系统自动流转；不再计入有效权益池。</span></div></foreignObject>
+          <foreignObject x="430" y="270" width="230" height="88"><div xmlns="http://www.w3.org/1999/xhtml" class="box red"><strong>已作废</strong><span>人工作废或退款处理完成后进入；保留历史消耗。</span></div></foreignObject>
+
+          <path d="M310 124 L430 124" stroke="#2f6bff" stroke-width="2.6" marker-end="url(#arrow2)" />
+          <text x="337" y="110" fill="#475467" font-size="13">保存并开通成功</text>
+          <path d="M660 124 L780 124" stroke="#2f6bff" stroke-width="2.6" marker-end="url(#arrow2)" />
+          <text x="700" y="110" fill="#475467" font-size="13">到期</text>
+          <path d="M195 168 C195 292 330 314 430 314" fill="none" stroke="#e5484d" stroke-width="2.2" marker-end="url(#arrow2r)" />
+          <text x="225" y="250" fill="#e5484d" font-size="13">草稿作废</text>
+          <path d="M545 168 L545 270" stroke="#e5484d" stroke-width="2.2" marker-end="url(#arrow2r)" />
+          <text x="560" y="222" fill="#e5484d" font-size="13">作废 / 退款</text>
+
+          <foreignObject x="1080" y="58" width="230" height="74"><div xmlns="http://www.w3.org/1999/xhtml" class="box amber"><strong>开通 / 同步异常</strong><span>不新增状态，只在草稿上加异常标记。</span></div></foreignObject>
+          <foreignObject x="1080" y="156" width="230" height="74"><div xmlns="http://www.w3.org/1999/xhtml" class="box amber"><strong>回收异常</strong><span>不改变已到期 / 已作废主状态，可重试。</span></div></foreignObject>
+          <foreignObject x="1080" y="254" width="230" height="74"><div xmlns="http://www.w3.org/1999/xhtml" class="box violet"><strong>租户侧展示</strong><span>已开通展示已生效；已到期展示已到期；已作废默认不展示。</span></div></foreignObject>
+          <path d="M310 104 C675 18 900 28 1080 92" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#arrow2)" />
+          <path d="M1010 124 C1055 130 1055 176 1080 193" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#arrow2)" />
+          <path d="M660 314 C805 350 990 336 1080 291" fill="none" stroke="#7c3aed" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#arrow2)" />
+        </svg>
+      </div>
+    </section>
+
+    <section class="diagram-section" id="product-state">
+      <div class="section-head">
+        <h2 class="section-title"><em>03</em>商品状态机图</h2>
+        <div class="section-note">用于放在 4.10，比订单状态更简单，适合用小图表达。</div>
+      </div>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 1360 330" role="img" aria-label="商品状态机图">
+          <defs>
+            <marker id="arrow3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="#2f6bff"></path>
+            </marker>
+            <marker id="arrow3r" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="#e5484d"></path>
+            </marker>
+          </defs>
+          <foreignObject x="110" y="88" width="240" height="90"><div xmlns="http://www.w3.org/1999/xhtml" class="box amber"><strong>草稿</strong><span>可编辑；租户侧不可见，平台录单不可选。</span></div></foreignObject>
+          <foreignObject x="520" y="88" width="240" height="90"><div xmlns="http://www.w3.org/1999/xhtml" class="box green"><strong>已发布</strong><span>租户侧可见；平台录单可选。</span></div></foreignObject>
+          <foreignObject x="930" y="88" width="240" height="90"><div xmlns="http://www.w3.org/1999/xhtml" class="box red"><strong>已下架</strong><span>租户侧不可购买；历史订单不受影响。</span></div></foreignObject>
+          <path d="M350 133 L520 133" stroke="#2f6bff" stroke-width="2.6" marker-end="url(#arrow3)" />
+          <text x="390" y="118" fill="#475467" font-size="13">保存并发布</text>
+          <path d="M760 133 L930 133" stroke="#e5484d" stroke-width="2.4" marker-end="url(#arrow3r)" />
+          <text x="815" y="118" fill="#e5484d" font-size="13">下架</text>
+          <path d="M930 168 C830 260 630 260 560 180" fill="none" stroke="#2f6bff" stroke-width="2.3" marker-end="url(#arrow3)" />
+          <text x="735" y="250" fill="#475467" font-size="13">重新发布</text>
+          <path d="M640 88 C610 38 665 34 675 86" fill="none" stroke="#2f6bff" stroke-width="2" marker-end="url(#arrow3)" />
+          <text x="680" y="55" fill="#475467" font-size="13">编辑后仍为已发布，生成新版本</text>
+          <foreignObject x="102" y="230" width="1060" height="58"><div xmlns="http://www.w3.org/1999/xhtml" class="box gray"><strong>关键规则</strong><span>商品配置是售卖模板；订单创建时会固化商品快照。商品后续编辑、下架，不影响历史订单和已经生效的客户权益。</span></div></foreignObject>
+        </svg>
+      </div>
+    </section>
+
+    <section class="diagram-section" id="system-collaboration">
+      <div class="section-head">
+        <h2 class="section-title"><em>04</em>ERP / WMS / SCM 协作图</h2>
+        <div class="section-note">用于放在 4.6，说明计费模块下发权益，业务系统校验并上报消耗。</div>
+      </div>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 1360 650" role="img" aria-label="ERP WMS SCM 协作图">
+          <defs>
+            <marker id="arrow4" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="#2f6bff"></path>
+            </marker>
+            <marker id="arrow4g" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="#17b26a"></path>
+            </marker>
+          </defs>
+          <foreignObject x="64" y="24" width="190" height="42"><div xmlns="http://www.w3.org/1999/xhtml" class="lane-title">平台 / 订单</div></foreignObject>
+          <foreignObject x="314" y="24" width="190" height="42"><div xmlns="http://www.w3.org/1999/xhtml" class="lane-title">计费模块</div></foreignObject>
+          <foreignObject x="564" y="24" width="190" height="42"><div xmlns="http://www.w3.org/1999/xhtml" class="lane-title">用户中心</div></foreignObject>
+          <foreignObject x="814" y="24" width="190" height="42"><div xmlns="http://www.w3.org/1999/xhtml" class="lane-title">ERP / WMS / SCM</div></foreignObject>
+          <foreignObject x="1064" y="24" width="190" height="42"><div xmlns="http://www.w3.org/1999/xhtml" class="lane-title">页面展示</div></foreignObject>
+          <line x1="284" y1="84" x2="284" y2="610" stroke="#edf2f7" stroke-width="2" />
+          <line x1="534" y1="84" x2="534" y2="610" stroke="#edf2f7" stroke-width="2" />
+          <line x1="784" y1="84" x2="784" y2="610" stroke="#edf2f7" stroke-width="2" />
+          <line x1="1034" y1="84" x2="1034" y2="610" stroke="#edf2f7" stroke-width="2" />
+
+          <foreignObject x="42" y="112" width="230" height="82"><div xmlns="http://www.w3.org/1999/xhtml" class="box blue"><strong>平台录单 / 状态变化</strong><span>新购、续费、升级、作废、到期。</span></div></foreignObject>
+          <foreignObject x="304" y="112" width="230" height="82"><div xmlns="http://www.w3.org/1999/xhtml" class="box blue"><strong>重算有效权益池</strong><span>按客户 + 权益项 + 有效期汇总当前总量。</span></div></foreignObject>
+          <foreignObject x="554" y="112" width="230" height="82"><div xmlns="http://www.w3.org/1999/xhtml" class="box green"><strong>更新系统入口</strong><span>开通或回收 ERP / WMS / SCM 入口。</span></div></foreignObject>
+          <foreignObject x="804" y="112" width="230" height="82"><div xmlns="http://www.w3.org/1999/xhtml" class="box green"><strong>接收权益总量</strong><span>接收权益项编码、总量、不限标记、有效期。</span></div></foreignObject>
+          <foreignObject x="804" y="250" width="230" height="82"><div xmlns="http://www.w3.org/1999/xhtml" class="box amber"><strong>业务动作前校验</strong><span>订单、MSKU、店铺、物流轨迹等动作提交前判断。</span></div></foreignObject>
+          <foreignObject x="804" y="388" width="230" height="82"><div xmlns="http://www.w3.org/1999/xhtml" class="box green"><strong>上报消耗 / 返还</strong><span>业务成功后按同一权益项编码回传。</span></div></foreignObject>
+          <foreignObject x="304" y="388" width="230" height="82"><div xmlns="http://www.w3.org/1999/xhtml" class="box blue"><strong>写入消耗明细</strong><span>按幂等键去重，刷新已用和剩余。</span></div></foreignObject>
+          <foreignObject x="1064" y="250" width="230" height="82"><div xmlns="http://www.w3.org/1999/xhtml" class="box violet"><strong>当前额度使用</strong><span>平台客户详情、租户我的订阅读取同一口径。</span></div></foreignObject>
+          <foreignObject x="1064" y="388" width="230" height="82"><div xmlns="http://www.w3.org/1999/xhtml" class="box violet"><strong>消耗明细</strong><span>展示额度增加、扣减、返还和来源。</span></div></foreignObject>
+
+          <path d="M272 153 L304 153" stroke="#2f6bff" stroke-width="2.6" marker-end="url(#arrow4)" />
+          <path d="M534 153 L554 153" stroke="#17b26a" stroke-width="2.6" marker-end="url(#arrow4g)" />
+          <path d="M784 153 L804 153" stroke="#17b26a" stroke-width="2.6" marker-end="url(#arrow4g)" />
+          <path d="M919 194 L919 250" stroke="#2f6bff" stroke-width="2.6" marker-end="url(#arrow4)" />
+          <path d="M919 332 L919 388" stroke="#17b26a" stroke-width="2.6" marker-end="url(#arrow4g)" />
+          <path d="M804 429 L534 429" stroke="#17b26a" stroke-width="2.6" marker-end="url(#arrow4g)" />
+          <path d="M419 388 L419 194" stroke="#2f6bff" stroke-width="2.6" marker-end="url(#arrow4)" />
+          <path d="M534 291 L1064 291" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#arrow4)" />
+          <path d="M534 429 L1064 429" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#arrow4)" />
+
+          <foreignObject x="42" y="530" width="300" height="82"><div xmlns="http://www.w3.org/1999/xhtml" class="box gray"><strong>协作边界</strong><span>计费模块负责当前权益总量；业务系统负责真实业务动作校验和消耗上报。</span></div></foreignObject>
+          <foreignObject x="382" y="530" width="300" height="82"><div xmlns="http://www.w3.org/1999/xhtml" class="box gray"><strong>编码约束</strong><span>下发和回传都必须使用同一权益项编码，未知编码不默认放行。</span></div></foreignObject>
+          <foreignObject x="722" y="530" width="300" height="82"><div xmlns="http://www.w3.org/1999/xhtml" class="box gray"><strong>上报约束</strong><span>同一业务事件只能由一个系统上报一次，避免重复扣减。</span></div></foreignObject>
+          <foreignObject x="1062" y="530" width="250" height="82"><div xmlns="http://www.w3.org/1999/xhtml" class="box gray"><strong>展示约束</strong><span>页面只读取计费模块权益池，不各自拼口径。</span></div></foreignObject>
+        </svg>
+      </div>
+    </section>
+
+    <section class="diagram-section" id="sales-matrix">
+      <div class="section-head">
+        <h2 class="section-title"><em>05</em>售卖项覆盖矩阵图</h2>
+        <div class="section-note">用于放在第 7 章售卖项覆盖清单，用矩阵表达每类商品由哪些页面和流程承接。</div>
+      </div>
+      <div class="matrix">
+        <table>
+          <thead>
+            <tr>
+              <th>售卖分类</th>
+              <th>代表售卖项</th>
+              <th>商品配置</th>
+              <th>平台录单 / 订单</th>
+              <th>权益 / 消耗</th>
+              <th>租户展示</th>
+              <th>服务进度</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="group">主套餐</td>
+              <td>ERP 标准版、ERP 专业版、ERP 旗舰版、SCM 企业版</td>
+              <td class="cell-ok">维护价格、适用系统、基础权益</td>
+              <td class="cell-ok">录入新购、续费、升级</td>
+              <td class="cell-ok">生成基础权益池，开通系统入口</td>
+              <td class="cell-ok">我的订阅顶部套餐、订单记录</td>
+              <td class="cell-muted">SCM 或定制部分按需展示</td>
+            </tr>
+            <tr>
+              <td class="group">额度增值</td>
+              <td>订单扩容、MSKU 扩容、店铺 / 站点、子账号、平台、邮件额度</td>
+              <td class="cell-ok">维护增值服务、单位和额度值</td>
+              <td class="cell-ok">录入加购或续费</td>
+              <td class="cell-ok">叠加到同权益项总量，支持扣减 / 返还</td>
+              <td class="cell-ok">权益卡片、用量明细、订单记录</td>
+              <td class="cell-muted">不涉及</td>
+            </tr>
+            <tr>
+              <td class="group">按量 / 点数</td>
+              <td>物流轨迹、专利 / 侵权检测、API 调用类</td>
+              <td class="cell-ok">维护计价口径和权益项编码</td>
+              <td class="cell-ok">平台录单或线下成交后开通</td>
+              <td class="cell-ok">按业务系统回传记录扣减或计量</td>
+              <td class="cell-ok">展示已用量和明细来源</td>
+              <td class="cell-muted">不涉及</td>
+            </tr>
+            <tr>
+              <td class="group">监控对象</td>
+              <td>竞品链接监控、关键词排名监控、跟卖监控</td>
+              <td class="cell-ok">维护对象额度和价格</td>
+              <td class="cell-ok">录入购买数量和有效期</td>
+              <td class="cell-ok">新增对象占用额度，删除 / 停用释放</td>
+              <td class="cell-ok">权益用量、对象类明细</td>
+              <td class="cell-muted">不涉及</td>
+            </tr>
+            <tr>
+              <td class="group">交付服务</td>
+              <td>金蝶云星空对接、线下实施培训</td>
+              <td class="cell-ok">维护服务商品和价格</td>
+              <td class="cell-ok">录入服务订单、合同和水单</td>
+              <td class="cell-muted">不默认扣减额度</td>
+              <td class="cell-ok">订单记录、已购买增值服务</td>
+              <td class="cell-ok">展示预约、实施、完成状态</td>
+            </tr>
+            <tr>
+              <td class="group">定制类</td>
+              <td>API 扩容、资源包定制、SCM 非标能力</td>
+              <td class="cell-ok">以线下报价或组合权益维护</td>
+              <td class="cell-ok">按合同录入商品和附件</td>
+              <td class="cell-ok">按合同生成权益或服务记录</td>
+              <td class="cell-ok">按最终订单结果展示</td>
+              <td class="cell-ok">涉及交付时展示进度</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="rule-row">
+        <div class="rule"><strong>商品配置</strong><p>只维护可售模板和权益项，不承接客户实际使用量。</p></div>
+        <div class="rule"><strong>平台录单</strong><p>把线下成交结果固化为订单快照，上传水单和合同。</p></div>
+        <div class="rule"><strong>权益池</strong><p>把多笔有效订单汇总为当前总量、已用、剩余。</p></div>
+        <div class="rule"><strong>业务系统</strong><p>ERP / WMS / SCM 负责业务动作校验和消耗回传。</p></div>
+        <div class="rule"><strong>租户展示</strong><p>我的订阅和订单记录读取同一套计费结果。</p></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

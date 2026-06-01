@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商品详情 - 费用中心</title>
+  <link rel="stylesheet" href="billing-erp-platform.css">
+  <style>
+    .product-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .product-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--ly-border);
+      background: #fff;
+    }
+    .product-title h1 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      color: var(--ly-text);
+    }
+    .product-title p {
+      margin: 0;
+      color: var(--ly-muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .product-price {
+      text-align: right;
+      min-width: 180px;
+    }
+    .product-price strong {
+      display: block;
+      font-size: 24px;
+      color: var(--ly-text);
+      margin-bottom: 10px;
+    }
+    .product-price small {
+      font-size: 13px;
+      color: var(--ly-muted);
+      font-weight: 400;
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 16px;
+      padding: 16px;
+    }
+    .detail-section {
+      border: 1px solid var(--ly-border);
+      border-radius: 6px;
+      background: #fff;
+      padding: 16px;
+    }
+    .detail-section h3 {
+      margin: 0 0 14px;
+      font-size: 15px;
+      color: var(--ly-text);
+    }
+    .kv-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .kv-item span {
+      display: block;
+      color: var(--ly-muted);
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+    .kv-item b {
+      font-size: 14px;
+      color: var(--ly-text);
+      font-weight: 600;
+    }
+    .rights-list {
+      display: grid;
+      gap: 10px;
+    }
+    .rights-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border: 1px solid #edf0f5;
+      border-radius: 4px;
+      background: #fbfcff;
+      font-size: 13px;
+    }
+    .rights-item strong {
+      color: var(--ly-text);
+      font-weight: 500;
+    }
+    .rights-item span {
+      color: var(--ly-muted);
+      white-space: nowrap;
+    }
+    @media (max-width: 860px) {
+      .product-head { flex-direction: column; }
+      .product-price { text-align: left; }
+      .detail-grid { grid-template-columns: 1fr; }
+      .kv-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="ly-app">
+  <aside class="ly-side">
+    <div class="ly-side-logo"><span class="logo-mark">凌</span> 凌羿 ERP</div>
+    <nav class="ly-nav">
+      <div class="ly-nav-group">
+        <span class="ly-nav-item active"><span class="ico">▾</span> 费用中心</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-my-subscription-feishu.html" class="active">我的订阅</a>
+          <a href="crossborder-erp-billing-tenant-order-center.html">订单记录</a>
+        </div>
+      </div>
+    </nav>
+    <div class="ly-side-foot">收起导航</div>
+  </aside>
+
+  <div class="ly-wrap">
+    <header class="ly-topbar">
+      <div class="ly-tabs">
+        <a class="ly-tab" href="crossborder-erp-billing-my-subscription-feishu.html">我的订阅 <span class="close">×</span></a>
+        <a class="ly-tab active" href="#">商品详情 <span class="close">×</span></a>
+      </div>
+      <div class="ly-topbar-right">
+        <span>🔍</span><span>🔔</span>
+        <span class="user"><span class="avatar">杭</span> 杭州星河跨境</span>
+      </div>
+    </header>
+
+    <main class="ly-tenant-main">
+      <div class="product-shell ly-tenant-card" style="padding:0">
+        <div class="product-head">
+          <div class="product-title">
+            <a class="ly-link" href="crossborder-erp-billing-my-subscription-feishu.html">← 返回我的订阅</a>
+            <h1 id="productName" style="margin-top:14px">ERP 旗舰版续费</h1>
+            <p id="productDesc">延长当前 ERP 旗舰版有效期，权益额度按新周期继续生效。</p>
+          </div>
+          <div class="product-price">
+            <strong id="productPrice">¥69,800<small>/年</small></strong>
+            <button type="button" class="ly-btn ly-btn-primary" onclick="openContactDrawer()">联系客户经理</button>
+          </div>
+        </div>
+
+        <div class="detail-grid">
+          <section class="detail-section">
+            <h3>基础信息</h3>
+            <div class="kv-list">
+              <div class="kv-item"><span>类型</span><b id="productType">套餐</b></div>
+              <div class="kv-item"><span>适用系统</span><b id="productSystems">ERP</b></div>
+              <div class="kv-item"><span>计价方式</span><b id="productBilling">按年</b></div>
+              <div class="kv-item"><span>购买方式</span><b>联系客户经理</b></div>
+            </div>
+          </section>
+
+          <section class="detail-section">
+            <h3>适用场景</h3>
+            <p id="productScene" style="margin:0;color:var(--ly-muted);font-size:13px;line-height:1.8">
+              适合已开通 ERP 旗舰版并需要延长使用周期的客户。
+            </p>
+          </section>
+
+          <section class="detail-section" style="grid-column:1 / -1">
+            <h3>包含权益 / 服务内容</h3>
+            <div class="rights-list" id="rightsList"></div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="ly-drawer-mask" id="contactMask" onclick="if(event.target===this)closeContactDrawer()">
+  <aside class="ly-drawer" onclick="event.stopPropagation()">
+    <h3 id="contactTitle">联系客户经理</h3>
+    <div class="ly-field-block"><label>咨询商品</label><input id="contactProduct" readonly></div>
+    <div class="ly-field-block"><label>说明</label><textarea placeholder="选填，提交后客户经理会联系您"></textarea></div>
+    <button type="button" class="ly-btn" onclick="closeContactDrawer()">取消</button>
+    <button type="button" class="ly-btn ly-btn-primary" onclick="alert('已提交，客户经理将联系您');closeContactDrawer()">提交</button>
+  </aside>
+</div>
+
+<script>
+const products = {
+  'erp-flagship': {
+    name: 'ERP 旗舰版续费',
+    desc: '延长当前 ERP 旗舰版有效期，权益额度按新周期继续生效。',
+    price: '¥69,800<small>/年</small>',
+    type: '套餐',
+    systems: 'ERP',
+    billing: '按年',
+    scene: '适合已开通 ERP 旗舰版并需要延长使用周期的客户。',
+    rights: [['年订单量', '300 万单'], ['MSKU', '100,000 个'], ['店铺 / 站点', '500 个'], ['子账号', '300 个'], ['平台授权', '不限']]
+  },
+  'order-addon': {
+    name: '订单量增值包',
+    desc: '按年增加订单额度，适合交易增长较快的客户。',
+    price: '¥1,000<small>/年</small>',
+    type: '增值服务',
+    systems: 'ERP',
+    billing: '按年',
+    scene: '适合年订单量接近上限、但暂不需要升级主套餐的客户。',
+    rights: [['年订单量', '每包增加 5 万单']]
+  },
+  'msku-addon': {
+    name: 'MSKU 增值包',
+    desc: '按年增加 MSKU 额度，适合 SKU 数量持续增长的客户。',
+    price: '¥2,000<small>/年</small>',
+    type: '增值服务',
+    systems: 'ERP',
+    billing: '按年',
+    scene: '适合铺货型卖家或多品类客户，用于提升可管理 SKU 数量。',
+    rights: [['MSKU', '每包增加 5,000 个']]
+  },
+  logistics: {
+    name: '物流轨迹跟踪',
+    desc: '在 ERP 中实时查询头程物流轨迹，按单计量。',
+    price: '¥0.1<small>/单</small>',
+    type: '增值服务',
+    systems: 'ERP',
+    billing: '按量',
+    scene: '适合需要在 ERP 内集中查询头程物流进展的客户。',
+    rights: [['物流轨迹查询', '按实际查询单量计费']]
+  },
+  patent: {
+    name: '专利 / 侵权检测',
+    desc: '用于商品侵权风险预防，按点数或外部服务流量计费。',
+    price: '¥0.8<small>/点起</small>',
+    type: '增值服务',
+    systems: 'ERP',
+    billing: '按量',
+    scene: '适合上新前需要进行商品侵权风险检测的客户。',
+    rights: [['侵权检测点数', '按实际检测量计费']]
+  },
+  training: {
+    name: '线下实施培训',
+    desc: '按人天计费，不含差旅，适合新团队上线或关键流程培训。',
+    price: '¥3,000<small>/人天</small>',
+    type: '增值服务',
+    systems: 'ERP / SCM',
+    billing: '一次性服务',
+    scene: '适合新团队上线、核心流程梳理或重点岗位培训。',
+    rights: [['线下培训服务', '按人天提供']]
+  }
+};
+const params = new URLSearchParams(window.location.search);
+const product = products[params.get('item')] || products['erp-flagship'];
+document.getElementById('productName').textContent = product.name;
+document.getElementById('productDesc').textContent = product.desc;
+document.getElementById('productPrice').innerHTML = product.price;
+document.getElementById('productType').textContent = product.type;
+document.getElementById('productSystems').textContent = product.systems;
+document.getElementById('productBilling').textContent = product.billing;
+document.getElementById('productScene').textContent = product.scene;
+document.getElementById('rightsList').innerHTML = product.rights.map(([name, value]) => `<div class="rights-item"><strong>${name}</strong><span>${value}</span></div>`).join('');
+function openContactDrawer() {
+  document.getElementById('contactProduct').value = product.name;
+  document.getElementById('contactTitle').textContent = '联系客户经理 · ' + product.name;
+  document.getElementById('contactMask').classList.add('open');
+}
+function closeContactDrawer() { document.getElementById('contactMask').classList.remove('open'); }
+</script>
+</body>
+</html>

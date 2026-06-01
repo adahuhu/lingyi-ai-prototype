@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>消耗明细</title>
+  <link rel="stylesheet" href="billing-simple.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="side">
+    <div class="side-title">计费管理</div>
+    <a href="crossborder-erp-billing-customer-management-simple.html">← 返回客户管理</a>
+  </aside>
+  <div class="main">
+    <header class="header">
+      <div>
+        <h1>消耗明细</h1>
+        <div class="path">杭州星河跨境 · ERP 旗舰版 · 年订单量</div>
+      </div>
+    </header>
+    <div class="body">
+      <div class="toolbar">
+        <select><option>年订单量</option><option>MSKU</option><option>物流轨迹</option></select>
+        <input type="date"> — <input type="date">
+        <button class="btn">查询</button>
+        <button class="btn">导出</button>
+      </div>
+      <div class="panel">
+        <table>
+          <thead>
+            <tr><th>时间</th><th>来源</th><th>对象</th><th>数量</th><th>说明</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>2026-05-18 14:02</td><td>订单创建</td><td>AMZ-20260518001</td><td>-1</td><td>扣减</td></tr>
+            <tr><td>2026-05-18 11:20</td><td>订单取消返还</td><td>AMZ-20260517088</td><td>+1</td><td>返还</td></tr>
+            <tr><td>2026-05-17 09:15</td><td>订单创建</td><td>AMZ-20260517022</td><td>-1</td><td>扣减</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

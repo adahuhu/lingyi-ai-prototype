@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的订阅 - 费用中心</title>
+  <link rel="stylesheet" href="billing-erp-platform.css">
+  <style>
+    :root {
+      --page-bg: #f4f5f7;
+      --feishu-line: #dee0e3;
+      --feishu-line-soft: #eff1f5;
+      --feishu-text: #1f2329;
+      --feishu-sub: #646a73;
+      --feishu-muted: #8f959e;
+      --feishu-blue-soft: #edf3ff;
+      --feishu-shadow: 0 1px 2px rgba(31, 35, 41, .04);
+      --feishu-shadow-hover: 0 8px 24px rgba(31, 35, 41, .08);
+    }
+    body {
+      background: var(--page-bg);
+      color: var(--feishu-text);
+    }
+    .ly-tenant-main {
+      padding: 20px 28px 40px;
+      background: var(--page-bg);
+    }
+    .ly-tenant-card {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+    .quota-group-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--feishu-text);
+      padding: 2px 0 12px;
+      margin: 24px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 22px;
+    }
+    .quota-group-title::before {
+      content: "";
+      width: 3px;
+      height: 14px;
+      background: var(--ly-primary);
+      border-radius: 2px;
+    }
+    .quota-group-title small { font-size: 12px; font-weight: 400; color: var(--ly-muted); }
+    .quota-card-link {
+      display: inline-flex;
+      align-items: center;
+      font-size: 13px;
+      color: var(--ly-primary);
+      text-decoration: none;
+      margin-top: 12px;
+      line-height: 20px;
+      font-weight: 500;
+    }
+    .quota-card-link:hover { text-decoration: underline; }
+
+    .plan-expire .left-days { font-weight: 500; }
+    .plan-expire .left-days.ok { color: #52c41a; }
+    .plan-expire .left-days.warn { color: #d46b08; }
+    .plan-expire .left-days.danger { color: #ff4d4f; }
+
+    .ly-tenant-plan-bar {
+      min-height: 84px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      background: #fff;
+      border: 1px solid var(--feishu-line);
+      border-radius: 6px;
+      box-shadow: var(--feishu-shadow);
+    }
+    .ly-tenant-plan-bar .info {
+      gap: 8px 18px;
+    }
+    .ly-tenant-plan-bar .plan-name {
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: 600;
+      color: var(--feishu-text);
+      letter-spacing: 0;
+    }
+    .ly-tenant-plan-bar .plan-expire {
+      font-size: 13px;
+      color: var(--feishu-sub);
+    }
+    .ly-tenant-plan-bar .plan-expire b {
+      color: var(--feishu-text);
+      font-weight: 500;
+    }
+    .ly-tenant-plan-bar .left-days.ok {
+      color: #2ea121;
+    }
+    .ly-btn {
+      height: 32px;
+      padding: 0 14px;
+      border-radius: 4px;
+      font-weight: 500;
+      border-color: var(--feishu-line);
+      background: #fff;
+    }
+    .ly-btn-primary {
+      background: var(--ly-primary);
+      border-color: var(--ly-primary);
+      box-shadow: none;
+    }
+    .ly-btn-primary:hover {
+      background: #4e83fd;
+      border-color: #4e83fd;
+    }
+    .ly-tenant-quota-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 2px;
+    }
+    .ly-tenant-quota-card {
+      min-height: 156px;
+      padding: 18px 18px 16px;
+      border: 1px solid var(--feishu-line);
+      border-radius: 6px;
+      background: #fff;
+      box-shadow: var(--feishu-shadow);
+      transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease;
+    }
+    .ly-tenant-quota-card:hover {
+      transform: translateY(-1px);
+      border-color: #bacefd;
+      box-shadow: var(--feishu-shadow-hover);
+    }
+    .ly-tenant-quota-card h3 {
+      margin: 0 0 12px;
+      font-size: 15px;
+      line-height: 22px;
+      font-weight: 600;
+      color: var(--feishu-text);
+      letter-spacing: 0;
+    }
+    .ly-tenant-quota-card .meta {
+      margin-bottom: 6px;
+      font-size: 12px;
+      color: var(--feishu-muted);
+      line-height: 18px;
+    }
+    .ly-tenant-quota-card .num {
+      margin-bottom: 14px;
+      font-size: 24px;
+      line-height: 30px;
+      font-weight: 600;
+      color: var(--feishu-text);
+      letter-spacing: 0;
+    }
+    .ly-tenant-quota-card .num span {
+      font-size: 13px;
+      color: var(--feishu-sub);
+    }
+    .ly-tenant-quota-card .bar {
+      height: 4px;
+      margin-bottom: 2px;
+      background: #eff1f5;
+    }
+    .ly-tenant-quota-card .bar i {
+      background: #3370ff;
+    }
+    .ly-tenant-quota-card .bar.warn i {
+      background: #ffb020;
+    }
+    .ly-tenant-quota-card .acts {
+      min-height: 32px;
+      display: flex;
+      align-items: flex-end;
+    }
+    .summary-chips {
+      display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+      padding: 10px 16px; margin-bottom: 12px;
+      background: #fafafa; border: 1px solid var(--ly-border); border-radius: 2px;
+      font-size: 13px;
+    }
+    .summary-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 10px; background: #fff; border: 1px solid var(--ly-border);
+      border-radius: 12px; cursor: pointer; color: var(--ly-text);
+      text-decoration: none;
+    }
+    .summary-chip:hover { border-color: var(--ly-primary); color: var(--ly-primary); }
+    .summary-chip .num {
+      font-weight: 600; padding: 0 6px; line-height: 16px;
+      background: #ff4d4f; color: #fff; border-radius: 8px; font-size: 11px;
+    }
+    .summary-chip .num.muted { background: #d9d9d9; }
+    .summary-chip .num.warn { background: #faad14; }
+    .summary-chip.contact { margin-left: auto; background: var(--ly-primary); color: #fff; border-color: var(--ly-primary); }
+    .summary-chip.contact:hover { background: #4e83fd; color: #fff; }
+
+    /* 按量趋势迷你折线 */
+    .trend-mini {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 34px;
+      margin-top: 7px;
+      padding-bottom: 1px;
+    }
+    .trend-mini .bar {
+      flex: 1;
+      background: #3370ff;
+      border-radius: 2px 2px 0 0;
+      opacity: .82;
+    }
+    .trend-summary {
+      font-size: 12px;
+      color: var(--feishu-muted);
+      margin-top: 8px;
+      line-height: 18px;
+    }
+
+    /* 客服抽屉 */
+    .cs-section { padding: 14px 16px; border-bottom: 1px solid var(--ly-border); }
+    .cs-section h4 { margin: 0 0 8px; font-size: 13px; color: var(--ly-muted); font-weight: 500; }
+    .cs-section .item { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 14px; }
+    .cs-section .item .icon { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-size: 14px; flex-shrink: 0; }
+    .cs-section .item .icon.phone { background: #52c41a; }
+    .cs-section .item .icon.mail { background: var(--ly-primary); }
+    .cs-section .item .icon.wechat { background: #07c160; }
+    .cs-section .item .icon.online { background: #faad14; }
+    .cs-section .item b { font-weight: 600; }
+    .cs-section .item .sub { font-size: 12px; color: var(--ly-muted); margin-left: auto; }
+
+    .pill-trial {
+      display: inline-block; padding: 0 6px; font-size: 11px; line-height: 18px;
+      background: #f6ffed; color: #389e0d; border: 1px solid #b7eb8f;
+      border-radius: 2px; margin-left: 4px;
+    }
+    .offer-tabs {
+      display: inline-flex;
+      gap: 2px;
+      flex-wrap: wrap;
+      margin: 0 0 12px;
+      padding: 3px;
+      background: #eff1f5;
+      border-radius: 6px;
+    }
+    .offer-tab {
+      min-width: 64px;
+      padding: 5px 14px;
+      border: 0;
+      border-radius: 4px;
+      color: var(--feishu-sub);
+      background: transparent;
+      font-size: 13px;
+      line-height: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: background .16s ease, color .16s ease, box-shadow .16s ease;
+    }
+    .offer-tab.active {
+      color: var(--ly-primary);
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(31, 35, 41, .08);
+      font-weight: 500;
+    }
+    .offer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .offer-card {
+      border: 1px solid var(--feishu-line);
+      border-radius: 6px;
+      padding: 18px;
+      background: #fff;
+      min-height: 148px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      box-shadow: var(--feishu-shadow);
+      cursor: pointer; transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+    }
+    .offer-card:hover { border-color: #bacefd; box-shadow: var(--feishu-shadow-hover); transform: translateY(-1px); }
+    .offer-card h4 { margin: 0; font-size: 15px; line-height: 22px; font-weight: 600; color: var(--feishu-text); }
+    .offer-card .desc { color: var(--feishu-sub); font-size: 13px; line-height: 1.6; flex: 1; }
+    .offer-card .price { font-size: 20px; line-height: 26px; font-weight: 600; color: var(--feishu-text); }
+    .offer-card .price small { color: var(--feishu-sub); font-size: 13px; font-weight: 400; margin-left: 2px; }
+    .offer-card.recommend { border-color: #91caff; background: #f7fbff; }
+    .offer-card.hidden { display: none; }
+    .offer-card .link-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 2px; }
+    .offer-card .detail-link { color: var(--ly-primary); font-size: 13px; font-weight: 500; }
+    .ly-drawer {
+      border-radius: 8px 0 0 8px;
+      box-shadow: 0 16px 48px rgba(31, 35, 41, .18);
+    }
+    .ly-drawer h3 {
+      font-size: 16px;
+      font-weight: 600;
+      border-bottom-color: var(--feishu-line);
+    }
+    .cs-section {
+      border-bottom-color: var(--feishu-line-soft);
+    }
+    @media (max-width: 1180px) {
+      .ly-tenant-quota-grid,
+      .offer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 1100px) { .offer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 720px) {
+      .ly-tenant-main { padding: 14px 12px 28px; }
+      .ly-tenant-plan-bar {
+        align-items: stretch;
+        padding: 16px;
+      }
+      .ly-tenant-plan-bar .plan-name { font-size: 18px; }
+      .ly-tenant-quota-grid,
+      .offer-grid { grid-template-columns: 1fr; }
+      .offer-card .link-row { align-items: stretch; flex-direction: column; }
+      .offer-card .link-row .ly-btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<div class="ly-app">
+  <aside class="ly-side">
+    <div class="ly-side-logo"><span class="logo-mark">凌</span> 凌羿 ERP</div>
+    <nav class="ly-nav">
+      <div class="ly-nav-group">
+        <span class="ly-nav-item active"><span class="ico">▾</span> 费用中心</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-my-subscription-feishu.html" class="active">我的订阅</a>
+          <a href="crossborder-erp-billing-tenant-order-center.html">订单记录</a>
+        </div>
+      </div>
+    </nav>
+    <div class="ly-side-foot">收起导航</div>
+  </aside>
+
+  <div class="ly-wrap">
+    <header class="ly-topbar">
+      <div class="ly-tabs">
+        <a class="ly-tab active" href="#">我的订阅 <span class="close">×</span></a>
+      </div>
+      <div class="ly-topbar-right">
+        <span>🔍</span><span>🔔</span>
+        <span class="user"><span class="avatar">杭</span> 杭州星河跨境</span>
+      </div>
+    </header>
+
+    <main class="ly-tenant-main">
+      <div class="ly-tenant-card">
+        <!-- 顶部套餐条 -->
+        <div class="ly-tenant-plan-bar">
+          <div class="info">
+            <span class="plan-name">ERP 旗舰版</span>
+            <span class="plan-expire">到期时间<b>2026-12-31</b> · <span class="left-days ok">剩余 224 天</span></span>
+          </div>
+          <button type="button" class="ly-btn ly-btn-primary" onclick="openContactDrawer('当前套餐咨询')">联系客户经理</button>
+        </div>
+
+        <!-- 第一组：权益用量 -->
+        <div class="quota-group-title">权益用量</div>
+        <div class="ly-tenant-quota-grid">
+          <article class="ly-tenant-quota-card">
+            <h3>年订单量</h3>
+            <div class="meta">已用量 / 总量</div>
+            <div class="num">246万 <span>/ 300万</span></div>
+            <div class="bar warn"><i style="width:82%"></i></div>
+            <div class="acts">
+              <a class="quota-card-link" href="crossborder-erp-billing-tenant-consumption-detail.html?quota=order">查看明细 →</a>
+            </div>
+          </article>
+          <article class="ly-tenant-quota-card">
+            <h3>MSKU 额度</h3>
+            <div class="meta">已用量 / 总量</div>
+            <div class="num">68,000 <span>/ 100,000</span></div>
+            <div class="bar"><i style="width:68%"></i></div>
+            <div class="acts">
+              <a class="quota-card-link" href="crossborder-erp-billing-tenant-consumption-detail.html?quota=msku">查看明细 →</a>
+            </div>
+          </article>
+          <article class="ly-tenant-quota-card">
+            <h3>店铺 / 站点</h3>
+            <div class="meta">已用量 / 总量</div>
+            <div class="num">426 <span>/ 500</span></div>
+            <div class="bar warn"><i style="width:85%"></i></div>
+            <div class="acts">
+              <a class="quota-card-link" href="crossborder-erp-billing-tenant-consumption-detail.html?quota=store">查看明细 →</a>
+            </div>
+          </article>
+          <article class="ly-tenant-quota-card">
+            <h3>子账号</h3>
+            <div class="meta">已用量 / 总量</div>
+            <div class="num">218 <span>/ 300</span></div>
+            <div class="bar"><i style="width:73%"></i></div>
+            <div class="acts">
+              <a class="quota-card-link" href="#" onclick="alert('（原型示意）跳转到 ERP 主系统 → 用户管理 → 子账号');return false">管理 →</a>
+            </div>
+          </article>
+          <article class="ly-tenant-quota-card">
+            <h3>平台授权</h3>
+            <div class="meta">已用量 / 总量</div>
+            <div class="num">7 <span>/ 不限</span></div>
+            <div class="bar"><i style="width:40%"></i></div>
+          </article>
+        </div>
+
+        <!-- 第二组：已开通增值服务 -->
+        <div class="quota-group-title">已开通增值服务</div>
+        <div class="ly-tenant-quota-grid">
+          <article class="ly-tenant-quota-card">
+            <h3>邮件索评额度</h3>
+            <div class="meta">已用 / 总量</div>
+            <div class="num">42,000 <span>/ 100,000</span></div>
+            <div class="bar"><i style="width:42%"></i></div>
+            <div class="acts">
+              <a class="quota-card-link" href="crossborder-erp-billing-tenant-consumption-detail.html?quota=email">查看明细 →</a>
+            </div>
+          </article>
+          <article class="ly-tenant-quota-card">
+            <h3>物流轨迹</h3>
+            <div class="meta">本月已用 / 计量方式</div>
+            <div class="num">12,480 <span>/ 按单计量</span></div>
+            <div class="trend-mini" title="近 30 天">
+              <div class="bar" style="height:35%"></div><div class="bar" style="height:48%"></div>
+              <div class="bar" style="height:42%"></div><div class="bar" style="height:55%"></div>
+              <div class="bar" style="height:50%"></div><div class="bar" style="height:60%"></div>
+              <div class="bar" style="height:58%"></div><div class="bar" style="height:65%"></div>
+              <div class="bar" style="height:62%"></div><div class="bar" style="height:72%"></div>
+              <div class="bar" style="height:78%"></div><div class="bar" style="height:85%"></div>
+              <div class="bar" style="height:80%"></div><div class="bar" style="height:90%"></div>
+            </div>
+            <div class="trend-summary">近 14 天趋势 · 本月预估费用 ¥1,872</div>
+            <div class="acts">
+              <a class="quota-card-link" href="crossborder-erp-billing-tenant-consumption-detail.html?quota=logistics">查看明细 →</a>
+            </div>
+          </article>
+          <article class="ly-tenant-quota-card">
+            <h3>竞品链接监控</h3>
+            <div class="meta">已配置 / 总量</div>
+            <div class="num">36 <span>/ 50</span></div>
+            <div class="bar"><i style="width:72%"></i></div>
+            <div class="acts">
+              <a class="quota-card-link" href="crossborder-erp-billing-tenant-consumption-detail.html?quota=competitor">查看明细 →</a>
+            </div>
+          </article>
+        </div>
+
+        <!-- 第三组：服务进度 -->
+        <div class="quota-group-title">服务进度</div>
+        <div class="ly-tenant-quota-grid">
+          <article class="ly-tenant-quota-card">
+            <h3>金蝶云星空对接</h3>
+            <div class="meta">服务状态 / 计划完成</div>
+            <div class="num">服务中 <span>/ 2026-06-30</span></div>
+            <div class="bar"><i style="width:60%"></i></div>
+            <div class="acts">
+              <a class="quota-card-link" href="#" onclick="openTenantMilestone();return false">查看进度 →</a>
+            </div>
+          </article>
+        </div>
+
+        <!-- 第四组：可购买方案 -->
+        <div class="quota-group-title">可购买方案</div>
+        <div class="offer-tabs">
+          <span class="offer-tab active" data-tab="plan" onclick="setOfferTab('plan')">套餐</span>
+          <span class="offer-tab" data-tab="service" onclick="setOfferTab('service')">增值服务</span>
+        </div>
+        <div class="offer-grid">
+          <article class="offer-card" data-offer="plan" onclick="openProductDetail('erp-flagship')">
+            <h4>ERP 旗舰版续费</h4>
+            <div class="desc">延长当前 ERP 旗舰版有效期，权益额度按新周期继续生效。</div>
+            <div class="price">¥69,800<small>/年</small></div>
+            <div class="link-row">
+              <span class="detail-link">查看详情 →</span>
+              <button type="button" class="ly-btn ly-btn-primary" onclick="event.stopPropagation();openContactDrawer('ERP 旗舰版续费')">联系客户经理</button>
+            </div>
+          </article>
+          <article class="offer-card hidden" data-offer="service" onclick="openProductDetail('order-addon')">
+            <h4>订单量增值包</h4>
+            <div class="desc">每增加 5 万单，适合高频交易客户，额度叠加到年订单量。</div>
+            <div class="price">¥1,000<small>/年</small></div>
+            <div class="link-row">
+              <span class="detail-link">查看详情 →</span>
+              <button type="button" class="ly-btn" onclick="event.stopPropagation();openContactDrawer('订单量增值包')">联系客户经理</button>
+            </div>
+          </article>
+          <article class="offer-card hidden" data-offer="service" onclick="openProductDetail('msku-addon')">
+            <h4>MSKU 增值包</h4>
+            <div class="desc">每增加 5,000 个 MSKU，适合 SKU 数量持续增长的铺货卖家。</div>
+            <div class="price">¥2,000<small>/年</small></div>
+            <div class="link-row">
+              <span class="detail-link">查看详情 →</span>
+              <button type="button" class="ly-btn" onclick="event.stopPropagation();openContactDrawer('MSKU 增值包')">联系客户经理</button>
+            </div>
+          </article>
+          <article class="offer-card hidden" data-offer="service" onclick="openProductDetail('logistics')">
+            <h4>物流轨迹跟踪</h4>
+            <div class="desc">按单计量，适合需要在 ERP 中实时查询头程物流轨迹的团队。</div>
+            <div class="price">¥0.1<small>/单</small></div>
+            <div class="link-row">
+              <span class="detail-link">查看详情 →</span>
+              <button type="button" class="ly-btn" onclick="event.stopPropagation();openContactDrawer('物流轨迹跟踪')">联系客户经理</button>
+            </div>
+          </article>
+          <article class="offer-card hidden" data-offer="service" onclick="openProductDetail('patent')">
+            <h4>专利 / 侵权检测</h4>
+            <div class="desc">按点数或外部服务流量计费，用于商品侵权风险预防。</div>
+            <div class="price">¥0.8<small>/点起</small></div>
+            <div class="link-row">
+              <span class="detail-link">查看详情 →</span>
+              <button type="button" class="ly-btn" onclick="event.stopPropagation();openContactDrawer('专利 / 侵权检测')">联系客户经理</button>
+            </div>
+          </article>
+          <article class="offer-card hidden" data-offer="service" onclick="openProductDetail('training')">
+            <h4>线下实施培训</h4>
+            <div class="desc">按人天计费，不含差旅，适合新团队上线或关键流程培训。</div>
+            <div class="price">¥3,000<small>/人天</small></div>
+            <div class="link-row">
+              <span class="detail-link">查看详情 →</span>
+              <button type="button" class="ly-btn" onclick="event.stopPropagation();openContactDrawer('线下实施培训')">联系客户经理</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- 联系客户经理抽屉 -->
+<div class="ly-drawer-mask" id="contactMask" onclick="if(event.target===this)closeContactDrawer()">
+  <aside class="ly-drawer" onclick="event.stopPropagation()">
+    <h3 id="contactTitle">联系客户经理</h3>
+    <div class="ly-field-block"><label>类型</label><input id="contactType" readonly></div>
+    <div class="ly-field-block"><label>说明</label><textarea placeholder="选填，提交后客户经理会联系您"></textarea></div>
+    <p style="font-size:12px;color:#999;margin-bottom:16px">正式购买由平台录入订单后开通。</p>
+    <button type="button" class="ly-btn" onclick="closeContactDrawer()">取消</button>
+    <button type="button" class="ly-btn ly-btn-primary" onclick="alert('已提交，客户经理将联系您');closeContactDrawer()">提交</button>
+  </aside>
+</div>
+
+<!-- 客服抽屉 (B1-6) -->
+<div class="ly-drawer-mask" id="csMask" onclick="if(event.target===this)closeCS()">
+  <aside class="ly-drawer" onclick="event.stopPropagation()" style="width:420px">
+    <h3>联系客户经理</h3>
+    <div class="cs-section" style="background:#f6ffed;border-left:3px solid #52c41a">
+      <h4 style="color:#389e0d">您的客户主体信息</h4>
+      <div class="item">
+        <span><b>客户名称：</b>杭州星河跨境贸易有限公司</span>
+      </div>
+      <div class="item">
+        <span><b>联系人：</b>张经理 · 138****2509 · zhang@hzxh.com</span>
+      </div>
+      <p style="font-size:12px;color:#999;margin:6px 0 0">如需修改邮箱/电话，请联系您的客户经理由后台修改。</p>
+    </div>
+    <div class="cs-section">
+      <h4>电话 / 在线</h4>
+      <div class="item" onclick="alert('（原型示意）正在拨号 400-880-9988')" style="cursor:pointer">
+        <span class="icon phone">☎</span>
+        <span><b>400-880-9988</b><br><small style="font-size:12px;color:#999">7×24 客户服务</small></span>
+        <span class="sub">点击拨号</span>
+      </div>
+      <div class="item" onclick="alert('（原型示意）打开在线客服对话窗口')" style="cursor:pointer">
+        <span class="icon online">💬</span>
+        <span><b>在线客服</b><br><small style="font-size:12px;color:#999">工作日 9:00-22:00</small></span>
+        <span class="sub">立即对话</span>
+      </div>
+    </div>
+    <div class="cs-section">
+      <h4>客户经理</h4>
+      <div class="item" onclick="alert('（原型示意）打开邮件：lin.shan@lingyi.com')" style="cursor:pointer">
+        <span class="icon mail">✉</span>
+        <span><b>林珊</b> · 您的客户经理<br><small style="font-size:12px;color:#999">lin.shan@lingyi.com</small></span>
+      </div>
+      <div class="item" onclick="alert('（原型示意）展示林珊的企业微信二维码')" style="cursor:pointer">
+        <span class="icon wechat">微</span>
+        <span><b>微信咨询</b><br><small style="font-size:12px;color:#999">扫码添加林珊</small></span>
+        <span class="sub">查看二维码</span>
+      </div>
+    </div>
+    <div class="cs-section">
+      <h4>邮箱</h4>
+      <div class="item" onclick="alert('（原型示意）打开邮件：support@lingyi.com')" style="cursor:pointer">
+        <span class="icon mail">✉</span>
+        <span><b>support@lingyi.com</b><br><small style="font-size:12px;color:#999">业务咨询、合作建议</small></span>
+      </div>
+    </div>
+    <div style="padding:14px 16px;text-align:right">
+      <button type="button" class="ly-btn" onclick="closeCS()">关闭</button>
+    </div>
+  </aside>
+</div>
+
+<!-- 服务里程碑抽屉（与平台客户详情同款） -->
+<div class="ly-drawer-mask" id="msMask" onclick="if(event.target===this)closeTenantMilestone()">
+  <aside class="ly-drawer" onclick="event.stopPropagation()" style="width:480px">
+    <h3>服务进度 · 金蝶云星空对接</h3>
+    <div style="padding:0 16px;font-size:13px;color:var(--ly-muted)">
+      订单 PO-20260420003 · 负责人 周启 · 计划完成 2026-06-30
+    </div>
+    <ul style="padding: 16px;list-style:none;margin:0">
+      <li style="padding:10px 0 10px 24px;border-left:2px solid #52c41a;margin-left:6px;position:relative;font-size:13px">
+        <span style="position:absolute;left:-7px;top:12px;width:12px;height:12px;border-radius:50%;background:#52c41a"></span>
+        <div style="font-weight:500">需求确认</div>
+        <div style="color:var(--ly-muted);font-size:12px;margin-top:2px">2026-04-22 完成 · 周启</div>
+      </li>
+      <li style="padding:10px 0 10px 24px;border-left:2px solid #52c41a;margin-left:6px;position:relative;font-size:13px">
+        <span style="position:absolute;left:-7px;top:12px;width:12px;height:12px;border-radius:50%;background:#52c41a"></span>
+        <div style="font-weight:500">环境对接</div>
+        <div style="color:var(--ly-muted);font-size:12px;margin-top:2px">2026-05-08 完成 · 周启 / 客户运维</div>
+      </li>
+      <li style="padding:10px 0 10px 24px;border-left:2px solid var(--ly-primary);margin-left:6px;position:relative;font-size:13px">
+        <span style="position:absolute;left:-7px;top:12px;width:12px;height:12px;border-radius:50%;background:var(--ly-primary)"></span>
+        <div style="font-weight:500">数据映射与联调</div>
+        <div style="color:var(--ly-muted);font-size:12px;margin-top:2px">进行中 · 预计 2026-05-30</div>
+      </li>
+      <li style="padding:10px 0 10px 24px;border-left:2px solid var(--ly-border);margin-left:6px;position:relative;font-size:13px">
+        <span style="position:absolute;left:-7px;top:12px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--ly-border)"></span>
+        <div style="font-weight:500">UAT 验收</div>
+        <div style="color:var(--ly-muted);font-size:12px;margin-top:2px">未开始 · 计划 2026-06-15</div>
+      </li>
+      <li style="padding:10px 0 10px 24px;border-left:2px solid var(--ly-border);margin-left:6px;position:relative;font-size:13px">
+        <span style="position:absolute;left:-7px;top:12px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--ly-border)"></span>
+        <div style="font-weight:500">正式切换</div>
+        <div style="color:var(--ly-muted);font-size:12px;margin-top:2px">未开始 · 计划 2026-06-30</div>
+      </li>
+    </ul>
+    <div style="padding:12px 16px;text-align:right;border-top:1px solid var(--ly-border)">
+      <button type="button" class="ly-btn" onclick="closeTenantMilestone()">关闭</button>
+    </div>
+  </aside>
+</div>
+
+<script>
+function openTenantMilestone() { document.getElementById('msMask').classList.add('open'); }
+function closeTenantMilestone() { document.getElementById('msMask').classList.remove('open'); }
+function openProductDetail(item) {
+  window.location.href = 'crossborder-erp-billing-tenant-product-detail.html?item=' + encodeURIComponent(item);
+}
+function setOfferTab(type) {
+  document.querySelectorAll('.offer-tab').forEach(function(tab) {
+    tab.classList.toggle('active', tab.dataset.tab === type);
+  });
+  document.querySelectorAll('.offer-card').forEach(function(card) {
+    card.classList.toggle('hidden', card.dataset.offer !== type);
+  });
+}
+function openContactDrawer(type) {
+  alert('请联系您的专属客户经理，或拨打电话：400-186-9887');
+}
+function closeContactDrawer() { document.getElementById('contactMask').classList.remove('open'); }
+function openCS() { document.getElementById('csMask').classList.add('open'); }
+function closeCS() { document.getElementById('csMask').classList.remove('open'); }
+function downloadStub(type) {
+  alert('（原型示意）' + type + '准备下载中…');
+}
+</script>
+</body>
+</html>

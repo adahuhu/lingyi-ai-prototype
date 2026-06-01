@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商品配置 - 用户中心</title>
+  <link rel="stylesheet" href="billing-erp-platform.css">
+  <style>
+    .prod-thumb { width: 44px; height: 33px; border-radius: 2px; border: 1px solid #e8e8e8; }
+    .prod-thumb.empty { background: #f5f5f5; border-style: dashed; font-size: 10px; color: #999; display: grid; place-items: center; }
+    .prod-thumb.std { background: linear-gradient(135deg, #3370ff22, #3370ff44); }
+    .prod-thumb.flagship { background: linear-gradient(135deg, #52c41a22, #3370ff33); }
+    .prod-thumb.scm { background: linear-gradient(135deg, #faad1422, #ff7a4533); }
+    .prod-thumb.expand { background: linear-gradient(135deg, #a0d911aa, #52c41a55); }
+    .prod-thumb.meter { background: linear-gradient(135deg, #722ed122, #722ed144); }
+    .prod-thumb.svc { background: linear-gradient(135deg, #13c2c222, #13c2c244); }
+    .prod-thumb.delisted { background: #fff7e6; border-color: #ffd591; font-size: 10px; color: #d48806; display: grid; place-items: center; }
+
+    .sort-cell { display: inline-flex; align-items: center; gap: 4px; }
+    .sort-cell input { width: 56px; height: 24px; padding: 0 4px; border: 1px solid #d9d9d9; border-radius: 2px; font-size: 12px; text-align: right; }
+    .sort-cell .arrows { display: inline-flex; flex-direction: column; line-height: 1; }
+    .sort-cell .arrows span { font-size: 9px; color: #999; cursor: pointer; padding: 1px 2px; }
+    .sort-cell .arrows span:hover { color: var(--ly-primary); }
+
+    .switch-mini {
+      position: relative; display: inline-block; width: 32px; height: 18px;
+    }
+    .switch-mini input { display: none; }
+    .switch-mini .slider {
+      position: absolute; inset: 0; background: #d9d9d9; border-radius: 999px; transition: background .15s;
+    }
+    .switch-mini .slider::before {
+      content: ""; position: absolute; left: 2px; top: 2px; width: 14px; height: 14px;
+      background: #fff; border-radius: 50%; transition: transform .15s;
+    }
+    .switch-mini input:checked + .slider { background: var(--ly-primary); }
+    .switch-mini input:checked + .slider::before { transform: translateX(14px); }
+
+    td.op-col { white-space: nowrap; }
+    td.op-col a { margin-right: 6px; }
+    td .ver { font-size: 11px; color: var(--ly-muted); }
+    td .audit { font-size: 11px; color: var(--ly-muted); line-height: 1.4; }
+    body.mvp-product-list .ly-main {
+      background: #f6f7fb;
+      padding: 18px 20px 20px;
+    }
+    body.mvp-product-list .ly-card {
+      border: 1px solid #e9edf5;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(31, 35, 41, .035);
+      overflow: hidden;
+    }
+    body.mvp-product-list .ly-card::before {
+      content: "商品配置";
+      display: block;
+      padding: 16px 18px 4px;
+      color: #1f2329;
+      font-size: 18px;
+      font-weight: 650;
+    }
+    body.mvp-product-list .ly-card::after {
+      content: "MVP 版本仅展示商品名称、类型、适用系统、价格、权益摘要、发布状态、最近修改和操作；低频字段进入编辑页维护。";
+      display: block;
+      padding: 0 18px 14px;
+      color: #646a73;
+      font-size: 13px;
+      border-bottom: 1px solid #eef1f5;
+    }
+    body.mvp-product-list .ly-filter {
+      padding: 14px 18px;
+      border-bottom: 1px solid #f0f2f7;
+      background: #fff;
+      gap: 12px;
+    }
+    body.mvp-product-list .ly-field {
+      gap: 8px;
+    }
+    body.mvp-product-list .ly-field select,
+    body.mvp-product-list .ly-field input {
+      height: 34px;
+      border-color: #dfe3eb;
+      background: #fff;
+      color: #1f2329;
+    }
+    body.mvp-product-list .ly-field select:hover,
+    body.mvp-product-list .ly-field input:hover {
+      border-color: #c8d2e2;
+    }
+    body.mvp-product-list .search-combo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    body.mvp-product-list .search-input-wrap {
+      position: relative;
+    }
+    body.mvp-product-list .search-input-wrap .search-mini-icon {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 13px;
+      height: 13px;
+      pointer-events: none;
+    }
+    body.mvp-product-list .search-input-wrap .search-mini-icon::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 8px;
+      height: 8px;
+      border: 1.5px solid #a8b0bd;
+      border-radius: 50%;
+    }
+    body.mvp-product-list .search-input-wrap .search-mini-icon::after {
+      content: "";
+      position: absolute;
+      right: 1px;
+      bottom: 2px;
+      width: 6px;
+      height: 1.5px;
+      border-radius: 999px;
+      background: #a8b0bd;
+      transform: rotate(45deg);
+      transform-origin: right center;
+    }
+    body.mvp-product-list .search-input-wrap input {
+      width: 210px;
+      padding-left: 32px;
+    }
+    body.mvp-product-list .ly-filter-actions {
+      gap: 10px;
+      margin-left: auto;
+    }
+    body.mvp-product-list .ly-filter-actions .ly-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 96px;
+      height: 34px;
+      line-height: 1;
+      box-sizing: border-box;
+    }
+    body.mvp-product-list table th,
+    body.mvp-product-list table td {
+      padding: 13px 14px;
+      border-bottom: 1px solid #f0f2f6;
+    }
+    body.mvp-product-list table th {
+      background: #fbfcfe;
+      color: #697386;
+      font-size: 12px;
+      font-weight: 600;
+      box-shadow: inset 0 -1px 0 #edf1f7;
+    }
+    body.mvp-product-list table td {
+      background: #fff;
+    }
+    body.mvp-product-list table tbody tr:hover td {
+      background: #f8fbff;
+    }
+    body.mvp-product-list table th:nth-child(1),
+    body.mvp-product-list table td:nth-child(1),
+    body.mvp-product-list table th:nth-child(2),
+    body.mvp-product-list table td:nth-child(2),
+    body.mvp-product-list table th:nth-child(5),
+    body.mvp-product-list table td:nth-child(5),
+    body.mvp-product-list table th:nth-child(7),
+    body.mvp-product-list table td:nth-child(7),
+    body.mvp-product-list table th:nth-child(10),
+    body.mvp-product-list table td:nth-child(10) {
+      display: none;
+    }
+    body.mvp-product-list td .mvp-name-main {
+      color: #1f2329;
+      font-weight: 650;
+      line-height: 1.35;
+    }
+    body.mvp-product-list td .mvp-name-sub {
+      margin-top: 3px;
+      color: #8f9aaa;
+      font-size: 12px;
+      font-family: var(--ly-font-num);
+    }
+    body.mvp-product-list .mvp-system-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    body.mvp-product-list .mvp-system-tags span {
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 0 7px;
+      border: 1px solid #d8e3ff;
+      border-radius: 4px;
+      background: #f3f7ff;
+      color: #245bdb;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    body.mvp-product-list .mvp-quota-summary {
+      max-width: 220px;
+      color: #3f4754;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    body.mvp-product-list .ly-table-wrap {
+      border: none;
+    }
+    body.mvp-product-list .audit-person,
+    body.mvp-product-list .audit-time {
+      color: #8f9aaa;
+      font-size: 12px;
+      line-height: 1.4;
+      white-space: nowrap;
+    }
+    body.mvp-product-list .audit-person {
+      color: #4e5969;
+    }
+    body.mvp-product-list .ly-pagination {
+      padding: 12px 18px;
+      background: #fff;
+      border-top: 1px solid #f0f2f6;
+    }
+    @media (max-width: 760px) {
+      body.mvp-product-list { --ly-side-width: 0px; }
+      body.mvp-product-list .ly-side { display: none; }
+      body.mvp-product-list .ly-topbar { padding-right: 8px; }
+      body.mvp-product-list .ly-tabs { max-width: calc(100vw - 112px); overflow-x: auto; }
+      body.mvp-product-list .ly-tab { padding: 0 10px; white-space: nowrap; }
+      body.mvp-product-list .ly-main { padding: 12px 10px; }
+      body.mvp-product-list .ly-card::before { padding: 14px 14px 4px; font-size: 17px; }
+      body.mvp-product-list .ly-card::after { padding: 0 14px 12px; }
+      body.mvp-product-list .ly-filter { padding: 12px 14px; overflow-x: auto; align-items: flex-end; }
+      body.mvp-product-list .ly-table-wrap { overflow-x: auto; }
+      body.mvp-product-list table { min-width: 820px; }
+      body.mvp-product-list table th,
+      body.mvp-product-list table td { padding: 11px 12px; }
+      body.mvp-product-list .ly-pagination { padding: 10px 14px; min-width: 820px; }
+    }
+  </style>
+</head>
+<body class="mvp-product-list">
+<div class="ly-app">
+  <aside class="ly-side">
+    <div class="ly-side-logo"><span class="logo-mark">凌</span> 用户中心</div>
+    <nav class="ly-nav">
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▸</span> 组织架构</span>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▾</span> 租户管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-tenant-config-real.html">租户配置</a>
+        </div>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▾</span> 客户管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-customer-management-feishu.html">客户配置</a>
+        </div>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item active"><span class="ico">▾</span> 计费管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-product-config-feishu.html" class="active">商品配置</a>
+          <a href="crossborder-erp-billing-product-config-dictionary.html">字典维护</a>
+          <a href="crossborder-erp-billing-order-management-feishu.html">订单管理</a>
+        </div>
+      </div>
+      <div class="ly-nav-group"><span class="ly-nav-item"><span class="ico">▸</span> 授权设置</span></div>
+      <div class="ly-nav-group"><span class="ly-nav-item"><span class="ico">▸</span> 个人中心</span></div>
+    </nav>
+    <div class="ly-side-foot">收起导航</div>
+  </aside>
+
+  <div class="ly-wrap">
+    <header class="ly-topbar">
+      <div class="ly-tabs">
+        <a class="ly-tab" href="crossborder-erp-billing-customer-management-feishu.html">客户配置 <span class="close">×</span></a>
+        <a class="ly-tab active" href="crossborder-erp-billing-product-config-feishu.html">商品配置 <span class="close">×</span></a>
+      </div>
+      <div class="ly-topbar-right">
+        <span>🔍</span><span>🔔</span>
+        <span class="user"><span class="avatar">胡</span> 胡仕玲</span>
+      </div>
+    </header>
+
+    <main class="ly-main">
+      <div class="ly-card">
+        <div class="ly-filter">
+          <div class="ly-field">
+            <label>商品类型</label>
+            <select>
+              <option>全部类型</option>
+              <option>主套餐</option>
+              <option>增值服务</option>
+            </select>
+          </div>
+          <div class="ly-field">
+            <label>发布状态</label>
+            <select><option>全部</option><option>已发布</option><option>草稿</option><option>已下架</option></select>
+          </div>
+          <div class="ly-field">
+            <label>适用系统</label>
+            <select><option>全部系统</option><option>ERP</option><option>SCM</option><option>WMS</option></select>
+          </div>
+          <div class="ly-field search-combo">
+            <select style="min-width:100px"><option>商品名称</option><option>商品编码</option></select>
+            <div class="search-input-wrap">
+              <span class="search-mini-icon"></span>
+              <input type="text" placeholder="模糊搜索" onkeydown="if(event.key==='Enter')alert('已按当前关键词搜索')">
+            </div>
+          </div>
+          <div class="ly-filter-actions">
+            <a class="ly-btn ly-btn-primary" href="crossborder-erp-billing-product-config-feishu-edit.html?mode=new" style="text-decoration:none">新建商品</a>
+            <a class="ly-btn" href="crossborder-erp-billing-product-config-dictionary.html" style="text-decoration:none">字典维护</a>
+          </div>
+        </div>
+
+        <div class="ly-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:56px">主图</th>
+                <th>商品编码 / 版本</th>
+                <th>商品名称</th>
+                <th>类型</th>
+                <th>计价方式</th>
+                <th>适用系统</th>
+                <th>排序</th>
+                <th>价格</th>
+                <th>权益摘要</th>
+                <th>后台可选</th>
+                <th>发布状态</th>
+                <th>最近修改人</th>
+                <th class="op-col">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="prod-thumb std"></div></td>
+                <td><code style="font-size:12px">SKU_ERP_STD_001</code><div class="ver">线上 v2</div></td>
+                <td><b>ERP 标准版</b></td>
+                <td>主套餐</td>
+                <td>按年订阅</td>
+                <td><div class="mvp-system-tags"><span>ERP</span></div></td>
+                <td><span class="sort-cell"><input type="number" value="10"><span class="arrows"><span title="上移">▲</span><span title="下移">▼</span></span></span></td>
+                <td>¥9,800/年</td>
+                <td><div class="mvp-quota-summary">20 万单/年 · 5,000 MSKU</div></td>
+                <td><label class="switch-mini"><input type="checkbox" checked><span class="slider"></span></label></td>
+                <td><span class="ly-status">已发布</span></td>
+                <td><div class="audit">胡仕玲<br>2026-05-10 15:22</div></td>
+                <td class="op-col">
+                  <a class="ly-link" href="crossborder-erp-billing-product-config-feishu-edit.html?code=SKU_ERP_STD_001">编辑</a>
+                  <a class="ly-link" href="#" onclick="if(confirm('确认下架？已购客户不受影响'))alert('已下架');return false">下架</a>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="prod-thumb empty">无</div></td>
+                <td><code style="font-size:12px">SKU_ERP_PRO_001</code><div class="ver">未发布</div></td>
+                <td><b>ERP 专业版</b></td>
+                <td>主套餐</td>
+                <td>按年订阅</td>
+                <td><div class="mvp-system-tags"><span>ERP</span></div></td>
+                <td><span class="sort-cell"><input type="number" value="20"><span class="arrows"><span>▲</span><span>▼</span></span></span></td>
+                <td>¥29,800/年</td>
+                <td><div class="mvp-quota-summary">100 万单/年 · 30,000 MSKU</div></td>
+                <td><label class="switch-mini"><input type="checkbox" checked><span class="slider"></span></label></td>
+                <td><span class="ly-status warn">草稿</span></td>
+                <td><div class="audit">胡仕玲<br>2026-05-18 14:05</div></td>
+                <td class="op-col">
+                  <a class="ly-link" href="crossborder-erp-billing-product-config-feishu-edit.html?code=SKU_ERP_PRO_001">编辑</a>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="prod-thumb flagship"></div></td>
+                <td><code style="font-size:12px">SKU_ERP_FLAGSHIP_001</code><div class="ver">线上 v3</div></td>
+                <td><b>ERP 旗舰版</b><span style="display:inline-block;margin-left:6px;padding:0 6px;font-size:11px;border-radius:3px;background:#fff7e6;color:#d46b08;border:1px solid #ffe7ba">完整示例</span></td>
+                <td>主套餐</td>
+                <td>按年订阅</td>
+                <td><div class="mvp-system-tags"><span>ERP</span></div></td>
+                <td><span class="sort-cell"><input type="number" value="30"><span class="arrows"><span>▲</span><span>▼</span></span></span></td>
+                <td>¥69,800/年</td>
+                <td><div class="mvp-quota-summary">300 万单/年 · 100,000 MSKU</div></td>
+                <td><label class="switch-mini"><input type="checkbox" checked><span class="slider"></span></label></td>
+                <td><span class="ly-status">已发布</span></td>
+                <td><div class="audit">胡仕玲<br>2026-05-10 15:22</div></td>
+                <td class="op-col">
+                  <a class="ly-link" href="crossborder-erp-billing-product-config-feishu-edit.html?code=SKU_ERP_FLAGSHIP_001">编辑</a>
+                  <a class="ly-link" href="#" onclick="if(confirm('确认下架？已购客户不受影响'))alert('已下架');return false">下架</a>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="prod-thumb scm"></div></td>
+                <td><code style="font-size:12px">SKU_SCM_ENT_001</code><div class="ver">线上 v1</div></td>
+                <td><b>SCM 企业版</b></td>
+                <td>主套餐</td>
+                <td>线下报价</td>
+                <td><div class="mvp-system-tags"><span>SCM</span></div></td>
+                <td><span class="sort-cell"><input type="number" value="10"><span class="arrows"><span>▲</span><span>▼</span></span></span></td>
+                <td><span style="color:#8c8c8c">面议</span></td>
+                <td><div class="mvp-quota-summary">SCM 全链路 · 线下定制</div></td>
+                <td><label class="switch-mini"><input type="checkbox" checked><span class="slider"></span></label></td>
+                <td><span class="ly-status">已发布</span></td>
+                <td><div class="audit">周启<br>2026-04-12 09:30</div></td>
+                <td class="op-col">
+                  <a class="ly-link" href="crossborder-erp-billing-product-config-feishu-edit.html?code=SKU_SCM_ENT_001">编辑</a>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="prod-thumb expand"></div></td>
+                <td><code style="font-size:12px">SKU_ORDER_PACK_10W</code><div class="ver">线上 v2</div></td>
+                <td>订单扩容包</td>
+                <td>增值服务</td>
+                <td>按年订阅</td>
+                <td><div class="mvp-system-tags"><span>ERP</span></div></td>
+                <td><span class="sort-cell"><input type="number" value="10"><span class="arrows"><span>▲</span><span>▼</span></span></span></td>
+                <td>¥1,000/包</td>
+                <td><div class="mvp-quota-summary">+10 万订单/年</div></td>
+                <td><label class="switch-mini"><input type="checkbox" checked><span class="slider"></span></label></td>
+                <td><span class="ly-status">已发布</span></td>
+                <td><div class="audit">胡仕玲<br>2026-03-22 11:08</div></td>
+                <td class="op-col">
+                  <a class="ly-link" href="crossborder-erp-billing-product-config-feishu-edit.html?code=SKU_ORDER_PACK_10W">编辑</a>
+                  <a class="ly-link" href="#" onclick="if(confirm('确认下架？已购客户不受影响'))alert('已下架');return false">下架</a>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="prod-thumb expand"></div></td>
+                <td><code style="font-size:12px">SKU_MSKU_PACK_1W</code><div class="ver">线上 v1</div></td>
+                <td>MSKU 扩容包</td>
+                <td>增值服务</td>
+                <td>按年订阅</td>
+                <td><div class="mvp-system-tags"><span>ERP</span></div></td>
+                <td><span class="sort-cell"><input type="number" value="20"><span class="arrows"><span>▲</span><span>▼</span></span></span></td>
+                <td>¥500/包</td>
+                <td><div class="mvp-quota-summary">+1 万 MSKU</div></td>
+                <td><label class="switch-mini"><input type="checkbox" checked><span class="slider"></span></label></td>
+                <td><span class="ly-status">已发布</span></td>
+                <td><div class="audit">胡仕玲<br>2026-04-02 10:15</div></td>
+                <td class="op-col">
+                  <a class="ly-link" href="crossborder-erp-billing-product-config-feishu-edit.html?code=SKU_MSKU_PACK_1W">编辑</a>
+                  <a class="ly-link" href="#" onclick="if(confirm('确认下架？已购客户不受影响'))alert('已下架');return false">下架</a>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="prod-thumb expand"></div></td>
+                <td><code style="font-size:12px">SKU_SHOP_PACK_5</code><div class="ver">线上 v1</div></td>
+                <td>店铺 / 站点扩容</td>
+                <td>增值服务</td>
+                <td>按年订阅</td>
+                <td><div class="mvp-system-tags"><span>ERP</span></div></td>
+                <td><span class="sort-cell"><input type="number" value="30"><span class="arrows"><span>▲</span><span>▼</span></span></span></td>
+                <td>¥800/包</td>
+                <td><div class="mvp-quota-summary">+5 店铺/站点</div></td>
+                <td><label class="switch-mini"><input type="checkbox" checked><span class="slider"></span></label></td>
+                <td><span class="ly-status">已发布</span></td>
+                <td><div class="audit">胡仕玲<br>2026-04-02 10:18</div></td>
+                <td class="op-col">
+                  <a class="ly-link" href="crossborder-erp-billing-product-config-feishu-edit.html?code=SKU_SHOP_PACK_5">编辑</a>
+                  <a class="ly-link" href="#" onclick="if(confirm('确认下架？已购客户不受影响'))alert('已下架');return false">下架</a>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="prod-thumb expand"></div></td>
+                <td><code style="font-size:12px">SKU_SUBUSER_PACK_10</code><div class="ver">线上 v1</div></td>
+                <td>子账号扩容</td>
+                <td>增值服务</td>
+                <td>按年订阅</td>
+                <td><div class="mvp-system-tags"><span>ERP</span></div></td>
+                <td><span class="sort-cell"><input type="number" value="40"><span class="arrows"><span>▲</span><span>▼</span></span></span></td>
+                <td>¥600/包</td>
+                <td><div class="mvp-quota-summary">+10 子账号</div></td>
+                <td><label class="switch-mini"><input type="checkbox" checked><span class="slider"></span></label></td>
+                <td><span class="ly-status">已发布</span></td>
+                <td><div class="audit">胡仕玲<br>2026-04-02 10:20</div></td>
+                <td class="op-col">
+                  <a class="ly-link" href="crossborder-erp-billing-product-config-feishu-edit.html?code=SKU_SUBUSER_PACK_10">编辑</a>
+                  <a class="ly-link" href="#" onclick="if(confirm('确认下架？已购客户不受影响'))alert('已下架');return false">下架</a>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="prod-thumb expand"></div></td>
+                <td><code style="font-size:12px">SKU_PLATFORM_PACK_1</code><div class="ver">线上 v1</div></td>
+                <td>多平台扩容</td>
+                <td>增值服务</td>
+                <td>按年订阅</td>
+                <td><div class="mvp-system-tags"><span>ERP</span></div></td>
+                <td><span class="sort-cell"><input type="number" value="50"><span class="arrows"><span>▲</span><span>▼</span></span></span></td>
+                <td>¥1,200/包</td>
+                <td><div class="mvp-quota-summary">+1 销售平台</div></td>
+                <td><label class="switch-mini"><input type="checkbox" checked><span class="slider"></span></label></td>
+                <td><span class="ly-status">已发布</span></td>
+                <td><div class="audit">胡仕玲<br>2026-04-02 10:22</div></td>
+                <td class="op-col">
+                  <a class="ly-link" href="crossborder-erp-billing-product-config-feishu-edit.html?code=SKU_PLATFORM_PACK_1">编辑</a>
+                  <a class="ly-link" href="#" onclick="if(confirm('确认下架？已购客户不受影响'))alert('已下架');return false">下架</a>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="prod-thumb expand"></div></td>
+                <td><code style="font-size:12px">SKU_COMP_LINK_1K</code><div class="ver">线上 v1</div></td>
+                <td>竞品链接监控</td>
+                <td>增值服务</td>
+                <td>按年订阅</td>
+                <td><div class="mvp-system-tags"><span>ERP</span></div></td>
+                <td><span class="sort-cell"><input type="number" value="60"><span class="arrows"><span>▲</span><span>▼</span></span></span></td>
+                <td>¥300/包</td>
+                <td><div class="mvp-quota-summary">+1,000 竞品链接</div></td>
+                <td><label class="switch-mini"><input type="checkbox" checked><span class="slider"></span></label></td>
+                <td><span class="ly-status">已发布</span></td>
+                <td><div class="audit">林珊<br>2026-05-20 09:30</div></td>
+                <td class="op-col">
+                  <a class="ly-link" href="crossborder-erp-billing-product-config-feishu-edit.html?code=SKU_COMP_LINK_1K">编辑</a>
+                  <a class="ly-link" href="#" onclick="if(confirm('确认下架？已购客户不受影响'))alert('已下架');return false">下架</a>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="prod-thumb expand"></div></td>
+                <td><code style="font-size:12px">SKU_KEYWORD_RANK_500</code><div class="ver">线上 v1</div></td>
+                <td>关键词排名监控</td>
+                <td>增值服务</td>
+                <td>按年订阅</td>
+                <td><div class="mvp-system-tags"><span>ERP</span></div></td>
+                <td><span class="sort-cell"><input type="number" value="65"><span class="arrows"><span>▲</span><span>▼</span></span></span></td>
+                <td>¥400/包</td>
+                <td><div class="mvp-quota-summary">+500 关键词</div></td>
+                <td><label class="switch-mini"><input type="checkbox" checked><span class="slider"></span></label></td>
+                <td><span class="ly-status">已发布</span></td>
+                <td><div class="audit">林珊<br>2026-05-20 09:32</div></td>
+                <td class="op-col">
+                  <a class="ly-link" href="crossborder-erp-billing-product-config-feishu-edit.html?code=SKU_KEYWORD_RANK_500">编辑</a>
+                  <a class="ly-link" href="#" onclick="if(confirm('确认下架？已购客户不受影响'))alert('已下架');return false">下架</a>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="prod-thumb expand"></div></td>
+                <td><code style="font-size:12px">SKU_FOLLOW_SELLER_100</code><div class="ver">线上 v1</div></td>
+                <td>跟卖监控</td>
+                <td>增值服务</td>
+                <td>按年订阅</td>
+                <td><div class="mvp-system-tags"><span>ERP</span></div></td>
+                <td><span class="sort-cell"><input type="number" value="70"><span class="arrows"><span>▲</span><span>▼</span></span></span></td>
+                <td>¥350/包</td>
+                <td><div class="mvp-quota-summary">+100 跟卖对象</div></td>
+                <td><label class="switch-mini"><input type="checkbox" checked><span class="slider"></span></label></td>
+                <td><span class="ly-status">已发布</span></td>
+                <td><div class="audit">林珊<br>2026-05-20 09:35</div></td>
+                <td class="op-col">
+                  <a class="ly-link" href="crossborder-erp-billing-product-config-feishu-edit.html?code=SKU_FOLLOW_SELLER_100">编辑</a>
+                  <a class="ly-link" href="#" onclick="if(confirm('确认下架？已购客户不受影响'))alert('已下架');return false">下架</a>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="prod-thumb meter"></div></td>
+                <td><code style="font-size:12px">SKU_LOG_TRACK_METER</code><div class="ver">线上 v1</div></td>
+                <td>物流轨迹查询</td>
+                <td>增值服务</td>
+                <td>按量计费</td>
+                <td><div class="mvp-system-tags"><span>ERP</span></div></td>
+                <td><span class="sort-cell"><input type="number" value="80"><span class="arrows"><span>▲</span><span>▼</span></span></span></td>
+                <td>¥0.05 ~ 0.10/次（阶梯）</td>
+                <td><div class="mvp-quota-summary">物流轨迹按单查询</div></td>
+                <td><label class="switch-mini"><input type="checkbox" checked><span class="slider"></span></label></td>
+                <td><span class="ly-status">已发布</span></td>
+                <td><div class="audit">林珊<br>2026-04-18 16:10</div></td>
+                <td class="op-col">
+                  <a class="ly-link" href="crossborder-erp-billing-product-config-feishu-edit.html?code=SKU_LOG_TRACK_METER">编辑</a>
+                  <a class="ly-link" href="#" onclick="if(confirm('确认下架？已购客户不受影响'))alert('已下架');return false">下架</a>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="prod-thumb svc"></div></td>
+                <td><code style="font-size:12px">SKU_KDCS_INTEGRATION</code><div class="ver">线上 v1</div></td>
+                <td>金蝶云星空对接</td>
+                <td>增值服务</td>
+                <td>一次性</td>
+                <td><div class="mvp-system-tags"><span>ERP</span><span>SCM</span></div></td>
+                <td><span class="sort-cell"><input type="number" value="90"><span class="arrows"><span>▲</span><span>▼</span></span></span></td>
+                <td>¥20,000/次</td>
+                <td><div class="mvp-quota-summary">金蝶对接服务 1 次</div></td>
+                <td><label class="switch-mini"><input type="checkbox" checked><span class="slider"></span></label></td>
+                <td><span class="ly-status">已发布</span></td>
+                <td><div class="audit">周启<br>2026-03-15 14:20</div></td>
+                <td class="op-col">
+                  <a class="ly-link" href="crossborder-erp-billing-product-config-feishu-edit.html?code=SKU_KDCS_INTEGRATION">编辑</a>
+                  <a class="ly-link" href="#" onclick="if(confirm('确认下架？已购客户不受影响'))alert('已下架');return false">下架</a>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="prod-thumb svc"></div></td>
+                <td><code style="font-size:12px">SKU_TRAIN_ONSITE</code><div class="ver">线上 v1</div></td>
+                <td>线下实施培训</td>
+                <td>增值服务</td>
+                <td>线下报价</td>
+                <td><div class="mvp-system-tags"><span>ERP</span><span>SCM</span></div></td>
+                <td><span class="sort-cell"><input type="number" value="95"><span class="arrows"><span>▲</span><span>▼</span></span></span></td>
+                <td><span style="color:#8c8c8c">面议</span></td>
+                <td><div class="mvp-quota-summary">线下实施培训</div></td>
+                <td><label class="switch-mini"><input type="checkbox" checked><span class="slider"></span></label></td>
+                <td><span class="ly-status">已发布</span></td>
+                <td><div class="audit">周启<br>2026-03-15 14:25</div></td>
+                <td class="op-col">
+                  <a class="ly-link" href="crossborder-erp-billing-product-config-feishu-edit.html?code=SKU_TRAIN_ONSITE">编辑</a>
+                  <a class="ly-link" href="#" onclick="if(confirm('确认下架？已购客户不受影响'))alert('已下架');return false">下架</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ly-pagination">
+          <span>共 15 条（主套餐 4 / 增值服务 11）</span>
+          <div class="pages"><span class="page active">1</span></div>
+          <select><option>20 条/页</option></select>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="ly-drawer-mask" id="previewTenantMask" onclick="if(event.target===this)closeTenantPreview()">
+  <aside class="ly-drawer ly-preview-drawer" onclick="event.stopPropagation()" aria-modal="true" role="dialog">
+    <div class="ly-preview-drawer-head">
+      <h3>租户套餐方案 · 预览</h3>
+      <button type="button" class="close-btn" onclick="closeTenantPreview()" aria-label="关闭">×</button>
+    </div>
+    <div class="ly-preview-drawer-body">
+      <div id="previewBanner" class="ly-preview-banner ok"></div>
+      <div class="ly-preview-meta" id="previewMetaLine"></div>
+      <div class="ly-preview-canvas">
+        <div class="ly-preview-label">租户「套餐方案」列表中单行示意（对齐分区与排序）</div>
+        <div class="ly-preview-tenant-card" id="previewCard">
+          <div class="thumb" id="previewThumb"></div>
+          <div class="body">
+            <h4 id="previewTitle">—</h4>
+            <div class="desc" id="previewDesc">—</div>
+            <div class="sku" id="previewSku">—</div>
+          </div>
+          <div class="side">
+            <div class="price" id="previewPrice">—</div>
+            <span class="fake-btn" id="previewBtn">联系商务</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ly-preview-foot">
+      <button type="button" class="ly-btn" onclick="closeTenantPreview()">关闭</button>
+      <a class="ly-btn ly-btn-primary" href="crossborder-erp-billing-tenant-package-plans.html" target="_blank" rel="noopener">整页预览（新标签）</a>
+    </div>
+  </aside>
+</div>
+
+<script>
+(function splitAuditColumn() {
+  var headRow = document.querySelector('thead tr');
+  if (headRow && !headRow.dataset.auditSplit) {
+    var auditHead = Array.prototype.find.call(headRow.children, function(th) {
+      return th.textContent.trim() === '最近修改人';
+    });
+    if (auditHead) {
+      var timeHead = document.createElement('th');
+      timeHead.textContent = '最近修改时间';
+      auditHead.insertAdjacentElement('afterend', timeHead);
+      headRow.dataset.auditSplit = '1';
+    }
+  }
+
+  document.querySelectorAll('tbody tr').forEach(function(row) {
+    var audit = row.querySelector('.audit');
+    if (!audit || row.dataset.auditSplit) return;
+    var parts = audit.innerHTML.split('<br>');
+    var person = (parts[0] || '').trim();
+    var time = (parts[1] || '').trim();
+    audit.className = 'audit-person';
+    audit.textContent = person;
+    var timeCell = document.createElement('td');
+    timeCell.innerHTML = '<div class="audit-time">' + time + '</div>';
+    audit.parentElement.insertAdjacentElement('afterend', timeCell);
+    row.dataset.auditSplit = '1';
+  });
+})();
+(function compactProductList() {
+  document.querySelectorAll('tbody tr').forEach(function(row) {
+    var codeCell = row.children[1];
+    var nameCell = row.children[2];
+    if (!codeCell || !nameCell || nameCell.dataset.compactDone) return;
+    var code = codeCell.querySelector('code') ? codeCell.querySelector('code').textContent.trim() : codeCell.textContent.trim();
+    var rawName = nameCell.textContent.trim();
+    nameCell.innerHTML = '<div class="mvp-name-main">' + rawName + '</div><div class="mvp-name-sub">' + code + '</div>';
+    nameCell.dataset.compactDone = '1';
+  });
+})();
+(function () {
+  var DB = {
+    SKU_ERP_STD_001:       { status: 'published', hasThumb: true,  name: 'ERP 标准版',       desc: '50 万单/年 · 1 万 MSKU · 3 平台 · 50 子账号 · 50 店铺',  price: '¥9,800',  priceUnit: '/年', zone: 'ERP 主套餐',           sort: 10, btn: '联系商务' },
+    SKU_ERP_PRO_001:       { status: 'draft',     hasThumb: false, name: 'ERP 专业版',       desc: '150 万单/年 · 3 万 MSKU · 10 平台 · 150 子账号 · 200 店铺', price: '¥29,800', priceUnit: '/年', zone: 'ERP 主套餐',           sort: 20, btn: '联系商务' },
+    SKU_ERP_FLAGSHIP_001:  { status: 'published', hasThumb: true,  name: 'ERP 旗舰版',       desc: '300 万单/年 · 10 万 MSKU · 不限平台 · 300 子账号 · 500 店铺', price: '¥69,800', priceUnit: '/年', zone: 'ERP 主套餐',           sort: 30, btn: '联系商务' },
+    SKU_SCM_ENT_001:       { status: 'published', hasThumb: true,  name: 'SCM 企业版',       desc: '供应链企业版 · 全链路 SCM 能力 · 价格按规模面议',                price: '面议',     priceUnit: '',     zone: 'SCM 套餐',             sort: 10, btn: '联系商务' },
+    SKU_ORDER_PACK_10W:    { status: 'published', hasThumb: false, name: '订单扩容包',       desc: '+10 万订单/年 · 跟随主订阅到期',                                 price: '¥1,000',  priceUnit: '/包', zone: '资源扩容与增值服务',   sort: 10, btn: '申请扩容' },
+    SKU_MSKU_PACK_1W:      { status: 'published', hasThumb: false, name: 'MSKU 扩容包',     desc: '+1 万 MSKU · 跟随主订阅到期',                                   price: '¥500',    priceUnit: '/包', zone: '资源扩容与增值服务',   sort: 20, btn: '申请扩容' },
+    SKU_SHOP_PACK_5:       { status: 'published', hasThumb: false, name: '店铺 / 站点扩容',  desc: '+5 个店铺 / 站点 · 跟随主订阅到期',                              price: '¥800',    priceUnit: '/包', zone: '资源扩容与增值服务',   sort: 30, btn: '申请扩容' },
+    SKU_SUBUSER_PACK_10:   { status: 'published', hasThumb: false, name: '子账号扩容',       desc: '+10 个子账号 · 跟随主订阅到期',                                  price: '¥600',    priceUnit: '/包', zone: '资源扩容与增值服务',   sort: 40, btn: '申请扩容' },
+    SKU_PLATFORM_PACK_1:   { status: 'published', hasThumb: false, name: '多平台扩容',       desc: '+1 个销售平台授权 · 跟随主订阅到期',                             price: '¥1,200',  priceUnit: '/包', zone: '资源扩容与增值服务',   sort: 50, btn: '申请扩容' },
+    SKU_COMP_LINK_1K:      { status: 'published', hasThumb: false, name: '竞品链接监控',     desc: '+1,000 条竞品链接监控额度 / 年',                                price: '¥300',    priceUnit: '/包', zone: '资源扩容与增值服务',   sort: 60, btn: '申请扩容' },
+    SKU_KEYWORD_RANK_500:  { status: 'published', hasThumb: false, name: '关键词排名监控',   desc: '+500 个关键词排名监控额度 / 年',                                price: '¥400',    priceUnit: '/包', zone: '资源扩容与增值服务',   sort: 65, btn: '申请扩容' },
+    SKU_FOLLOW_SELLER_100: { status: 'published', hasThumb: false, name: '跟卖监控',         desc: '+100 个跟卖监控对象 / 年',                                      price: '¥350',    priceUnit: '/包', zone: '资源扩容与增值服务',   sort: 70, btn: '申请扩容' },
+    SKU_LOG_TRACK_METER:   { status: 'published', hasThumb: false, name: '物流轨迹查询',     desc: '按次后付 · 阶梯定价（¥0.10 / ¥0.08 / ¥0.05 三档）',           price: '¥0.05~0.10', priceUnit: '/次', zone: '资源扩容与增值服务', sort: 80, btn: '申请扩容' },
+    SKU_KDCS_INTEGRATION:  { status: 'published', hasThumb: false, name: '金蝶云星空对接',   desc: '一次性交付 · 走服务里程碑（需求 → 联调 → UAT）',               price: '¥20,000', priceUnit: '/次', zone: '资源扩容与增值服务',   sort: 90, btn: '预约服务' },
+    SKU_TRAIN_ONSITE:      { status: 'published', hasThumb: false, name: '线下实施培训',     desc: '按工时面议 · 走服务里程碑',                                     price: '面议',     priceUnit: '',     zone: '资源扩容与增值服务',   sort: 95, btn: '预约服务' }
+  };
+  window.openTenantPreview = function (sku) {
+    var d = DB[sku]; if (!d) return;
+    var banner = document.getElementById('previewBanner');
+    document.getElementById('previewTitle').textContent = d.name;
+    document.getElementById('previewDesc').textContent = d.desc;
+    document.getElementById('previewSku').textContent = '商品编码 ' + sku;
+    document.getElementById('previewPrice').innerHTML = d.price + (d.priceUnit ? '<small>' + d.priceUnit + '</small>' : '');
+    document.getElementById('previewBtn').textContent = d.btn;
+    document.getElementById('previewMetaLine').textContent = '分区「' + d.zone + '」· 排序 ' + d.sort + ' · 发布后租户可见顺序与本分区其它商品一同排序';
+    banner.className = 'ly-preview-banner';
+    if (d.status === 'published') { banner.classList.add('ok'); banner.textContent = '已发布 — 租户套餐方案中会展示本条（示意卡片）。'; }
+    else if (d.status === 'draft') { banner.classList.add('warn'); banner.textContent = '草稿 — 当前未对租户展示。下方为保存后的展示效果示意。'; }
+    else { banner.classList.add('muted'); banner.textContent = '已下架 — 租户套餐方案中不展示；以下为留档预览。'; }
+    var thumb = document.getElementById('previewThumb');
+    thumb.className = 'thumb' + (d.hasThumb ? '' : ' none');
+    thumb.textContent = d.hasThumb ? '' : '无主图';
+    document.getElementById('previewTenantMask').classList.add('open');
+  };
+  window.closeTenantPreview = function () { document.getElementById('previewTenantMask').classList.remove('open'); };
+})();
+</script>
+</body>
+</html>

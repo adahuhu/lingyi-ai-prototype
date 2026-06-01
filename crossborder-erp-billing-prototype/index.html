@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>计费模块原型入口</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+      max-width: 820px;
+      margin: 36px auto;
+      padding: 0 24px 48px;
+      color: #1f2329;
+      line-height: 1.6;
+      background: #fafbfc;
+    }
+    h1 { font-size: 24px; margin: 0 0 6px; letter-spacing: -.02em; }
+    h2 {
+      font-size: 14px;
+      margin: 28px 0 12px;
+      color: #555c66;
+      border-left: 3px solid #3370ff;
+      padding-left: 10px;
+      letter-spacing: 0.02em;
+    }
+    .badge {
+      display: inline-block; background: #e6f0ff; color: #3370ff;
+      font-size: 12px; padding: 3px 10px; border-radius: 12px;
+      margin-left: 8px; font-weight: 500;
+    }
+    .tip {
+      background: #fff7e6; border: 1px solid #ffd591;
+      padding: 14px 16px; font-size: 13px; margin: 16px 0 24px;
+      line-height: 1.7; border-radius: 6px;
+    }
+    .tip code {
+      display: block; background: #fff; padding: 10px 12px;
+      margin: 8px 0 0; font-size: 11.5px; word-break: break-all;
+      border: 1px solid #ffd591; border-radius: 4px;
+      font-family: ui-monospace, monospace;
+    }
+    .limit-box {
+      background: #f5f9ff; border: 1px solid #c8d8ff;
+      padding: 14px 16px; font-size: 13px; margin: 16px 0 24px;
+      line-height: 1.7; border-radius: 6px;
+      color: #1f2329;
+    }
+    .limit-box h3 {
+      margin: 0 0 8px; font-size: 14px; color: #3370ff;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .limit-box h3::before { content: "ℹ"; display: inline-grid; place-items: center; width: 18px; height: 18px; background: #3370ff; color: #fff; border-radius: 50%; font-size: 11px; font-weight: 700; }
+    .limit-box ul { margin: 6px 0 4px 18px; padding: 0; color: #555c66; }
+    .limit-box li { margin: 2px 0; font-size: 12.5px; }
+    .limit-box .group { margin-top: 8px; }
+    .limit-box .group b { color: #1f2329; font-size: 12.5px; }
+
+    ul.links { list-style: none; padding: 0; margin: 0; }
+    ul.links li { margin-bottom: 10px; }
+    ul.links a {
+      display: block; padding: 14px 18px;
+      border: 1px solid #e8e8e8; background: #fff;
+      text-decoration: none; color: #3370ff; font-size: 14px;
+      border-radius: 6px; transition: all .15s;
+      font-weight: 500;
+    }
+    ul.links a:hover {
+      border-color: #91caff; background: #f5f9ff;
+      box-shadow: 0 4px 12px rgba(51, 112, 255, 0.06);
+      transform: translateY(-1px);
+    }
+    ul.links small {
+      display: block; color: #8a9099; font-size: 12px;
+      margin-top: 4px; font-weight: 400;
+    }
+    .muted { font-size: 13px; color: #8a9099; margin-bottom: 16px; }
+    hr { border: none; border-top: 1px solid #e8e8e8; margin: 28px 0; }
+    .old { font-size: 12px; color: #8a9099; }
+    .old a { color: #8a9099; }
+    .new {
+      color: #fff; background: linear-gradient(90deg, #ff7a45, #ff4d4f);
+      font-size: 10px; padding: 1px 7px; border-radius: 10px;
+      margin-left: 6px; vertical-align: middle; font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <h1>计费模块原型 <span class="badge">最终原型 v3</span></h1>
+  <p class="muted">客户 / 平台统一用户中心样式（深蓝侧栏 · 主色 #3370ff），打通商品 ↔ 权益 ↔ 用量数据闭环。</p>
+
+  <h2>平台侧 · 用户中心</h2>
+  <ul class="links">
+    <li><a href="crossborder-erp-billing-product-config-feishu.html">商品配置（列表）<small>编码 / 计价方式 / 分区 / 排序 / 可见性双开关 / 修改人审计</small></a></li>
+    <li><a href="crossborder-erp-billing-product-config-feishu-edit.html">商品维护（编辑/新建）<span class="new">关联授权模板</span><small>结构化权益 + 计价（含阶梯）+ 试用 4 字段 + 依赖 chips + 菜单级授权树（ADR-006）</small></a></li>
+    <li><a href="crossborder-erp-billing-product-config-dictionary.html">字典维护<small>仅权益项库（6 字段）· 菜单字典由用户中心维护 · 客户侧分区 / 商品类型一期固定常量</small></a></li>
+    <li><a href="crossborder-erp-billing-tenant-config-real.html">租户配置（真实系统还原）<span class="new">新增</span><small>按当前用户中心租户列表还原，新增计费信息列与租户详情入口</small></a></li>
+    <li><a href="crossborder-erp-billing-tenant-auth-detail-real.html">租户授权详情（真实系统还原）<span class="new">新增</span><small>基础信息 / 计费信息 / 授权详情 / 创建订单 / 授权编辑有效期自动带入</small></a></li>
+    <li><a href="crossborder-erp-billing-order-management-feishu.html">订单管理<span class="new">新增</span><small>待办条带（待上传水单 / 待开通 / 服务中 / 30 天内到期）+ 状态 Tab + 行内动态操作 + 详情抽屉（订单项 / 附件 / 权益快照 / 操作日志）</small></a></li>
+    <li><a href="crossborder-erp-billing-consumption-detail-feishu.html">消耗明细<small>客户详情 · 资源「明细」入口</small></a></li>
+  </ul>
+
+  <h2>租户侧 · 费用中心</h2>
+  <ul class="links">
+    <li><a href="crossborder-erp-billing-my-subscription-feishu.html">我的订阅<small>当前套餐 / 权益用量 / 已开通增值服务 / 服务进度 / 可购买方案 / 用量明细 / 商品详情</small></a></li>
+    <li><a href="crossborder-erp-billing-tenant-order-center.html">订单记录<small>订单编号 / 购买内容 / 订单类型 / 生效时间 / 到期时间 / 状态</small></a></li>
+  </ul>
+
+  <h2>流程图 · 评审辅助</h2>
+  <ul class="links">
+    <li><a href="diagrams/crossborder-erp-billing-module-mindmap.html">计费模块页面结构图<small>平台侧、租户侧页面与功能入口</small></a></li>
+    <li><a href="diagrams/crossborder-erp-billing-main-flow-swimlane-v2.html">计费主流程泳道图<small>商品上架、录单开通、权益扣减、到期回收</small></a></li>
+    <li><a href="diagrams/crossborder-erp-billing-supplemental-diagrams-v1.html">辅助流程图合集<small>状态机、系统协作、售卖项覆盖关系</small></a></li>
+  </ul>
+
+  <hr>
+  <p class="old">归档：<a href="crossborder-erp-billing-my-subscription-prototype-v1.html">v1 完整版</a></p>
+</body>
+</html>

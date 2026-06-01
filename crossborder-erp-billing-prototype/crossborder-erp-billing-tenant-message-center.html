@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>消息中心 - 费用中心</title>
+  <link rel="stylesheet" href="billing-erp-platform.css">
+  <style>
+    .msg-tabs {
+      display: flex; gap: 0; background: #fff;
+      border-bottom: 1px solid var(--ly-border); padding: 0 16px;
+    }
+    .msg-tabs button {
+      padding: 12px 18px; border: none; background: none; font-size: 14px;
+      cursor: pointer; color: var(--ly-text);
+      border-bottom: 2px solid transparent; margin-bottom: -1px;
+    }
+    .msg-tabs button.active { color: var(--ly-primary); border-bottom-color: var(--ly-primary); font-weight: 500; }
+    .msg-tabs .count { font-size: 11px; padding: 0 6px; line-height: 18px; border-radius: 10px; margin-left: 6px; background: #ff4d4f; color: #fff; vertical-align: middle; }
+
+    .msg-list { background: #fff; }
+    .msg-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 16px; border-bottom: 1px solid var(--ly-border);
+      cursor: pointer;
+    }
+    .msg-item:hover { background: #fafafa; }
+    .msg-item.unread { background: #f0f7ff; }
+    .msg-item .icon {
+      width: 32px; height: 32px; flex-shrink: 0;
+      display: grid; place-items: center;
+      border-radius: 50%; color: #fff; font-size: 14px;
+    }
+    .msg-item .icon.expire { background: #ff4d4f; }
+    .msg-item .icon.usage { background: #faad14; }
+    .msg-item .icon.order { background: #52c41a; }
+    .msg-item .icon.service { background: #1677ff; }
+    .msg-item .icon.system { background: var(--ly-muted); }
+    .msg-item .body { flex: 1; min-width: 0; }
+    .msg-item .row1 { display: flex; align-items: center; gap: 8px; }
+    .msg-item .title { font-size: 14px; font-weight: 500; }
+    .msg-item .tag-mini {
+      font-size: 11px; padding: 0 6px; line-height: 18px; border-radius: 2px;
+      background: #f5f5f5; color: var(--ly-muted); border: 1px solid #d9d9d9;
+    }
+    .msg-item .tag-mini.danger { background: #fff1f0; color: #ff4d4f; border-color: #ffa39e; }
+    .msg-item .tag-mini.warn { background: #fff7e6; color: #d46b08; border-color: #ffd591; }
+    .msg-item .desc {
+      font-size: 13px; color: var(--ly-muted); margin-top: 4px; line-height: 1.6;
+    }
+    .msg-item .time { font-size: 12px; color: var(--ly-muted); flex-shrink: 0; }
+    .msg-item.unread .title::after {
+      content: ""; display: inline-block; width: 6px; height: 6px;
+      border-radius: 50%; background: #ff4d4f; margin-left: 6px; vertical-align: middle;
+    }
+    .msg-item .links { margin-top: 6px; }
+    .msg-item .links a { font-size: 13px; }
+
+    .msg-toolbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 16px; background: #fafafa; border-bottom: 1px solid var(--ly-border);
+      font-size: 13px; color: var(--ly-muted);
+    }
+  </style>
+</head>
+<body>
+<div class="ly-app">
+  <aside class="ly-side">
+    <div class="ly-side-logo"><span class="logo-mark">凌</span> 凌羿 ERP</div>
+    <nav class="ly-nav">
+      <div class="ly-nav-group">
+        <span class="ly-nav-item active"><span class="ico">▾</span> 费用中心</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-my-subscription-feishu.html" class="active">我的订阅</a>
+          <a href="crossborder-erp-billing-tenant-order-center.html">订单记录</a>
+        </div>
+      </div>
+    </nav>
+    <div class="ly-side-foot">收起导航</div>
+  </aside>
+
+  <div class="ly-wrap">
+    <header class="ly-topbar">
+      <div class="ly-tabs">
+        <a class="ly-tab active" href="#">消息中心 <span class="close">×</span></a>
+      </div>
+      <div class="ly-topbar-right">
+        <span>🔍</span><span>🔔</span>
+        <span class="user"><span class="avatar">杭</span> 杭州星河跨境</span>
+      </div>
+    </header>
+
+    <main class="ly-tenant-main">
+      <div class="ly-tenant-crumb">费用中心 &gt; 消息中心</div>
+      <div class="ly-tenant-card" style="padding:0">
+        <div class="msg-tabs">
+          <button class="active">全部 <span class="count">3</span></button>
+          <button>到期提醒 <span class="count">1</span></button>
+          <button>用量预警 <span class="count">1</span></button>
+          <button>订单状态</button>
+          <button>服务进度 <span class="count">1</span></button>
+          <button>系统通知</button>
+        </div>
+        <div class="msg-toolbar">
+          <div>
+            <a class="ly-link" href="#" onclick="markAllRead();return false">全部标记已读</a>
+            <span style="margin:0 10px">|</span>
+            <a class="ly-link" href="#" onclick="openPref();return false">通知偏好设置</a>
+          </div>
+          <div>共 6 条 · 3 条未读</div>
+        </div>
+        <div class="msg-list">
+
+          <div class="msg-item unread">
+            <div class="icon usage">⚠</div>
+            <div class="body">
+              <div class="row1">
+                <span class="title">年订单量已使用 82%</span>
+                <span class="tag-mini warn">用量预警</span>
+              </div>
+              <div class="desc">您当前 ERP 旗舰版年订单量配额已使用 246 万 / 300 万；按当前消耗速度预计 35 天后用尽。建议尽早扩容以免影响业务。</div>
+              <div class="links">
+                <a class="ly-link" href="crossborder-erp-billing-tenant-package-plans.html">立即扩容 →</a>
+              </div>
+            </div>
+            <div class="time">2026-05-20 09:12</div>
+          </div>
+
+          <div class="msg-item unread">
+            <div class="icon service">⚙</div>
+            <div class="body">
+              <div class="row1">
+                <span class="title">金蝶云星空对接 · 进入「数据映射与联调」阶段</span>
+                <span class="tag-mini">服务进度</span>
+              </div>
+              <div class="desc">订单 PO-20260420003 已完成「需求确认」与「环境对接」，当前由实施工程师周启进行数据映射与联调，预计 2026-05-30 完成。</div>
+              <div class="links">
+                <a class="ly-link" href="crossborder-erp-billing-tenant-order-center.html">查看进度 →</a>
+              </div>
+            </div>
+            <div class="time">2026-05-18 16:30</div>
+          </div>
+
+          <div class="msg-item unread">
+            <div class="icon expire">⏰</div>
+            <div class="body">
+              <div class="row1">
+                <span class="title">ERP 旗舰版即将到期 · 剩余 224 天</span>
+                <span class="tag-mini danger">到期提醒</span>
+              </div>
+              <div class="desc">您的主套餐将于 2026-12-31 到期。商务已于 2026-05-18 录入续费订单 PO-20260518004，等待水单上传后将自动开通新周期。</div>
+              <div class="links">
+                <a class="ly-link" href="crossborder-erp-billing-tenant-order-center.html">查看续费订单 →</a>
+              </div>
+            </div>
+            <div class="time">2026-05-18 09:30</div>
+          </div>
+
+          <div class="msg-item">
+            <div class="icon order">✓</div>
+            <div class="body">
+              <div class="row1">
+                <span class="title">订单 PO-20260315002 已开通</span>
+                <span class="tag-mini">订单状态</span>
+              </div>
+              <div class="desc">您购买的「订单扩容包 ×2」已上传水单并开通，年订单量增加 10 万，有效期至 2026-12-31。</div>
+              <div class="links">
+                <a class="ly-link" href="crossborder-erp-billing-tenant-order-center.html">查看订单 →</a>
+              </div>
+            </div>
+            <div class="time">2026-03-15 16:45</div>
+          </div>
+
+          <div class="msg-item">
+            <div class="icon system">i</div>
+            <div class="body">
+              <div class="row1">
+                <span class="title">套餐方案更新：MSKU 扩容包价格调整</span>
+                <span class="tag-mini">系统通知</span>
+              </div>
+              <div class="desc">2026-03-01 起，MSKU 扩容包价格调整为 ¥2,000 / 每 5,000 MSKU；存量订单不受影响。</div>
+            </div>
+            <div class="time">2026-03-01 10:00</div>
+          </div>
+
+          <div class="msg-item">
+            <div class="icon order">✓</div>
+            <div class="body">
+              <div class="row1">
+                <span class="title">订单 PO-20250101001 已开通</span>
+                <span class="tag-mini">订单状态</span>
+              </div>
+              <div class="desc">您购买的「ERP 旗舰版」已正式开通，有效期至 2026-12-31。</div>
+              <div class="links">
+                <a class="ly-link" href="crossborder-erp-billing-tenant-order-center.html">查看订单 →</a>
+              </div>
+            </div>
+            <div class="time">2025-01-02 10:25</div>
+          </div>
+
+        </div>
+        <div class="ly-pagination">
+          <span>共 6 条</span>
+          <div class="pages"><span class="page active">1</span></div>
+          <select><option>20 条/页</option></select>
+        </div>
+      </div>
+
+      <p style="font-size:13px;color:var(--ly-muted);margin-top:16px">
+        消息类型由后台计费规则自动产生；如需调整接收偏好（邮件 / 站内 / 短信），点上方「通知偏好设置」。
+      </p>
+    </main>
+  </div>
+</div>
+
+<!-- 通知偏好设置抽屉 -->
+<div class="ly-drawer-mask" id="prefMask" onclick="if(event.target===this)closePref()">
+  <aside class="ly-drawer" onclick="event.stopPropagation()" style="width:480px">
+    <h3>通知偏好设置</h3>
+    <div style="padding: 0 16px;font-size:13px;color:var(--ly-muted);margin-bottom:8px">
+      为每类消息分别选择是否接收，以及通过站内信 / 邮件 / 短信哪种渠道。
+    </div>
+    <table style="width:calc(100% - 32px);margin:0 16px;border-collapse:collapse;font-size:13px">
+      <thead>
+        <tr style="background:#fafafa">
+          <th style="text-align:left;padding:8px 10px;border:1px solid #e8e8e8">消息类型</th>
+          <th style="text-align:center;padding:8px 10px;border:1px solid #e8e8e8;width:64px">站内</th>
+          <th style="text-align:center;padding:8px 10px;border:1px solid #e8e8e8;width:64px">邮件</th>
+          <th style="text-align:center;padding:8px 10px;border:1px solid #e8e8e8;width:64px">短信</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8">到期提醒</td>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8;text-align:center"><input type="checkbox" checked></td>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8;text-align:center"><input type="checkbox" checked></td>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8;text-align:center"><input type="checkbox" checked></td>
+        </tr>
+        <tr>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8">用量预警</td>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8;text-align:center"><input type="checkbox" checked></td>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8;text-align:center"><input type="checkbox" checked></td>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8;text-align:center"><input type="checkbox"></td>
+        </tr>
+        <tr>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8">订单状态</td>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8;text-align:center"><input type="checkbox" checked></td>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8;text-align:center"><input type="checkbox" checked></td>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8;text-align:center"><input type="checkbox"></td>
+        </tr>
+        <tr>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8">服务进度</td>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8;text-align:center"><input type="checkbox" checked></td>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8;text-align:center"><input type="checkbox" checked></td>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8;text-align:center"><input type="checkbox"></td>
+        </tr>
+        <tr>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8">系统通知</td>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8;text-align:center"><input type="checkbox" checked></td>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8;text-align:center"><input type="checkbox"></td>
+          <td style="padding:8px 10px;border:1px solid #e8e8e8;text-align:center"><input type="checkbox"></td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="padding:14px 16px;font-size:12px;color:var(--ly-muted);line-height:1.6">
+      接收手机号：<b>138****2509</b> · 接收邮箱：<b>zhang@hzxh.com</b>
+      <br>
+      如需修改联系方式，请联系您的专属商务或在「客户配置」中由管理员修改。
+    </div>
+    <div style="padding:12px 16px;text-align:right;border-top:1px solid var(--ly-border)">
+      <button type="button" class="ly-btn" onclick="closePref()">取消</button>
+      <button type="button" class="ly-btn ly-btn-primary" onclick="alert('已保存通知偏好');closePref()">保存</button>
+    </div>
+  </aside>
+</div>
+
+<!-- 全部已读确认 -->
+<div class="ly-drawer-mask" id="confirmMask" onclick="if(event.target===this)closeConfirm()" style="background:rgba(0,0,0,.45)">
+  <div onclick="event.stopPropagation()" style="position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:360px;background:#fff;border-radius:4px;box-shadow:0 6px 24px rgba(0,0,0,.12);z-index:1001">
+    <div style="padding:16px 18px;border-bottom:1px solid #e8e8e8;font-size:15px;font-weight:600">将全部消息标记为已读？</div>
+    <div style="padding:14px 18px;font-size:13px;color:#666;line-height:1.6">
+      操作不可撤回。包含未读 3 条：1 条到期提醒、1 条用量预警、1 条服务进度。
+    </div>
+    <div style="padding:12px 18px;border-top:1px solid #e8e8e8;text-align:right">
+      <button type="button" class="ly-btn" onclick="closeConfirm()">取消</button>
+      <button type="button" class="ly-btn ly-btn-primary" onclick="doMarkAll()">确认全部已读</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openPref() { document.getElementById('prefMask').classList.add('open'); }
+function closePref() { document.getElementById('prefMask').classList.remove('open'); }
+function markAllRead() { document.getElementById('confirmMask').classList.add('open'); }
+function closeConfirm() { document.getElementById('confirmMask').classList.remove('open'); }
+function doMarkAll() {
+  document.querySelectorAll('.msg-item.unread').forEach(function(el) { el.classList.remove('unread'); });
+  closeConfirm();
+  alert('已将全部消息标记为已读');
+}
+</script>
+</body>
+</html>

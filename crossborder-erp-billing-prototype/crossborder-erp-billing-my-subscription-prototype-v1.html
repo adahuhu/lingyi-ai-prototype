@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>我的订阅 v1 - 计费模块</title>
+  <style>
+    :root {
+      --bg: #f2f3f5;
+      --side: #eef0f3;
+      --panel: #ffffff;
+      --text: #1f2329;
+      --muted: #646a73;
+      --light: #8f959e;
+      --line: #dee0e3;
+      --blue: #3370ff;
+      --blue-soft: #e8efff;
+      --green: #14a35b;
+      --green-soft: #e8f7ef;
+      --orange: #d9822b;
+      --orange-soft: #fff3e0;
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button, input, select, textarea { font: inherit; }
+
+    .top {
+      height: 56px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 260px minmax(240px, 560px) 1fr auto;
+      align-items: center;
+      gap: 18px;
+      padding: 0 22px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, #3370ff, #14c8a8);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .search {
+      height: 36px;
+      border: 0;
+      border-radius: 8px;
+      background: #f1f2f4;
+      color: var(--muted);
+      padding: 0 14px;
+      outline: 0;
+      width: 100%;
+    }
+
+    .top-icons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 18px;
+      color: #4e5969;
+      font-size: 20px;
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 150px;
+      justify-content: flex-end;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #b8dc2f;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 244px minmax(0, 1fr);
+      min-height: calc(100vh - 56px);
+    }
+
+    .side {
+      background: var(--side);
+      padding: 16px 14px 22px;
+      border-right: 1px solid var(--line);
+    }
+
+    .nav-section {
+      margin-bottom: 18px;
+    }
+
+    .nav-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 34px;
+      color: #373c43;
+      font-weight: 600;
+      padding: 0 8px;
+    }
+
+    .nav-item {
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px 0 34px;
+      border-radius: 8px;
+      color: #373c43;
+      margin: 2px 0;
+      font-size: 14px;
+    }
+
+    .nav-item.active {
+      color: var(--blue);
+      background: #e7efff;
+      font-weight: 700;
+    }
+
+    .main {
+      padding: 20px 28px 36px;
+    }
+
+    .crumb {
+      color: var(--muted);
+      margin: 0 0 16px;
+      font-size: 14px;
+    }
+
+    .content {
+      background: #fff;
+      min-height: calc(100vh - 112px);
+      padding: 28px 0 40px;
+    }
+
+    .inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+
+    .plan-bar {
+      height: 46px;
+      background: #dfe8ff;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px 0 18px;
+      margin-bottom: 24px;
+    }
+
+    .plan-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .btn {
+      height: 34px;
+      border: 1px solid var(--blue);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--blue);
+      padding: 0 14px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn.primary {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      min-height: 196px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 22px;
+      background: #fff;
+    }
+
+    .icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .icon.blue { background: #5b7fff; }
+    .icon.green { background: #30b89f; }
+    .icon.purple { background: #8c5cf6; }
+    .icon.orange { background: #f0a43a; }
+
+    .card h3 {
+      margin: 0 0 26px;
+      font-size: 17px;
+      line-height: 1.3;
+    }
+
+    .label {
+      color: var(--light);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .value {
+      font-size: 26px;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .value small {
+      color: var(--text);
+      font-size: 16px;
+      margin-left: 3px;
+    }
+
+    .bar {
+      height: 4px;
+      border-radius: 999px;
+      background: #eceff3;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: 999px;
+      background: var(--blue);
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .section-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .table-box {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .box-head {
+      height: 48px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #edf0f3;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      color: var(--muted);
+      background: #f7f8fa;
+      font-weight: 600;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .tag.green { color: #087443; background: var(--green-soft); }
+    .tag.orange { color: #9a5b13; background: var(--orange-soft); }
+    .tag.blue { color: var(--blue); background: var(--blue-soft); }
+
+    .drawer {
+      position: fixed;
+      right: 24px;
+      top: 76px;
+      width: 360px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 18px 46px rgba(31, 35, 41, .16);
+      padding: 18px;
+      display: none;
+      z-index: 20;
+    }
+
+    .drawer.open { display: block; }
+
+    .drawer-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .drawer h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .field input, .field select, .field textarea {
+      width: 100%;
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 7px 10px;
+      outline: 0;
+    }
+
+    .field textarea {
+      min-height: 72px;
+      resize: vertical;
+    }
+
+    @media (max-width: 1180px) {
+      .top { grid-template-columns: 220px minmax(180px, 1fr) auto; }
+      .top-icons { display: none; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .section-row { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .top { grid-template-columns: 1fr; height: auto; padding: 12px; }
+      .user { justify-content: flex-start; }
+      .shell { grid-template-columns: 1fr; }
+      .side { display: none; }
+      .main { padding: 14px; }
+      .content { padding-top: 18px; }
+      .plan-bar { height: auto; padding: 12px; gap: 10px; flex-direction: column; align-items: flex-start; }
+      .grid { grid-template-columns: 1fr; }
+      .drawer { left: 14px; right: 14px; width: auto; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><div class="mark">S</div><span>服务与订阅</span></div>
+    <input class="search" value="搜索套餐、额度、订单、服务" />
+    <div class="top-icons"><span>?</span><span>◇</span><span>铃</span><span>⋯</span></div>
+    <div class="user"><div class="avatar">杭</div><div><b>杭州星河跨境</b></div></div>
+  </header>
+
+  <div class="shell">
+    <aside class="side">
+      <div class="nav-section">
+        <div class="nav-title">费用中心 <span>⌃</span></div>
+        <div class="nav-item">我的产品</div>
+        <div class="nav-item active">权益数据</div>
+        <div class="nav-item">消耗情况</div>
+        <div class="nav-item">订单记录</div>
+        <div class="nav-item">发票管理</div>
+        <div class="nav-item">账户管理</div>
+      </div>
+      <div class="nav-section">
+        <div class="nav-title">服务 <span>⌄</span></div>
+        <div class="nav-item">服务与开通</div>
+        <div class="nav-item">申请记录</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="crumb">费用中心 > 权益数据</div>
+      <section class="content">
+        <div class="inner">
+          <div class="plan-bar">
+            <div class="plan-name"><div class="mark">E</div><span>ERP 旗舰版</span></div>
+            <div class="actions">
+              <button class="btn" data-action="upgrade">升级</button>
+              <button class="btn primary" data-action="renew">续费</button>
+            </div>
+          </div>
+
+          <section class="grid">
+            <article class="card">
+              <div class="icon blue">单</div>
+              <h3>年订单量</h3>
+              <div class="label">已用量/总量</div>
+              <div class="value">246万<small>/300万</small></div>
+              <div class="bar"><i style="width:82%"></i></div>
+              <div class="actions"><button class="btn primary" data-action="expand">扩容</button><button class="btn">来源</button></div>
+            </article>
+
+            <article class="card">
+              <div class="icon green">SKU</div>
+              <h3>MSKU 额度</h3>
+              <div class="label">已用量/总量</div>
+              <div class="value">68,000<small>/100,000</small></div>
+              <div class="bar"><i style="width:68%"></i></div>
+              <div class="actions"><button class="btn" data-action="expand">扩容</button><button class="btn">来源</button></div>
+            </article>
+
+            <article class="card">
+              <div class="icon purple">店</div>
+              <h3>店铺/站点</h3>
+              <div class="label">已用量/总量</div>
+              <div class="value">426<small>/500</small></div>
+              <div class="bar"><i style="width:85%"></i></div>
+              <div class="actions"><button class="btn" data-action="expand">扩容</button><button class="btn">来源</button></div>
+            </article>
+
+            <article class="card">
+              <div class="icon orange">账</div>
+              <h3>子账号</h3>
+              <div class="label">已用量/总量</div>
+              <div class="value">218<small>/300</small></div>
+              <div class="bar"><i style="width:73%"></i></div>
+              <div class="actions"><button class="btn" data-action="expand">扩容</button><button class="btn">来源</button></div>
+            </article>
+
+            <article class="card">
+              <div class="icon blue">平</div>
+              <h3>平台授权</h3>
+              <div class="label">已用量/总量</div>
+              <div class="value">7<small>/不限</small></div>
+              <div class="bar"><i style="width:42%"></i></div>
+              <div class="actions"><button class="btn">来源</button></div>
+            </article>
+
+            <article class="card">
+              <div class="icon green">服</div>
+              <h3>服务与开通</h3>
+              <div class="label">服务中/已开通</div>
+              <div class="value">1<small>/3</small></div>
+              <div class="bar"><i style="width:34%"></i></div>
+              <div class="actions"><button class="btn primary" data-action="schedule">预约</button><button class="btn">详情</button></div>
+            </article>
+          </section>
+
+          <div class="section-row">
+            <section class="table-box">
+              <div class="box-head"><span>消耗情况</span><button class="btn">查看全部</button></div>
+              <table>
+                <thead><tr><th>资源</th><th>已用/总量</th><th>状态</th></tr></thead>
+                <tbody>
+                  <tr><td>年订单量</td><td>246万 / 300万</td><td><span class="tag orange">82%</span></td></tr>
+                  <tr><td>MSKU 额度</td><td>68,000 / 100,000</td><td><span class="tag green">68%</span></td></tr>
+                  <tr><td>店铺/站点</td><td>426 / 500</td><td><span class="tag orange">85%</span></td></tr>
+                  <tr><td>物流轨迹</td><td>12,480 / 按单计量</td><td><span class="tag blue">按量</span></td></tr>
+                  <tr><td>专利检测点数</td><td>1,260 / 2,000</td><td><span class="tag green">63%</span></td></tr>
+                  <tr><td>邮件 / 索评额度</td><td>42,000 / 100,000</td><td><span class="tag green">42%</span></td></tr>
+                </tbody>
+              </table>
+            </section>
+
+            <section class="table-box">
+              <div class="box-head"><span>订单记录</span><button class="btn" data-action="buy">加购</button></div>
+              <table>
+                <thead><tr><th>订单内容</th><th>金额</th><th>生效时间</th><th>到期时间</th><th>状态</th></tr></thead>
+                <tbody>
+                  <tr><td>ERP 旗舰版</td><td>¥69,800</td><td>2026-01-01</td><td>2026-12-31</td><td><span class="tag green">已生效</span></td></tr>
+                  <tr><td>订单扩容包 x2</td><td>¥2,000</td><td>2026-03-18</td><td>2026-12-31</td><td><span class="tag green">已生效</span></td></tr>
+                  <tr><td>金蝶云星空对接</td><td>¥20,000</td><td>2026-04-28</td><td>服务完成</td><td><span class="tag orange">服务中</span></td></tr>
+                  <tr><td>竞品链接监控</td><td>¥500</td><td>2026-05-01</td><td>2026-12-31</td><td><span class="tag green">已开通</span></td></tr>
+                  <tr><td>邮件 / 索评额度</td><td>¥1,000</td><td>2026-05-01</td><td>2026-12-31</td><td><span class="tag green">已生效</span></td></tr>
+                </tbody>
+              </table>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <aside class="drawer" id="drawer">
+    <div class="drawer-head">
+      <h3 id="drawerTitle">提交申请</h3>
+      <button class="btn" id="closeDrawer">关闭</button>
+    </div>
+    <div class="field">
+      <label>类型</label>
+      <input id="requestType" value="扩容" />
+    </div>
+    <div class="field">
+      <label>对象</label>
+      <select id="requestTarget">
+        <option>订单扩容包</option>
+        <option>MSKU 扩容包</option>
+        <option>ERP 旗舰版续费</option>
+        <option>升级至 SCM 企业版</option>
+        <option>线下实施培训预约</option>
+        <option>竞品链接监控开通</option>
+        <option>邮件 / 索评额度</option>
+        <option>物流轨迹按量服务</option>
+        <option>专利检测点数包</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>备注</label>
+      <textarea>提交后由平台确认。</textarea>
+    </div>
+    <div class="actions"><button class="btn">取消</button><button class="btn primary">提交</button></div>
+  </aside>
+
+  <script>
+    const drawer = document.getElementById("drawer");
+    const title = document.getElementById("drawerTitle");
+    const type = document.getElementById("requestType");
+    const target = document.getElementById("requestTarget");
+    const map = {
+      renew: ["续费申请", "续费", "ERP 旗舰版续费"],
+      upgrade: ["升级申请", "升级", "升级至 SCM 企业版"],
+      expand: ["扩容申请", "扩容", "订单扩容包"],
+      schedule: ["预约申请", "预约服务", "线下实施培训预约"],
+      buy: ["加购申请", "加购", "MSKU 扩容包"]
+    };
+
+    document.body.addEventListener("click", event => {
+      const btn = event.target.closest("[data-action]");
+      if (!btn) return;
+      const current = map[btn.dataset.action] || map.expand;
+      title.textContent = current[0];
+      type.value = current[1];
+      target.value = current[2];
+      drawer.classList.add("open");
+    });
+
+    document.getElementById("closeDrawer").addEventListener("click", () => {
+      drawer.classList.remove("open");
+    });
+  </script>
+</body>
+</html>

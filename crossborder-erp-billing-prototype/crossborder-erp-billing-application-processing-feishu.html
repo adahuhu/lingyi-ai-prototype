@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>申请处理 - 用户中心</title>
+  <link rel="stylesheet" href="billing-erp-platform.css">
+</head>
+<body>
+<div class="ly-app">
+  <aside class="ly-side">
+    <div class="ly-side-logo"><span class="logo-mark">凌</span> 用户中心</div>
+    <nav class="ly-nav">
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▸</span> 组织架构</span>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▾</span> 租户管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-tenant-config-real.html">租户配置</a>
+        </div>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▾</span> 客户管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-customer-management-feishu.html">客户配置</a>
+        </div>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item active"><span class="ico">▾</span> 计费管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-product-config-feishu.html">商品配置</a>
+          <a href="crossborder-erp-billing-product-config-dictionary.html">字典维护</a>
+          <a href="crossborder-erp-billing-order-management-feishu.html">订单管理</a>
+        </div>
+      </div>
+      <div class="ly-nav-group"><span class="ly-nav-item"><span class="ico">▸</span> 授权设置</span></div>
+      <div class="ly-nav-group"><span class="ly-nav-item"><span class="ico">▸</span> 个人中心</span></div>
+    </nav>
+    <div class="ly-side-foot">收起导航</div>
+  </aside>
+
+  <div class="ly-wrap">
+    <header class="ly-topbar">
+      <div class="ly-tabs">
+        <a class="ly-tab" href="crossborder-erp-billing-customer-management-feishu.html">客户配置 <span class="close">×</span></a>
+        <a class="ly-tab active" href="crossborder-erp-billing-application-processing-feishu.html">申请处理 <span class="close">×</span></a>
+      </div>
+      <div class="ly-topbar-right">
+        <span class="user"><span class="avatar">胡</span> 胡仕玲</span>
+      </div>
+    </header>
+
+    <main class="ly-main">
+      <div class="ly-card">
+        <div class="ly-filter">
+          <div class="ly-field">
+            <label>处理状态</label>
+            <select><option>待处理</option><option>全部</option><option>已处理</option></select>
+          </div>
+          <div class="ly-field">
+            <label>申请类型</label>
+            <select>
+              <option>全部类型</option>
+              <option>续费</option>
+              <option>扩容</option>
+              <option>试用</option>
+              <option>咨询</option>
+            </select>
+          </div>
+          <div class="ly-field">
+            <select><option>客户名称</option></select>
+            <input type="text" placeholder="模糊搜索">
+          </div>
+          <button class="ly-btn ly-btn-icon">🔍</button>
+          <button class="ly-btn">↺</button>
+        </div>
+
+        <div class="ly-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>申请内容</th>
+                <th>客户名称</th>
+                <th>类型</th>
+                <th>申请时间</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ERP 旗舰版续费</td>
+                <td>杭州星河跨境</td>
+                <td>续费</td>
+                <td>2026-05-18</td>
+                <td><span class="ly-status warn">待处理</span></td>
+                <td><a class="ly-link" href="#" onclick="openDrawer('续费');return false">处理</a></td>
+              </tr>
+              <tr>
+                <td>试用 ERP 专业版 15天</td>
+                <td>深圳速卖通科技</td>
+                <td>试用</td>
+                <td>2026-05-16</td>
+                <td><span class="ly-status warn">待处理</span></td>
+                <td><a class="ly-link" href="#" onclick="openDrawer('试用');return false">处理</a></td>
+              </tr>
+              <tr>
+                <td>了解 SCM 企业版</td>
+                <td>新客户</td>
+                <td>咨询</td>
+                <td>2026-05-15</td>
+                <td><span class="ly-status muted">已跟进</span></td>
+                <td><a class="ly-link" href="#">查看</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ly-pagination">
+          <span>共 3 条</span>
+          <div class="pages"><span class="page active">1</span></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="ly-drawer-mask" id="dm" onclick="if(event.target===this)closeDrawer()">
+  <aside class="ly-drawer" onclick="event.stopPropagation()">
+    <h3>处理申请</h3>
+    <div id="trialOnly" class="ly-field-block">
+      <label>试用天数</label>
+      <input type="number" value="15">
+      <p style="font-size:12px;color:#999;margin-top:8px">试用直接开通，不走正式订单</p>
+    </div>
+    <div id="dealOnly" class="ly-field-block" style="display:none">
+      <p style="font-size:13px;color:#666">通过后请到「客户配置」→ 新增购买，录入并上传水单。</p>
+    </div>
+    <div class="ly-field-block">
+      <label>备注</label>
+      <textarea></textarea>
+    </div>
+    <button class="ly-btn" onclick="closeDrawer()">取消</button>
+    <button class="ly-btn ly-btn-primary" onclick="closeDrawer()">确定</button>
+  </aside>
+</div>
+
+<script>
+function openDrawer(t) {
+  document.getElementById('dm').classList.add('open');
+  document.getElementById('trialOnly').style.display = t === '试用' ? '' : 'none';
+  document.getElementById('dealOnly').style.display = t === '试用' ? 'none' : '';
+}
+function closeDrawer() { document.getElementById('dm').classList.remove('open'); }
+</script>
+</body>
+</html>

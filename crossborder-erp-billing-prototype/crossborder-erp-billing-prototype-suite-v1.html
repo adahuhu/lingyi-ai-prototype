@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>计费模块原型总入口 v1</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --text: #1f2937;
+      --muted: #667085;
+      --line: #e5eaf0;
+      --blue: #1677ff;
+      --blue-dark: #0f5fd7;
+      --blue-soft: #eaf3ff;
+      --green: #12a150;
+      --green-soft: #e9f8ef;
+      --orange: #d9822b;
+      --orange-soft: #fff4e5;
+      --shadow: 0 14px 36px rgba(16, 24, 40, .10);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button { font: inherit; }
+
+    .shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      background: #fff;
+      border-right: 1px solid var(--line);
+      padding: 18px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .brand {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 6px 6px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, #1677ff, #19c37d);
+      font-weight: 800;
+    }
+
+    .brand strong { display: block; font-size: 15px; line-height: 1.2; }
+    .brand span { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+    .section-title {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 4px 8px 2px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 6px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #445064;
+      border-radius: 8px;
+      padding: 0 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      text-align: left;
+    }
+
+    .nav-btn strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .nav-btn span {
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .nav-btn.active {
+      border-color: #b7d9ff;
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+    }
+
+    .nav-btn.active span { color: var(--blue-dark); }
+
+    .flow-box {
+      margin-top: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfcfe;
+      padding: 12px;
+    }
+
+    .flow-box strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .flow-box p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .mini-actions {
+      display: grid;
+      gap: 6px;
+    }
+
+    .mini-btn {
+      min-height: 32px;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #344054;
+      text-align: left;
+      padding: 0 10px;
+      font-size: 13px;
+    }
+
+    .main {
+      min-width: 0;
+      padding: 18px 22px 22px;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 14px;
+      height: 100vh;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .crumb {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 980px;
+      line-height: 1.55;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      min-height: 36px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      padding: 0 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .btn.primary {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(22, 119, 255, .20);
+    }
+
+    .stage {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .stage-head {
+      min-height: 58px;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 14px;
+    }
+
+    .stage-title {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .stage-title strong { font-size: 16px; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      color: var(--blue-dark);
+      background: var(--blue-soft);
+    }
+
+    .tag.green { color: var(--green); background: var(--green-soft); }
+    .tag.orange { color: var(--orange); background: var(--orange-soft); }
+
+    .route-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 0 0 2px;
+    }
+
+    .route-btn {
+      min-height: 32px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      color: #344054;
+      cursor: pointer;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+
+    .route-btn.active {
+      border-color: var(--blue);
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+      font-weight: 700;
+    }
+
+    .viewer-wrap {
+      min-height: 0;
+      background: #eef2f7;
+      position: relative;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #fff;
+      display: block;
+    }
+
+    @media (max-width: 980px) {
+      .shell { grid-template-columns: 1fr; }
+      .sidebar {
+        position: static;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .main { height: auto; min-height: 100vh; padding: 14px; }
+      .stage { min-height: 760px; }
+      .topbar, .stage-head { grid-template-columns: 1fr; }
+      .actions { justify-content: flex-start; }
+      .flow-box { margin-top: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">LY</div>
+        <div>
+          <strong>计费模块原型</strong>
+          <span>统一入口 v1</span>
+        </div>
+      </div>
+
+      <div class="section-title">平台侧</div>
+      <nav class="nav" aria-label="平台侧原型">
+        <button class="nav-btn" data-route="product">
+          <strong>商品配置</strong>
+          <span>卖什么</span>
+        </button>
+        <button class="nav-btn" data-route="customer">
+          <strong>客户管理</strong>
+          <span>买了什么</span>
+        </button>
+        <button class="nav-btn" data-route="consumption">
+          <strong>消耗明细</strong>
+          <span>用了多少</span>
+        </button>
+      </nav>
+
+      <div class="section-title">租户侧</div>
+      <nav class="nav" aria-label="租户侧原型">
+        <button class="nav-btn" data-route="subscription">
+          <strong>我的订阅</strong>
+          <span>客户视角</span>
+        </button>
+      </nav>
+
+      <div class="flow-box">
+        <strong>典型流程跳转</strong>
+        <p>按真实售卖闭环串起来看：配置售卖内容，租户发起申请，平台确认收款与履约，再回到客户权益和消耗。</p>
+        <div class="mini-actions">
+          <button class="mini-btn" data-flow="sale">商品到开通</button>
+          <button class="mini-btn" data-flow="usage">消耗到扩容</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div>
+          <div class="crumb">跨境 ERP / 计费模块 / 原型总入口</div>
+          <h1>计费模块原型总入口</h1>
+          <div class="subtitle">一个链接查看所有当前基线原型，并支持基础跳转。当前覆盖：商品配置、客户管理、我的订阅、消耗明细。</div>
+        </div>
+        <div class="actions">
+          <a class="btn" id="openCurrent" target="_blank" rel="noopener">单独打开当前页</a>
+          <button class="btn primary" data-route="subscription">从租户侧开始</button>
+        </div>
+      </div>
+
+      <section class="stage">
+        <div class="stage-head">
+          <div>
+            <div class="stage-title">
+              <strong id="pageTitle">商品配置</strong>
+              <span class="tag" id="pageTag">平台侧</span>
+              <span class="tag green" id="pageStatus">当前基线</span>
+            </div>
+          </div>
+          <div class="route-tabs" aria-label="快速跳转">
+            <button class="route-btn" data-route="product">商品配置</button>
+            <button class="route-btn" data-route="subscription">我的订阅</button>
+            <button class="route-btn" data-route="customer">客户管理</button>
+            <button class="route-btn" data-route="consumption">消耗明细</button>
+          </div>
+        </div>
+        <div class="viewer-wrap">
+          <iframe id="viewer" title="计费模块原型页面"></iframe>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const pages = {
+      product: {
+        title: '商品配置',
+        tag: '平台侧',
+        file: 'crossborder-erp-billing-product-config-prototype-v3.html',
+        hash: '#product'
+      },
+      customer: {
+        title: '客户管理',
+        tag: '平台侧',
+        file: 'crossborder-erp-billing-customer-management-prototype-v1.html',
+        hash: '#customer'
+      },
+      subscription: {
+        title: '我的订阅',
+        tag: '租户侧',
+        file: 'crossborder-erp-billing-my-subscription-prototype-v1.html',
+        hash: '#subscription'
+      },
+      consumption: {
+        title: '消耗明细',
+        tag: '平台 / 租户共用',
+        file: 'crossborder-erp-billing-consumption-detail-prototype-v1.html',
+        hash: '#consumption'
+      }
+    };
+
+    const flowSteps = {
+      sale: ['product', 'subscription', 'customer'],
+      usage: ['customer', 'consumption', 'customer']
+    };
+
+    const viewer = document.getElementById('viewer');
+    const pageTitle = document.getElementById('pageTitle');
+    const pageTag = document.getElementById('pageTag');
+    const openCurrent = document.getElementById('openCurrent');
+    const pageStatus = document.getElementById('pageStatus');
+    let activeRoute = 'product';
+
+    function setActive(route) {
+      const page = pages[route] || pages.product;
+      activeRoute = route in pages ? route : 'product';
+      viewer.src = page.file;
+      pageTitle.textContent = page.title;
+      pageTag.textContent = page.tag;
+      pageStatus.textContent = '当前基线';
+      openCurrent.href = page.file;
+      window.location.hash = page.hash;
+
+      document.querySelectorAll('[data-route]').forEach((el) => {
+        el.classList.toggle('active', el.dataset.route === activeRoute);
+      });
+    }
+
+    document.querySelectorAll('[data-route]').forEach((el) => {
+      el.addEventListener('click', () => setActive(el.dataset.route));
+    });
+
+    document.querySelectorAll('[data-flow]').forEach((el) => {
+      el.addEventListener('click', () => {
+        const steps = flowSteps[el.dataset.flow] || ['product'];
+        let index = 0;
+        setActive(steps[index]);
+        const timer = setInterval(() => {
+          index += 1;
+          if (index >= steps.length) {
+            clearInterval(timer);
+            return;
+          }
+          setActive(steps[index]);
+        }, 1200);
+      });
+    });
+
+    window.addEventListener('hashchange', () => {
+      const route = window.location.hash.replace('#', '');
+      if (pages[route] && route !== activeRoute) {
+        setActive(route);
+      }
+    });
+
+    const initial = window.location.hash.replace('#', '');
+    setActive(pages[initial] ? initial : 'product');
+  </script>
+</body>
+</html>

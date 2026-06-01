@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>消耗明细 - 用户中心</title>
+  <link rel="stylesheet" href="billing-erp-platform.css">
+  <style>
+    .usage-summary {
+      display: grid;
+      grid-template-columns: 1.4fr repeat(3, 1fr) 1.5fr;
+      gap: 12px;
+      padding: 16px;
+      border-bottom: 1px solid var(--ly-border);
+      background: #fff;
+    }
+    .usage-summary .item {
+      min-height: 72px;
+      padding: 12px 14px;
+      border: 1px solid var(--ly-border);
+      border-radius: 6px;
+      background: #fbfcff;
+    }
+    .usage-summary .label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--ly-muted);
+      font-size: 12px;
+    }
+    .usage-summary .value {
+      color: var(--ly-text);
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+    .usage-summary .value.small {
+      font-size: 15px;
+      font-weight: 600;
+      padding-top: 2px;
+    }
+    .usage-summary .ly-progress-cell {
+      margin-top: 10px;
+      min-width: 0;
+    }
+    .usage-summary .ly-progress {
+      max-width: none;
+    }
+    @media (max-width: 1100px) {
+      .usage-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 720px) {
+      .usage-summary { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="ly-app">
+  <aside class="ly-side">
+    <div class="ly-side-logo"><span class="logo-mark">凌</span> 用户中心</div>
+    <nav class="ly-nav">
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▸</span> 组织架构</span>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▾</span> 租户管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-tenant-config-real.html">租户配置</a>
+        </div>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item active"><span class="ico">▾</span> 客户管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-customer-management-feishu.html" class="active">客户配置</a>
+        </div>
+      </div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▾</span> 计费管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-product-config-feishu.html">商品配置</a>
+          <a href="crossborder-erp-billing-product-config-dictionary.html">字典维护</a>
+          <a href="crossborder-erp-billing-order-management-feishu.html">订单管理</a>
+        </div>
+      </div>
+      <div class="ly-nav-group"><span class="ly-nav-item"><span class="ico">▸</span> 授权设置</span></div>
+      <div class="ly-nav-group"><span class="ly-nav-item"><span class="ico">▸</span> 个人中心</span></div>
+    </nav>
+    <div class="ly-side-foot">收起导航</div>
+  </aside>
+
+  <div class="ly-wrap">
+    <header class="ly-topbar">
+      <div class="ly-tabs">
+        <a class="ly-tab" href="crossborder-erp-billing-customer-management-feishu.html">客户配置 <span class="close">×</span></a>
+        <a class="ly-tab active" href="#">消耗明细 <span class="close">×</span></a>
+      </div>
+      <div class="ly-topbar-right">
+        <span class="user"><span class="avatar">胡</span> 胡仕玲</span>
+      </div>
+    </header>
+
+    <main class="ly-main">
+      <div class="ly-card">
+        <div class="usage-summary">
+          <div class="item">
+            <span class="label">服务 / 商品</span>
+            <span class="value small">年订单量</span>
+          </div>
+          <div class="item">
+            <span class="label">总量</span>
+            <span class="value">310万</span>
+          </div>
+          <div class="item">
+            <span class="label">已用</span>
+            <span class="value">246万</span>
+          </div>
+          <div class="item">
+            <span class="label">剩余</span>
+            <span class="value">64万</span>
+          </div>
+          <div class="item">
+            <span class="label">使用率</span>
+            <span class="value">79%</span>
+            <div class="ly-progress-cell">
+              <div class="ly-progress"><i style="width:79%"></i></div>
+              <span class="pct">79%</span>
+            </div>
+          </div>
+        </div>
+        <div class="ly-filter">
+          <div class="ly-field">
+            <label>时间范围</label>
+            <div class="range">
+              <input type="date" value="2026-05-01">
+              <span>~</span>
+              <input type="date" value="2026-05-20">
+            </div>
+          </div>
+          <div class="ly-field">
+            <label>变动类型</label>
+            <select>
+              <option>全部</option>
+              <option>额度增加</option>
+              <option>扣减</option>
+              <option>返还</option>
+              <option>占用</option>
+              <option>释放</option>
+              <option>按量计量</option>
+            </select>
+          </div>
+          <div class="ly-field">
+            <label>来源系统</label>
+            <select>
+              <option>全部</option>
+              <option>ERP</option>
+              <option>SCM</option>
+              <option>WMS</option>
+              <option>CRM</option>
+              <option>ADS</option>
+              <option>平台录单</option>
+            </select>
+          </div>
+          <div class="ly-field">
+            <label>业务对象</label>
+            <input type="text" placeholder="订单号 / 任务号 / 对象名称">
+          </div>
+          <button class="ly-btn ly-btn-primary">查询</button>
+          <div class="ly-filter-actions">
+            <button class="ly-btn">导出</button>
+          </div>
+        </div>
+        <div class="ly-table-wrap">
+          <table>
+            <thead>
+              <tr><th>发生时间</th><th>变动类型</th><th>来源系统</th><th>业务对象</th><th>数量变化</th><th>来源</th><th>操作</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2026-03-15 10:00</td><td>额度增加</td><td>平台录单</td><td>订单扩容包 ×2</td><td>+10万</td>
+                <td><a class="ly-link" href="crossborder-erp-billing-customer-management-feishu.html?order=PO-20260315002">PO-20260315002</a></td>
+                <td><a class="ly-link" href="crossborder-erp-billing-customer-management-feishu.html?order=PO-20260315002">查看订单</a></td>
+              </tr>
+              <tr>
+                <td>2026-05-18 14:02</td><td>扣减</td><td>ERP</td><td>AMZ-001</td><td>-1</td><td>—</td>
+                <td><a class="ly-link" href="#" onclick="alert('打开来源业务对象：AMZ-001');return false">查看</a></td>
+              </tr>
+              <tr>
+                <td>2026-05-18 11:20</td><td>返还</td><td>ERP</td><td>AMZ-088</td><td>+1</td><td>—</td>
+                <td><a class="ly-link" href="#" onclick="alert('打开来源业务对象：AMZ-088');return false">查看</a></td>
+              </tr>
+              <tr>
+                <td>2026-05-17 09:15</td><td>扣减</td><td>ERP</td><td>AMZ-077</td><td>-1</td><td>—</td>
+                <td><a class="ly-link" href="#" onclick="alert('打开来源业务对象：AMZ-077');return false">查看</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ly-pagination">
+          <span>共 4 条</span>
+          <div class="pages"><span class="page active">1</span></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>
