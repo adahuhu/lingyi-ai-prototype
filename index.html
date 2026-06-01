@@ -1364,6 +1364,12 @@
       white-space: nowrap;
     }
 
+    .output-size-tag {
+      color: var(--muted);
+      background: #f7f8fa;
+      border-color: var(--line-soft);
+    }
+
     .qa-side {
       align-self: stretch;
       display: flex;
@@ -2890,7 +2896,7 @@
     .wf-toolbar {
       padding: 12px;
       display: grid;
-      grid-template-columns: 156px 260px repeat(3, minmax(110px, 1fr)) auto;
+      grid-template-columns: 300px 260px repeat(3, minmax(110px, 1fr)) auto;
       gap: 8px;
       align-items: center;
     }
@@ -2906,6 +2912,38 @@
       align-items: center;
       padding: 0 10px;
       font-size: 12px;
+    }
+
+    .wf-date-range {
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px;
+      font-size: 12px;
+    }
+
+    .wf-date-range input {
+      width: 122px;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .wf-date-range span {
+      color: var(--subtle);
+      flex: 0 0 auto;
+    }
+
+    .wf-toolbar .query-btn {
+      width: 76px;
+      justify-self: start;
     }
 
     .records-wireframe {
@@ -4943,9 +4981,34 @@
       font-weight: 760;
     }
 
+    .listing-v1-label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
     .listing-v1-field label em {
-      color: var(--v1-orange);
+      color: #f54a45;
       font-style: normal;
+    }
+
+    .listing-v1-template-action {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: #245BDB;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1;
+      padding: 4px 0;
+    }
+
+    .listing-v1-template-action:hover {
+      color: var(--v1-primary-hover);
+      text-decoration: underline;
+      text-underline-offset: 3px;
     }
 
     .listing-v1-textarea,
@@ -4986,6 +5049,66 @@
       border-color: var(--v1-orange);
       background: white;
       box-shadow: 0 0 0 4px var(--v1-accent-glow);
+    }
+
+    .listing-v1-material-hint {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #d6e4ff;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(234, 241, 255, .78), rgba(255, 255, 255, .88));
+      color: #475569;
+      padding: 10px 12px;
+      transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+
+    .listing-v1-material-hint::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #94a3b8;
+      box-shadow: 0 0 0 4px rgba(148, 163, 184, .14);
+      flex: 0 0 auto;
+    }
+
+    .listing-v1-material-hint strong {
+      display: block;
+      color: #1f2329;
+      font-size: 13px;
+      font-weight: 760;
+      line-height: 1.35;
+      margin-bottom: 2px;
+    }
+
+    .listing-v1-material-hint span {
+      display: block;
+      color: #646a73;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .listing-v1-material-hint.is-ready {
+      border-color: #b8ccff;
+      background: linear-gradient(135deg, rgba(234, 241, 255, .96), rgba(255, 255, 255, .92));
+      box-shadow: 0 10px 24px rgba(51, 112, 255, .08);
+    }
+
+    .listing-v1-material-hint.is-ready::before {
+      background: var(--v1-primary);
+      box-shadow: 0 0 0 4px rgba(51, 112, 255, .14);
+    }
+
+    .listing-v1-material-hint.is-rich {
+      border-color: #b7ebc6;
+      background: linear-gradient(135deg, rgba(232, 255, 240, .86), rgba(255, 255, 255, .92));
+      box-shadow: 0 10px 24px rgba(20, 168, 97, .08);
+    }
+
+    .listing-v1-material-hint.is-rich::before {
+      background: #14a85f;
+      box-shadow: 0 0 0 4px rgba(20, 168, 97, .14);
     }
 
     .listing-v1-source-row {
@@ -5073,7 +5196,7 @@
     .listing-v1-execute {
       display: flex;
       justify-content: flex-start;
-      padding-top: 8px;
+      padding-top: 2px;
     }
 
     .listing-v1-live {
@@ -5439,25 +5562,91 @@
 
     .listing-v1-confirm-side .listing-v1-issue {
       min-height: 0;
-      grid-template-columns: minmax(0, 1fr) auto;
-      padding: 10px;
-      gap: 9px;
+      grid-template-columns: minmax(0, 1fr) 128px;
+      padding: 11px 12px;
+      gap: 12px;
+      align-items: center;
     }
 
-    .listing-v1-confirm-side .listing-v1-issue em {
-      justify-self: start;
-      grid-column: 1 / 2;
+    .listing-v1-issue-main {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
     }
 
-    .listing-v1-confirm-side .listing-v1-issue .listing-v1-btn {
-      grid-column: 2;
-      grid-row: 1 / 3;
+    .listing-v1-issue-title {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+    }
+
+    .listing-v1-issue-title strong {
+      min-width: 0;
+    }
+
+    .listing-v1-issue-main span {
+      color: var(--v1-muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .listing-v1-issue-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .listing-v1-issue-meta b {
+      border-radius: 999px;
+      background: #f1f5f9;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 760;
+      line-height: 1;
+      padding: 5px 8px;
+    }
+
+    .listing-v1-issue-actions {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      align-items: flex-end;
       min-height: 32px;
+      grid-column: 2;
+      grid-row: 1;
+      align-self: center;
+    }
+
+    .listing-v1-issue-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .listing-v1-confirm-side .listing-v1-issue-actions .listing-v1-btn {
+      min-height: 32px;
+      min-width: 52px;
       padding: 0 12px;
+      white-space: nowrap;
+    }
+
+    .listing-v1-confirm-side .listing-v1-issue-actions .listing-v1-btn.ghost {
+      color: var(--v1-muted);
+      background: transparent;
+    }
+
+    .listing-v1-issue-actions .listing-v1-input {
+      height: 32px;
+      min-width: 0;
+      max-width: 128px;
+      background: white;
     }
 
     .listing-v1-confirm-actions {
-      padding-top: 2px;
+      padding-top: 0;
       display: flex;
       gap: 10px;
       justify-content: flex-end;
@@ -5472,9 +5661,9 @@
       border-top: 1px solid var(--v1-line);
       padding-top: 12px;
       display: grid;
-      gap: 10px;
+      gap: 8px;
       background: white;
-      height: 158px;
+      height: 146px;
       align-content: start;
       overflow: hidden;
     }
@@ -5705,6 +5894,41 @@
       gap: 12px;
     }
 
+    .listing-v1-result-toolbar {
+      margin: 0 18px 18px;
+      padding: 14px;
+      border: 1px solid var(--v1-line);
+      border-radius: 14px;
+      background: linear-gradient(180deg, #fbfdff, #f7f9fc);
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .listing-v1-result-toolbar label {
+      color: #374151;
+      font-size: 13px;
+      font-weight: 780;
+      white-space: nowrap;
+    }
+
+    .listing-v1-result-toolbar input {
+      min-height: 38px;
+      border: 1px solid #d6e0ec;
+      border-radius: 10px;
+      padding: 0 12px;
+      color: var(--v1-ink);
+      background: white;
+      outline: none;
+      font-size: 13px;
+    }
+
+    .listing-v1-result-toolbar input:focus {
+      border-color: var(--v1-primary);
+      box-shadow: 0 0 0 3px rgba(51, 112, 255, .12);
+    }
+
     .listing-v1-result-field {
       border: 1px solid var(--v1-line);
       border-radius: 14px;
@@ -5751,6 +5975,28 @@
       padding-left: 18px;
       display: grid;
       gap: 8px;
+    }
+
+    .listing-v1-rule-strip {
+      padding: 0 13px 13px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .listing-v1-rule-strip span {
+      border-radius: 999px;
+      background: #eef4ff;
+      color: #245bdb;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 760;
+      line-height: 1;
+    }
+
+    .listing-v1-rule-strip span.warn {
+      background: #fff7ed;
+      color: #c2410c;
     }
 
     .listing-v1-edit-area {
@@ -5840,12 +6086,85 @@
       background: #fbfdff;
     }
 
+    .listing-v1-report .qa-summary-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
     .listing-v1-report .qa-issues {
       border-color: var(--v1-line);
     }
 
     .listing-v1-report .listing-result-actions {
       margin-top: 2px;
+    }
+
+    .qa-summary-more {
+      border: 1px solid var(--v1-line);
+      border-radius: 12px;
+      background: #fbfdff;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--v1-muted);
+      font-size: 12px;
+      font-weight: 680;
+    }
+
+    .qa-summary-more .btn {
+      white-space: nowrap;
+    }
+
+    .qa-priority-card {
+      border: 1px solid var(--v1-line);
+      border-radius: 12px;
+      background: linear-gradient(180deg, #fbfdff, #f8fbff);
+      padding: 12px;
+    }
+
+    .qa-priority-card ol {
+      margin: 10px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 9px;
+      counter-reset: qa-step;
+      list-style: none;
+    }
+
+    .qa-priority-card li {
+      position: relative;
+      min-height: 34px;
+      padding-left: 32px;
+      display: grid;
+      align-content: center;
+      gap: 2px;
+      color: var(--v1-muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .qa-priority-card li::before {
+      counter-increment: qa-step;
+      content: counter(qa-step);
+      position: absolute;
+      left: 0;
+      top: 3px;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: #eef4ff;
+      color: #245bdb;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .qa-priority-card strong {
+      color: var(--v1-ink);
+      font-size: 12px;
     }
 
     @media (max-width: 1180px) {
@@ -5874,6 +6193,14 @@
       .listing-v1-live,
       .listing-v1-report {
         position: static;
+      }
+
+      .listing-v1-result-toolbar {
+        grid-template-columns: minmax(0, 1fr) auto auto;
+      }
+
+      .listing-v1-result-toolbar label {
+        grid-column: 1 / -1;
       }
     }
 
@@ -6341,6 +6668,7 @@
                 <button class="qa-category" data-open-qa-report><i></i><strong>平台硬性规则</strong><span>通过</span></button>
                 <button class="qa-category warn" data-open-qa-report><i></i><strong>商品一致性</strong><span>需确认 1</span></button>
                 <button class="qa-category" data-open-qa-report><i></i><strong>图片质量</strong><span>通过</span></button>
+                <button class="qa-category" data-open-qa-report><i></i><strong>移动端缩放</strong><span>通过</span></button>
                 <button class="qa-category warn" data-open-qa-report><i></i><strong>内容可读性</strong><span>需确认 1</span></button>
                 <button class="qa-category" data-open-qa-report><i></i><strong>误导与合规</strong><span>通过</span></button>
                 <button class="qa-category warn" data-open-qa-report><i></i><strong>版权与授权</strong><span>待确认</span></button>
@@ -6384,7 +6712,7 @@
             <div class="rules-row">
               <label>每类数量</label>
               <div class="quantity-rule">
-                <span class="tag blue" id="canvasSizeSummary">方图 2048×2048</span>
+                <span class="tag blue" id="canvasSizeSummary">方图 1600×1600</span>
                 <div class="number-setting compact">每类 <input id="perTypeCount" type="number" min="1" max="6" value="2" /> 张</div>
               </div>
             </div>
@@ -6525,7 +6853,7 @@
                 </div>
               </div>
               <div class="listing-status-actions">
-                <button class="btn text" type="button" id="openListingConfirmDetail">查看详情</button>
+                <button class="btn text" type="button" id="openListingConfirmDetail">资料依据</button>
                 <button class="btn primary" type="button" id="continueListingGenerate">继续生成</button>
               </div>
             </div>
@@ -6589,7 +6917,6 @@
             <div class="listing-tabs">
               <button class="listing-tab active" data-listing-version="A" data-score-summary="2 项需确认 · 0 项阻塞"><strong>方案 A</strong><span>86 分 · 推荐</span></button>
               <button class="listing-tab" data-listing-version="B" data-score-summary="2 项需确认 · 0 项阻塞"><strong>方案 B</strong><span>82 分 · 关键词覆盖</span></button>
-              <button class="listing-tab" data-listing-version="C" data-score-summary="1 项需确认 · 0 项阻塞"><strong>方案 C</strong><span>90 分 · 风险更低</span></button>
             </div>
             <div class="listing-field-stack">
               <article class="listing-field-card" data-listing-field="title">
@@ -6673,7 +7000,7 @@
                   <strong>可发布草稿</strong>
                   <span>2 项需确认 · 0 项阻塞</span>
                 </div>
-                <button class="btn text score-detail-btn" id="openListingQaReport" type="button">详情</button>
+                <button class="btn text score-detail-btn" id="openListingQaReport" type="button">评分详情</button>
               </div>
 
               <div class="qa-category-list">
@@ -6716,12 +7043,14 @@
             <div class="listing-v1-panel">
               <div class="listing-v1-panel-head">
                 <div class="listing-v1-panel-title"><i>1</i><strong>资料输入</strong></div>
-                <span>左侧输入资料，右侧处理资料确认</span>
               </div>
               <div class="listing-v1-card-body">
                 <div class="listing-v1-field">
-                  <label for="listingV1Manual">手工输入 <em>*</em></label>
-                  <textarea class="listing-v1-textarea" id="listingV1Manual" placeholder="描述商品、卖点、关键词或限制要求&#10;例如：Reusable Silicone Food Storage Bags, 10 Pack；核心卖点：防漏、可复用、易清洗；禁用声明：医疗、绝对环保、未认证标签"></textarea>
+                  <div class="listing-v1-label-row">
+                    <label for="listingV1Manual"><em>*</em> 手工输入</label>
+                    <button class="listing-v1-template-action" type="button" id="listingV1UseTemplate">使用模板</button>
+                  </div>
+                  <textarea class="listing-v1-textarea" id="listingV1Manual" placeholder="粘贴或输入任意产品资料，如商品信息、卖点、关键词、使用场景、限制要求等"></textarea>
                 </div>
 
                 <div class="listing-v1-source-row">
@@ -6745,11 +7074,27 @@
 
                 <div class="listing-v1-setting-grid">
                   <div class="listing-v1-field">
-                    <label for="listingV1Market">站点</label>
-                    <select class="listing-v1-select" id="listingV1Market">
-                      <option>Amazon US</option>
-                      <option>Amazon UK</option>
-                      <option>Amazon DE</option>
+                    <label for="listingV1Country">国家</label>
+                    <select class="listing-v1-select" id="listingV1Country">
+                      <option selected>US</option>
+                      <option>UK</option>
+                      <option>DE</option>
+                      <option>FR</option>
+                      <option>IT</option>
+                      <option>ES</option>
+                      <option>JP</option>
+                      <option>CA</option>
+                    </select>
+                  </div>
+                  <div class="listing-v1-field">
+                    <label for="listingV1Platform">目标平台</label>
+                    <select class="listing-v1-select" id="listingV1Platform">
+                      <option selected>Amazon</option>
+                      <option>Shopify</option>
+                      <option>Walmart</option>
+                      <option>eBay</option>
+                      <option>TikTok Shop</option>
+                      <option>独立站</option>
                     </select>
                   </div>
                   <div class="listing-v1-field">
@@ -6830,14 +7175,31 @@
                       <div class="listing-v1-confirm-group-head"><strong>必须确认</strong><span>影响事实真实性 / 合规承诺</span></div>
                       <div class="listing-v1-issue-list">
                         <div class="listing-v1-issue" data-v1-issue="package">
-                          <div><strong>包装数量</strong><span>包装图识别为 10 Pack，需确认是否写入事实池</span></div>
-                          <button class="listing-v1-btn secondary" type="button" data-v1-confirm-issue>确认</button>
-                          <em class="listing-v1-tag warn">待确认</em>
+                          <div class="listing-v1-issue-main">
+                            <div class="listing-v1-issue-title"><strong>包装数量</strong></div>
+                            <span>AI 建议写入：10 Pack</span>
+                            <div class="listing-v1-issue-meta"><b>来源：包装图识别</b><b>影响：Title / Bullet / Attributes</b></div>
+                          </div>
+                          <div class="listing-v1-issue-actions">
+                            <em class="listing-v1-tag warn">待确认</em>
+                            <div class="listing-v1-issue-buttons">
+                              <button class="listing-v1-btn secondary" type="button" data-v1-confirm-issue>采用</button>
+                              <button class="listing-v1-btn ghost" type="button" data-v1-edit-issue data-v1-edit-value="10 Pack">修改</button>
+                            </div>
+                          </div>
                         </div>
                         <div class="listing-v1-issue" data-v1-issue="material">
-                          <div><strong>材质</strong><span>当前缺少稳定材质字段，建议补充</span></div>
-                          <button class="listing-v1-btn secondary" type="button" data-v1-fill-issue>补充</button>
-                          <em class="listing-v1-tag warn">待补充</em>
+                          <div class="listing-v1-issue-main">
+                            <div class="listing-v1-issue-title"><strong>材质</strong></div>
+                            <span>AI 建议补充：Food-grade silicone</span>
+                            <div class="listing-v1-issue-meta"><b>来源：资料未形成稳定字段</b><b>影响：Bullet / Description / Attributes</b></div>
+                          </div>
+                          <div class="listing-v1-issue-actions">
+                            <em class="listing-v1-tag warn">待补充</em>
+                            <div class="listing-v1-issue-buttons">
+                              <button class="listing-v1-btn secondary" type="button" data-v1-fill-issue>补充</button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -6846,14 +7208,30 @@
                       <div class="listing-v1-confirm-group-head"><strong>建议确认</strong><span>默认展示 2 项，可继续生成</span></div>
                       <div class="listing-v1-issue-list">
                         <div class="listing-v1-issue suggest" data-v1-issue="audience">
-                          <div><strong>目标用户</strong><span>AI 推荐为家庭厨房 / Meal prep 人群</span></div>
-                          <button class="listing-v1-btn secondary" type="button" data-v1-confirm-issue>采用</button>
-                          <em class="listing-v1-tag">建议确认</em>
+                          <div class="listing-v1-issue-main">
+                            <div class="listing-v1-issue-title"><strong>目标用户</strong></div>
+                            <span>AI 建议采用：家庭厨房 / Meal prep 人群</span>
+                            <div class="listing-v1-issue-meta"><b>影响：关键词 / 场景表达</b></div>
+                          </div>
+                          <div class="listing-v1-issue-actions">
+                            <em class="listing-v1-tag">建议确认</em>
+                            <div class="listing-v1-issue-buttons">
+                              <button class="listing-v1-btn secondary" type="button" data-v1-confirm-issue>采用</button>
+                            </div>
+                          </div>
                         </div>
                         <div class="listing-v1-issue suggest" data-v1-issue="selling">
-                          <div><strong>卖点优先级</strong><span>建议优先表达防漏、可复用、易清洗</span></div>
-                          <button class="listing-v1-btn secondary" type="button" data-v1-confirm-issue>采用</button>
-                          <em class="listing-v1-tag">建议确认</em>
+                          <div class="listing-v1-issue-main">
+                            <div class="listing-v1-issue-title"><strong>卖点优先级</strong></div>
+                            <span>AI 建议采用：防漏、可复用、易清洗</span>
+                            <div class="listing-v1-issue-meta"><b>影响：Bullet 顺序 / Description</b></div>
+                          </div>
+                          <div class="listing-v1-issue-actions">
+                            <em class="listing-v1-tag">建议确认</em>
+                            <div class="listing-v1-issue-buttons">
+                              <button class="listing-v1-btn secondary" type="button" data-v1-confirm-issue>采用</button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -6876,7 +7254,7 @@
                       <div class="listing-v1-generate-progress-note" id="listingV1GenerateProgressNote">准备生成内容结构</div>
                     </div>
                     <div class="listing-v1-confirm-actions">
-                      <button class="listing-v1-btn secondary" type="button" id="listingV1Detail">查看详情</button>
+                      <button class="listing-v1-btn secondary" type="button" id="listingV1Detail">资料依据</button>
                       <button class="listing-v1-btn primary" type="button" id="listingV1Generate">继续生成</button>
                     </div>
                   </div>
@@ -6894,24 +7272,27 @@
               <div class="listing-v1-tabs">
                 <button class="listing-v1-tab active" type="button" data-v1-tab="A"><strong>方案 A</strong><span>88 分 · 推荐</span></button>
                 <button class="listing-v1-tab" type="button" data-v1-tab="B"><strong>方案 B</strong><span>84 分 · SEO 强</span></button>
-                <button class="listing-v1-tab" type="button" data-v1-tab="C"><strong>方案 C</strong><span>91 分 · 稳健</span></button>
               </div>
               <div class="listing-v1-fields">
                 <article class="listing-v1-result-field" data-v1-field="title">
                   <div class="listing-v1-result-head"><h3>Title</h3><div class="listing-v1-result-actions"><span class="listing-v1-tag ok">178 / 200</span><button class="btn text" type="button" data-v1-copy>复制</button><button class="btn text" type="button" data-v1-edit>编辑</button></div></div>
                   <div class="listing-v1-result-body" data-v1-content>Reusable Silicone Food Storage Bags, 10 Pack Leakproof Freezer Bags for Kitchen Meal Prep, Dishwasher Safe Reusable Food Containers</div>
+                  <div class="listing-v1-rule-strip"><span>标题规则通过</span><span>无竞品品牌</span><span>无促销/物流承诺</span></div>
                 </article>
                 <article class="listing-v1-result-field" data-v1-field="bullets">
-                  <div class="listing-v1-result-head"><h3>Bullet Points</h3><div class="listing-v1-result-actions"><span class="listing-v1-tag">可读性良好</span><button class="btn text" type="button" data-v1-copy>复制</button><button class="btn text" type="button" data-v1-edit>编辑</button></div></div>
-                  <div class="listing-v1-result-body" data-v1-content><ul><li><strong>Leakproof daily storage:</strong> Helps organize snacks, leftovers, and meal prep portions for busy kitchens.</li><li><strong>Reusable silicone material:</strong> Durable washable bags reduce disposable storage bag use.</li><li><strong>Freezer and dishwasher friendly:</strong> Built for cold storage and quick cleanup after meals.</li><li><strong>10 pack set:</strong> Supports lunch prep, produce, pantry items, and travel snacks.</li></ul></div>
+                  <div class="listing-v1-result-head"><h3>Bullet Points</h3><div class="listing-v1-result-actions"><span class="listing-v1-tag">卖点表达 4/5</span><button class="btn text" type="button" data-v1-copy>复制</button><button class="btn text" type="button" data-v1-edit>编辑</button></div></div>
+                  <div class="listing-v1-result-body" data-v1-content><ul><li><strong>Leakproof daily storage:</strong> Helps organize snacks, leftovers, and meal prep portions for busy kitchens.</li><li><strong>Reusable silicone material:</strong> Durable washable bags reduce disposable storage bag use.</li><li><strong>Freezer and dishwasher friendly:</strong> Built for cold storage and quick cleanup after meals.</li><li><strong>10 pack set:</strong> Supports lunch prep, produce, pantry items, and travel snacks.</li><li><strong>Space-saving kitchen organization:</strong> Flexible bags store flat when empty and help keep cabinets, drawers, and lunch bags tidy.</li></ul></div>
+                  <div class="listing-v1-rule-strip"><span>一条一卖点</span><span>场景覆盖</span><span class="warn">防漏依据待确认</span></div>
                 </article>
                 <article class="listing-v1-result-field" data-v1-field="description">
                   <div class="listing-v1-result-head"><h3>Product Description</h3><div class="listing-v1-result-actions"><span class="listing-v1-tag ok">结构完整</span><button class="btn text" type="button" data-v1-copy>复制</button><button class="btn text" type="button" data-v1-edit>编辑</button></div></div>
                   <div class="listing-v1-result-body" data-v1-content>Designed for everyday kitchen organization, these reusable silicone food storage bags help keep meal prep, snacks, freezer items, and leftovers neatly separated. The leak-resistant seal and washable material make them practical for repeat use at home, work, or travel.</div>
+                  <div class="listing-v1-rule-strip"><span>场景叙述完整</span><span>环保表达保守</span><span>无医疗功效</span></div>
                 </article>
                 <article class="listing-v1-result-field" data-v1-field="search">
                   <div class="listing-v1-result-head"><h3>Backend Search Terms</h3><div class="listing-v1-result-actions"><span class="listing-v1-tag">220 / 250 bytes</span><button class="btn text" type="button" data-v1-copy>复制</button><button class="btn text" type="button" data-v1-edit>编辑</button></div></div>
                   <div class="listing-v1-result-body" data-v1-content>reusable food bags silicone storage bags freezer bags meal prep containers kitchen storage washable snack bags</div>
+                  <div class="listing-v1-rule-strip"><span>无竞品商标</span><span>无标点堆叠</span><span class="warn">可补充 lunch prep</span></div>
                 </article>
                 <article class="listing-v1-result-field" data-v1-field="attributes">
                   <div class="listing-v1-result-head"><h3>Product Attributes</h3><div class="listing-v1-result-actions"><span class="listing-v1-tag ok">3 项可用</span><button class="btn text" type="button" data-v1-copy>复制</button><button class="btn text" type="button" data-v1-edit>编辑</button></div></div>
@@ -6922,7 +7303,14 @@
                       <li><strong>Use Scenario:</strong> Kitchen storage, meal prep, freezer organization</li>
                     </ul>
                   </div>
+                  <div class="listing-v1-rule-strip"><span>材质有来源</span><span>包装数量待确认</span><span class="warn">尺寸/容量缺失</span></div>
                 </article>
+              </div>
+              <div class="listing-v1-result-toolbar">
+                <label for="listingV1RewriteDirection">重写方向</label>
+                <input id="listingV1RewriteDirection" type="text" placeholder="输入重写方向，不填则按评分建议自动优化" />
+                <button class="btn" type="button" id="listingV1Rewrite">完整重写</button>
+                <button class="btn primary" type="button" id="listingV1Download">下载Listing</button>
               </div>
             </section>
 
@@ -6934,35 +7322,39 @@
                 <div class="score-card listing-score-card">
                   <div class="score-num" id="listingV1Score">88</div>
                   <div>
-                    <strong>可发布草稿</strong>
-                    <span>2 项需确认 · 0 项阻塞</span>
+                    <strong>建议优化后发布</strong>
+                    <span>防漏依据与尺寸字段确认后，可作为最终版。</span>
                   </div>
-                  <button class="btn text score-detail-btn" id="listingV1ReportDetail" type="button">详情</button>
+                  <button class="btn text score-detail-btn" id="listingV1ReportDetail" type="button">评分详情</button>
                 </div>
 
-                <div class="qa-category-list">
-                  <div class="qa-category"><i></i><strong>可发布性</strong><span>通过</span></div>
-                  <div class="qa-category warn"><i></i><strong>事实可信度</strong><span>需确认 1</span></div>
-                  <div class="qa-category warn"><i></i><strong>字段一致性</strong><span>需确认 1</span></div>
-                  <div class="qa-category warn"><i></i><strong>内容完整度</strong><span>需补充 1</span></div>
-                  <div class="qa-category"><i></i><strong>SEO 覆盖</strong><span>良好</span></div>
-                  <div class="qa-category warn"><i></i><strong>图片/资料匹配</strong><span>待确认 1</span></div>
-                  <div class="qa-category"><i></i><strong>合规风险</strong><span>通过</span></div>
-                  <div class="qa-category"><i></i><strong>AI 理解度</strong><span>良好</span></div>
+                <div class="qa-category-list qa-summary-grid">
+                  <div class="qa-category"><i></i><strong>合规</strong><span>通过</span></div>
+                  <div class="qa-category warn"><i></i><strong>事实</strong><span>1 项待确认</span></div>
+                  <div class="qa-category"><i></i><strong>SEO</strong><span>良好</span></div>
+                  <div class="qa-category warn"><i></i><strong>转化</strong><span>可优化</span></div>
                 </div>
 
                 <div class="qa-issues">
-                  <div class="qa-section-title">关键问题<span>仅显示需处理项</span></div>
-                  <button class="qa-issue warn" type="button" data-focus-v1-field="title"><i></i><strong>标题接近 200 字符上限</strong><em>可发布性</em></button>
+                  <div class="qa-section-title">关键问题<span>优先处理 4 项</span></div>
                   <button class="qa-issue warn" type="button" data-focus-v1-field="bullets"><i></i><strong>防漏卖点缺少来源证明</strong><em>事实可信度</em></button>
                   <button class="qa-issue warn" type="button" data-focus-v1-field="attributes"><i></i><strong>尺寸字段缺失，影响属性完整</strong><em>内容完整度</em></button>
+                  <button class="qa-issue warn" type="button" data-focus-v1-field="title"><i></i><strong>标题接近字符上限，建议压缩修饰词</strong><em>标题合规</em></button>
                   <button class="qa-issue" type="button" data-focus-v1-field="search"><i></i><strong>Search Terms 可补充场景长尾词</strong><em>SEO 覆盖</em></button>
-                  <button class="qa-issue warn" type="button" data-focus-v1-field="description"><i></i><strong>环保表达需保持保守</strong><em>合规风险</em></button>
                 </div>
 
-                <div class="qa-actions listing-result-actions">
-                  <button class="btn" type="button" id="listingV1Rewrite">完整重写</button>
-                  <button class="btn primary" type="button" id="listingV1Download">下载Listing</button>
+                <div class="qa-priority-card">
+                  <div class="qa-section-title">推荐处理顺序<span>生成最终版前</span></div>
+                  <ol>
+                    <li><strong>先确认事实</strong><span>防漏依据、尺寸/容量、包装数量</span></li>
+                    <li><strong>再优化表达</strong><span>压缩 Title，强化 Meal Prep 场景</span></li>
+                    <li><strong>最后补 SEO</strong><span>补充 lunch prep / freezer organization</span></li>
+                  </ol>
+                </div>
+
+                <div class="qa-summary-more">
+                  <span>完整规则、通过项和风险解释已收进详情</span>
+                  <button class="btn text" type="button" data-open-v1-report-detail>查看评分详情</button>
                 </div>
               </div>
             </aside>
@@ -6971,13 +7363,6 @@
       </section>
 
       <section class="page wireframe-page is-hidden" id="generation-records" data-page-panel="records">
-        <div class="work-header">
-          <div class="title-wrap">
-            <h1 class="page-title">AI 任务记录</h1>
-            <span class="tag">全场景</span>
-          </div>
-        </div>
-
         <section class="wf-summary">
           <div class="wf-card">
             <span class="wf-label">今日生成任务</span>
@@ -7003,12 +7388,16 @@
 
         <section class="panel">
           <div class="wf-toolbar">
-            <div class="wf-select">时间筛选条件：近 7 天</div>
+            <label class="wf-date-range" aria-label="时间范围">
+              <input type="date" value="2026-05-26" aria-label="开始日期" />
+              <span>至</span>
+              <input type="date" value="2026-06-01" aria-label="结束日期" />
+            </label>
             <div class="wf-input">搜索任务、SKU、ASIN、产品名</div>
             <div class="wf-select">场景：图片创作</div>
             <div class="wf-select">状态：全部</div>
             <div class="wf-select">创建人：全部</div>
-            <button class="btn">筛选</button>
+            <button class="btn primary query-btn">查询</button>
           </div>
         </section>
 
@@ -7033,7 +7422,7 @@
                 <span>状态</span>
                 <span>进度</span>
                 <span>产出摘要</span>
-                <span>积分</span>
+                <span>消耗</span>
                 <span>创建时间</span>
                 <span>操作</span>
               </div>
@@ -7129,7 +7518,8 @@
         <h3>画布设置</h3>
         <div class="canvas-size-row">
           <div class="chip-group" data-single-select="canvas-size">
-            <button class="chip active" data-canvas-summary="方图 2048×2048" data-canvas-preset="square_2048">方图 2048</button>
+            <button class="chip active" data-canvas-summary="方图 1600×1600" data-canvas-preset="square_1600">方图 1600</button>
+            <button class="chip" data-canvas-summary="方图 2048×2048" data-canvas-preset="square_2048">方图 2048</button>
             <button class="chip" data-canvas-summary="方图 1024×1024" data-canvas-preset="square_1024">方图 1024</button>
             <button class="chip" data-canvas-summary="方图 3072×3072" data-canvas-preset="square_3072">方图 3072</button>
             <button class="chip" data-canvas-summary="方图 4096×4096" data-canvas-preset="square_4096">方图 4096</button>
@@ -7722,7 +8112,8 @@
             <div class="report-item"><strong>主图白底 RGB</strong><span>255 / 255 / 255</span></div>
             <div class="report-item"><strong>无文字 / 水印 / 边框</strong><span>通过</span></div>
             <div class="report-item"><strong>商品占比</strong><span>86%</span></div>
-            <div class="report-item"><strong>输出尺寸</strong><span>2048px</span></div>
+            <div class="report-item"><strong>输出尺寸</strong><span>1600×1600</span></div>
+            <div class="report-item"><strong>移动端缩放</strong><span>最长边 1600px，通过</span></div>
           </div>
 
           <div class="report-group">
@@ -7768,7 +8159,7 @@
 
   <aside class="drawer" id="listingConfirmDetailDrawer">
     <div class="drawer-head">
-      <strong>资料确认详情</strong>
+      <strong>资料依据详情</strong>
       <button class="btn text closeDrawer">关闭</button>
     </div>
     <div class="drawer-body">
@@ -8101,8 +8492,8 @@
         <div class="score-card">
           <div class="score-num">86</div>
           <div>
-            <strong>可发布草稿</strong>
-            <span>0 项阻塞，2 项需确认。建议先确认防漏卖点来源，并缩短标题保留编辑空间。</span>
+            <strong>建议优化后发布</strong>
+            <span>0 项阻塞，2 项确认后可作为最终版。优先确认防漏卖点来源，并缩短标题保留编辑空间。</span>
           </div>
         </div>
       </section>
@@ -8111,10 +8502,18 @@
         <h3>分类明细</h3>
         <div class="report-groups">
           <div class="report-group">
-            <div class="report-group-title">可发布性 <span class="tag green">通过</span></div>
+            <div class="report-group-title">发布状态 <span class="tag orange">建议优化后发布</span></div>
+            <div class="report-item"><strong>发布判断</strong><span>当前无阻塞风险，但仍有事实依据与属性完整度建议处理</span></div>
+            <div class="report-item"><strong>可直接发布条件</strong><span>包装数量、材质、防漏依据确认后，可标记为可发布</span></div>
+            <div class="report-item"><strong>不建议发布条件</strong><span>若出现竞品品牌、未经证明认证、医疗功效或绝对化承诺，则进入不可发布</span></div>
+          </div>
+
+          <div class="report-group">
+            <div class="report-group-title">标题合规 <span class="tag green">通过</span></div>
             <div class="report-item"><strong>Title 长度</strong><span>182 / 200，接近上限但未超限</span></div>
             <div class="report-item"><strong>禁用字符</strong><span>未发现 ! $ ? _ { } ^ 等高风险字符</span></div>
             <div class="report-item"><strong>重复词</strong><span>核心词未超过重复阈值</span></div>
+            <div class="report-item"><strong>竞品品牌</strong><span>未发现 Apple、Ziploc 等竞品/第三方商标词</span></div>
             <div class="report-item"><strong>联系方式/促销</strong><span>未出现 URL、邮箱、价格和促销承诺</span></div>
           </div>
 
@@ -8124,6 +8523,14 @@
             <div class="report-item"><strong>待确认声明</strong><span>防漏卖点需要包装/说明书/测试依据支撑</span></div>
             <div class="report-item"><strong>参考资料隔离</strong><span>竞品链接仅用于关键词和表达参考，不写入本品事实</span></div>
             <div class="report-item"><strong>建议动作</strong><span>补充来源或弱化为 leak-resistant 表达</span></div>
+          </div>
+
+          <div class="report-group">
+            <div class="report-group-title">卖点表达质量 <span class="tag blue">4 / 5</span></div>
+            <div class="report-item"><strong>表达结构</strong><span>每条 Bullet 基本保持一个核心卖点，未明显堆砌参数</span></div>
+            <div class="report-item"><strong>用户收益</strong><span>已覆盖收纳、清洗、冷冻和备餐场景</span></div>
+            <div class="report-item"><strong>差异化</strong><span>10 Pack、可复用、易清洗可作为主卖点，防漏需事实依据</span></div>
+            <div class="report-item"><strong>建议动作</strong><span>把规格型描述转成“用户收益 + 事实依据”的句式</span></div>
           </div>
 
           <div class="report-group">
@@ -8143,17 +8550,19 @@
           </div>
 
           <div class="report-group">
-            <div class="report-group-title">SEO 覆盖 <span class="tag blue">良好</span></div>
+            <div class="report-group-title">关键词覆盖 <span class="tag blue">良好</span></div>
             <div class="report-item"><strong>核心词</strong><span>reusable food bags / silicone storage bags</span></div>
             <div class="report-item"><strong>场景词</strong><span>meal prep / freezer / kitchen storage</span></div>
             <div class="report-item"><strong>Search Terms</strong><span>214 / 250 bytes，无竞品品牌词</span></div>
-            <div class="report-item"><strong>建议补充</strong><span>可补充 washable snack bags 等长尾词</span></div>
+            <div class="report-item"><strong>格式检查</strong><span>无逗号/分号堆叠，无 best、cheap 等主观促销词</span></div>
+            <div class="report-item"><strong>建议补充</strong><span>可补充 washable snack bags、lunch prep、freezer organization 等长尾词</span></div>
           </div>
 
           <div class="report-group">
             <div class="report-group-title">图片/资料匹配 <span class="tag orange">待确认 1</span></div>
             <div class="report-item"><strong>包装图</strong><span>识别到 10 Pack，影响 Title 和包装清单</span></div>
             <div class="report-item"><strong>说明书</strong><span>用于材质、尺寸、清洗说明的事实依据</span></div>
+            <div class="report-item"><strong>图片支撑</strong><span>2 个核心卖点有图片/OCR 支撑，防漏卖点仍需补充来源</span></div>
             <div class="report-item"><strong>主图规则</strong><span>若生成图片，需继续校验白底、占比、水印和文字</span></div>
             <div class="report-item"><strong>建议动作</strong><span>确认包装数量后再下载最终 Listing</span></div>
           </div>
@@ -8164,6 +8573,7 @@
             <div class="report-item"><strong>绝对化表达</strong><span>未出现 100%、best、guaranteed 等高风险词</span></div>
             <div class="report-item"><strong>环保声明</strong><span>保持保守表达，未使用未认证标签</span></div>
             <div class="report-item"><strong>认证声明</strong><span>未写入 FDA / LFGB 等无证明认证</span></div>
+            <div class="report-item"><strong>售后/物流承诺</strong><span>未出现 free shipping、lifetime warranty 等平台敏感承诺</span></div>
           </div>
 
           <div class="report-group">
@@ -8463,6 +8873,7 @@
       },
     };
     const canvasSizeLabels = {
+      '方图 1600': '方图 1600×1600',
       '方图 2048': '方图 2048×2048',
       '方图 1024': '方图 1024×1024',
       '方图 3072': '方图 3072×3072',
@@ -8558,7 +8969,7 @@
       const firstCard = resultCards[0];
       selectImageCard(firstCard);
       const count = Math.max(1, Math.min(6, Number(perTypeCount.value || 1)));
-      resultSummary.textContent = `每类 ${count} 张，支持平铺或翻页查看`;
+      resultSummary.textContent = `每类 ${count} 张，1600×1600 / JPG，支持平铺或翻页查看`;
       qaSide.classList.remove('pending');
     };
 
@@ -8663,6 +9074,7 @@
           <span>${card.dataset.index || 1}/${card.dataset.total || 1}</span>
           <button type="button" data-pager="next" aria-label="下一张">›</button>
         </div>
+        <span class="tag output-size-tag">1600×1600 / JPG</span>
       `);
     });
 
@@ -8708,6 +9120,10 @@
     updateSecondaryCategoryOptions();
 
     const listingV1Manual = document.getElementById('listingV1Manual');
+    const listingV1UseTemplate = document.getElementById('listingV1UseTemplate');
+    const listingV1MaterialHint = document.getElementById('listingV1MaterialHint');
+    const listingV1MaterialHintTitle = document.getElementById('listingV1MaterialHintTitle');
+    const listingV1MaterialHintCopy = document.getElementById('listingV1MaterialHintCopy');
     const listingV1FileInput = document.getElementById('listingV1FileInput');
     const listingV1FileList = document.getElementById('listingV1FileList');
     const listingV1LinkInput = document.getElementById('listingV1LinkInput');
@@ -8850,7 +9266,8 @@
 
     function updateListingV1SourceStatus() {
       if (!listingV1Manual) return;
-      const hasManual = listingV1Manual.value.trim().length > 0;
+      const manualValue = listingV1Manual.value.trim();
+      const hasManual = manualValue.length > 0;
       const fileCount = listingV1FileList?.children.length || 0;
       const linkCount = listingV1LinkList?.children.length || 0;
       const hasAny = hasManual || fileCount || linkCount;
@@ -8860,9 +9277,83 @@
         listingV1EmptyState?.classList.remove('listing-v1-hidden');
       }
       listingV1LiveBadge.textContent = hasAny ? '可分析' : '待分析';
+      updateListingV1MaterialHint(manualValue, fileCount, linkCount);
     }
 
+    function updateListingV1MaterialHint(manualValue, fileCount, linkCount) {
+      if (!listingV1MaterialHint || !listingV1MaterialHintTitle || !listingV1MaterialHintCopy) return;
+      const text = manualValue || '';
+      const hasManual = text.length > 0;
+      const hasFile = fileCount > 0;
+      const hasLink = linkCount > 0;
+      const suggestions = [];
+      if (!/(卖点|优势|特点|防漏|可复用|易清洗|耐用|portable|leak|reusable|feature|benefit)/i.test(text)) suggestions.push('卖点');
+      if (!/(材质|硅胶|不锈钢|塑料|玻璃|棉|木|silicone|steel|plastic|glass|material)/i.test(text)) suggestions.push('材质');
+      if (!/(场景|厨房|户外|旅行|办公室|家庭|冷冻|收纳|使用|kitchen|travel|office|home|freezer|storage|use)/i.test(text)) suggestions.push('使用场景');
+      if (!/(包装|数量|pack|pcs|件|套|count|piece)/i.test(text)) suggestions.push('包装数量');
+      if (!/(尺寸|规格|cm|厘米|英寸|inch|in\\b|oz|ml|容量|size|dimension)/i.test(text)) suggestions.push('尺寸');
+      if (!/(认证|证书|FDA|BPA|CE|RoHS|certified|certification)/i.test(text)) suggestions.push('认证信息');
+
+      let title = '等待资料输入';
+      let copy = '可粘贴任意产品资料，也可以上传说明书、包装图或添加参考链接。';
+      let level = 'empty';
+
+      if (hasManual && hasFile && hasLink) {
+        title = '资料来源较完整';
+        copy = '已包含文本资料、文件和链接，可以开始分析。';
+        level = 'rich';
+      } else if (hasManual && (hasFile || hasLink)) {
+        title = '资料来源较完整';
+        copy = `已包含文本资料和${hasFile ? '文件' : '链接'}，可以开始分析。`;
+        level = 'rich';
+      } else if (hasManual) {
+        title = '当前资料可分析';
+        copy = suggestions.length
+          ? `建议补充：${suggestions.slice(0, 3).join('、')}。`
+          : '资料描述较完整，可以开始分析。';
+        level = suggestions.length ? 'ready' : 'rich';
+      } else if (hasFile || hasLink) {
+        title = '当前资料可分析';
+        copy = hasFile && hasLink
+          ? '文件和链接会在分析时自动判断用途，建议补充商品名或核心卖点。'
+          : `${hasFile ? '文件' : '链接'}会在分析时自动判断用途，建议补充商品名或核心卖点。`;
+        level = 'ready';
+      }
+
+      listingV1MaterialHint.classList.toggle('is-ready', level === 'ready');
+      listingV1MaterialHint.classList.toggle('is-rich', level === 'rich');
+      listingV1MaterialHintTitle.textContent = title;
+      listingV1MaterialHintCopy.textContent = copy;
+    }
+
+    const listingV1ManualTemplate = [
+      '商品：',
+      '卖点：',
+      '关键词：',
+      '目标用户：',
+      '使用场景：',
+      '限制要求：',
+      '其他补充：'
+    ].join('\n');
+
     listingV1Manual?.addEventListener('input', updateListingV1SourceStatus);
+
+    listingV1UseTemplate?.addEventListener('click', () => {
+      if (!listingV1Manual) return;
+      const current = listingV1Manual.value.trim();
+      if (!current) {
+        listingV1Manual.value = listingV1ManualTemplate;
+      } else {
+        const start = listingV1Manual.selectionStart ?? listingV1Manual.value.length;
+        const end = listingV1Manual.selectionEnd ?? listingV1Manual.value.length;
+        const prefix = start > 0 && !listingV1Manual.value.slice(0, start).endsWith('\n') ? '\n\n' : '';
+        const suffix = end < listingV1Manual.value.length && !listingV1Manual.value.slice(end).startsWith('\n') ? '\n\n' : '';
+        listingV1Manual.setRangeText(`${prefix}${listingV1ManualTemplate}${suffix}`, start, end, 'end');
+      }
+      listingV1Manual.focus();
+      updateListingV1SourceStatus();
+      showV1Toast('已插入填写模板，也可以继续粘贴任意资料');
+    });
 
     listingV1FileInput?.addEventListener('change', () => {
       const files = Array.from(listingV1FileInput.files || []);
@@ -8985,16 +9476,61 @@
       listingV1Generate.textContent = listingV1PendingCount ? '继续生成' : '生成Listing';
     };
 
+    const completeListingV1Issue = (issue, message = '已处理') => {
+      if (!issue || issue.classList.contains('done')) return false;
+      const actions = issue.querySelector('.listing-v1-issue-actions');
+      const status = issue.querySelector('.listing-v1-issue-actions em, .listing-v1-issue-title em');
+      const summary = issue.querySelector('.listing-v1-issue-main > span');
+      issue.classList.add('done');
+      if (summary) summary.textContent = message;
+      if (status) {
+        status.className = 'listing-v1-tag ok';
+        status.textContent = '已处理';
+      }
+      if (actions) actions.innerHTML = '<span class="listing-v1-tag ok">已处理</span>';
+      if (!issue.classList.contains('suggest')) listingV1PendingCount = Math.max(0, listingV1PendingCount - 1);
+      refreshListingV1Confirm();
+      return true;
+    };
+
+    const applyListingV1QuickFix = (value) => {
+      const text = value.toLowerCase();
+      const matched = [];
+      const rules = [
+        {
+          selector: '[data-v1-issue="package"]',
+          pattern: /(包装|数量|pack|pcs|件|套|count|piece|10)/i,
+          message: `已根据快速修正更新包装信息：${value}`
+        },
+        {
+          selector: '[data-v1-issue="material"]',
+          pattern: /(材质|硅胶|silicone|peva|塑料|plastic|不锈钢|steel|玻璃|glass)/i,
+          message: `已根据快速修正补充材质：${value}`
+        },
+        {
+          selector: '[data-v1-issue="audience"]',
+          pattern: /(目标用户|用户|人群|受众|家庭|厨房|meal prep|audience)/i,
+          message: `已根据快速修正更新目标用户：${value}`
+        },
+        {
+          selector: '[data-v1-issue="selling"]',
+          pattern: /(卖点|优先级|防漏|可复用|易清洗|耐用|feature|benefit)/i,
+          message: `已根据快速修正更新卖点优先级：${value}`
+        }
+      ];
+      rules.forEach((rule) => {
+        if (!rule.pattern.test(text)) return;
+        const issue = document.querySelector(`#listingV1ConfirmSection ${rule.selector}`);
+        if (completeListingV1Issue(issue, rule.message)) matched.push(issue);
+      });
+      return matched.length;
+    };
+
     document.querySelectorAll('[data-v1-confirm-issue]').forEach((button) => {
       button.addEventListener('click', () => {
         const issue = button.closest('.listing-v1-issue');
         if (!issue || issue.classList.contains('done')) return;
-        issue.classList.add('done');
-        issue.querySelector('em').className = 'listing-v1-tag ok';
-        issue.querySelector('em').textContent = '已处理';
-        button.textContent = '已采用';
-        if (!issue.classList.contains('suggest')) listingV1PendingCount = Math.max(0, listingV1PendingCount - 1);
-        refreshListingV1Confirm();
+        completeListingV1Issue(issue, '已采用 AI 建议');
         showV1Toast('已确认资料项');
       });
     });
@@ -9002,6 +9538,7 @@
     document.querySelectorAll('[data-v1-fill-issue]').forEach((button) => {
       button.addEventListener('click', () => {
         const issue = button.closest('.listing-v1-issue');
+        const actions = button.closest('.listing-v1-issue-actions');
         const input = document.createElement('input');
         input.className = 'listing-v1-input';
         input.value = 'Food-grade silicone';
@@ -9010,18 +9547,41 @@
         save.className = 'listing-v1-btn secondary';
         save.type = 'button';
         save.textContent = '保存';
-        button.replaceWith(input, save);
+        if (actions) actions.replaceChildren(input, save);
+        else button.replaceWith(input, save);
         input.focus();
         save.addEventListener('click', () => {
-          issue.classList.add('done');
-          issue.querySelector('span').textContent = `已补充：${input.value.trim() || 'Food-grade silicone'}`;
-          issue.querySelector('em').className = 'listing-v1-tag ok';
-          issue.querySelector('em').textContent = '已处理';
-          input.remove();
-          save.textContent = '已保存';
-          listingV1PendingCount = Math.max(0, listingV1PendingCount - 1);
-          refreshListingV1Confirm();
+          completeListingV1Issue(issue, `已补充：${input.value.trim() || 'Food-grade silicone'}`);
           showV1Toast('补充内容已写入事实池');
+        }, { once: true });
+      });
+    });
+
+    document.querySelectorAll('[data-v1-edit-issue]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const issue = button.closest('.listing-v1-issue');
+        const actions = button.closest('.listing-v1-issue-actions');
+        if (!issue || !actions || issue.classList.contains('done')) return;
+        const input = document.createElement('input');
+        input.className = 'listing-v1-input';
+        input.value = button.dataset.v1EditValue || '';
+        input.setAttribute('aria-label', '修改确认值');
+        const save = document.createElement('button');
+        save.className = 'listing-v1-btn secondary';
+        save.type = 'button';
+        save.textContent = '保存';
+        const cancel = document.createElement('button');
+        cancel.className = 'listing-v1-btn ghost';
+        cancel.type = 'button';
+        cancel.textContent = '取消';
+        const original = Array.from(actions.children);
+        actions.replaceChildren(input, save, cancel);
+        input.focus();
+        cancel.addEventListener('click', () => actions.replaceChildren(...original), { once: true });
+        save.addEventListener('click', () => {
+          const value = input.value.trim() || button.dataset.v1EditValue || '10 Pack';
+          completeListingV1Issue(issue, `已修改：${value}`);
+          showV1Toast('手工修改已写入事实池');
         }, { once: true });
       });
     });
@@ -9033,9 +9593,10 @@
         listingV1QuickFix?.focus();
         return;
       }
+      const matchedCount = applyListingV1QuickFix(value);
       listingV1QuickFix.value = '';
       listingV1LiveBadge.textContent = '已更新';
-      showV1Toast('已根据修正要点更新资料确认');
+      showV1Toast(matchedCount ? `已处理 ${matchedCount} 个资料确认项` : '已记录补充资料，未命中当前待确认项');
     });
 
     const setListingV1GenerateProgress = ({ percent, title, note }) => {
@@ -9130,42 +9691,218 @@
     });
 
     document.getElementById('listingV1Rewrite')?.addEventListener('click', () => {
+      const rewriteButton = document.getElementById('listingV1Rewrite');
+      const directionInput = document.getElementById('listingV1RewriteDirection');
+      const direction = directionInput?.value.trim() || '';
+      if (rewriteButton) {
+        rewriteButton.disabled = true;
+        rewriteButton.textContent = '重写中...';
+      }
       listingV1RewriteCount += 1;
-      const tabs = document.querySelector('.listing-v1-tabs');
-      const newTab = document.createElement('button');
-      newTab.className = 'listing-v1-tab active';
-      newTab.type = 'button';
-      newTab.dataset.v1Tab = `D${listingV1RewriteCount}`;
-      newTab.innerHTML = `<strong>方案 D${listingV1RewriteCount}</strong><span>89 分 · 重写</span>`;
-      tabs.querySelectorAll('.listing-v1-tab').forEach((item) => item.classList.remove('active'));
-      tabs.append(newTab);
-      newTab.addEventListener('click', () => {
+      const nextIndex = listingV1RewriteCount;
+      window.setTimeout(() => {
+        const tabs = document.querySelector('.listing-v1-tabs');
+        const newTab = document.createElement('button');
+        newTab.className = 'listing-v1-tab active';
+        newTab.type = 'button';
+        newTab.dataset.v1Tab = `D${nextIndex}`;
+        newTab.innerHTML = `<strong>方案 D${nextIndex}</strong><span>89 分 · ${direction ? '定向重写' : '评分优化'}</span>`;
         tabs.querySelectorAll('.listing-v1-tab').forEach((item) => item.classList.remove('active'));
-        newTab.classList.add('active');
+        tabs.append(newTab);
+        newTab.addEventListener('click', () => {
+          tabs.querySelectorAll('.listing-v1-tab').forEach((item) => item.classList.remove('active'));
+          newTab.classList.add('active');
+          listingV1Score.textContent = '89';
+        });
         listingV1Score.textContent = '89';
-      });
-      listingV1Score.textContent = '89';
-      showV1Toast('已生成完整重写版本');
+        if (directionInput) directionInput.value = '';
+        if (rewriteButton) {
+          rewriteButton.disabled = false;
+          rewriteButton.textContent = '完整重写';
+        }
+        showV1Toast(direction ? '已按重写方向生成新方案' : '已按评分建议生成新方案');
+      }, 760);
     });
 
-    document.getElementById('listingV1Download')?.addEventListener('click', () => {
-      const content = Array.from(document.querySelectorAll('[data-v1-field]')).map((field) => {
-        const title = field.querySelector('h3')?.textContent || 'Field';
-        return `${title}\n${getV1FieldText(field)}`;
-      }).join('\n\n');
-      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const downloadV1ListingExcel = () => {
+      const getField = (name) => document.querySelector(`[data-v1-field="${name}"]`);
+      const titleText = getV1FieldText(getField('title'));
+      const descriptionText = getV1FieldText(getField('description'));
+      const bulletText = getV1FieldText(getField('bullets'));
+      const searchText = getV1FieldText(getField('search'));
+      const attributeText = getV1FieldText(getField('attributes'));
+      const bullets = bulletText
+        .split(/\n+/)
+        .map((item) => item.trim())
+        .filter(Boolean)
+        .slice(0, 5);
+      while (bullets.length < 5) bullets.push('');
+
+      const plainDescription = [
+        'PRODUCT OVERVIEW',
+        descriptionText,
+        '',
+        'GENERAL INFORMATION',
+        attributeText,
+        '',
+        'LISTING QUALITY NOTES',
+        'Generated from confirmed product facts and platform compliance checks. Avoid medical claims, absolute environmental claims, unsupported certifications, competitor brands, price, promotion, and logistics promises.'
+      ].join('\n');
+
+      const htmlDescription = [
+        `<p><strong>PRODUCT OVERVIEW</strong><br />${descriptionText}</p>`,
+        `<p><strong>GENERAL INFORMATION</strong><br />${attributeText.replace(/\n/g, '<br />')}</p>`,
+        '<p><strong>LISTING QUALITY NOTES</strong><br />Generated from confirmed product facts and platform compliance checks. Avoid medical claims, absolute environmental claims, unsupported certifications, competitor brands, price, promotion, and logistics promises.</p>'
+      ].join('\n');
+
+      const searchTerms = searchText
+        .split(/\s+/)
+        .reduce((lines, word) => {
+          const last = lines[lines.length - 1] || '';
+          if (!last || `${last} ${word}`.length > 34) lines.push(word);
+          else lines[lines.length - 1] = `${last} ${word}`;
+          return lines;
+        }, [])
+        .join('\n');
+
+      const rows = [
+        ['📌 PRODUCT TITLE（产品标题）', '', ''],
+        ['', '标题', titleText],
+        ['', '', ''],
+        ['📌 BULLET POINTS（五点描述）', '', ''],
+        ['', 'Bullet 1', bullets[0]],
+        ['', 'Bullet 2', bullets[1]],
+        ['', 'Bullet 3', bullets[2]],
+        ['', 'Bullet 4', bullets[3]],
+        ['', 'Bullet 5', bullets[4]],
+        ['', '', ''],
+        ['📌 PRODUCT DESCRIPTION（产品描述 - 纯文本）', '', ''],
+        ['', '产品描述（纯文本）', plainDescription],
+        ['', '', ''],
+        ['📌 PRODUCT DESCRIPTION（产品描述-HTML格式）', '', ''],
+        ['', 'HTML 描述', htmlDescription],
+        ['', '使用说明', '↑ 上方HTML代码可直接复制粘贴到亚马逊后台的 Product Description HTML编辑器中'],
+        ['', '', ''],
+        ['📌 BACKEND SEARCH TERMS（后台搜索词）', '', ''],
+        ['', '搜索词', searchTerms]
+      ];
+
+      const xmlEscape = (value) => String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+      const columnName = (index) => String.fromCharCode(65 + index);
+      const worksheetRows = rows.map((row, rowIndex) => {
+        const cells = row.map((cell, colIndex) => {
+          const ref = `${columnName(colIndex)}${rowIndex + 1}`;
+          const style = row[0] && colIndex === 0 ? ' s="1"' : colIndex === 1 ? ' s="2"' : '';
+          return `<c r="${ref}" t="inlineStr"${style}><is><t xml:space="preserve">${xmlEscape(cell)}</t></is></c>`;
+        }).join('');
+        return `<row r="${rowIndex + 1}">${cells}</row>`;
+      }).join('');
+      const sheetXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+  <cols><col min="1" max="1" width="4" customWidth="1"/><col min="2" max="2" width="24" customWidth="1"/><col min="3" max="3" width="96" customWidth="1"/></cols>
+  <sheetData>${worksheetRows}</sheetData>
+</worksheet>`;
+      const files = {
+        '[Content_Types].xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+  <Default Extension="xml" ContentType="application/xml"/>
+  <Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>
+  <Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>
+  <Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>
+</Types>`,
+        '_rels/.rels': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>
+</Relationships>`,
+        'xl/workbook.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+  <sheets><sheet name="Amazon Listing生成" sheetId="1" r:id="rId1"/></sheets>
+</workbook>`,
+        'xl/_rels/workbook.xml.rels': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>
+  <Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
+</Relationships>`,
+        'xl/styles.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+  <fonts count="2"><font><sz val="11"/><name val="Arial"/></font><font><b/><sz val="11"/><name val="Arial"/></font></fonts>
+  <fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFEEF4FF"/><bgColor indexed="64"/></patternFill></fill></fills>
+  <borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>
+  <cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>
+  <cellXfs count="3"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="1" borderId="0" xfId="0" applyFont="1" applyFill="1"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs>
+</styleSheet>`,
+        'xl/worksheets/sheet1.xml': sheetXml
+      };
+      const makeCrcTable = () => {
+        const table = [];
+        for (let n = 0; n < 256; n += 1) {
+          let c = n;
+          for (let k = 0; k < 8; k += 1) c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
+          table[n] = c >>> 0;
+        }
+        return table;
+      };
+      const crcTable = makeCrcTable();
+      const crc32 = (bytes) => {
+        let crc = 0xffffffff;
+        bytes.forEach((byte) => {
+          crc = crcTable[(crc ^ byte) & 0xff] ^ (crc >>> 8);
+        });
+        return (crc ^ 0xffffffff) >>> 0;
+      };
+      const encoder = new TextEncoder();
+      const chunks = [];
+      const central = [];
+      let offset = 0;
+      const push16 = (arr, value) => { arr.push(value & 0xff, (value >>> 8) & 0xff); };
+      const push32 = (arr, value) => { arr.push(value & 0xff, (value >>> 8) & 0xff, (value >>> 16) & 0xff, (value >>> 24) & 0xff); };
+      Object.entries(files).forEach(([name, content]) => {
+        const nameBytes = encoder.encode(name);
+        const data = encoder.encode(content);
+        const crc = crc32(data);
+        const local = [];
+        push32(local, 0x04034b50); push16(local, 20); push16(local, 0); push16(local, 0);
+        push16(local, 0); push16(local, 0); push32(local, crc); push32(local, data.length); push32(local, data.length);
+        push16(local, nameBytes.length); push16(local, 0);
+        const localBytes = new Uint8Array([...local, ...nameBytes, ...data]);
+        chunks.push(localBytes);
+        const center = [];
+        push32(center, 0x02014b50); push16(center, 20); push16(center, 20); push16(center, 0); push16(center, 0);
+        push16(center, 0); push16(center, 0); push32(center, crc); push32(center, data.length); push32(center, data.length);
+        push16(center, nameBytes.length); push16(center, 0); push16(center, 0); push16(center, 0); push16(center, 0);
+        push32(center, 0); push32(center, offset);
+        central.push(new Uint8Array([...center, ...nameBytes]));
+        offset += localBytes.length;
+      });
+      const centralStart = offset;
+      central.forEach((item) => { chunks.push(item); offset += item.length; });
+      const eocd = [];
+      push32(eocd, 0x06054b50); push16(eocd, 0); push16(eocd, 0); push16(eocd, central.length); push16(eocd, central.length);
+      push32(eocd, offset - centralStart); push32(eocd, centralStart); push16(eocd, 0);
+      chunks.push(new Uint8Array(eocd));
+      const blob = new Blob(chunks, { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = 'listing-v1-draft.txt';
+      link.download = `Amazon Listing生成-${new Date().toISOString().slice(0, 10)}.xlsx`;
       document.body.append(link);
       link.click();
       URL.revokeObjectURL(link.href);
       link.remove();
-      showV1Toast('Listing 文件已下载');
-    });
+      showV1Toast('已按模板下载 Listing Excel');
+    };
+
+    document.getElementById('listingV1Download')?.addEventListener('click', downloadV1ListingExcel);
 
     document.getElementById('listingV1Detail')?.addEventListener('click', () => listingConfirmDetailDrawer?.classList.add('open'));
     document.getElementById('listingV1ReportDetail')?.addEventListener('click', () => listingQaReportDrawer?.classList.add('open'));
+    document.querySelectorAll('[data-open-v1-report-detail]').forEach((button) => {
+      button.addEventListener('click', () => listingQaReportDrawer?.classList.add('open'));
+    });
 
     document.querySelectorAll('[data-focus-v1-field]').forEach((button) => {
       button.addEventListener('click', () => {
@@ -9303,7 +10040,7 @@
     perTypeCount.addEventListener('input', () => {
       const count = Math.max(1, Math.min(6, Number(perTypeCount.value || 1)));
       estimateTag.textContent = `每类 ${count} 张 / 约 5 分钟 / 自动质检`;
-      resultSummary.textContent = `每类 ${count} 张，支持平铺或翻页查看`;
+      resultSummary.textContent = `每类 ${count} 张，1600×1600 / JPG，支持平铺或翻页查看`;
     });
 
     customStyleToggle.addEventListener('click', () => {
