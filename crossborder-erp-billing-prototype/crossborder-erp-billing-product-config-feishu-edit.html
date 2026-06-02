@@ -223,61 +223,6 @@
       gap: 14px;
       align-items: center;
     }
-    .picker-mask {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.45);
-      z-index: 1000;
-    }
-    .picker-mask.open { display: block; }
-    .picker {
-      position: fixed;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: 520px;
-      max-width: calc(100% - 32px);
-      background: #fff;
-      border-radius: 6px;
-      box-shadow: 0 12px 32px rgba(15, 23, 42, .18);
-      overflow: hidden;
-    }
-    .picker h3 {
-      padding: 16px;
-      border-bottom: 1px solid #edf0f5;
-      margin: 0;
-      font-size: 15px;
-    }
-    .picker-body {
-      padding: 12px 16px;
-      max-height: 360px;
-      overflow-y: auto;
-    }
-    .picker-body label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 8px;
-      border-bottom: 1px solid #f2f4f7;
-      font-size: 13px;
-      cursor: pointer;
-    }
-    .picker-body label:hover { background: #fafbfc; }
-    .picker-body input { accent-color: #3370ff; }
-    .picker-body .code {
-      margin-left: auto;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 11px;
-      color: #86909c;
-    }
-    .picker-foot {
-      padding: 12px 16px;
-      border-top: 1px solid #edf0f5;
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-    }
     .sticky-actions {
       position: fixed;
       left: var(--ly-side-width);
@@ -416,10 +361,9 @@
             <table class="rights-table">
               <thead>
                 <tr>
-                  <th style="width:26%">权益项</th>
-                  <th style="width:30%">额度</th>
-                  <th style="width:16%">单位</th>
-                  <th>类型</th>
+                  <th style="width:38%">权益项</th>
+                  <th style="width:34%">额度</th>
+                  <th>单位</th>
                   <th style="width:80px">操作</th>
                 </tr>
               </thead>
@@ -427,22 +371,11 @@
             </table>
           </div>
           <div class="table-actions">
-            <a class="ly-link" href="#" onclick="openPicker();return false">+ 添加权益项</a>
+            <a class="ly-link" href="#" onclick="addRight();return false">+ 添加权益项</a>
           </div>
         </section>
       </div>
     </main>
-  </div>
-</div>
-
-<div class="picker-mask" id="pickerMask" onclick="if(event.target===this)closePicker()">
-  <div class="picker">
-    <h3>从字典选择权益项</h3>
-    <div class="picker-body" id="pickerBody"></div>
-    <div class="picker-foot">
-      <button type="button" class="ly-btn" onclick="closePicker()">取消</button>
-      <button type="button" class="ly-btn ly-btn-primary" onclick="confirmPicker()">添加所选</button>
-    </div>
   </div>
 </div>
 
@@ -475,13 +408,18 @@ function createSkuCode() {
 function getRightDef(code) {
   return RIGHTS_LIB.find(function(item) { return item.code === code; }) || {};
 }
+function rightOptions(currentCode) {
+  return RIGHTS_LIB.map(function(item) {
+    return '<option value="' + item.code + '" ' + (item.code === currentCode ? 'selected' : '') + '>' + item.name + '</option>';
+  }).join('');
+}
 function renderRights() {
   var body = document.getElementById('rightsBody');
   body.innerHTML = '';
   if (!rightsRows.length) {
     var empty = document.createElement('tr');
     empty.className = 'empty-row';
-    empty.innerHTML = '<td colspan="5">暂无权益项</td>';
+    empty.innerHTML = '<td colspan="4">暂无权益项</td>';
     body.appendChild(empty);
     return;
   }
@@ -489,7 +427,7 @@ function renderRights() {
     var def = getRightDef(row.code);
     var tr = document.createElement('tr');
     tr.innerHTML =
-      '<td>' + (def.name || row.code) + '</td>' +
+      '<td><select onchange="updateRightCode(' + index + ', this.value)">' + rightOptions(row.code) + '</select></td>' +
       '<td><div class="amount-cell ' + (row.unlimited ? 'is-unlimited' : '') + '">' +
         '<select onchange="setUnlimited(' + index + ', this.value === &quot;unlimited&quot;)">' +
           '<option value="limited" ' + (!row.unlimited ? 'selected' : '') + '>限额</option>' +
@@ -498,10 +436,17 @@ function renderRights() {
         '<input ' + (row.unlimited ? 'disabled' : 'type="number"') + ' value="' + (row.unlimited ? '不限' : row.value) + '" onchange="rightsRows[' + index + '].value=this.value">' +
       '</div></td>' +
       '<td>' + (row.unit || def.unit || '') + '</td>' +
-      '<td>' + (row.type || def.type || '') + '</td>' +
       '<td><a class="ly-link" href="#" onclick="removeRight(' + index + ');return false">删除</a></td>';
     body.appendChild(tr);
   });
+}
+function updateRightCode(index, code) {
+  var def = getRightDef(code);
+  rightsRows[index].code = code;
+  rightsRows[index].unit = def.unit || '';
+  rightsRows[index].type = def.type || '';
+  rightsRows[index].value = rightsRows[index].unlimited ? 0 : rightsRows[index].value;
+  renderRights();
 }
 function setUnlimited(index, value) {
   rightsRows[index].unlimited = value;
@@ -511,37 +456,17 @@ function removeRight(index) {
   rightsRows.splice(index, 1);
   renderRights();
 }
-function openPicker() {
+function addRight() {
   var used = rightsRows.map(function(row) { return row.code; });
-  var body = document.getElementById('pickerBody');
-  body.innerHTML = '';
-  RIGHTS_LIB.forEach(function(item) {
-    var disabled = used.indexOf(item.code) >= 0;
-    var label = document.createElement('label');
-    label.innerHTML =
-      '<input type="checkbox" value="' + item.code + '" ' + (disabled ? 'disabled' : '') + '>' +
-      '<span>' + item.name + (disabled ? '（已选）' : '') + '</span>' +
-      '<span class="code">' + item.code + ' · ' + item.unit + '</span>';
-    body.appendChild(label);
-  });
-  document.getElementById('pickerMask').classList.add('open');
-}
-function closePicker() {
-  document.getElementById('pickerMask').classList.remove('open');
-}
-function confirmPicker() {
-  document.querySelectorAll('#pickerBody input[type=checkbox]:checked:not(:disabled)').forEach(function(input) {
-    var def = getRightDef(input.value);
-    rightsRows.push({
-      code: def.code,
-      value: 0,
-      unit: def.unit,
-      type: def.type,
-      unlimited: false
-    });
+  var def = RIGHTS_LIB.find(function(item) { return used.indexOf(item.code) === -1; }) || RIGHTS_LIB[0];
+  rightsRows.push({
+    code: def.code,
+    value: 0,
+    unit: def.unit,
+    type: def.type,
+    unlimited: false
   });
   renderRights();
-  closePicker();
 }
 function syncPriceUnit() {
   var mode = document.getElementById('priceMode').value;
