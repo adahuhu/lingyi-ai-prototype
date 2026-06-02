@@ -347,10 +347,10 @@
         <!-- 筛选条 -->
         <div class="ly-filter">
           <div class="ly-field">
-            <label>订单列表搜索</label>
             <div class="search-field-group">
               <select id="fSearchType">
-                <option value="product" selected>商品名称</option>
+                <option value="" selected></option>
+                <option value="product">商品名称</option>
                 <option value="code">订单编号</option>
               </select>
               <input type="text" id="fKeyword" placeholder="输入后回车搜索" onkeydown="if(event.key==='Enter')applyFilter()">
@@ -359,7 +359,7 @@
           <div class="ly-field">
             <label>订单类型</label>
             <select id="fType">
-              <option value="">全部</option>
+              <option value="" selected></option>
               <option>新购</option>
               <option>续费</option>
               <option>升级</option>
@@ -370,7 +370,7 @@
           <div class="ly-field">
             <label>订单状态</label>
             <select id="fStatus">
-              <option value="">全部</option>
+              <option value="" selected></option>
               <option>草稿</option>
               <option>已开通</option>
               <option>已到期</option>
@@ -380,21 +380,29 @@
           <div class="ly-field">
             <label>水单</label>
             <select id="fSlip">
-              <option value="">全部</option>
+              <option value="" selected></option>
               <option value="missing">未上传</option>
               <option value="uploaded">已上传</option>
             </select>
           </div>
           <div class="ly-field">
-            <label>录单时间</label>
-            <input type="date" value="2025-01-01" style="height:32px">
+            <label>合同</label>
+            <select id="fContract">
+              <option value="" selected></option>
+              <option value="missing">未上传</option>
+              <option value="uploaded">已上传</option>
+            </select>
+          </div>
+          <div class="ly-field">
+            <label>创建时间</label>
+            <input type="date" value="2026-06-01" style="height:32px">
             <span>~</span>
-            <input type="date" value="2026-12-31" style="height:32px">
+            <input type="date" value="2026-06-30" style="height:32px">
           </div>
           <button class="ly-btn ly-btn-primary" onclick="applyFilter()">查询</button>
           <button class="ly-btn" onclick="resetFilter()">重置</button>
           <div class="order-filter-actions">
-            <button class="ly-btn ly-btn-primary" onclick="openCreate()">+ 录入订单</button>
+            <button class="ly-btn ly-btn-primary" onclick="openCreate()">创建订单</button>
             <button class="ly-btn" onclick="alert('原型占位：导出当前筛选结果')">导出</button>
           </div>
         </div>
@@ -405,9 +413,9 @@
             <thead>
               <tr>
                 <th style="width:128px">订单编号</th>
-                <th style="width:124px">客户</th>
-                <th style="width:170px">购买内容</th>
-                <th style="width:72px">订单类型</th>
+                <th style="width:124px">租户</th>
+                <th style="width:170px">商品信息</th>
+                <th style="width:88px;white-space:nowrap">订单类型</th>
                 <th style="width:92px;text-align:right">金额</th>
                 <th style="width:96px">生效时间</th>
                 <th style="width:98px">到期时间</th>
@@ -430,9 +438,6 @@
         </div>
       </div>
 
-      <p style="font-size:12px;color:var(--ly-muted);margin-top:12px">
-        所有金额含 6% 增值税。退款 / 作废生效后将自动回收对应权益与菜单授权。
-      </p>
     </main>
   </div>
 </div>
@@ -611,6 +616,7 @@ function orderMatchesForm(o) {
   var type = document.getElementById('fType').value;
   var status = document.getElementById('fStatus').value;
   var slip = document.getElementById('fSlip').value;
+  var contract = document.getElementById('fContract').value;
   var content = o.items.map(function (it) { return it.name; }).join(' ');
   var haystack = content;
   if (searchType === 'code') haystack = o.code;
@@ -621,6 +627,8 @@ function orderMatchesForm(o) {
   if (status && o.status !== status) return false;
   if (slip === 'missing' && !!o.slip) return false;
   if (slip === 'uploaded' && !o.slip) return false;
+  if (contract === 'missing' && !!o.contract) return false;
+  if (contract === 'uploaded' && !o.contract) return false;
   return true;
 }
 
@@ -685,10 +693,11 @@ function buildOps(o, idx) {
 function applyFilter() { render(); }
 function resetFilter() {
   document.getElementById('fKeyword').value = '';
-  document.getElementById('fSearchType').value = 'product';
+  document.getElementById('fSearchType').value = '';
   document.getElementById('fType').selectedIndex = 0;
   document.getElementById('fStatus').selectedIndex = 0;
   document.getElementById('fSlip').selectedIndex = 0;
+  document.getElementById('fContract').selectedIndex = 0;
   render();
 }
 
@@ -701,7 +710,7 @@ function openDrawer(idx) {
 
   var html = '';
   html += '<section class="order-detail-section"><h4>基础信息</h4><div class="order-info-grid">' +
-    '<div class="item"><span class="label">客户</span><span class="value">' + o.customer + '</span></div>' +
+    '<div class="item"><span class="label">租户</span><span class="value">' + o.customer + '</span></div>' +
     '<div class="item"><span class="label">订单类型</span><span class="value">' + o.type + '</span></div>' +
     '<div class="item"><span class="label">创建人</span><span class="value">' + o.createdBy + ' · ' + o.createdAt + '</span></div>' +
     '<div class="item"><span class="label">生效时间</span><span class="value">' + (o.startAt || '—') + '</span></div>' +
@@ -727,7 +736,7 @@ function openDrawer(idx) {
 }
 function closeDrawer() { document.getElementById('drawerMask').classList.remove('open'); }
 
-/* ===== 录入订单 ===== */
+/* ===== 创建订单 ===== */
 function openCreate() {
   var params = new URLSearchParams(window.location.search);
   var buyer = params.get('buyer') || '杭州星河跨境';
@@ -764,7 +773,7 @@ function uploadSlip(idx, fromDrawer) {
   }
 }
 function approve(idx, fromDrawer) {
-  if (confirm('确认开通 ' + ORDERS[idx].code + '？\n\n• 立即写入客户权益与菜单授权\n• 状态：草稿 → 已开通')) {
+  if (confirm('确认开通 ' + ORDERS[idx].code + '？\n\n• 立即写入租户权益与菜单授权\n• 状态：草稿 → 已开通')) {
     ORDERS[idx].status = '已开通';
     ORDERS[idx].openedAt = nowStr();
     ORDERS[idx].openedBy = '胡仕玲';
