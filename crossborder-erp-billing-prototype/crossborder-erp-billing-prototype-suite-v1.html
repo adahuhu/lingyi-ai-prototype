@@ -345,8 +345,8 @@
           <strong>商品配置</strong>
           <span>卖什么</span>
         </button>
-        <button class="nav-btn" data-route="customer">
-          <strong>客户管理</strong>
+        <button class="nav-btn" data-route="tenant">
+          <strong>租户配置</strong>
           <span>买了什么</span>
         </button>
         <button class="nav-btn" data-route="consumption">
@@ -365,7 +365,7 @@
 
       <div class="flow-box">
         <strong>典型流程跳转</strong>
-        <p>按真实售卖闭环串起来看：配置售卖内容，租户发起申请，平台确认收款与履约，再回到客户权益和消耗。</p>
+        <p>按真实售卖闭环串起来看：配置售卖内容，平台创建订单并开通权益，再回到租户计费信息和消耗明细。</p>
         <div class="mini-actions">
           <button class="mini-btn" data-flow="sale">商品到开通</button>
           <button class="mini-btn" data-flow="usage">消耗到扩容</button>
@@ -378,7 +378,7 @@
         <div>
           <div class="crumb">跨境 ERP / 计费模块 / 原型总入口</div>
           <h1>计费模块原型总入口</h1>
-          <div class="subtitle">一个链接查看所有当前基线原型，并支持基础跳转。当前覆盖：商品配置、客户管理、我的订阅、消耗明细。</div>
+          <div class="subtitle">一个链接查看所有当前基线原型，并支持基础跳转。当前覆盖：商品配置、租户配置、我的订阅、消耗明细。</div>
         </div>
         <div class="actions">
           <a class="btn" id="openCurrent" target="_blank" rel="noopener">单独打开当前页</a>
@@ -398,7 +398,7 @@
           <div class="route-tabs" aria-label="快速跳转">
             <button class="route-btn" data-route="product">商品配置</button>
             <button class="route-btn" data-route="subscription">我的订阅</button>
-            <button class="route-btn" data-route="customer">客户管理</button>
+            <button class="route-btn" data-route="tenant">租户配置</button>
             <button class="route-btn" data-route="consumption">消耗明细</button>
           </div>
         </div>
@@ -417,11 +417,11 @@
         file: 'crossborder-erp-billing-product-config-prototype-v3.html',
         hash: '#product'
       },
-      customer: {
-        title: '客户管理',
+      tenant: {
+        title: '租户配置',
         tag: '平台侧',
-        file: 'crossborder-erp-billing-customer-management-prototype-v1.html',
-        hash: '#customer'
+        file: 'crossborder-erp-billing-tenant-config-real.html',
+        hash: '#tenant'
       },
       subscription: {
         title: '我的订阅',
@@ -438,8 +438,8 @@
     };
 
     const flowSteps = {
-      sale: ['product', 'subscription', 'customer'],
-      usage: ['customer', 'consumption', 'customer']
+      sale: ['product', 'subscription', 'tenant'],
+      usage: ['tenant', 'consumption', 'tenant']
     };
 
     const viewer = document.getElementById('viewer');

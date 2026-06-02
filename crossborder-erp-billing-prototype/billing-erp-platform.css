@@ -1,16 +1,16 @@
 /* 凌羿 ERP / 用户中心 — 平台侧 */
 :root {
-  --ly-side-bg: #1e222d;
-  --ly-side-active: #2d3446;
+  --ly-side-bg: #071b31;
+  --ly-side-active: #466aa8;
   --ly-side-text: rgba(255, 255, 255, 0.78);
   --ly-side-text-active: #fff;
   --ly-primary: #3370ff;
   --ly-primary-hover: #4e83fd;
   --ly-primary-bg: #e6f0ff;
-  --ly-bg: #f5f6f8;
+  --ly-bg: #f4f6f9;
   --ly-panel: #ffffff;
-  --ly-border: #e8e8e8;
-  --ly-border-strong: #d0d5dd;
+  --ly-border: #edf0f5;
+  --ly-border-strong: #d7dde8;
   --ly-text: #1f2329;
   --ly-text-2: #555c66;
   --ly-text-3: #8a9099;
@@ -28,8 +28,8 @@
   --ly-shadow-sm: 0 1px 2px rgba(15, 23, 42, .04);
   --ly-shadow-md: 0 6px 16px rgba(15, 23, 42, .08);
   --ly-shadow-lg: 0 16px 40px rgba(15, 23, 42, .14);
-  --ly-side-width: 200px;
-  --ly-top-height: 48px;
+  --ly-side-width: 196px;
+  --ly-top-height: 40px;
   --ly-font-num: "SF Mono", "JetBrains Mono", Consolas, ui-monospace, monospace;
 }
 
@@ -71,13 +71,13 @@ code, .num, .pct, .price, .amt, .summary-card .value,
 }
 
 .ly-side-logo {
-  height: 48px;
+  height: 52px;
   display: flex;
   align-items: center;
   padding: 0 16px;
   gap: 8px;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 22px;
+  font-weight: 700;
   color: #fff;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -85,8 +85,8 @@ code, .num, .pct, .price, .amt, .summary-card .value,
 .ly-side-logo .logo-mark {
   width: 24px;
   height: 24px;
-  border-radius: 4px;
-  background: var(--ly-primary);
+  border-radius: 7px;
+  background: #2f7cff;
   display: grid;
   place-items: center;
   font-size: 11px;
@@ -172,8 +172,8 @@ code, .num, .pct, .price, .amt, .summary-card .value,
 
 .ly-topbar {
   height: var(--ly-top-height);
-  background: var(--ly-panel);
-  border-bottom: 1px solid var(--ly-border);
+  background: #344765;
+  border-bottom: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -184,34 +184,36 @@ code, .num, .pct, .price, .amt, .summary-card .value,
   display: flex;
   align-items: flex-end;
   height: 100%;
-  padding-left: 8px;
-  gap: 2px;
+  padding-left: 0;
+  gap: 0;
 }
 
 .ly-tab {
   display: flex;
   align-items: center;
   gap: 6px;
+  min-width: 132px;
   padding: 0 16px;
   height: 40px;
-  margin-top: 8px;
-  background: #f5f5f5;
-  border: 1px solid var(--ly-border);
-  border-bottom: none;
-  border-radius: 4px 4px 0 0;
+  margin-top: 0;
+  background: transparent;
+  border: none;
+  border-right: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 0;
   font-size: 13px;
-  color: var(--ly-muted);
+  color: rgba(255, 255, 255, .9);
   text-decoration: none;
   cursor: pointer;
 }
 
 .ly-tab.active {
   background: var(--ly-panel);
-  color: var(--ly-primary);
-  border-top: 2px solid var(--ly-primary);
-  margin-top: 6px;
-  height: 42px;
-  font-weight: 500;
+  color: var(--ly-text);
+  border-top: none;
+  margin-top: 0;
+  height: 40px;
+  border-radius: 8px 8px 0 0;
+  font-weight: 600;
 }
 
 .ly-tab .close {
@@ -225,14 +227,14 @@ code, .num, .pct, .price, .amt, .summary-card .value,
   align-items: center;
   gap: 16px;
   font-size: 13px;
-  color: var(--ly-muted);
+  color: rgba(255, 255, 255, .9);
 }
 
 .ly-topbar-right .user {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--ly-text);
+  color: #fff;
 }
 
 .ly-topbar-right .avatar {
@@ -1442,17 +1444,17 @@ code, .num, .pct, .price, .amt, .summary-card .value,
 
 /* ========== 飞书后台风格统一皮肤（平台侧 + 租户侧） ========== */
 :root {
-  --ly-side-bg: #f5f6f8;
-  --ly-side-active: #e8f0ff;
-  --ly-side-text: #3f4652;
-  --ly-side-text-active: #3370ff;
+  --ly-side-bg: #071b31;
+  --ly-side-active: #466aa8;
+  --ly-side-text: rgba(255, 255, 255, .78);
+  --ly-side-text-active: #fff;
   --ly-primary: #3370ff;
   --ly-primary-hover: #4e83fd;
   --ly-primary-bg: #eef4ff;
-  --ly-bg: #f2f3f5;
+  --ly-bg: #f4f6f9;
   --ly-panel: #ffffff;
-  --ly-border: #dee0e3;
-  --ly-border-strong: #c9cdd4;
+  --ly-border: #edf0f5;
+  --ly-border-strong: #d7dde8;
   --ly-text: #1f2329;
   --ly-text-2: #4e5969;
   --ly-text-3: #86909c;
@@ -1463,8 +1465,8 @@ code, .num, .pct, .price, .amt, .summary-card .value,
   --ly-radius-md: 6px;
   --ly-shadow-sm: 0 1px 2px rgba(31, 35, 41, .04);
   --ly-shadow-md: 0 6px 18px rgba(31, 35, 41, .08);
-  --ly-top-height: 56px;
-  --ly-side-width: 240px;
+  --ly-top-height: 40px;
+  --ly-side-width: 196px;
 }
 
 html, body {
@@ -1480,30 +1482,30 @@ html, body {
   width: var(--ly-side-width);
   background: var(--ly-side-bg);
   color: var(--ly-side-text);
-  border-right: 1px solid var(--ly-border);
+  border-right: none;
 }
 
 .ly-side-logo {
-  height: 56px;
-  padding: 0 20px;
-  color: var(--ly-text);
-  background: #fff;
-  border-bottom: 1px solid var(--ly-border);
-  font-size: 18px;
+  height: 52px;
+  padding: 0 18px;
+  color: #fff;
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  font-size: 22px;
   font-weight: 700;
 }
 
 .ly-side-logo .logo-mark {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 7px;
-  background: linear-gradient(135deg, #3370ff 0%, #2cc7a8 100%);
+  background: #2f7cff;
   color: #fff;
   font-weight: 700;
 }
 
 .ly-nav {
-  padding: 12px 12px 18px;
+  padding: 8px 0 16px;
 }
 
 .ly-nav-group {
@@ -1512,8 +1514,8 @@ html, body {
 
 .ly-nav-item {
   min-height: 40px;
-  padding: 9px 12px;
-  border-radius: 6px;
+  padding: 10px 18px;
+  border-radius: 0;
   color: var(--ly-side-text);
   font-size: 14px;
   font-weight: 500;
@@ -1521,7 +1523,7 @@ html, body {
 
 .ly-nav-item:hover {
   color: var(--ly-side-text-active);
-  background: rgba(51, 112, 255, .08);
+  background: rgba(255, 255, 255, .06);
 }
 
 .ly-nav-item.active {
@@ -1531,7 +1533,7 @@ html, body {
 
 .ly-nav-item .ico {
   width: 18px;
-  color: #6b7280;
+  color: #19a2ff;
   opacity: 1;
 }
 
@@ -1541,66 +1543,68 @@ html, body {
 
 .ly-nav-sub a {
   min-height: 36px;
-  padding: 8px 12px 8px 38px;
-  border-radius: 6px;
+  padding: 9px 18px 9px 50px;
+  border-radius: 0;
   color: var(--ly-side-text);
   font-size: 14px;
 }
 
 .ly-nav-sub a:hover {
   color: var(--ly-side-text-active);
-  background: rgba(51, 112, 255, .08);
+  background: rgba(255, 255, 255, .06);
 }
 
 .ly-nav-sub a.active {
   color: var(--ly-side-text-active);
-  background: #e8f0ff;
+  background: var(--ly-side-active);
   font-weight: 600;
 }
 
 .ly-side-foot {
-  border-top: 1px solid var(--ly-border);
-  color: var(--ly-muted);
+  border-top: 1px solid rgba(255, 255, 255, .08);
+  color: rgba(255, 255, 255, .55);
   opacity: 1;
   background: var(--ly-side-bg);
 }
 
 .ly-topbar {
   height: var(--ly-top-height);
-  padding: 0 20px 0 0;
-  background: #fff;
-  border-bottom: 1px solid var(--ly-border);
+  padding: 0 16px 0 0;
+  background: #344765;
+  border-bottom: none;
 }
 
 .ly-tabs {
-  align-items: center;
-  padding-left: 16px;
-  gap: 8px;
+  align-items: flex-end;
+  padding-left: 0;
+  gap: 0;
 }
 
 .ly-tab {
-  height: 36px;
+  height: 40px;
+  min-width: 132px;
   margin-top: 0;
-  padding: 0 14px;
-  border: 1px solid transparent;
-  border-radius: 6px;
+  padding: 0 16px;
+  border: none;
+  border-right: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 0;
   background: transparent;
-  color: var(--ly-text-2);
-  font-size: 14px;
+  color: rgba(255, 255, 255, .9);
+  font-size: 13px;
   font-weight: 500;
 }
 
 .ly-tab:hover {
-  background: #f2f3f5;
+  background: rgba(255, 255, 255, .08);
 }
 
 .ly-tab.active {
-  height: 36px;
+  height: 40px;
   margin-top: 0;
-  border: 1px solid #dbe6ff;
-  border-top: 1px solid #dbe6ff;
-  background: #eef4ff;
-  color: var(--ly-primary);
+  border: none;
+  background: #fff;
+  color: var(--ly-text);
+  border-radius: 8px 8px 0 0;
   font-weight: 600;
 }
 
@@ -1610,7 +1614,7 @@ html, body {
 
 .ly-topbar-right {
   gap: 18px;
-  color: var(--ly-text-2);
+  color: rgba(255, 255, 255, .9);
 }
 
 .ly-topbar-right .avatar {

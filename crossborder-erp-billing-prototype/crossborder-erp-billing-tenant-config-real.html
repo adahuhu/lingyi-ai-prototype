@@ -8,6 +8,7 @@
   <style>
     :root { --uc-side:#071b31; --uc-top:#344765; --uc-blue:#1764ff; }
     body { background:#f4f6f9; }
+    .tenant-real-main { padding:14px 16px 18px; }
     .uc-app { display:flex; min-height:100vh; color:#1f2329; font-size:14px; }
     .uc-side { width:196px; background:var(--uc-side); color:rgba(255,255,255,.82); flex-shrink:0; }
     .uc-logo { height:52px; display:flex; align-items:center; gap:10px; padding:0 18px; color:#fff; font-size:22px; font-weight:700; }
@@ -25,7 +26,7 @@
     .uc-tab.active { background:#fff; color:#1f2329; border-radius:8px 8px 0 0; font-weight:600; }
     .uc-top-right { display:flex; align-items:center; gap:12px; padding-right:16px; font-size:13px; }
     .uc-main { padding:14px 16px 18px; overflow:auto; }
-    .uc-panel { background:#fff; min-height:calc(100vh - 68px); box-shadow:0 1px 3px rgba(15,23,42,.06); border:1px solid #edf0f5; }
+    .uc-panel { background:#fff; min-height:calc(100vh - var(--ly-top-height) - 28px); box-shadow:0 1px 3px rgba(15,23,42,.06); border:1px solid #edf0f5; }
     .uc-filter { padding:16px 18px 14px; display:flex; align-items:center; flex-wrap:wrap; gap:10px; border-bottom:1px solid #edf0f5; }
     .uc-filter select, .uc-filter input { height:32px; border:1px solid #d7dde8; border-radius:3px; padding:0 10px; background:#fff; min-width:146px; font-size:13px; }
     .uc-search { display:flex; }
@@ -54,33 +55,41 @@
   </style>
 </head>
 <body>
-<div class="uc-app">
-  <aside class="uc-side">
-    <div class="uc-logo"><span class="uc-shield">◆</span>用户中心</div>
-    <nav class="uc-nav">
-      <div class="uc-nav-group">
-        <div class="uc-nav-title"><span><span class="ico">▣</span>业务系统管理</span><span>⌃</span></div>
-        <div class="uc-sub"><a href="#">业务系统配置</a></div>
+<div class="ly-app">
+  <aside class="ly-side">
+    <div class="ly-side-logo"><span class="logo-mark">凌</span> 用户中心</div>
+    <nav class="ly-nav">
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▸</span> 组织架构</span>
       </div>
-      <div class="uc-nav-group"><div class="uc-nav-title"><span><span class="ico">▦</span>组织架构</span><span>⌃</span></div><div class="uc-sub"><a href="#">组织管理</a><a href="#">角色管理</a><a href="#">用户管理</a><a href="#">团队管理</a></div></div>
-      <div class="uc-nav-group">
-        <div class="uc-nav-title"><span><span class="ico">▤</span>租户管理</span><span>⌃</span></div>
-        <div class="uc-sub"><a class="active" href="crossborder-erp-billing-tenant-config-real.html">租户配置</a></div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item active"><span class="ico">▾</span> 租户管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-tenant-config-real.html" class="active">租户配置</a>
+        </div>
       </div>
-      <div class="uc-nav-group"><div class="uc-nav-title"><span><span class="ico">◇</span>授权设置</span><span>⌃</span></div><div class="uc-sub"><a href="#">钉钉授权</a><a href="#">E签宝管理</a><a href="#">开放平台授权</a></div></div>
-      <div class="uc-nav-group"><div class="uc-nav-title"><span><span class="ico">♙</span>个人中心</span><span>⌄</span></div></div>
+      <div class="ly-nav-group">
+        <span class="ly-nav-item"><span class="ico">▾</span> 计费管理</span>
+        <div class="ly-nav-sub">
+          <a href="crossborder-erp-billing-product-config-feishu.html">商品配置</a>
+          <a href="crossborder-erp-billing-product-config-dictionary.html">字典维护</a>
+          <a href="crossborder-erp-billing-order-management-feishu.html">订单管理</a>
+        </div>
+      </div>
+      <div class="ly-nav-group"><span class="ly-nav-item"><span class="ico">▸</span> 授权设置</span></div>
+      <div class="ly-nav-group"><span class="ly-nav-item"><span class="ico">▸</span> 个人中心</span></div>
     </nav>
+    <div class="ly-side-foot">收起导航</div>
   </aside>
-  <div class="uc-wrap">
-    <header class="uc-top">
-      <div class="uc-tabs">
-        <a class="uc-tab" href="#">业务系统配置 ×</a>
-        <a class="uc-tab active" href="crossborder-erp-billing-tenant-config-real.html">租户配置 ×</a>
-        <a class="uc-tab" href="crossborder-erp-billing-tenant-auth-detail-real.html">租户授权详情 ×</a>
+  <div class="ly-wrap">
+    <header class="ly-topbar">
+      <div class="ly-tabs">
+        <a class="ly-tab active" href="crossborder-erp-billing-tenant-config-real.html">租户配置 <span class="close">×</span></a>
+        <a class="ly-tab" href="crossborder-erp-billing-tenant-auth-detail-real.html">租户授权详情 <span class="close">×</span></a>
       </div>
-      <div class="uc-top-right"><span>🔔 99+</span><span>▣</span><span>SCM</span><span>平台管...</span></div>
+      <div class="ly-topbar-right"><span>🔔 99+</span><span>▣</span><span class="user"><span class="avatar">胡</span> 平台管理员</span></div>
     </header>
-    <main class="uc-main">
+    <main class="ly-main tenant-real-main">
       <section class="uc-panel">
         <div class="uc-filter">
           <select><option>状态　全部</option><option>正常</option><option>停用</option></select>
@@ -160,6 +169,5 @@
       </section>
     </main>
   </div>
-</div>
-</body>
+</div></body>
 </html>
