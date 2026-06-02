@@ -50,8 +50,14 @@
     .system-item { padding:12px 24px; min-height:58px; cursor:pointer; }
     .system-item.active { background:#f0f5ff; color:#1764ff; }
     .system-item .code { display:block; margin-top:4px; color:#99a1ad; font-size:12px; }
+    .system-item .source { display:inline-flex; margin-left:8px; padding:1px 6px; border-radius:999px; background:#eaf1ff; color:#1764ff; font-size:12px; }
     .valid-line { margin:0 0 16px 2px; }
     .valid-line .danger { color:#ff4d4f; margin-left:8px; }
+    .auth-meta { display:grid; grid-template-columns:repeat(4, minmax(160px,1fr)) auto; gap:12px; align-items:end; margin:0 0 14px; padding:14px 16px; border:1px solid #e1e8f5; background:#fbfdff; }
+    .auth-meta .label { display:block; color:#8a9099; font-size:12px; margin-bottom:5px; }
+    .auth-meta .value { color:#1f2329; font-weight:500; }
+    .source-tag { display:inline-flex; align-items:center; height:22px; padding:0 8px; border-radius:999px; background:#eaf1ff; color:#1764ff; font-size:12px; font-weight:500; }
+    .source-tag.manual { background:#fff7e6; color:#d97706; }
     .perm-table { width:100%; border-collapse:collapse; table-layout:fixed; }
     .perm-table th, .perm-table td { border:1px solid #e5e7eb; padding:12px 24px; text-align:left; vertical-align:middle; }
     .perm-table th { background:#fafafa; font-weight:600; }
@@ -73,6 +79,10 @@
     .attachment-stack a { display:inline-flex; align-items:center; gap:6px; color:#1764ff; text-decoration:none; line-height:1.2; }
     .attachment-stack a::before { content:""; width:14px; height:14px; border-radius:3px; background:#eef4ff; border:1px solid #b8ccff; }
     .attachment-stack a:hover { text-decoration:underline; }
+    .adjust-table { width:100%; border-collapse:collapse; table-layout:fixed; border:1px solid #e1e5ec; margin-top:0; }
+    .adjust-table th, .adjust-table td { border-bottom:1px solid #e1e5ec; padding:11px 12px; text-align:left; vertical-align:middle; }
+    .adjust-table th { background:#fafafa; color:#4b5563; font-weight:500; }
+    .adjust-table tr:last-child td { border-bottom:0; }
     .auth-edit { display:none; }
     .edit-head { margin:10px 18px 16px; padding:20px 18px; background:#fff; display:flex; align-items:center; gap:26px; }
     .edit-head .title { font-size:18px; font-weight:700; margin-right:8px; }
@@ -84,12 +94,26 @@
     .form-line label { color:#1f2329; }
     .form-line select, .form-line input { height:34px; border:1px solid #d7dde8; border-radius:3px; padding:0 12px; min-width:150px; background:#fff; }
     .form-line input[readonly] { background:#f5f7fa; color:#596273; }
+    .form-meta { display:flex; align-items:center; gap:8px; color:#596273; }
     .edit-perm { width:100%; border-collapse:collapse; table-layout:fixed; }
     .edit-perm th, .edit-perm td { border:1px solid #e5e7eb; padding:13px 22px; vertical-align:middle; }
     .edit-perm th { background:#fafafa; text-align:left; }
     .check-grid { display:grid; grid-template-columns:repeat(4, minmax(120px,1fr)); gap:12px 32px; }
     .check-grid label { display:flex; align-items:center; gap:8px; white-space:nowrap; }
     input[type="checkbox"] { width:16px; height:16px; accent-color:#1764ff; }
+    .modal-mask { position:fixed; inset:0; background:rgba(15,23,42,.34); display:none; align-items:center; justify-content:center; z-index:20; }
+    .modal { width:560px; background:#fff; border-radius:6px; box-shadow:0 24px 70px rgba(15,23,42,.22); }
+    .modal-head { height:54px; padding:0 20px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #edf0f5; font-weight:700; }
+    .modal-close { border:0; background:transparent; font-size:22px; color:#8a9099; cursor:pointer; }
+    .modal-body { padding:18px 20px 4px; display:grid; grid-template-columns:1fr 1fr; gap:14px 16px; }
+    .modal-field.full { grid-column:1 / -1; }
+    .modal-field label { display:block; margin-bottom:6px; color:#596273; font-size:13px; }
+    .modal-field input, .modal-field select, .modal-field textarea { width:100%; border:1px solid #d7dde8; border-radius:3px; padding:0 10px; font-size:13px; background:#fff; }
+    .modal-field input, .modal-field select { height:34px; }
+    .modal-field input[readonly] { background:#f5f7fa; color:#596273; }
+    .modal-field textarea { height:74px; padding-top:8px; resize:none; }
+    .modal-check { grid-column:1 / -1; display:flex; align-items:center; gap:8px; color:#1f2329; }
+    .modal-foot { display:flex; justify-content:flex-end; gap:10px; padding:16px 20px 18px; border-top:1px solid #edf0f5; }
   </style>
 </head>
 <body>
@@ -131,19 +155,28 @@
         </table>
 
         <div class="detail-tabs">
-          <button id="tabAuth" onclick="switchDetailTab('auth')">授权明细</button>
-          <button id="tabBilling" class="active" onclick="switchDetailTab('billing')">计费信息</button>
+          <button id="tabAuth" class="active" onclick="switchDetailTab('auth')">授权明细</button>
+          <button id="tabBilling" onclick="switchDetailTab('billing')">计费信息</button>
         </div>
 
-        <div class="detail-pane" id="paneAuth">
+        <div class="detail-pane active" id="paneAuth">
           <div class="section-title">授权详情</div>
           <div class="auth-layout">
             <div class="system-list">
+              <div class="system-item active">ERP系统<span class="source">计费</span><span class="code">编号：ERP1001</span></div>
+              <div class="system-item">WMS系统<span class="source">计费</span><span class="code">编号：WMS1001</span></div>
+              <div class="system-item">SCM系统<span class="source">计费</span><span class="code">编号：SCM1001</span></div>
+              <div class="system-item">OMS系统<span class="code">编号：OMS1001</span></div>
               <div class="system-item">凌羿ADS<span class="code">编号：ADS1001</span></div>
-              <div class="system-item active">OMS系统<span class="code">编号：OMS1001</span></div>
-              <div class="system-item">WMS系统<span class="code">编号：WMS1001</span></div>
             </div>
             <div>
+              <div class="auth-meta">
+                <div><span class="label">授权系统</span><span class="value">ERP系统</span></div>
+                <div><span class="label">当前有效期</span><span class="value">2026-12-31 23:59:59</span></div>
+                <div><span class="label">授权来源</span><span class="source-tag">订单开通</span></div>
+                <div><span class="label">关联订单</span><a class="uc-link" href="crossborder-erp-billing-customer-management-feishu.html?order=PO-20250101001">PO-20250101001</a></div>
+                <button class="uc-btn primary" onclick="openAdjustModal()">调整授权</button>
+              </div>
               <div class="valid-line">有效期至： 2026-12-31 23:59:59 <span class="danger">还有 217 天到期</span></div>
               <table class="perm-table">
                 <thead><tr><th style="width:150px">一级菜单</th><th style="width:150px">二级菜单</th><th>操作项</th></tr></thead>
@@ -158,11 +191,19 @@
                   <tr><td>运费试算</td><td class="ops">查看</td></tr>
                 </tbody>
               </table>
+              <div class="section-title" style="margin:16px 0 0">授权调整记录</div>
+              <table class="adjust-table">
+                <thead><tr><th>调整时间</th><th>调整人</th><th>系统</th><th>调整类型</th><th>原到期时间</th><th>新到期时间</th><th>关联订单</th><th>原因</th></tr></thead>
+                <tbody>
+                  <tr><td>2026-05-18 10:23</td><td>林珊</td><td>ERP</td><td>订单开通</td><td>-</td><td>2026-12-31</td><td><a class="uc-link" href="crossborder-erp-billing-customer-management-feishu.html?order=PO-20250101001">PO-20250101001</a></td><td>新购主套餐</td></tr>
+                  <tr><td>2026-05-26 14:12</td><td>胡仕玲</td><td>ERP</td><td>异常修复</td><td>2026-12-30</td><td>2026-12-31</td><td>-</td><td>补齐订单到期日</td></tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
 
-        <div class="detail-pane active" id="paneBilling">
+        <div class="detail-pane" id="paneBilling">
           <div class="section-title">当前额度使用</div>
           <table class="billing-table">
             <thead>
@@ -219,17 +260,18 @@
         </div>
         <div class="edit-grid">
           <div class="edit-side">
-            <div class="system-item active">OMS系统<span class="code">编号：OMS1001</span></div>
+            <div class="system-item active">ERP系统<span class="source">计费</span><span class="code">编号：ERP1001</span></div>
             <div class="system-item">WMS系统<span class="code">编号：WMS1001</span></div>
+            <div class="system-item">SCM系统<span class="source">计费</span><span class="code">编号：SCM1001</span></div>
+            <div class="system-item">OMS系统<span class="code">编号：OMS1001</span></div>
             <div class="system-item">凌羿ADS<span class="code">编号：ADS1001</span></div>
-            <div class="system-item">凌羿AI<span class="code">编号：LING11002</span></div>
-            <div class="system-item">凌羿CRM<span class="code">编号：CRM1001</span></div>
-            <div class="system-item">凌羿SCM<span class="code">编号：SCM1001</span></div>
           </div>
           <div class="edit-form">
             <div class="form-line">
               <label>权限状态：</label><select><option>正常</option><option>停用</option></select>
-              <label><span style="color:#ff4d4f">*</span>有效期：</label><input readonly value="2026-12-31 23:59:59">
+              <label>当前有效期：</label><input readonly value="2026-12-31 23:59:59">
+              <span class="form-meta">来源 <span class="source-tag">订单开通</span></span>
+              <button class="uc-btn primary" onclick="openAdjustModal()">调整授权</button>
               <button class="uc-btn primary" onclick="saveAuth()">保存</button>
               <button class="uc-btn" onclick="showDetail()">返回详情</button>
               <input style="margin-left:auto;min-width:200px" placeholder="请输入关键字">
@@ -250,6 +292,62 @@
         </div>
       </section>
     </main>
+  </div>
+</div>
+<div class="modal-mask" id="adjustModal">
+  <div class="modal">
+    <div class="modal-head">
+      <span>调整授权</span>
+      <button class="modal-close" onclick="closeAdjustModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field">
+        <label>调整系统</label>
+        <input readonly value="ERP系统">
+      </div>
+      <div class="modal-field">
+        <label>授权来源</label>
+        <input readonly value="订单开通">
+      </div>
+      <div class="modal-field">
+        <label>当前订单有效期</label>
+        <input readonly value="2026-12-31">
+      </div>
+      <div class="modal-field">
+        <label>当前授权有效期</label>
+        <input readonly value="2026-12-31">
+      </div>
+      <div class="modal-field">
+        <label><span style="color:#ff4d4f">*</span> 调整类型</label>
+        <select>
+          <option>临时授权</option>
+          <option>异常修复</option>
+          <option>售后补偿</option>
+          <option>历史补录</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label><span style="color:#ff4d4f">*</span> 调整后到期时间</label>
+        <input value="2027-01-07">
+      </div>
+      <div class="modal-field full">
+        <label>关联订单</label>
+        <select>
+          <option>不关联订单</option>
+          <option>PO-20260518004｜ERP 旗舰版续费</option>
+          <option>PO-20250101001｜ERP 旗舰版新购</option>
+        </select>
+      </div>
+      <label class="modal-check"><input type="checkbox"> 同步影响权益有效期</label>
+      <div class="modal-field full">
+        <label><span style="color:#ff4d4f">*</span> 调整原因</label>
+        <textarea placeholder="请输入调整原因"></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="uc-btn" onclick="closeAdjustModal()">取消</button>
+      <button class="uc-btn primary" onclick="submitAdjustModal()">确认调整</button>
+    </div>
   </div>
 </div>
 <script>
@@ -277,8 +375,18 @@ function previewAttachment(fileName) {
   alert('原型占位：预览 / 下载 ' + fileName);
 }
 function saveAuth() {
-  alert('已保存授权，有效期按订单到期时间写入：2026-12-31 23:59:59');
+  alert('已保存菜单权限');
   showDetail();
+}
+function openAdjustModal() {
+  document.getElementById('adjustModal').style.display = 'flex';
+}
+function closeAdjustModal() {
+  document.getElementById('adjustModal').style.display = 'none';
+}
+function submitAdjustModal() {
+  closeAdjustModal();
+  alert('已提交授权调整，并写入调整记录');
 }
 var params = new URLSearchParams(window.location.search);
 if (params.get('mode') === 'auth') showAuthEdit();
