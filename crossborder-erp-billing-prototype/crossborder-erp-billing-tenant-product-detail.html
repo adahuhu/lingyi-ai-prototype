@@ -24,11 +24,18 @@
       font-size: 22px;
       color: var(--ly-text);
     }
-    .product-title p {
-      margin: 0;
+    .product-meta {
+      display: grid;
+      gap: 6px;
+      margin-top: 8px;
       color: var(--ly-muted);
       font-size: 13px;
-      line-height: 1.7;
+      line-height: 1.6;
+    }
+    .product-meta b {
+      margin-left: 8px;
+      color: var(--ly-text);
+      font-weight: 500;
     }
     .product-price {
       text-align: right;
@@ -47,7 +54,7 @@
     }
     .detail-grid {
       display: grid;
-      grid-template-columns: 1.1fr .9fr;
+      grid-template-columns: 1fr;
       gap: 16px;
       padding: 16px;
     }
@@ -61,22 +68,6 @@
       margin: 0 0 14px;
       font-size: 15px;
       color: var(--ly-text);
-    }
-    .kv-list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .kv-item span {
-      display: block;
-      color: var(--ly-muted);
-      font-size: 12px;
-      margin-bottom: 5px;
-    }
-    .kv-item b {
-      font-size: 14px;
-      color: var(--ly-text);
-      font-weight: 600;
     }
     .rights-list {
       display: grid;
@@ -140,9 +131,11 @@
       <div class="product-shell ly-tenant-card" style="padding:0">
         <div class="product-head">
           <div class="product-title">
-            <a class="ly-link" href="crossborder-erp-billing-my-subscription-feishu.html">← 返回我的订阅</a>
-            <h1 id="productName" style="margin-top:14px">ERP 旗舰版续费</h1>
-            <p id="productDesc">延长当前 ERP 旗舰版有效期，权益额度按新周期继续生效。</p>
+            <h1 id="productName">ERP 旗舰版续费</h1>
+            <div class="product-meta">
+              <div>适用系统<b id="productSystems">ERP</b></div>
+              <div>计价方式<b id="productBilling">按年</b></div>
+            </div>
           </div>
           <div class="product-price">
             <strong id="productPrice">¥69,800<small>/年</small></strong>
@@ -151,25 +144,8 @@
         </div>
 
         <div class="detail-grid">
-          <section class="detail-section">
-            <h3>基础信息</h3>
-            <div class="kv-list">
-              <div class="kv-item"><span>类型</span><b id="productType">套餐</b></div>
-              <div class="kv-item"><span>适用系统</span><b id="productSystems">ERP</b></div>
-              <div class="kv-item"><span>计价方式</span><b id="productBilling">按年</b></div>
-              <div class="kv-item"><span>购买方式</span><b>联系客户经理</b></div>
-            </div>
-          </section>
-
-          <section class="detail-section">
-            <h3>适用场景</h3>
-            <p id="productScene" style="margin:0;color:var(--ly-muted);font-size:13px;line-height:1.8">
-              适合已开通 ERP 旗舰版并需要延长使用周期的客户。
-            </p>
-          </section>
-
           <section class="detail-section" style="grid-column:1 / -1">
-            <h3>包含权益 / 服务内容</h3>
+            <h3>权益内容</h3>
             <div class="rights-list" id="rightsList"></div>
           </section>
         </div>
@@ -254,12 +230,9 @@ const products = {
 const params = new URLSearchParams(window.location.search);
 const product = products[params.get('item')] || products['erp-flagship'];
 document.getElementById('productName').textContent = product.name;
-document.getElementById('productDesc').textContent = product.desc;
 document.getElementById('productPrice').innerHTML = product.price;
-document.getElementById('productType').textContent = product.type;
 document.getElementById('productSystems').textContent = product.systems;
 document.getElementById('productBilling').textContent = product.billing;
-document.getElementById('productScene').textContent = product.scene;
 document.getElementById('rightsList').innerHTML = product.rights.map(([name, value]) => `<div class="rights-item"><strong>${name}</strong><span>${value}</span></div>`).join('');
 function openContactDrawer() {
   document.getElementById('contactProduct').value = product.name;
