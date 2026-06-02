@@ -805,7 +805,14 @@ function nowStr() {
 }
 
 render();
-if (new URLSearchParams(window.location.search).get('create') === '1') openCreate();
+var urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('create') === '1') {
+  openCreate();
+} else if (urlParams.get('order')) {
+  var targetOrder = urlParams.get('order');
+  var targetIndex = ORDERS.findIndex(function (o) { return o.code === targetOrder; });
+  if (targetIndex >= 0) openDrawer(targetIndex);
+}
 </script>
 </body>
 </html>
