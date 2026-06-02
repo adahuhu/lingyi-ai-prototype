@@ -598,7 +598,7 @@
           <div class="steps">
             <div class="step"><div class="num">1</div><div class="step-card"><b>选择增值服务</b><span>商品类型选“增值服务”。</span></div></div>
             <div class="step"><div class="num">2</div><div class="step-card"><b>选择作用系统</b><span>选择上报消耗的业务系统。</span></div></div>
-            <div class="step"><div class="num">3</div><div class="step-card"><b>选择按量计费</b><span>展示阶梯价格配置。</span></div></div>
+            <div class="step"><div class="num">3</div><div class="step-card"><b>填写固定单价</b><span>一期按固定单价配置。</span></div></div>
             <div class="step"><div class="num">4</div><div class="step-card"><b>配置计费对象</b><span>选择“物流轨迹查询”等按量权益项。</span></div></div>
             <div class="step"><div class="num">5</div><div class="step-card"><b>业务系统上报</b><span>按查询次数写入消耗明细。</span></div></div>
           </div>
@@ -630,25 +630,17 @@
               </div>
             </div>
             <div class="mock-section">
-              <div class="section-title">价格与按量规则 <span>按量服务展示“阶梯价格 + 计费对象”</span></div>
+              <div class="section-title">价格与按量内容 <span>按量服务展示固定单价和计费对象</span></div>
               <div class="form-grid three">
                 <div class="field"><label>计价模式</label><div class="select">按量计费</div></div>
-                <div class="field"><label>销售价格</label><div class="box">¥0.05 ~ 0.10/次</div></div>
-                <div class="field"><label>单位</label><div class="box">次</div></div>
+                <div class="field"><label>固定单价</label><div class="box">¥0.1</div></div>
+                <div class="field"><label>单位</label><div class="box">单</div></div>
               </div>
               <div style="height:12px"></div>
               <table>
-                <thead><tr><th>起量</th><th>止量</th><th>单价</th></tr></thead>
+                <thead><tr><th>权益 / 服务项</th><th>计量方式</th><th>固定单价</th><th>单位</th></tr></thead>
                 <tbody>
-                  <tr><td>0</td><td>10000</td><td>¥0.10/次</td></tr>
-                  <tr><td>10001</td><td>不限</td><td>¥0.08/次</td></tr>
-                </tbody>
-              </table>
-              <div style="height:12px"></div>
-              <table>
-                <thead><tr><th>权益 / 服务项</th><th>计量方式</th><th>数值</th><th>单位</th></tr></thead>
-                <tbody>
-                  <tr><td>物流轨迹查询</td><td><span class="pill">按量扣减</span></td><td class="light">按实际发生</td><td>次</td></tr>
+                  <tr><td>物流轨迹查询</td><td><span class="pill">按量扣减</span></td><td>¥0.1</td><td>单</td></tr>
                 </tbody>
               </table>
             </div>
@@ -775,7 +767,7 @@
             <td>增值服务</td>
             <td>按量规则</td>
             <td>按量计费</td>
-            <td>阶梯价格、计费对象、单位</td>
+            <td>计费对象、固定单价、单位</td>
             <td>业务系统上报消耗，计费模块记录明细</td>
           </tr>
           <tr>

@@ -93,7 +93,7 @@
       font-size: 13px;
     }
 
-    /* 阶梯计价 */
+    /* 按量计费 */
     .tier-table { width: 100%; border-collapse: collapse; font-size: 13px; }
     .tier-table th, .tier-table td {
       border: 1px solid var(--ly-border); padding: 8px 10px; text-align: left;
@@ -709,7 +709,7 @@
         其它商品的字段含义相同，请参照「售卖形式实例化手册」按方案值填写：
         资源扩容包勾「<em>不涉及菜单授权</em>」+ 选「<em>依赖前置主套餐</em>」；
         SCM 企业版选「<em>线下报价</em>」+「<em>隐藏价格</em>」；
-        按量服务展开「<em>阶梯定价</em>」；
+        按量服务配置「<em>固定单价</em>」；
         专项服务勾「<em>走里程碑</em>」。
       </div>
 
@@ -761,7 +761,7 @@
             <div class="mvp-grid three">
               <div class="mvp-field">
                 <label>计价模式 <span class="req">*</span></label>
-                <select id="mvpPriceMode" onchange="mvpToggleTier()">
+                <select id="mvpPriceMode">
                   <option>按年订阅</option>
                   <option>一次性</option>
                   <option>按量计费</option>
@@ -776,15 +776,6 @@
                 <label>单位</label>
                 <input id="mvpUnit" value="年" placeholder="由计价模式带出">
               </div>
-            </div>
-            <div class="mvp-table-wrap" id="mvpTierPanel" style="display:none">
-              <table class="mvp-tier-table">
-                <thead><tr><th>起量</th><th>止量</th><th>单价</th></tr></thead>
-                <tbody>
-                  <tr><td><input value="0"></td><td><input value="10000"></td><td><input value="¥0.10/次"></td></tr>
-                  <tr><td><input value="10001"></td><td><input value="不限"></td><td><input value="¥0.08/次"></td></tr>
-                </tbody>
-              </table>
             </div>
             <div class="mvp-table-wrap">
               <table class="mvp-quota-table">
@@ -892,43 +883,23 @@
                 <input placeholder="如 8 折（80%）">
               </div>
               <div class="full" id="tierBlock" style="display:none">
-                <label>阶梯计价（按量）<span style="font-weight:400;color:var(--ly-muted);font-size:12px">· 用量进入不同区间按对应单价计费</span></label>
+                <label>按量计费内容</label>
                 <table class="tier-table">
                   <thead>
                     <tr>
-                      <th style="width:120px">区间起（含）</th>
-                      <th style="width:120px">区间止</th>
-                      <th style="width:120px">单价</th>
-                      <th>说明</th>
-                      <th style="width:60px;text-align:center">操作</th>
+                      <th>计费对象</th>
+                      <th style="width:140px">固定单价</th>
+                      <th style="width:100px">单位</th>
                     </tr>
                   </thead>
                   <tbody id="tierBody">
                     <tr>
-                      <td><input type="number" value="0"></td>
-                      <td><input type="number" value="10000"></td>
-                      <td><input type="text" value="¥0.10/次"></td>
-                      <td><input type="text" value="前 1 万次"></td>
-                      <td style="text-align:center"><a class="ly-link" href="#" onclick="return false">删除</a></td>
-                    </tr>
-                    <tr>
-                      <td><input type="number" value="10001"></td>
-                      <td><input type="number" value="100000"></td>
-                      <td><input type="text" value="¥0.08/次"></td>
-                      <td><input type="text" value="1 万 ~ 10 万次"></td>
-                      <td style="text-align:center"><a class="ly-link" href="#" onclick="return false">删除</a></td>
-                    </tr>
-                    <tr>
-                      <td><input type="number" value="100001"></td>
-                      <td><input type="text" value="不限" placeholder="留空=不限"></td>
-                      <td><input type="text" value="¥0.05/次"></td>
-                      <td><input type="text" value="10 万次以上"></td>
-                      <td style="text-align:center"><a class="ly-link" href="#" onclick="return false">删除</a></td>
+                      <td><input type="text" value="物流轨迹查询"></td>
+                      <td><input type="text" value="¥0.1"></td>
+                      <td><input type="text" value="单"></td>
                     </tr>
                   </tbody>
                 </table>
-                <p class="hint" style="margin-top:6px">最后一档「区间止」可填「不限」或留空。仅在「按量计费」时生效。</p>
-                <button type="button" class="ly-btn" style="margin-top:8px" onclick="addTierRow()">+ 添加阶梯</button>
               </div>
             </div>
           </section>
@@ -1207,7 +1178,7 @@ var QUOTA_LIB = [
   { code: 'QUOTA_SHOP', name: '店铺 / 站点', unit: '个', type: '主套餐配额' },
   { code: 'QUOTA_SUB_USER', name: '子账号', unit: '个', type: '主套餐配额' },
   { code: 'QUOTA_PLATFORM', name: '平台授权', unit: '个', type: '主套餐配额' },
-  { code: 'QUOTA_TRACK', name: '物流轨迹', unit: '次', type: '按量配额' },
+  { code: 'QUOTA_TRACK', name: '物流轨迹', unit: '单', type: '按量配额' },
   { code: 'SVC_KDCS', name: '金蝶云星空对接', unit: '次', type: '专项服务' }
 ];
 
@@ -1473,7 +1444,7 @@ window.addEventListener('DOMContentLoaded', function() {
   if (document.getElementById('authTree')) renderAuthTree();
 });
 
-/* 阶梯计价显隐 */
+/* 按量计费内容显隐 */
 function toggleTier() {
   var mode = document.getElementById('priceMode').value;
   var isMetered = mode === 'metered' || document.getElementById('priceMode').options[document.getElementById('priceMode').selectedIndex].text === '按量计费';
@@ -1532,13 +1503,6 @@ function confirmPublish() {
   if (confirm(msg)) alert('已发布 v4');
 }
 
-function mvpToggleTier() {
-  var mode = document.getElementById('mvpPriceMode');
-  var panel = document.getElementById('mvpTierPanel');
-  if (!mode || !panel) return;
-  panel.style.display = mode.value === '按量计费' ? '' : 'none';
-}
-
 function mvpToggleSystemOpen() {
   var sw = document.getElementById('mvpSystemSwitch');
   var panel = document.getElementById('mvpSystemPanel');
@@ -1572,7 +1536,6 @@ function mvpApplyType(type) {
     if (priceMode) priceMode.value = '按年订阅';
     if (unit) unit.value = '包';
   }
-  mvpToggleTier();
 }
 
 /* 映射预览实时更新 */
