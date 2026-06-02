@@ -167,6 +167,15 @@
       padding: 0 18px 14px;
       overflow-x: auto;
     }
+    .config-subtitle {
+      padding: 0 18px 8px;
+      color: #1f2329;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .hidden {
+      display: none !important;
+    }
     .rights-table {
       width: 100%;
       border-collapse: collapse;
@@ -343,6 +352,7 @@
               <label>计价模式 <span class="req">*</span></label>
               <select id="priceMode" onchange="syncPriceUnit()">
                 <option>按年订阅</option>
+                <option>固定单价</option>
                 <option>一次性</option>
                 <option>按量计费</option>
                 <option>线下报价</option>
@@ -353,17 +363,19 @@
               <input id="salePrice" placeholder="如 ¥69,800">
             </div>
             <div class="field">
-              <label>单位</label>
-              <input id="priceUnit" value="年" placeholder="如 年、包、单、次">
+              <label id="priceUnitLabel">售卖周期</label>
+              <input id="priceUnit" value="年" placeholder="如 年、包、次">
             </div>
           </div>
+          <div id="mainRightsConfig">
+          <div class="config-subtitle">权益内容</div>
           <div class="table-wrap">
             <table class="rights-table">
               <thead>
                 <tr>
                   <th style="width:38%">权益项</th>
                   <th style="width:34%">额度</th>
-                  <th>单位</th>
+                  <th>权益单位</th>
                   <th style="width:80px">操作</th>
                 </tr>
               </thead>
@@ -372,6 +384,24 @@
           </div>
           <div class="table-actions">
             <a class="ly-link" href="#" onclick="addRight();return false">+ 添加权益项</a>
+          </div>
+          </div>
+          <div id="addonRightsConfig" class="hidden">
+            <div class="config-subtitle">权益内容</div>
+            <div class="form-grid three" style="padding-top:0">
+              <div class="field">
+                <label>权益项 <span class="req">*</span></label>
+                <select id="addonRightCode" onchange="syncAddonRightUnit()"></select>
+              </div>
+              <div class="field">
+                <label>增加额度 <span class="req">*</span></label>
+                <input id="addonRightValue" value="100000" placeholder="如 100000">
+              </div>
+              <div class="field">
+                <label>权益单位</label>
+                <input id="addonRightUnit" value="单/年" readonly>
+              </div>
+            </div>
           </div>
         </section>
       </div>
@@ -387,6 +417,7 @@
 </div>
 
 <script>
+var currentProductType = 'MAIN';
 var RIGHTS_LIB = [
   { code: 'QUOTA_ORDER_QTY', name: '年订单量', unit: '单/年', type: '主套餐配额' },
   { code: 'QUOTA_MSKU', name: 'MSKU 额度', unit: '个', type: '主套餐配额' },
@@ -412,6 +443,23 @@ function rightOptions(currentCode) {
   return RIGHTS_LIB.map(function(item) {
     return '<option value="' + item.code + '" ' + (item.code === currentCode ? 'selected' : '') + '>' + item.name + '</option>';
   }).join('');
+}
+function addonRightOptions(currentCode) {
+  return RIGHTS_LIB.map(function(item) {
+    return '<option value="' + item.code + '" ' + (item.code === currentCode ? 'selected' : '') + '>' + item.name + '</option>';
+  }).join('');
+}
+function syncAddonRightUnit() {
+  var code = document.getElementById('addonRightCode').value;
+  var def = getRightDef(code);
+  document.getElementById('addonRightUnit').value = def.unit || '';
+}
+function renderAddonRight() {
+  var select = document.getElementById('addonRightCode');
+  if (!select.options.length) {
+    select.innerHTML = addonRightOptions('QUOTA_ORDER_QTY');
+  }
+  syncAddonRightUnit();
 }
 function renderRights() {
   var body = document.getElementById('rightsBody');
@@ -472,25 +520,33 @@ function syncPriceUnit() {
   var mode = document.getElementById('priceMode').value;
   var unit = document.getElementById('priceUnit');
   if (mode === '按年订阅') unit.value = '年';
+  if (mode === '固定单价') unit.value = currentProductType === 'ADDON' ? '包' : '';
   if (mode === '一次性') unit.value = '次';
   if (mode === '按量计费') unit.value = '单';
   if (mode === '线下报价') unit.value = '';
 }
 function applyType(type) {
+  currentProductType = type;
   document.querySelectorAll('#typeSegment button').forEach(function(btn) {
     btn.classList.toggle('active', btn.getAttribute('data-type') === type);
   });
   var priceMode = document.getElementById('priceMode');
   var unit = document.getElementById('priceUnit');
+  var unitLabel = document.getElementById('priceUnitLabel');
+  document.getElementById('mainRightsConfig').classList.toggle('hidden', type !== 'MAIN');
+  document.getElementById('addonRightsConfig').classList.toggle('hidden', type !== 'ADDON');
   if (type === 'MAIN') {
     priceMode.value = '按年订阅';
     unit.value = '年';
+    unitLabel.textContent = '售卖周期';
     document.querySelectorAll('.system-option input').forEach(function(input) {
       input.checked = input.getAttribute('data-system') === 'ERP';
     });
   } else {
-    priceMode.value = '按年订阅';
+    priceMode.value = '固定单价';
     unit.value = '包';
+    unitLabel.textContent = '售卖单位';
+    renderAddonRight();
   }
 }
 function confirmPublish() {
@@ -511,6 +567,8 @@ function initPage() {
   document.querySelectorAll('#typeSegment button').forEach(function(btn) {
     btn.addEventListener('click', function() { applyType(btn.getAttribute('data-type')); });
   });
+  renderAddonRight();
+  applyType('MAIN');
   renderRights();
 }
 initPage();
