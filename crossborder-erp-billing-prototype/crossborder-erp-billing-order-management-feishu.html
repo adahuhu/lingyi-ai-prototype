@@ -268,7 +268,8 @@
     }
     .create-amount-row {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: minmax(240px, 320px);
+      justify-content: flex-end;
       gap: 12px;
       margin-top: 12px;
     }
@@ -800,7 +801,6 @@ function openDrawer(idx) {
     html += '<tr><td>' + it.name + '</td><td>' + itemPriceText(it) + '</td><td>' + (it.period || o.period || '—') + '</td><td class="num">' + itemQtyText(it) + '</td></tr>';
   });
   html += '</tbody></table><div class="create-amount-row">' +
-    '<div class="create-amount-card"><div class="label">标准金额</div><div class="value">' + moneyText(o.standardAmount || o.amount) + '</div></div>' +
     '<div class="create-amount-card"><div class="label">成交金额</div><div class="value">' + moneyText(o.amount) + '</div></div>' +
     '</div></section>';
   html += '<section class="order-detail-section"><h4>附件</h4><div class="attachment-list">' +
@@ -834,7 +834,7 @@ function openCreate() {
     '</div></section>' +
     '<section class="order-detail-section"><h4>订单项</h4><table class="order-detail-table"><thead><tr><th>商品</th><th>单价</th><th>购买周期</th><th id="createQtyHead" class="num">数量</th></tr></thead><tbody>' +
     '<tr><td><select id="createProduct" class="create-control" onchange="syncCreateProduct()"><option value="erpFlagship">ERP 旗舰版</option><option value="erpPro">ERP 专业版</option><option value="scmEnt">SCM 企业版</option><option value="orderPack">订单扩容包</option><option value="mskuPack">MSKU 扩容包</option><option value="kdcs">金蝶云星空对接</option></select></td><td id="createUnitPrice">¥69,800/年</td><td><span id="createPeriodText" class="create-period-pill">1年</span></td><td id="createQtyCell" class="num"><input id="createQty" class="create-control" type="number" min="1" value="1" onchange="syncCreateProduct()" style="width:76px;display:inline-block"></td></tr>' +
-    '</tbody></table><div class="create-amount-row"><div class="create-amount-card"><div class="label">标准金额</div><div class="value" id="createStandardAmount">¥69,800</div></div><div class="create-amount-card"><div class="label">成交金额</div><input id="createDealAmount" class="create-control money" value="¥69,800"></div></div></section>' +
+    '</tbody></table><div class="create-amount-row"><div class="create-amount-card"><div class="label">成交金额</div><input id="createDealAmount" class="create-control money" value="¥69,800"></div></div></section>' +
     '<section class="order-detail-section"><h4>附件</h4><div class="attachment-list">' +
     '<a class="attachment-chip" href="#" onclick="return false"><span class="file-icon"></span><span>银行水单：点击上传</span></a>' +
     '<a class="attachment-chip" href="#" onclick="return false"><span class="file-icon"></span><span>合同附件：点击上传</span></a>' +
@@ -937,10 +937,9 @@ function syncCreateProduct() {
   document.getElementById('createUnitPrice').textContent = product.price === 0 ? '¥0' : formatCreateMoney(product.price) + '/' + product.unit;
   document.getElementById('createPeriodText').textContent = cycle.label;
   var orderTypeEl = document.getElementById('createOrderType');
-  var standardAmount = isPackage ? product.price * getCreatePeriodFactor() : product.price * qty;
-  if (orderTypeEl && orderTypeEl.value === '试用') standardAmount = 0;
-  document.getElementById('createStandardAmount').textContent = formatCreateMoney(standardAmount);
-  document.getElementById('createDealAmount').value = formatCreateMoney(standardAmount);
+  var dealAmount = isPackage ? product.price * getCreatePeriodFactor() : product.price * qty;
+  if (orderTypeEl && orderTypeEl.value === '试用') dealAmount = 0;
+  document.getElementById('createDealAmount').value = formatCreateMoney(dealAmount);
 }
 
 /* ===== 行内操作（一期：直接生效，不走二次审批） ===== */
