@@ -76,8 +76,6 @@
     </header>
 
     <main class="ly-tenant-main">
-      <div class="ly-tenant-crumb">费用中心 &gt; 订单记录</div>
-
       <div class="ly-tenant-card" style="padding:0">
         <div class="order-toolbar">
           <span class="filter-tab active" id="tabAll" onclick="setTab(this)">全部</span>
@@ -91,9 +89,9 @@
             <input id="tenantKeyword" type="text" placeholder="输入后回车搜索" onkeydown="if(event.key==='Enter')applyTenantOrderFilter()">
           </div>
           <span style="margin-left:16px;font-size:13px;color:var(--ly-muted)">时间</span>
-          <input type="date" value="2024-01-01" style="height:30px;border:1px solid #d9d9d9;padding:0 6px">
+          <input type="date" value="2026-06-01" style="height:30px;border:1px solid #d9d9d9;padding:0 6px">
           <span>~</span>
-          <input type="date" value="2026-12-31" style="height:30px;border:1px solid #d9d9d9;padding:0 6px">
+          <input type="date" value="2026-06-30" style="height:30px;border:1px solid #d9d9d9;padding:0 6px">
         </div>
         <div class="ly-table-wrap">
           <table>
@@ -109,9 +107,9 @@
               </tr>
             </thead>
             <tbody id="tenantOrderBody">
-              <tr data-code="PO-20260518004" data-product="ERP 旗舰版（续费）" data-status="已生效">
+              <tr data-code="PO-20260518004" data-product="ERP 旗舰版" data-status="已生效">
                 <td>PO-20260518004</td>
-                <td>ERP 旗舰版（续费）</td>
+                <td>ERP 旗舰版</td>
                 <td>续费</td>
                 <td>¥69,800</td>
                 <td>2027-01-01</td>
@@ -127,9 +125,9 @@
                 <td>—</td>
                 <td><span class="ly-tenant-tag green">已生效</span></td>
               </tr>
-              <tr data-code="PO-20260315002" data-product="订单扩容包 ×2" data-status="已生效">
+              <tr data-code="PO-20260315002" data-product="订单扩容包" data-status="已生效">
                 <td>PO-20260315002</td>
-                <td>订单扩容包 ×2</td>
+                <td>订单扩容包</td>
                 <td>扩容</td>
                 <td>¥2,000</td>
                 <td>2026-03-15</td>
