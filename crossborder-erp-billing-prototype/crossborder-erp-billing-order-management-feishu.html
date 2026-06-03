@@ -230,6 +230,64 @@
     }
     .order-info-grid .label { color: var(--ly-muted); }
     .order-info-grid .value { color: var(--ly-text); }
+    .create-control {
+      width: 100%;
+      height: 32px;
+      border: 1px solid #d7dde8;
+      border-radius: 4px;
+      padding: 0 10px;
+      background: #fff;
+      color: var(--ly-text);
+      font-size: 13px;
+      box-sizing: border-box;
+    }
+    .create-control:focus {
+      outline: 0;
+      border-color: var(--ly-primary);
+      box-shadow: 0 0 0 2px rgba(47, 107, 255, .08);
+    }
+    .create-control.money {
+      text-align: right;
+      font-family: var(--ly-font-num);
+      font-weight: 600;
+    }
+    .create-readonly {
+      color: var(--ly-muted);
+      background: #f7f9fc;
+    }
+    .create-period-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: #eef4ff;
+      color: var(--ly-primary);
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .create-amount-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .create-amount-card {
+      border: 1px solid #e5e9f2;
+      border-radius: 6px;
+      background: #fbfcff;
+      padding: 12px 14px;
+    }
+    .create-amount-card .label {
+      color: var(--ly-muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+    .create-amount-card .value {
+      font-size: 18px;
+      font-weight: 700;
+      font-family: var(--ly-font-num);
+    }
     .order-detail-table {
       width: 100%;
       border-collapse: collapse;
@@ -745,13 +803,14 @@ function openCreate() {
   document.getElementById('dBody').innerHTML =
     '<section class="order-detail-section"><h4>基础信息</h4><div class="order-info-grid">' +
     '<div class="item"><span class="label">租户</span><span class="value">' + buyer + '</span></div>' +
-    '<div class="item"><span class="label">订单类型</span><span class="value"><select style="height:30px;border:1px solid #d7dde8;border-radius:3px;padding:0 8px"><option>新购</option><option>续费</option><option>扩容</option></select></span></div>' +
-    '<div class="item"><span class="label">生效时间</span><span class="value"><input type="date" value="2026-06-02" style="height:30px;border:1px solid #d7dde8;border-radius:3px;padding:0 8px"></span></div>' +
-    '<div class="item"><span class="label">到期时间</span><span class="value"><input type="date" value="2027-06-01" style="height:30px;border:1px solid #d7dde8;border-radius:3px;padding:0 8px"></span></div>' +
+    '<div class="item"><span class="label">订单类型</span><span class="value"><select id="createOrderType" class="create-control" onchange="syncCreateOrderType()"><option>新购</option><option>续费</option><option>升级</option><option>扩容</option><option>试用</option></select></span></div>' +
+    '<div class="item"><span class="label">购买周期</span><span class="value"><select id="createCycle" class="create-control" onchange="syncCreatePeriod()"><option value="15d">15天</option><option value="1m">1个月</option><option value="3m">3个月</option><option value="1y" selected>1年</option><option value="2y">2年</option><option value="3y">3年</option><option value="custom">自定义</option></select></span></div>' +
+    '<div class="item"><span class="label">生效时间</span><span class="value"><input id="createStart" class="create-control" type="date" value="2026-06-02" onchange="syncCreatePeriod()"></span></div>' +
+    '<div class="item"><span class="label">到期时间</span><span class="value"><input id="createEnd" class="create-control" type="date" value="2027-06-01" onchange="markCreateCustomPeriod()"></span></div>' +
     '</div></section>' +
-    '<section class="order-detail-section"><h4>订单项</h4><table class="order-detail-table"><thead><tr><th>商品</th><th class="num">数量</th><th class="num">成交金额</th></tr></thead><tbody>' +
-    '<tr><td><select style="width:100%;height:30px;border:1px solid #d7dde8;border-radius:3px;padding:0 8px"><option>ERP 旗舰版</option><option>订单扩容包</option><option>MSKU 扩容包</option><option>金蝶云星空对接</option></select></td><td class="num"><input type="number" value="1" style="width:72px;height:30px;border:1px solid #d7dde8;border-radius:3px;padding:0 8px"></td><td class="num"><input value="¥69,800" style="width:120px;height:30px;border:1px solid #d7dde8;border-radius:3px;padding:0 8px;text-align:right"></td></tr>' +
-    '</tbody></table></section>' +
+    '<section class="order-detail-section"><h4>订单项</h4><table class="order-detail-table"><thead><tr><th>商品</th><th>单价</th><th>购买周期</th><th id="createQtyHead" class="num">数量</th></tr></thead><tbody>' +
+    '<tr><td><select id="createProduct" class="create-control" onchange="syncCreateProduct()"><option value="erpFlagship">ERP 旗舰版</option><option value="erpPro">ERP 专业版</option><option value="scmEnt">SCM 企业版</option><option value="orderPack">订单扩容包</option><option value="mskuPack">MSKU 扩容包</option><option value="kdcs">金蝶云星空对接</option></select></td><td id="createUnitPrice">¥69,800/年</td><td><span id="createPeriodText" class="create-period-pill">1年</span></td><td id="createQtyCell" class="num"><input id="createQty" class="create-control" type="number" min="1" value="1" onchange="syncCreateProduct()" style="width:76px;display:inline-block"></td></tr>' +
+    '</tbody></table><div class="create-amount-row"><div class="create-amount-card"><div class="label">标准金额</div><div class="value" id="createStandardAmount">¥69,800</div></div><div class="create-amount-card"><div class="label">成交金额</div><input id="createDealAmount" class="create-control money" value="¥69,800"></div></div></section>' +
     '<section class="order-detail-section"><h4>附件</h4><div class="attachment-list">' +
     '<a class="attachment-chip" href="#" onclick="return false"><span class="file-icon"></span><span>银行水单：点击上传</span></a>' +
     '<a class="attachment-chip" href="#" onclick="return false"><span class="file-icon"></span><span>合同附件：点击上传</span></a>' +
@@ -761,6 +820,103 @@ function openCreate() {
     '<button type="button" class="ly-btn ly-btn-primary" onclick="closeDrawer()">保存并开通</button>';
   document.getElementById('dActions').style.display = 'flex';
   document.getElementById('drawerMask').classList.add('open');
+  syncCreatePeriod();
+  syncCreateProduct();
+}
+
+var CREATE_PRODUCTS = {
+  erpFlagship: { name: 'ERP 旗舰版', type: 'package', price: 69800, unit: '年' },
+  erpPro: { name: 'ERP 专业版', type: 'package', price: 29800, unit: '年' },
+  scmEnt: { name: 'SCM 企业版', type: 'package', price: 48000, unit: '年' },
+  orderPack: { name: '订单扩容包', type: 'addon', price: 1000, unit: '包' },
+  mskuPack: { name: 'MSKU 扩容包', type: 'addon', price: 2000, unit: '包' },
+  kdcs: { name: '金蝶云星空对接', type: 'service', price: 20000, unit: '次' }
+};
+var CREATE_CYCLES = {
+  '15d': { label: '15天', amountFactor: 15 / 365 },
+  '1m': { label: '1个月', amountFactor: 1 / 12 },
+  '3m': { label: '3个月', amountFactor: 1 / 4 },
+  '1y': { label: '1年', amountFactor: 1 },
+  '2y': { label: '2年', amountFactor: 2 },
+  '3y': { label: '3年', amountFactor: 3 },
+  custom: { label: '自定义', amountFactor: 1 }
+};
+function addCreatePeriod(start, cycle) {
+  var end = new Date(start.getTime());
+  if (cycle === '15d') end.setDate(end.getDate() + 15);
+  if (cycle === '1m') end.setMonth(end.getMonth() + 1);
+  if (cycle === '3m') end.setMonth(end.getMonth() + 3);
+  if (cycle === '1y') end.setFullYear(end.getFullYear() + 1);
+  if (cycle === '2y') end.setFullYear(end.getFullYear() + 2);
+  if (cycle === '3y') end.setFullYear(end.getFullYear() + 3);
+  end.setDate(end.getDate() - 1);
+  return end;
+}
+function formatCreateDate(date) {
+  function p(n) { return n < 10 ? '0' + n : n; }
+  return date.getFullYear() + '-' + p(date.getMonth() + 1) + '-' + p(date.getDate());
+}
+function formatCreateMoney(amount) {
+  return '¥' + Math.round(amount).toLocaleString();
+}
+function markCreateCustomPeriod() {
+  var cycle = document.getElementById('createCycle');
+  if (cycle && cycle.value !== 'custom') {
+    cycle.value = 'custom';
+    syncCreateProduct();
+  }
+}
+function syncCreatePeriod() {
+  var cycle = document.getElementById('createCycle');
+  var start = document.getElementById('createStart');
+  var end = document.getElementById('createEnd');
+  if (!cycle || !start || !end) return;
+  if (cycle.value !== 'custom' && start.value) {
+    end.value = formatCreateDate(addCreatePeriod(new Date(start.value + 'T00:00:00'), cycle.value));
+  }
+  syncCreateProduct();
+}
+function getCreatePeriodFactor() {
+  var cycleEl = document.getElementById('createCycle');
+  var startEl = document.getElementById('createStart');
+  var endEl = document.getElementById('createEnd');
+  if (!cycleEl) return 1;
+  if (cycleEl.value !== 'custom') return (CREATE_CYCLES[cycleEl.value] || CREATE_CYCLES['1y']).amountFactor;
+  if (!startEl || !endEl || !startEl.value || !endEl.value) return 1;
+  var start = new Date(startEl.value + 'T00:00:00');
+  var end = new Date(endEl.value + 'T00:00:00');
+  var days = Math.max(Math.round((end - start) / 86400000) + 1, 1);
+  return days / 365;
+}
+function syncCreateOrderType() {
+  var typeEl = document.getElementById('createOrderType');
+  var cycleEl = document.getElementById('createCycle');
+  if (typeEl && cycleEl && typeEl.value === '试用') {
+    cycleEl.value = '15d';
+    syncCreatePeriod();
+    return;
+  }
+  syncCreateProduct();
+}
+function syncCreateProduct() {
+  var productEl = document.getElementById('createProduct');
+  var cycleEl = document.getElementById('createCycle');
+  var qtyEl = document.getElementById('createQty');
+  if (!productEl || !cycleEl || !qtyEl) return;
+  var product = CREATE_PRODUCTS[productEl.value];
+  var cycle = CREATE_CYCLES[cycleEl.value] || CREATE_CYCLES.custom;
+  var qty = Math.max(parseInt(qtyEl.value || '1', 10), 1);
+  qtyEl.value = qty;
+  var isPackage = product.type === 'package';
+  document.getElementById('createQtyHead').style.display = isPackage ? 'none' : '';
+  document.getElementById('createQtyCell').style.display = isPackage ? 'none' : '';
+  document.getElementById('createUnitPrice').textContent = product.price === 0 ? '¥0' : formatCreateMoney(product.price) + '/' + product.unit;
+  document.getElementById('createPeriodText').textContent = cycle.label;
+  var orderTypeEl = document.getElementById('createOrderType');
+  var standardAmount = isPackage ? product.price * getCreatePeriodFactor() : product.price * qty;
+  if (orderTypeEl && orderTypeEl.value === '试用') standardAmount = 0;
+  document.getElementById('createStandardAmount').textContent = formatCreateMoney(standardAmount);
+  document.getElementById('createDealAmount').value = formatCreateMoney(standardAmount);
 }
 
 /* ===== 行内操作（一期：直接生效，不走二次审批） ===== */
