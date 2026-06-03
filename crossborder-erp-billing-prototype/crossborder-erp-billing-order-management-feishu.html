@@ -517,11 +517,12 @@
 var ORDERS = [
   {
     code: 'PO-20260518004', customer: '杭州星河跨境', type: '续费',
-    items: [{ name: 'ERP 旗舰版（续费）', qty: 1, price: 69800, subtotal: 69800 }],
-    amount: 69800, status: '草稿', noSlip: true,
+    period: '1年',
+    items: [{ name: 'ERP 旗舰版', qty: 1, price: 69800, unit: '年', period: '1年', subtotal: 69800 }],
+    standardAmount: 69800, amount: 69800, status: '草稿', noSlip: true,
     createdAt: '2026-05-18 10:23', createdBy: '胡仕玲',
     openedAt: null, openedBy: null,
-    startAt: null, endAt: '2027-12-31',
+    startAt: '2027-01-01', endAt: '2027-12-31',
     snap: [
       { k: '权益模板', v: '续期年订单量 300w · MSKU 10w · 店铺 500（叠加现有）' },
       { k: '授权写入', v: '订单开通后写入 OMS 全部菜单，有效期延长至 2027-12-31' }
@@ -533,8 +534,9 @@ var ORDERS = [
   },
   {
     code: 'PO-20260516003', customer: '深圳速卖通科技', type: '试用',
-    items: [{ name: 'ERP 专业版（试用 15 天）', qty: 1, price: 0, subtotal: 0 }],
-    amount: 0, status: '已开通',
+    period: '15天',
+    items: [{ name: 'ERP 专业版', qty: 1, price: 0, unit: '年', period: '15天', subtotal: 0 }],
+    standardAmount: 0, amount: 0, status: '已开通',
     createdAt: '2026-05-16 09:10', createdBy: '胡仕玲',
     openedAt: '2026-05-16 09:10', openedBy: '系统',
     startAt: '2026-05-16', endAt: '2026-05-31',
@@ -550,8 +552,9 @@ var ORDERS = [
   },
   {
     code: 'PO-20260420002', customer: '杭州星河跨境', type: '新购',
-    items: [{ name: '金蝶云星空对接', qty: 1, price: 20000, subtotal: 20000 }],
-    amount: 20000, status: '已开通',
+    period: '一次性',
+    items: [{ name: '金蝶云星空对接', qty: 1, price: 20000, unit: '次', period: '一次性', subtotal: 20000 }],
+    standardAmount: 20000, amount: 20000, status: '已开通',
     createdAt: '2026-04-20 14:30', createdBy: '商务A',
     openedAt: '2026-04-22 11:05', openedBy: '胡仕玲',
     startAt: '2026-04-22', endAt: '—',
@@ -568,8 +571,9 @@ var ORDERS = [
   },
   {
     code: 'PO-20260315002', customer: '杭州星河跨境', type: '扩容',
-    items: [{ name: '订单扩容包', qty: 2, price: 1000, subtotal: 2000 }],
-    amount: 2000, status: '已开通',
+    period: '至 2026-12-31',
+    items: [{ name: '订单扩容包', qty: 2, price: 1000, unit: '包', period: '至 2026-12-31', subtotal: 2000 }],
+    standardAmount: 2000, amount: 2000, status: '已开通',
     createdAt: '2026-03-15 11:00', createdBy: '商务A',
     openedAt: '2026-03-15 15:40', openedBy: '胡仕玲',
     startAt: '2026-03-15', endAt: '2026-12-31',
@@ -586,8 +590,9 @@ var ORDERS = [
   },
   {
     code: 'PO-20260201005', customer: '广州拓海跨境', type: '新购',
-    items: [{ name: 'SCM 企业版', qty: 1, price: 48000, subtotal: 48000 }],
-    amount: 48000, status: '已开通', expiring: true,
+    period: '约 4个月',
+    items: [{ name: 'SCM 企业版', qty: 1, price: 48000, unit: '年', period: '约 4个月', subtotal: 48000 }],
+    standardAmount: 48000, amount: 48000, status: '已开通', expiring: true,
     createdAt: '2026-02-01 10:00', createdBy: '商务B',
     openedAt: '2026-02-02 09:30', openedBy: '胡仕玲',
     startAt: '2026-02-02', endAt: '2026-06-15',
@@ -604,8 +609,9 @@ var ORDERS = [
   },
   {
     code: 'PO-20251015008', customer: '广州拓海跨境', type: '新购',
-    items: [{ name: '物流轨迹包', qty: 1, price: 5000, subtotal: 5000 }],
-    amount: 5000, status: '已开通', expiring: true,
+    period: '至 2026-06-20',
+    items: [{ name: '物流轨迹包', qty: 1, price: 5000, unit: '包', period: '至 2026-06-20', subtotal: 5000 }],
+    standardAmount: 5000, amount: 5000, status: '已开通', expiring: true,
     createdAt: '2025-10-15 14:00', createdBy: '商务B',
     openedAt: '2025-10-16 10:00', openedBy: '胡仕玲',
     startAt: '2025-10-16', endAt: '2026-06-20',
@@ -621,8 +627,9 @@ var ORDERS = [
   },
   {
     code: 'PO-20260108006', customer: '上海跨境一号', type: '新购',
-    items: [{ name: 'ERP 专业版', qty: 1, price: 32000, subtotal: 32000 }],
-    amount: 32000, status: '已到期',
+    period: '约 4个月',
+    items: [{ name: 'ERP 专业版', qty: 1, price: 32000, unit: '年', period: '约 4个月', subtotal: 32000 }],
+    standardAmount: 32000, amount: 32000, status: '已到期',
     createdAt: '2026-01-08 09:00', createdBy: '商务A',
     openedAt: '2026-01-09 10:00', openedBy: '胡仕玲',
     startAt: '2026-01-09', endAt: '2026-04-30',
@@ -640,8 +647,9 @@ var ORDERS = [
   },
   {
     code: 'PO-20251201007', customer: '杭州星河跨境', type: '扩容',
-    items: [{ name: 'MSKU 扩容包', qty: 1, price: 2000, subtotal: 2000 }],
-    amount: 2000, status: '已作废',
+    period: '至 2026-12-31',
+    items: [{ name: 'MSKU 扩容包', qty: 1, price: 2000, unit: '包', period: '至 2026-12-31', subtotal: 2000 }],
+    standardAmount: 2000, amount: 2000, status: '已作废',
     createdAt: '2025-12-01 11:30', createdBy: '商务A',
     openedAt: '2025-12-01 14:00', openedBy: '胡仕玲',
     startAt: '2025-12-01', endAt: '2026-12-31',
@@ -739,6 +747,17 @@ function attachmentChip(fileName, label) {
   return "<a class=\"attachment-chip\" href=\"#\" onclick=\"alert('预览 " + fileName + "');return false\">" +
     '<span class="file-icon"></span><span>' + label + '：' + fileName + '</span></a>';
 }
+function moneyText(amount) {
+  return amount === 0 ? '¥0' : '¥' + Number(amount || 0).toLocaleString();
+}
+function itemPriceText(it) {
+  if (!it.price) return '¥0';
+  return moneyText(it.price) + (it.unit ? '/' + it.unit : '');
+}
+function itemQtyText(it) {
+  if (it.unit === '年' && Number(it.qty || 1) === 1) return '—';
+  return it.qty || 1;
+}
 
 /* ===== 行内操作（按状态动态显示） ===== */
 function buildOps(o, idx) {
@@ -770,15 +789,20 @@ function openDrawer(idx) {
   html += '<section class="order-detail-section"><h4>基础信息</h4><div class="order-info-grid">' +
     '<div class="item"><span class="label">租户</span><span class="value">' + o.customer + '</span></div>' +
     '<div class="item"><span class="label">订单类型</span><span class="value">' + o.type + '</span></div>' +
-    '<div class="item"><span class="label">创建人</span><span class="value">' + o.createdBy + ' · ' + o.createdAt + '</span></div>' +
+    '<div class="item"><span class="label">购买周期</span><span class="value">' + (o.period || '—') + '</span></div>' +
     '<div class="item"><span class="label">生效时间</span><span class="value">' + (o.startAt || '—') + '</span></div>' +
     '<div class="item"><span class="label">到期时间</span><span class="value">' + (o.endAt || '—') + (o.expiring ? ' <span style="color:#d46b08;font-size:12px">（30 天内到期）</span>' : '') + '</span></div>' +
+    '<div class="item"><span class="label">创建人</span><span class="value">' + o.createdBy + '</span></div>' +
+    '<div class="item"><span class="label">创建时间</span><span class="value">' + o.createdAt + '</span></div>' +
     '</div></section>';
-  html += '<section class="order-detail-section"><h4>订单项</h4><table class="order-detail-table"><thead><tr><th>商品</th><th class="num">数量</th><th class="num">单价</th><th class="num">小计</th></tr></thead><tbody>';
+  html += '<section class="order-detail-section"><h4>订单项</h4><table class="order-detail-table"><thead><tr><th>商品</th><th>单价</th><th>购买周期</th><th class="num">数量</th></tr></thead><tbody>';
   o.items.forEach(function (it) {
-    html += '<tr><td>' + it.name + '</td><td class="num">' + it.qty + '</td><td class="num">¥' + it.price.toLocaleString() + '</td><td class="num">¥' + it.subtotal.toLocaleString() + '</td></tr>';
+    html += '<tr><td>' + it.name + '</td><td>' + itemPriceText(it) + '</td><td>' + (it.period || o.period || '—') + '</td><td class="num">' + itemQtyText(it) + '</td></tr>';
   });
-  html += '<tr><td colspan="3" class="num"><strong>合计（含税）</strong></td><td class="num"><strong>¥' + o.amount.toLocaleString() + '</strong></td></tr></tbody></table></section>';
+  html += '</tbody></table><div class="create-amount-row">' +
+    '<div class="create-amount-card"><div class="label">标准金额</div><div class="value">' + moneyText(o.standardAmount || o.amount) + '</div></div>' +
+    '<div class="create-amount-card"><div class="label">成交金额</div><div class="value">' + moneyText(o.amount) + '</div></div>' +
+    '</div></section>';
   html += '<section class="order-detail-section"><h4>附件</h4><div class="attachment-list">' +
     attachmentChip(o.slip, '银行水单') +
     attachmentChip(o.contract, '合同/补充材料') +
