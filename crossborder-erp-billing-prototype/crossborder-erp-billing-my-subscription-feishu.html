@@ -408,8 +408,8 @@
           </article>
         </div>
 
-        <!-- 第二组：已开通增值服务 -->
-        <div class="quota-group-title">已开通增值服务</div>
+        <!-- 第二组：增值服务 -->
+        <div class="quota-group-title">增值服务</div>
         <div class="ly-tenant-quota-grid">
           <article class="ly-tenant-quota-card">
             <h3>邮件索评额度</h3>
@@ -449,21 +449,7 @@
           </article>
         </div>
 
-        <!-- 第三组：服务进度 -->
-        <div class="quota-group-title">服务进度</div>
-        <div class="ly-tenant-quota-grid">
-          <article class="ly-tenant-quota-card">
-            <h3>金蝶云星空对接</h3>
-            <div class="meta">服务状态 / 计划完成</div>
-            <div class="num">服务中 <span>/ 2026-06-30</span></div>
-            <div class="bar"><i style="width:60%"></i></div>
-            <div class="acts">
-              <a class="quota-card-link" href="#" onclick="openTenantMilestone();return false">查看进度 →</a>
-            </div>
-          </article>
-        </div>
-
-        <!-- 第四组：可购买方案 -->
+        <!-- 第三组：可购买方案 -->
         <div class="quota-group-title">可购买方案</div>
         <div class="offer-tabs">
           <span class="offer-tab active" data-tab="plan" onclick="setOfferTab('plan')">套餐</span>
@@ -594,49 +580,7 @@
   </aside>
 </div>
 
-<!-- 服务里程碑抽屉（与平台客户详情同款） -->
-<div class="ly-drawer-mask" id="msMask" onclick="if(event.target===this)closeTenantMilestone()">
-  <aside class="ly-drawer" onclick="event.stopPropagation()" style="width:480px">
-    <h3>服务进度 · 金蝶云星空对接</h3>
-    <div style="padding:0 16px;font-size:13px;color:var(--ly-muted)">
-      订单 PO-20260420003 · 负责人 周启 · 计划完成 2026-06-30
-    </div>
-    <ul style="padding: 16px;list-style:none;margin:0">
-      <li style="padding:10px 0 10px 24px;border-left:2px solid #52c41a;margin-left:6px;position:relative;font-size:13px">
-        <span style="position:absolute;left:-7px;top:12px;width:12px;height:12px;border-radius:50%;background:#52c41a"></span>
-        <div style="font-weight:500">需求确认</div>
-        <div style="color:var(--ly-muted);font-size:12px;margin-top:2px">2026-04-22 完成 · 周启</div>
-      </li>
-      <li style="padding:10px 0 10px 24px;border-left:2px solid #52c41a;margin-left:6px;position:relative;font-size:13px">
-        <span style="position:absolute;left:-7px;top:12px;width:12px;height:12px;border-radius:50%;background:#52c41a"></span>
-        <div style="font-weight:500">环境对接</div>
-        <div style="color:var(--ly-muted);font-size:12px;margin-top:2px">2026-05-08 完成 · 周启 / 客户运维</div>
-      </li>
-      <li style="padding:10px 0 10px 24px;border-left:2px solid var(--ly-primary);margin-left:6px;position:relative;font-size:13px">
-        <span style="position:absolute;left:-7px;top:12px;width:12px;height:12px;border-radius:50%;background:var(--ly-primary)"></span>
-        <div style="font-weight:500">数据映射与联调</div>
-        <div style="color:var(--ly-muted);font-size:12px;margin-top:2px">进行中 · 预计 2026-05-30</div>
-      </li>
-      <li style="padding:10px 0 10px 24px;border-left:2px solid var(--ly-border);margin-left:6px;position:relative;font-size:13px">
-        <span style="position:absolute;left:-7px;top:12px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--ly-border)"></span>
-        <div style="font-weight:500">UAT 验收</div>
-        <div style="color:var(--ly-muted);font-size:12px;margin-top:2px">未开始 · 计划 2026-06-15</div>
-      </li>
-      <li style="padding:10px 0 10px 24px;border-left:2px solid var(--ly-border);margin-left:6px;position:relative;font-size:13px">
-        <span style="position:absolute;left:-7px;top:12px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--ly-border)"></span>
-        <div style="font-weight:500">正式切换</div>
-        <div style="color:var(--ly-muted);font-size:12px;margin-top:2px">未开始 · 计划 2026-06-30</div>
-      </li>
-    </ul>
-    <div style="padding:12px 16px;text-align:right;border-top:1px solid var(--ly-border)">
-      <button type="button" class="ly-btn" onclick="closeTenantMilestone()">关闭</button>
-    </div>
-  </aside>
-</div>
-
 <script>
-function openTenantMilestone() { document.getElementById('msMask').classList.add('open'); }
-function closeTenantMilestone() { document.getElementById('msMask').classList.remove('open'); }
 function openProductDetail(item) {
   window.location.href = 'crossborder-erp-billing-tenant-product-detail.html?item=' + encodeURIComponent(item);
 }
