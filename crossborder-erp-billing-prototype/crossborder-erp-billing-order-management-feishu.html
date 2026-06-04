@@ -82,9 +82,45 @@
       height: 34px;
       line-height: 1;
     }
-    /* 表格内容描述（多商品折行） */
+    /* 表格内容描述（多订单项摘要） */
     .order-content { line-height: 1.5; }
     .order-content .extra { font-size: 12px; color: var(--ly-muted); }
+    .order-content .item-count {
+      display: inline-flex;
+      align-items: center;
+      height: 18px;
+      padding: 0 6px;
+      margin-left: 6px;
+      border-radius: 9px;
+      background: #eef4ff;
+      color: #2f6bff;
+      font-size: 12px;
+      line-height: 18px;
+      vertical-align: 1px;
+      position: relative;
+      cursor: default;
+    }
+    .order-content .item-count:hover .order-items-popover {
+      display: block;
+    }
+    .order-items-popover {
+      display: none;
+      position: absolute;
+      z-index: 20;
+      left: 0;
+      top: 24px;
+      min-width: 220px;
+      max-width: 320px;
+      padding: 10px 12px;
+      border: 1px solid #dbe3ef;
+      border-radius: 6px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+      color: var(--ly-text);
+      font-size: 12px;
+      line-height: 1.7;
+      white-space: normal;
+    }
     .cell-sub { display: block; margin-top: 3px; color: var(--ly-muted); font-size: 12px; line-height: 1.4; }
     .money-cell { text-align: right; font-weight: 600; white-space: nowrap; }
     .link-muted { color: var(--ly-muted); }
@@ -350,6 +386,29 @@
       text-align: center;
       white-space: nowrap;
     }
+    .entitlement-result-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .entitlement-result-item {
+      display: grid;
+      grid-template-columns: minmax(120px, 180px) 1fr;
+      gap: 12px;
+      padding: 10px 12px;
+      border: 1px solid #edf1f7;
+      border-radius: 6px;
+      background: #fbfcff;
+      font-size: 13px;
+    }
+    .entitlement-result-item .name {
+      font-weight: 600;
+      color: var(--ly-text);
+    }
+    .entitlement-result-item .result {
+      color: var(--ly-muted);
+      line-height: 1.5;
+    }
     .create-table-actions {
       margin-top: 10px;
       display: flex;
@@ -461,9 +520,9 @@
           <div class="ly-field">
             <div class="search-field-group">
               <select id="fSearchType">
-                <option value="" selected></option>
+                <option value="code" selected>订单编号</option>
+                <option value="tenant">租户</option>
                 <option value="product">商品名称</option>
-                <option value="code">订单编号</option>
               </select>
               <input type="text" id="fKeyword" placeholder="输入后回车搜索" onkeydown="if(event.key==='Enter')applyFilter()">
             </div>
@@ -580,18 +639,22 @@ var ORDERS = [
   {
     code: 'PO-20260518004', customer: '杭州星河跨境', type: '续费',
     period: '1年',
-    items: [{ name: 'ERP 旗舰版', qty: 1, price: 69800, unit: '年', period: '1年', subtotal: 69800 }],
-    standardAmount: 69800, amount: 69800, status: '草稿', noSlip: true,
+    items: [
+      { name: 'ERP 旗舰版', qty: 1, price: 69800, unit: '年', period: '1年', subtotal: 69800, result: '延长主套餐与系统授权，有效期至 2027-12-31' },
+      { name: '订单扩容包', qty: 2, price: 1000, unit: '包', period: '至 2027-12-31', subtotal: 2000, result: '年订单量增加 20 万，计入当前权益池' },
+      { name: '物流轨迹查询', qty: 1, price: 5000, unit: '服务', period: '至 2027-12-31', subtotal: 5000, result: '开通服务权限，后续按业务系统上报消耗' }
+    ],
+    standardAmount: 76800, amount: 76800, status: '草稿', noSlip: true,
     createdAt: '2026-05-18 10:23', createdBy: '胡仕玲',
     openedAt: null, openedBy: null,
     startAt: '2027-01-01', endAt: '2027-12-31',
     snap: [
-      { k: '权益模板', v: '续期年订单量 300w · MSKU 10w · 店铺 500（叠加现有）' },
-      { k: '授权写入', v: '订单开通后写入 OMS 全部菜单，有效期延长至 2027-12-31' }
+      { k: '订单项处理', v: '主套餐续费 + 订单扩容包 ×2 + 物流轨迹查询，开通后逐项生成权益或服务记录' },
+      { k: '汇总结果', v: '主套餐有效期延长至 2027-12-31；年订单量额外增加 20 万；物流轨迹查询服务开通' }
     ],
     slip: null, contract: null,
     log: [
-      { t: '2026-05-18 10:23', who: '胡仕玲', action: '录单（续费）' }
+      { t: '2026-05-18 10:23', who: '胡仕玲', action: '创建订单（3 个订单项）' }
     ]
   },
   {
@@ -745,15 +808,12 @@ function statusWithException(o) {
   return statusBadge(o.status) + exceptionBadge(o);
 }
 function retryText(exception) {
-  if (exception === '开通异常') return '重试开通';
-  if (exception === '同步异常') return '重试同步';
-  if (exception === '回收异常') return '重试回收';
   return '重试';
 }
 function exceptionNotice(o) {
   if (!o.exception) return '';
   var text = '当前订单存在' + o.exception + '，租户侧暂未完全生效。平台人员可在订单列表执行' + retryText(o.exception) + '。';
-  if (o.exception === '回收异常') text = '当前订单存在回收异常，回收完成前相关权益不得继续放行新增消耗。平台人员可在订单列表执行重试回收。';
+  if (o.exception === '回收异常') text = '当前订单存在回收异常，回收完成前相关权益不得继续放行新增消耗。平台人员可在订单列表执行重试。';
   return '<div class="exception-notice"><span>!</span><div><strong>异常提示：</strong>' + text + '</div></div>';
 }
 
@@ -768,6 +828,7 @@ function orderMatchesForm(o) {
   var content = o.items.map(function (it) { return it.name; }).join(' ');
   var haystack = content;
   if (searchType === 'code') haystack = o.code;
+  if (searchType === 'tenant') haystack = o.customer;
   if (searchType === 'product') haystack = content;
   haystack = String(haystack || '').toLowerCase();
   if (keyword && haystack.indexOf(keyword) === -1) return false;
@@ -797,7 +858,7 @@ function render() {
   list.forEach(function (entry) {
     var o = entry.order;
     var idx = entry.idx;
-    var content = o.items.map(function (it) { return it.name + (it.qty > 1 ? ' ×' + it.qty : ''); }).join('<br>');
+    var content = orderContentSummary(o);
     var ops = buildOps(o, idx);
     var amountStr = o.amount === 0 ? '¥0' : '¥' + o.amount.toLocaleString();
     var attachments = attachmentSummary(o);
@@ -842,6 +903,24 @@ function itemQtyText(it) {
   if (it.unit === '年' && Number(it.qty || 1) === 1) return '—';
   return it.qty || 1;
 }
+function orderItemName(it) {
+  return it.name + (it.qty > 1 ? ' ×' + it.qty : '');
+}
+function orderContentSummary(o) {
+  var items = o.items || [];
+  if (items.length === 0) return '—';
+  var first = orderItemName(items[0]);
+  if (items.length === 1) return first;
+  var all = items.map(orderItemName).join('<br>');
+  return first + '<span class="item-count">共 ' + items.length + ' 项<span class="order-items-popover">' + all + '</span></span>';
+}
+function itemResultText(it) {
+  if (it.result) return it.result;
+  if (it.unit === '年') return '生成或延长主套餐权益与系统授权';
+  if (it.unit === '包') return '按购买数量增加对应权益额度';
+  if (it.unit === '次') return '生成服务记录';
+  return '开通服务权限或生成消耗记录';
+}
 
 /* ===== 行内操作（按状态动态显示） ===== */
 function buildOps(o, idx) {
@@ -855,7 +934,7 @@ function buildOps(o, idx) {
 function applyFilter() { render(); }
 function resetFilter() {
   document.getElementById('fKeyword').value = '';
-  document.getElementById('fSearchType').value = '';
+  document.getElementById('fSearchType').value = 'code';
   document.getElementById('fType').selectedIndex = 0;
   document.getElementById('fStatus').selectedIndex = 0;
   document.getElementById('fSlip').selectedIndex = 0;
@@ -882,13 +961,16 @@ function openDrawer(idx) {
     '<div class="item"><span class="label">创建人</span><span class="value">' + o.createdBy + '</span></div>' +
     '<div class="item"><span class="label">创建时间</span><span class="value">' + o.createdAt + '</span></div>' +
     '</div></section>';
-  html += '<section class="order-detail-section"><h4>订单项</h4><table class="order-detail-table"><thead><tr><th>商品</th><th>单价</th><th>购买周期</th><th class="num">数量</th></tr></thead><tbody>';
+  html += '<section class="order-detail-section"><h4>订单项</h4><table class="order-detail-table"><thead><tr><th>商品</th><th>处理结果</th><th>购买周期</th><th class="num">数量</th><th class="num">成交金额</th></tr></thead><tbody>';
   o.items.forEach(function (it) {
-    html += '<tr><td>' + it.name + '</td><td>' + itemPriceText(it) + '</td><td>' + (it.period || o.period || '—') + '</td><td class="num">' + itemQtyText(it) + '</td></tr>';
+    html += '<tr><td>' + it.name + '</td><td>' + itemResultText(it) + '</td><td>' + (it.period || o.period || '—') + '</td><td class="num">' + itemQtyText(it) + '</td><td class="num">' + moneyText(it.subtotal || 0) + '</td></tr>';
   });
-  html += '</tbody></table><div class="create-amount-row">' +
-    '<div class="create-amount-card"><div class="label">成交金额</div><div class="value">' + moneyText(o.amount) + '</div></div>' +
-    '</div></section>';
+  html += '</tbody><tfoot><tr><td colspan="4" class="num">小计</td><td class="num">' + moneyText(o.amount) + '</td></tr></tfoot></table></section>';
+  html += '<section class="order-detail-section"><h4>权益发放结果</h4><div class="entitlement-result-list">';
+  o.items.forEach(function (it) {
+    html += '<div class="entitlement-result-item"><div class="name">' + orderItemName(it) + '</div><div class="result">' + itemResultText(it) + '</div></div>';
+  });
+  html += '</div></section>';
   html += '<section class="order-detail-section"><h4>附件</h4><div class="attachment-list">' +
     attachmentChip(o.slip, '银行水单') +
     attachmentChip(o.contract, '合同/补充材料') +
@@ -918,7 +1000,7 @@ function openCreate() {
     '<div class="item"><span class="label">生效时间</span><span class="value"><input id="createStart" class="create-control" type="date" value="2026-06-02" onchange="syncCreatePeriod()"></span></div>' +
     '<div class="item"><span class="label">到期时间</span><span class="value"><input id="createEnd" class="create-control" type="date" value="2027-06-01" onchange="markCreateCustomPeriod()"></span></div>' +
     '</div></section>' +
-    '<section class="order-detail-section"><h4>订单项</h4><table class="order-detail-table"><thead><tr><th>商品</th><th>购买周期</th><th class="num">数量</th><th class="num">成交金额</th><th class="row-action">操作</th></tr></thead><tbody id="createItemsBody"></tbody><tfoot><tr><td colspan="3" class="num">小计</td><td class="num" id="createTotalAmount">¥0</td><td></td></tr></tfoot></table><div class="create-table-actions"><a class="ly-link" href="#" onclick="addCreateItem();return false">+ 添加订单项</a><span id="createOpenResult">主套餐权益 + 系统授权</span></div></section>' +
+    '<section class="order-detail-section"><h4>订单项</h4><table class="order-detail-table"><thead><tr><th>商品</th><th>购买周期</th><th class="num">数量</th><th class="num">成交金额</th><th class="row-action">操作</th></tr></thead><tbody id="createItemsBody"></tbody><tfoot><tr><td colspan="3" class="num">小计</td><td class="num" id="createTotalAmount">¥0</td><td></td></tr></tfoot></table><div class="create-table-actions"><a class="ly-link" href="#" onclick="addCreateItem();return false">+ 添加订单项</a><span id="createOpenResult">保存并开通后按订单项生成权益 / 系统开通 / 服务记录</span></div></section>' +
     '<section class="order-detail-section"><h4>附件</h4><div class="attachment-list">' +
     '<a class="attachment-chip" href="#" onclick="return false"><span class="file-icon"></span><span>银行水单：点击上传</span></a>' +
     '<a class="attachment-chip" href="#" onclick="return false"><span class="file-icon"></span><span>合同附件：点击上传</span></a>' +
@@ -934,11 +1016,11 @@ function openCreate() {
 }
 
 var CREATE_PRODUCTS = {
-  erpFlagship: { name: 'ERP 旗舰版', type: 'package', price: 69800, unit: '年' },
-  erpPro: { name: 'ERP 专业版', type: 'package', price: 29800, unit: '年' },
-  scmEnt: { name: 'SCM 企业版', type: 'package', price: 48000, unit: '年' },
-  orderPack: { name: '订单扩容包', type: 'addon', price: 1000, unit: '包' },
-  mskuPack: { name: 'MSKU 扩容包', type: 'addon', price: 2000, unit: '包' },
+  erpFlagship: { name: 'ERP 旗舰版', type: 'package', price: 69800, unit: '年', result: '生成或延长主套餐权益与系统授权' },
+  erpPro: { name: 'ERP 专业版', type: 'package', price: 29800, unit: '年', result: '生成或延长主套餐权益与系统授权' },
+  scmEnt: { name: 'SCM 企业版', type: 'package', price: 48000, unit: '年', result: '生成或延长主套餐权益与系统授权' },
+  orderPack: { name: '订单扩容包', type: 'addon', price: 1000, unit: '包', result: '增加订单量权益额度' },
+  mskuPack: { name: 'MSKU 扩容包', type: 'addon', price: 2000, unit: '包', result: '增加 MSKU 权益额度' },
   traceMeter: { name: '物流轨迹查询', type: 'meteredFixed', price: 0.1, unit: '物流单', defaultAmount: 5000, result: '开通服务权限；按业务系统实际上报物流单累计计费' },
   patentCall: { name: '专利 / 侵权检测', type: 'metered', price: 0, unit: '次', defaultQty: 1, result: '开通服务权限；成功调用生成记录，后续线下核算' },
   kdcs: { name: '金蝶云星空对接', type: 'service', price: 20000, unit: '次' }
@@ -1104,7 +1186,7 @@ function uploadSlip(idx, fromDrawer) {
   }
 }
 function approve(idx, fromDrawer) {
-  if (confirm('确认开通 ' + ORDERS[idx].code + '？\n\n• 立即写入租户权益与菜单授权\n• 状态：草稿 → 已开通')) {
+  if (confirm('确认开通 ' + ORDERS[idx].code + '？\n\n• 按订单项生成权益 / 系统开通 / 服务记录\n• 全部成功后汇总权益池并同步业务系统\n• 状态：草稿 → 已开通')) {
     ORDERS[idx].status = '已开通';
     ORDERS[idx].openedAt = nowStr();
     ORDERS[idx].openedBy = '胡仕玲';
@@ -1114,7 +1196,7 @@ function approve(idx, fromDrawer) {
   }
 }
 function voidOrder(idx, fromDrawer) {
-  if (confirm('确认作废 ' + ORDERS[idx].code + '？\n\n仅未开通的订单可作废；作废后不可恢复。')) {
+  if (confirm('确认作废 ' + ORDERS[idx].code + '？\n\n作废后回收本订单所有订单项贡献的权益和系统开通记录；历史消耗保留。')) {
     ORDERS[idx].status = '已作废';
     ORDERS[idx].log.push({ t: nowStr(), who: '胡仕玲', action: '作废订单' });
     render();
@@ -1122,7 +1204,7 @@ function voidOrder(idx, fromDrawer) {
   }
 }
 function refund(idx, fromDrawer) {
-  if (confirm('确认退款并作废 ' + ORDERS[idx].code + '？\n\n• 立即回收本订单贡献的权益与菜单授权\n• 状态：' + ORDERS[idx].status + ' → 已作废')) {
+  if (confirm('确认退款并作废 ' + ORDERS[idx].code + '？\n\n• 回收本订单所有订单项贡献的权益与菜单授权\n• 状态：' + ORDERS[idx].status + ' → 已作废')) {
     ORDERS[idx].status = '已作废';
     ORDERS[idx].log.push({ t: nowStr(), who: '胡仕玲', action: '订单作废（退款处理，权益已回收）' });
     render();
