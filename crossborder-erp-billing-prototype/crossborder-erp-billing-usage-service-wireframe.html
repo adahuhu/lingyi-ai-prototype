@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>按次消耗服务线框图</title>
+  <style>
+    :root {
+      --bg: #f5f6f8;
+      --panel: #fff;
+      --ink: #1f2329;
+      --muted: #646a73;
+      --line: #dfe1e6;
+      --line-dark: #a7adb8;
+      --blue: #3370ff;
+      --blue-soft: #edf3ff;
+      --green: #16a05d;
+      --green-soft: #e9f8f1;
+      --orange: #d97b1f;
+      --orange-soft: #fff4e8;
+      --red: #d83931;
+      --red-soft: #fff0ee;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: 14px;
+    }
+
+    a { color: inherit; }
+
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,255,255,.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+
+    .top-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .title h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 650;
+      letter-spacing: 0;
+    }
+
+    .title span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .steps {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .steps a {
+      text-decoration: none;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      padding: 7px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .steps a:hover {
+      color: var(--blue);
+      border-color: #9db8ff;
+      background: var(--blue-soft);
+    }
+
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px 24px 56px;
+    }
+
+    .legend {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .legend-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 14px 16px;
+      min-height: 82px;
+    }
+
+    .legend-card b {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .legend-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .wireflow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(230px, 1fr));
+      gap: 14px;
+      align-items: stretch;
+      margin: 14px 0 22px;
+    }
+
+    .flow-card {
+      position: relative;
+      background: #fff;
+      border: 1px solid var(--line-dark);
+      border-radius: 6px;
+      padding: 14px;
+      min-height: 116px;
+    }
+
+    .flow-card:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      right: -13px;
+      top: 50%;
+      width: 13px;
+      border-top: 1px solid var(--line-dark);
+    }
+
+    .flow-card:not(:last-child)::before {
+      content: "";
+      position: absolute;
+      right: -15px;
+      top: calc(50% - 4px);
+      width: 8px;
+      height: 8px;
+      border-top: 1px solid var(--line-dark);
+      border-right: 1px solid var(--line-dark);
+      transform: rotate(45deg);
+      background: var(--bg);
+      z-index: 1;
+    }
+
+    .flow-card strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .flow-card .line {
+      height: 9px;
+      border-radius: 2px;
+      background: #edf0f5;
+      margin: 8px 0;
+    }
+
+    .flow-card .line.short { width: 68%; }
+    .flow-card .line.mid { width: 82%; }
+    .flow-card .tag {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 12px;
+      background: #f3f4f6;
+      color: var(--muted);
+      font-size: 11px;
+      margin-right: 4px;
+    }
+
+    .section {
+      scroll-margin-top: 86px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      margin-top: 16px;
+      overflow: hidden;
+    }
+
+    .section-head {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 650;
+    }
+
+    .section-head span {
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .frame {
+      padding: 16px;
+    }
+
+    .mock-window {
+      border: 1px solid var(--line-dark);
+      border-radius: 6px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .mock-bar {
+      height: 38px;
+      border-bottom: 1px solid var(--line);
+      background: #f7f8fa;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #c9cdd4;
+    }
+
+    .mock-title {
+      margin-left: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .toolbar {
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 140px 140px 1fr auto;
+      gap: 8px;
+      border-bottom: 1px solid var(--line);
+      align-items: center;
+    }
+
+    .input, .select, .button {
+      height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+    }
+
+    .button {
+      justify-content: center;
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+      min-width: 88px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 11px 12px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 12px;
+    }
+
+    th {
+      background: #fafafa;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 0 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      white-space: nowrap;
+      background: #f3f4f6;
+      color: var(--muted);
+      margin: 1px 3px 1px 0;
+    }
+
+    .pill.green { background: var(--green-soft); color: var(--green); }
+    .pill.blue { background: var(--blue-soft); color: var(--blue); }
+    .pill.orange { background: var(--orange-soft); color: var(--orange); }
+    .pill.red { background: var(--red-soft); color: var(--red); }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .panel {
+      border: 1px solid var(--line-dark);
+      border-radius: 6px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .panel-head {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fbfcff;
+    }
+
+    .panel-head b {
+      font-size: 13px;
+    }
+
+    .panel-body {
+      padding: 12px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .field {
+      min-height: 66px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .field .box {
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      padding: 7px 9px;
+      font-size: 12px;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    .result-box {
+      margin-top: 12px;
+      border: 1px dashed var(--line-dark);
+      background: #fcfcfd;
+      border-radius: 6px;
+      padding: 12px;
+    }
+
+    .result-box b {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .result-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+      padding: 7px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .result-line:first-of-type { border-top: 0; }
+
+    .result-line span:first-child { color: var(--muted); }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .quota-card {
+      border: 1px solid var(--line-dark);
+      border-radius: 6px;
+      padding: 12px;
+      min-height: 132px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .quota-card h3 {
+      margin: 0;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .num {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .bar {
+      height: 8px;
+      background: #edf0f5;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: auto;
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      background: var(--blue);
+      border-radius: 8px;
+    }
+
+    .empty-balance {
+      border-style: dashed;
+      background: #fcfcfd;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      gap: 12px;
+    }
+
+    .side-list {
+      border: 1px solid var(--line-dark);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .side-item {
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .side-item:last-child { border-bottom: 0; }
+    .side-item.active { background: var(--blue-soft); color: var(--blue); font-weight: 600; }
+
+    .small-note {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .mobile-stack {
+      display: none;
+    }
+
+    @media (max-width: 980px) {
+      .top-inner { align-items: flex-start; flex-direction: column; }
+      .steps { justify-content: flex-start; }
+      .legend, .wireflow, .compare, .cards, .detail-grid { grid-template-columns: 1fr; }
+      .flow-card:not(:last-child)::before,
+      .flow-card:not(:last-child)::after { display: none; }
+      .toolbar { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .desktop-table { display: none; }
+      .mobile-stack { display: grid; gap: 10px; }
+      .mobile-row {
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 12px;
+        font-size: 12px;
+      }
+      .mobile-row b { display: block; margin-bottom: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <div class="title">
+        <h1>按次消耗服务线框图</h1>
+        <span>最近更新：2026-06-03 · 物流轨迹固定单价累计 / 专利与侵权调用记录</span>
+      </div>
+      <nav class="steps">
+        <a href="#config">01 商品配置</a>
+        <a href="#order">02 创建订单</a>
+        <a href="#subscription">03 订阅展示</a>
+        <a href="#consumption">04 消耗明细</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="legend">
+      <div class="legend-card">
+        <b>统一归类</b>
+        <p>物流轨迹、专利监测、侵权检测都作为按次消耗类增值服务，后续在消耗明细中用同一套记录字段承接。</p>
+      </div>
+      <div class="legend-card">
+        <b>物流轨迹</b>
+        <p>平台录单时只填写成交金额，订单开通后开通查询服务权限；业务系统按实际物流单量上报，按 0.1 元/单累计。</p>
+      </div>
+      <div class="legend-card">
+        <b>专利 / 侵权检测</b>
+        <p>平台录单时开通服务权限，不填固定额度；每次成功调用生成记录，后续按记录核算。</p>
+      </div>
+    </section>
+
+    <section class="wireflow" aria-label="交互总览">
+      <div class="flow-card">
+        <strong>01 商品配置</strong>
+        <span class="tag">按次消耗</span><span class="tag">分项余额</span>
+        <div class="line mid"></div>
+        <div class="line short"></div>
+      </div>
+      <div class="flow-card">
+        <strong>02 平台创建订单</strong>
+        <span class="tag">录成交金额</span><span class="tag">开通权限</span>
+        <div class="line"></div>
+        <div class="line short"></div>
+      </div>
+      <div class="flow-card">
+        <strong>03 租户 / 客户展示</strong>
+        <span class="tag">累计单量</span><span class="tag">调用记录</span>
+        <div class="line mid"></div>
+        <div class="line"></div>
+      </div>
+      <div class="flow-card">
+        <strong>04 消耗明细</strong>
+        <span class="tag">调用次数</span><span class="tag">核算状态</span>
+        <div class="line short"></div>
+        <div class="line mid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="config">
+      <div class="section-head">
+        <h2>01 商品配置：同一类型，不同权益口径</h2>
+        <span>平台侧 · 商品配置列表</span>
+      </div>
+      <div class="frame">
+        <div class="mock-window">
+          <div class="mock-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span class="mock-title">商品配置</span></div>
+          <div class="toolbar">
+            <div class="select">商品类型：增值服务</div>
+            <div class="select">计量方式：按次消耗</div>
+            <div class="input">商品名称 / 编码</div>
+            <div class="button">新建商品</div>
+          </div>
+          <table class="desktop-table">
+            <thead>
+              <tr>
+                <th style="width:18%">商品名称</th>
+                <th style="width:14%">计量方式</th>
+                <th style="width:17%">销售口径</th>
+                <th style="width:18%">开通后生成</th>
+                <th style="width:18%">消耗口径</th>
+                <th style="width:15%">租户侧展示</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>物流轨迹查询</b><br><span class="sub">TRACE-METER</span></td>
+                <td><span class="pill blue">按次消耗</span></td>
+                <td>固定单价 / 成交金额</td>
+                <td><span class="pill orange">开通服务权限</span></td>
+                <td>成功查询生成物流单记录</td>
+                <td>已开通 / 累计单量</td>
+              </tr>
+              <tr>
+                <td><b>专利监测服务</b><br><span class="sub">PATENT-CALL</span></td>
+                <td><span class="pill blue">按次消耗</span></td>
+                <td>线下报价 / 实际调用核算</td>
+                <td><span class="pill orange">开通服务权限</span></td>
+                <td>成功检索生成调用记录</td>
+                <td>已开通 / 调用记录</td>
+              </tr>
+              <tr>
+                <td><b>侵权检测服务</b><br><span class="sub">TORT-CHECK</span></td>
+                <td><span class="pill blue">按次消耗</span></td>
+                <td>线下报价 / 实际调用核算</td>
+                <td><span class="pill orange">开通服务权限</span></td>
+                <td>成功检测生成调用记录</td>
+                <td>已开通 / 调用记录</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="mobile-stack">
+            <div class="mobile-row"><b>物流轨迹查询</b>固定单价 / 成交金额 · 开通服务权限 · 展示累计物流单量</div>
+            <div class="mobile-row"><b>专利监测服务</b>线下报价 / 实际调用核算 · 开通服务权限 · 展示调用记录</div>
+            <div class="mobile-row"><b>侵权检测服务</b>线下报价 / 实际调用核算 · 开通服务权限 · 展示调用记录</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="order">
+      <div class="section-head">
+        <h2>02 创建订单：物流轨迹和专利 / 侵权都只录成交金额</h2>
+        <span>平台侧 · 创建订单抽屉</span>
+      </div>
+      <div class="frame">
+        <div class="compare">
+          <div class="panel">
+            <div class="panel-head"><b>物流轨迹查询订单</b><span class="pill orange">开权限</span></div>
+            <div class="panel-body">
+              <div class="form-grid">
+                <div class="field full"><label>购买商品</label><div class="box">物流轨迹查询</div></div>
+                <div class="field"><label>计价口径</label><div class="box">0.1 元 / 物流单</div></div>
+                <div class="field"><label>成交金额</label><div class="box">¥5,000</div></div>
+                <div class="field"><label>生效时间</label><div class="box">2026-06-03</div></div>
+                <div class="field"><label>到期时间</label><div class="box">2027-06-02</div></div>
+                <div class="field full"><label>开通结果</label><div class="box">开通物流轨迹查询服务权限</div></div>
+              </div>
+              <div class="result-box">
+                <b>订单保存并开通后</b>
+                <div class="result-line"><span>权益项</span><strong>物流轨迹查询服务权限</strong></div>
+                <div class="result-line"><span>固定额度</span><strong>不生成</strong></div>
+                <div class="result-line"><span>消耗动作</span><strong>物流单成功上报后累计</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><b>专利 / 侵权检测订单</b><span class="pill orange">开权限</span></div>
+            <div class="panel-body">
+              <div class="form-grid">
+                <div class="field full"><label>购买商品</label><div class="box">专利监测服务</div></div>
+                <div class="field"><label>计价口径</label><div class="box">按实际调用核算</div></div>
+                <div class="field"><label>成交金额</label><div class="box">线下确认</div></div>
+                <div class="field"><label>生效时间</label><div class="box">2026-06-03</div></div>
+                <div class="field"><label>到期时间</label><div class="box">2027-06-02</div></div>
+                <div class="field full"><label>开通结果</label><div class="box">开通专利监测服务权限</div></div>
+              </div>
+              <div class="result-box">
+                <b>订单保存并开通后</b>
+                <div class="result-line"><span>权益项</span><strong>专利监测服务权限</strong></div>
+                <div class="result-line"><span>固定额度</span><strong>不生成</strong></div>
+                <div class="result-line"><span>消耗动作</span><strong>检索成功记调用</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="subscription">
+      <div class="section-head">
+        <h2>03 订阅展示：固定单价服务显示累计用量，无固定价服务显示调用记录</h2>
+        <span>租户侧 · 我的订阅 / 平台侧客户权益</span>
+      </div>
+      <div class="frame">
+        <div class="mock-window">
+          <div class="mock-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span class="mock-title">我的订阅 · 已开通增值服务</span></div>
+          <div class="frame">
+            <div class="cards">
+              <div class="quota-card">
+                <h3>物流轨迹查询 <span class="pill orange">累计计费</span></h3>
+                <div class="num">12,480</div>
+                <div class="sub">本月物流单量 · 0.1 元/单</div>
+                <div class="bar"><i style="width:75%"></i></div>
+              </div>
+              <div class="quota-card empty-balance">
+                <h3>专利监测 <span class="pill orange">调用记录</span></h3>
+                <div class="num">1,284</div>
+                <div class="sub">本月成功调用次数 · 金额线下核算</div>
+                <div class="bar"><i style="width:0"></i></div>
+              </div>
+              <div class="quota-card empty-balance">
+                <h3>侵权检测 <span class="pill orange">调用记录</span></h3>
+                <div class="num">326</div>
+                <div class="sub">本月成功检测次数 · 金额线下核算</div>
+                <div class="bar"><i style="width:0"></i></div>
+              </div>
+            </div>
+            <p class="small-note">页面动作：物流轨迹卡片进入物流单量明细；专利 / 侵权卡片进入调用记录明细。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="consumption">
+      <div class="section-head">
+        <h2>04 消耗明细：同一张明细表，分服务查看</h2>
+        <span>平台侧 / 租户侧 · 消耗明细</span>
+      </div>
+      <div class="frame">
+        <div class="detail-grid">
+          <aside class="side-list">
+            <div class="side-item active"><span>物流轨迹查询</span><b>12,480 单</b></div>
+            <div class="side-item"><span>专利监测</span><b>1,284 次</b></div>
+            <div class="side-item"><span>侵权检测</span><b>326 次</b></div>
+            <div class="side-item"><span>邮件索评额度</span><b>82,000</b></div>
+          </aside>
+          <div class="mock-window">
+            <div class="mock-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span class="mock-title">消耗记录</span></div>
+            <div class="toolbar">
+              <div class="select">服务：全部</div>
+              <div class="select">核算状态：全部</div>
+              <div class="input">业务流水号 / 来源系统</div>
+              <div class="button">导出</div>
+            </div>
+            <table class="desktop-table">
+              <thead>
+                <tr>
+                  <th style="width:12%">服务名称</th>
+                  <th style="width:12%">来源系统</th>
+                  <th style="width:13%">供应商</th>
+                  <th style="width:15%">业务流水号</th>
+                  <th style="width:10%">调用次数</th>
+                  <th style="width:13%">扣减 / 记录</th>
+                  <th style="width:13%">调用结果</th>
+                  <th style="width:12%">核算状态</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>物流轨迹</td>
+                  <td>WMS</td>
+                  <td>轨迹服务商</td>
+                  <td>TRK20260603001</td>
+                  <td>1</td>
+                  <td><span class="pill orange">记录 1 单</span></td>
+                  <td>成功</td>
+                  <td><span class="pill blue">已入账</span></td>
+                </tr>
+                <tr>
+                  <td>专利监测</td>
+                  <td>ERP</td>
+                  <td>智慧芽</td>
+                  <td>PAT20260603018</td>
+                  <td>1</td>
+                  <td><span class="pill orange">记录调用</span></td>
+                  <td>成功</td>
+                  <td><span class="pill orange">待核算</span></td>
+                </tr>
+                <tr>
+                  <td>侵权检测</td>
+                  <td>ERP</td>
+                  <td>睿观</td>
+                  <td>TORT20260603009</td>
+                  <td>1</td>
+                  <td><span class="pill orange">记录调用</span></td>
+                  <td>成功</td>
+                  <td><span class="pill orange">待核算</span></td>
+                </tr>
+                <tr>
+                  <td>专利监测</td>
+                  <td>ERP</td>
+                  <td>智慧芽</td>
+                  <td>PAT20260603021</td>
+                  <td>0</td>
+                  <td><span class="pill red">不计费</span></td>
+                  <td>失败</td>
+                  <td><span class="pill">无需核算</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="mobile-stack">
+              <div class="mobile-row"><b>物流轨迹 · WMS</b>TRK20260603001 · 记录 1 单 · 待核算</div>
+              <div class="mobile-row"><b>专利监测 · ERP</b>PAT20260603018 · 记录调用 · 待核算</div>
+              <div class="mobile-row"><b>侵权检测 · ERP</b>TORT20260603009 · 记录调用 · 待核算</div>
+              <div class="mobile-row"><b>专利监测 · ERP</b>PAT20260603021 · 失败不计费 · 无需核算</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

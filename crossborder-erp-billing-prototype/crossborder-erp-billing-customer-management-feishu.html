@@ -721,8 +721,8 @@
                       <td>—</td>
                     </tr>
                     <tr>
-                      <td>物流轨迹（按量）</td><td>按量计量</td><td>12,480</td><td>—</td>
-                      <td><span class="pct">—</span></td>
+                      <td>物流轨迹查询</td><td>固定单价</td><td>12,480 单</td><td>线下核算</td>
+                      <td><span class="pct">0.1 元/单</span></td>
                       <td><a class="ly-link" href="#">明细</a></td>
                     </tr>
                   </tbody>
@@ -1226,8 +1226,8 @@ var SOURCE_DB = {
     rows: [{ no: 'PO-20250101001', product: 'ERP 旗舰版（主套餐）', delta: '+ 300', startEnd: '2025-01-01 ~ 2026-12-31' }] },
   QUOTA_PLATFORM: { name: '平台授权', unit: '个', totalText: '不限', totalNum: '不限',
     rows: [{ no: 'PO-20250101001', product: 'ERP 旗舰版（主套餐）', delta: '不限', startEnd: '2025-01-01 ~ 2026-12-31' }] },
-  QUOTA_TRACK: { name: '物流轨迹', unit: '次', totalText: '按量计费 · 无总量', totalNum: '按量',
-    rows: [{ no: 'METERED', product: '物流轨迹查询（按量计费）', delta: '本月已用 12,480', startEnd: '本月计量' }] }
+  QUOTA_TRACK: { name: '物流轨迹查询', unit: '单', totalText: '固定单价 0.1 元/单', totalNum: '按实际物流单累计',
+    rows: [{ no: 'PO-20251015008', product: '物流轨迹查询服务', delta: '本月 12,480 单', startEnd: '按业务系统上报累计' }] }
 };
 function openSource(code) {
   var d = SOURCE_DB[code]; if (!d) return;
@@ -1253,11 +1253,12 @@ var PROD_LIB = {
   ERP_STD: { name: 'ERP 标准版', type: 'main', price: 9800, unit: '/年', rows: [['年订单量','+200,000','单/年','主套餐'],['MSKU 额度','+5,000','个','主套餐'],['店铺 / 站点','+20','个','主套餐']] },
   ERP_PRO: { name: 'ERP 专业版', type: 'main', price: 29800, unit: '/年', rows: [['年订单量','+1,000,000','单/年','主套餐'],['MSKU 额度','+30,000','个','主套餐'],['店铺 / 站点','+100','个','主套餐']] },
   ERP_FLAGSHIP: { name: 'ERP 旗舰版', type: 'main', price: 69800, unit: '/年', rows: [['年订单量','+3,000,000','单/年','主套餐'],['MSKU 额度','+100,000','个','主套餐'],['店铺 / 站点','+500','个','主套餐'],['平台授权','不限','个','主套餐'],['子账号','+300','个','主套餐'],['金蝶云星空对接','+1','次','增值']] },
-  SCM_ENT: { name: 'SCM 企业版', type: 'main', price: 100000, unit: '/年', rows: [['物流轨迹（基础）','+100,000','次/年','按量配额']] },
+  SCM_ENT: { name: 'SCM 企业版', type: 'main', price: 100000, unit: '/年', rows: [['物流轨迹查询','开通服务权限','单','按实际物流单累计']] },
   ORDER_PACK_5W: { name: '订单扩容包 (×5万)', type: 'addon', price: 1000, unit: '/年', rows: [['年订单量','+50,000','单/年','增值服务']] },
   MSKU_PACK_5K: { name: 'MSKU 扩容包 (×5千)', type: 'addon', price: 2000, unit: '/年', rows: [['MSKU 额度','+5,000','个','增值服务']] },
   KDCS: { name: '金蝶云星空对接', type: 'addon', price: 20000, unit: '/次', rows: [['金蝶云星空对接','+1','次','增值服务']] },
-  LOGISTICS_TRACK: { name: '物流轨迹查询', type: 'addon', price: 0.1, unit: '/单', rows: [['物流轨迹','按量计费','单','增值服务']] },
+  LOGISTICS_TRACK: { name: '物流轨迹查询', type: 'addon', price: 0.1, unit: '/单', rows: [['物流轨迹查询','开通服务权限','单','按实际物流单累计']] },
+  PATENT_TORT_CALL: { name: '专利 / 侵权检测', type: 'addon', price: 10000, unit: '成交金额', rows: [['专利 / 侵权检测','开通服务权限','次','调用记录核算']] },
   COMPETITOR_MONITOR: { name: '竞品链接监控', type: 'addon', price: 500, unit: '/个/年', rows: [['竞品链接监控','+1','个/年','增值服务']] }
 };
 

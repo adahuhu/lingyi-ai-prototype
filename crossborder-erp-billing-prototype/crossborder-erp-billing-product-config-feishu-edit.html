@@ -355,11 +355,12 @@
                 <option>固定单价</option>
                 <option>一次性</option>
                 <option>按量计费</option>
+                <option>按实际调用核算</option>
                 <option>线下报价</option>
               </select>
             </div>
             <div class="field">
-              <label>销售价格</label>
+              <label id="salePriceLabel">销售价格</label>
               <input id="salePrice" placeholder="如 ¥69,800">
             </div>
             <div class="field">
@@ -387,8 +388,8 @@
           </div>
           </div>
           <div id="addonRightsConfig" class="hidden">
-            <div class="config-subtitle">权益内容</div>
-            <div class="form-grid three" style="padding-top:0">
+            <div class="config-subtitle" id="addonConfigTitle">权益内容</div>
+            <div id="addonQuotaFields" class="form-grid three" style="padding-top:0">
               <div class="field">
                 <label>权益项 <span class="req">*</span></label>
                 <select id="addonRightCode" onchange="syncAddonRightUnit()"></select>
@@ -400,6 +401,12 @@
               <div class="field">
                 <label>权益单位</label>
                 <input id="addonRightUnit" value="单/年" readonly>
+              </div>
+            </div>
+            <div id="addonUsageFields" class="form-grid hidden" style="padding-top:0">
+              <div class="field full">
+                <label>权益项 <span class="req">*</span></label>
+                <select id="addonUsageRightCode" onchange="syncAddonUsageUnit()"></select>
               </div>
             </div>
           </div>
@@ -424,7 +431,9 @@ var RIGHTS_LIB = [
   { code: 'QUOTA_SHOP', name: '店铺 / 站点', unit: '个', type: '主套餐配额' },
   { code: 'QUOTA_SUB_USER', name: '子账号', unit: '个', type: '主套餐配额' },
   { code: 'QUOTA_PLATFORM', name: '平台授权', unit: '个', type: '主套餐配额' },
-  { code: 'QUOTA_TRACK', name: '物流轨迹查询', unit: '单', type: '按量权益' },
+  { code: 'SVC_TRACK_QUERY', name: '物流轨迹查询服务权限', unit: '单', type: '服务权限' },
+  { code: 'SVC_PATENT_MONITOR', name: '专利监测服务权限', unit: '次', type: '服务权限' },
+  { code: 'SVC_TORT_CHECK', name: '侵权检测服务权限', unit: '次', type: '服务权限' },
   { code: 'SVC_KDCS', name: '金蝶云星空对接', unit: '次', type: '服务项' },
   { code: 'SVC_TRAINING', name: '线下实施培训', unit: '人天', type: '服务项' }
 ];
@@ -449,17 +458,34 @@ function addonRightOptions(currentCode) {
     return '<option value="' + item.code + '" ' + (item.code === currentCode ? 'selected' : '') + '>' + item.name + '</option>';
   }).join('');
 }
+function addonUsageOptions(currentCode) {
+  return RIGHTS_LIB.filter(function(item) {
+    return item.type === '服务权限' || item.type === '服务项';
+  }).map(function(item) {
+    return '<option value="' + item.code + '" ' + (item.code === currentCode ? 'selected' : '') + '>' + item.name + '</option>';
+  }).join('');
+}
 function syncAddonRightUnit() {
   var code = document.getElementById('addonRightCode').value;
   var def = getRightDef(code);
   document.getElementById('addonRightUnit').value = def.unit || '';
+}
+function syncAddonUsageUnit() {
+  var code = document.getElementById('addonUsageRightCode').value;
+  var def = getRightDef(code);
+  document.getElementById('priceUnit').value = def.unit || '';
 }
 function renderAddonRight() {
   var select = document.getElementById('addonRightCode');
   if (!select.options.length) {
     select.innerHTML = addonRightOptions('QUOTA_ORDER_QTY');
   }
+  var usageSelect = document.getElementById('addonUsageRightCode');
+  if (!usageSelect.options.length) {
+    usageSelect.innerHTML = addonUsageOptions('SVC_TRACK_QUERY');
+  }
   syncAddonRightUnit();
+  syncAddonUsageUnit();
 }
 function renderRights() {
   var body = document.getElementById('rightsBody');
@@ -519,11 +545,27 @@ function addRight() {
 function syncPriceUnit() {
   var mode = document.getElementById('priceMode').value;
   var unit = document.getElementById('priceUnit');
+  var unitLabel = document.getElementById('priceUnitLabel');
+  var salePriceLabel = document.getElementById('salePriceLabel');
+  var addonConfigTitle = document.getElementById('addonConfigTitle');
+  var addonQuotaFields = document.getElementById('addonQuotaFields');
+  var addonUsageFields = document.getElementById('addonUsageFields');
+  salePriceLabel.textContent = '销售价格';
   if (mode === '按年订阅') unit.value = '年';
-  if (mode === '固定单价') unit.value = currentProductType === 'ADDON' ? '包' : '';
+  if (mode === '固定单价') unit.value = currentProductType === 'ADDON' ? '单' : '';
   if (mode === '一次性') unit.value = '次';
   if (mode === '按量计费') unit.value = '单';
+  if (mode === '按实际调用核算') unit.value = '次';
   if (mode === '线下报价') unit.value = '';
+  if (currentProductType === 'ADDON') {
+    var isUsageService = mode === '固定单价' || mode === '按实际调用核算';
+    unitLabel.textContent = isUsageService ? '计费单位' : '售卖单位';
+    salePriceLabel.textContent = isUsageService ? '服务单价' : '销售价格';
+    addonConfigTitle.textContent = '权益内容';
+    addonQuotaFields.classList.toggle('hidden', isUsageService);
+    addonUsageFields.classList.toggle('hidden', !isUsageService);
+    if (isUsageService) syncAddonUsageUnit();
+  }
 }
 function applyType(type) {
   currentProductType = type;
@@ -539,15 +581,15 @@ function applyType(type) {
     priceMode.value = '按年订阅';
     unit.value = '年';
     unitLabel.textContent = '售卖周期';
+    document.getElementById('salePriceLabel').textContent = '销售价格';
     document.querySelectorAll('.system-option input').forEach(function(input) {
       input.checked = input.getAttribute('data-system') === 'ERP';
     });
   } else {
     priceMode.value = '固定单价';
-    unit.value = '包';
-    unitLabel.textContent = '售卖单位';
     renderAddonRight();
   }
+  syncPriceUnit();
 }
 function confirmPublish() {
   if (confirm('确认保存并发布？')) alert('已保存并发布');

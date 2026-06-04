@@ -124,6 +124,37 @@
       white-space: nowrap;
       color: #4e5969;
     }
+    .exception-tag {
+      display: inline-flex;
+      align-items: center;
+      height: 20px;
+      padding: 0 7px;
+      margin-top: 4px;
+      border-radius: 999px;
+      background: #fff7e6;
+      color: #d46b08;
+      border: 1px solid #ffd591;
+      font-size: 12px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .exception-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 0 0 12px;
+      padding: 10px 12px;
+      border: 1px solid #ffd591;
+      border-radius: 6px;
+      background: #fffaf0;
+      color: #7a4b00;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .exception-notice strong {
+      color: #ad6800;
+      font-weight: 600;
+    }
 
     /* 抽屉内部块 */
     .ly-drawer.wide { width: 720px; max-width: 90vw; }
@@ -268,8 +299,7 @@
     }
     .create-amount-row {
       display: grid;
-      grid-template-columns: minmax(240px, 320px);
-      justify-content: flex-end;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
       margin-top: 12px;
     }
@@ -289,6 +319,11 @@
       font-weight: 700;
       font-family: var(--ly-font-num);
     }
+    @media (max-width: 720px) {
+      .create-amount-row {
+        grid-template-columns: 1fr;
+      }
+    }
     .order-detail-table {
       width: 100%;
       border-collapse: collapse;
@@ -306,6 +341,24 @@
       font-weight: 500;
     }
     .order-detail-table .num { text-align: right; }
+    .order-detail-table tfoot td {
+      background: #fbfcff;
+      font-weight: 600;
+    }
+    .order-detail-table .row-action {
+      width: 72px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .create-table-actions {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--ly-muted);
+      font-size: 12px;
+    }
     .attachment-list {
       display: flex;
       flex-wrap: wrap;
@@ -453,6 +506,14 @@
             </select>
           </div>
           <div class="ly-field">
+            <label>异常</label>
+            <select id="fException">
+              <option value="" selected></option>
+              <option value="has">有异常</option>
+              <option value="none">无异常</option>
+            </select>
+          </div>
+          <div class="ly-field">
             <label>创建时间</label>
             <input type="date" value="2026-06-01" style="height:32px">
             <span>~</span>
@@ -478,11 +539,11 @@
                 <th style="width:92px;text-align:right">金额</th>
                 <th style="width:96px">生效时间</th>
                 <th style="width:98px">到期时间</th>
-                <th style="width:82px">状态</th>
+                <th style="width:106px">状态</th>
                 <th style="width:90px">附件</th>
                 <th style="width:72px">创建者</th>
                 <th style="width:118px">创建时间</th>
-                <th style="width:72px">操作</th>
+                <th style="width:96px">操作</th>
               </tr>
             </thead>
             <tbody id="orderBody">
@@ -537,9 +598,9 @@ var ORDERS = [
     code: 'PO-20260516003', customer: '深圳速卖通科技', type: '试用',
     period: '15天',
     items: [{ name: 'ERP 专业版', qty: 1, price: 0, unit: '年', period: '15天', subtotal: 0 }],
-    standardAmount: 0, amount: 0, status: '已开通',
+    standardAmount: 0, amount: 0, status: '草稿', exception: '开通异常',
     createdAt: '2026-05-16 09:10', createdBy: '胡仕玲',
-    openedAt: '2026-05-16 09:10', openedBy: '系统',
+    openedAt: null, openedBy: null,
     startAt: '2026-05-16', endAt: '2026-05-31',
     snap: [
       { k: '权益模板', v: '试用：1 万单上限 / 5 店铺 / 不含金蝶对接' },
@@ -548,7 +609,7 @@ var ORDERS = [
     slip: null, contract: null,
     log: [
       { t: '2026-05-16 09:10', who: '胡仕玲', action: '录单（试用）' },
-      { t: '2026-05-16 09:10', who: '系统', action: '试用直接开通' }
+      { t: '2026-05-16 09:11', who: '系统', action: '系统入口开通失败，标记开通异常' }
     ]
   },
   {
@@ -574,9 +635,9 @@ var ORDERS = [
     code: 'PO-20260315002', customer: '杭州星河跨境', type: '扩容',
     period: '至 2026-12-31',
     items: [{ name: '订单扩容包', qty: 2, price: 1000, unit: '包', period: '至 2026-12-31', subtotal: 2000 }],
-    standardAmount: 2000, amount: 2000, status: '已开通',
+    standardAmount: 2000, amount: 2000, status: '草稿', exception: '同步异常',
     createdAt: '2026-03-15 11:00', createdBy: '商务A',
-    openedAt: '2026-03-15 15:40', openedBy: '胡仕玲',
+    openedAt: null, openedBy: null,
     startAt: '2026-03-15', endAt: '2026-12-31',
     snap: [
       { k: '权益模板', v: '年订单量 +10w（叠加在主套餐上）' },
@@ -586,7 +647,7 @@ var ORDERS = [
     log: [
       { t: '2026-03-15 11:00', who: '商务A', action: '录单（扩容）' },
       { t: '2026-03-15 14:20', who: '商务A', action: '上传水单' },
-      { t: '2026-03-15 15:40', who: '胡仕玲', action: '审核开通' }
+      { t: '2026-03-15 15:40', who: '系统', action: 'ERP 权益下发失败，标记同步异常' }
     ]
   },
   {
@@ -611,14 +672,14 @@ var ORDERS = [
   {
     code: 'PO-20251015008', customer: '广州拓海跨境', type: '新购',
     period: '至 2026-06-20',
-    items: [{ name: '物流轨迹包', qty: 1, price: 5000, unit: '包', period: '至 2026-06-20', subtotal: 5000 }],
+    items: [{ name: '物流轨迹查询', qty: 1, price: 5000, unit: '服务', period: '至 2026-06-20', subtotal: 5000 }],
     standardAmount: 5000, amount: 5000, status: '已开通', expiring: true,
     createdAt: '2025-10-15 14:00', createdBy: '商务B',
     openedAt: '2025-10-16 10:00', openedBy: '胡仕玲',
     startAt: '2025-10-16', endAt: '2026-06-20',
     snap: [
-      { k: '权益模板', v: '物流轨迹 5w 次（按量配额）' },
-      { k: '授权写入', v: '无（纯额度商品）' }
+      { k: '权益模板', v: '物流轨迹查询服务权限' },
+      { k: '计费口径', v: '0.1 元/物流单，按业务系统实际上报累计' }
     ],
     slip: 'PO-20251015008-水单.pdf', contract: null,
     log: [
@@ -650,7 +711,7 @@ var ORDERS = [
     code: 'PO-20251201007', customer: '杭州星河跨境', type: '扩容',
     period: '至 2026-12-31',
     items: [{ name: 'MSKU 扩容包', qty: 1, price: 2000, unit: '包', period: '至 2026-12-31', subtotal: 2000 }],
-    standardAmount: 2000, amount: 2000, status: '已作废',
+    standardAmount: 2000, amount: 2000, status: '已作废', exception: '回收异常',
     createdAt: '2025-12-01 11:30', createdBy: '商务A',
     openedAt: '2025-12-01 14:00', openedBy: '胡仕玲',
     startAt: '2025-12-01', endAt: '2026-12-31',
@@ -663,7 +724,8 @@ var ORDERS = [
       { t: '2025-12-01 11:30', who: '商务A', action: '录单' },
       { t: '2025-12-01 13:30', who: '商务A', action: '上传水单' },
       { t: '2025-12-01 14:00', who: '胡仕玲', action: '审核开通' },
-      { t: '2026-01-20 16:00', who: '胡仕玲', action: '订单作废（退款处理，权益已回收）' }
+      { t: '2026-01-20 16:00', who: '胡仕玲', action: '订单作废（退款处理）' },
+      { t: '2026-01-20 16:01', who: '系统', action: '权益回收失败，标记回收异常' }
     ]
   }
 ];
@@ -676,6 +738,24 @@ function statusBadge(s) {
   if (s === '已作废')   return '<span class="ly-status muted">已作废</span>';
   return s;
 }
+function exceptionBadge(o) {
+  return o.exception ? '<span class="exception-tag">' + o.exception + '</span>' : '';
+}
+function statusWithException(o) {
+  return statusBadge(o.status) + exceptionBadge(o);
+}
+function retryText(exception) {
+  if (exception === '开通异常') return '重试开通';
+  if (exception === '同步异常') return '重试同步';
+  if (exception === '回收异常') return '重试回收';
+  return '重试';
+}
+function exceptionNotice(o) {
+  if (!o.exception) return '';
+  var text = '当前订单存在' + o.exception + '，租户侧暂未完全生效。平台人员可在订单列表执行' + retryText(o.exception) + '。';
+  if (o.exception === '回收异常') text = '当前订单存在回收异常，回收完成前相关权益不得继续放行新增消耗。平台人员可在订单列表执行重试回收。';
+  return '<div class="exception-notice"><span>!</span><div><strong>异常提示：</strong>' + text + '</div></div>';
+}
 
 function orderMatchesForm(o) {
   var keyword = (document.getElementById('fKeyword').value || '').trim().toLowerCase();
@@ -684,6 +764,7 @@ function orderMatchesForm(o) {
   var status = document.getElementById('fStatus').value;
   var slip = document.getElementById('fSlip').value;
   var contract = document.getElementById('fContract').value;
+  var exception = document.getElementById('fException').value;
   var content = o.items.map(function (it) { return it.name; }).join(' ');
   var haystack = content;
   if (searchType === 'code') haystack = o.code;
@@ -696,6 +777,8 @@ function orderMatchesForm(o) {
   if (slip === 'uploaded' && !o.slip) return false;
   if (contract === 'missing' && !!o.contract) return false;
   if (contract === 'uploaded' && !o.contract) return false;
+  if (exception === 'has' && !o.exception) return false;
+  if (exception === 'none' && o.exception) return false;
   return true;
 }
 
@@ -727,7 +810,7 @@ function render() {
       '<td class="money-cell">' + amountStr + '</td>' +
       '<td class="order-date">' + (o.startAt || '—') + '</td>' +
       '<td class="order-date">' + (o.endAt || '—') + (o.expiring ? '<span class="cell-sub" style="color:#d46b08">30 天内到期</span>' : '') + '</td>' +
-      '<td>' + statusBadge(o.status) + '</td>' +
+      '<td>' + statusWithException(o) + '</td>' +
       '<td>' + attachments + '</td>' +
       '<td>' + o.createdBy + '</td>' +
       '<td class="order-date">' + o.createdAt + '</td>' +
@@ -763,7 +846,8 @@ function itemQtyText(it) {
 /* ===== 行内操作（按状态动态显示） ===== */
 function buildOps(o, idx) {
   var btns = ['<a class="ly-link" href="#" onclick="openDrawer(' + idx + ');return false">详情</a>'];
-  btns.push('<a class="ly-link" href="#" onclick="voidOrder(' + idx + ');return false" style="color:#ff4d4f">作废</a>');
+  if (o.exception) btns.unshift('<a class="ly-link" href="#" onclick="retryException(' + idx + ');return false">' + retryText(o.exception) + '</a>');
+  if (o.status !== '已作废') btns.push('<a class="ly-link" href="#" onclick="voidOrder(' + idx + ');return false" style="color:#ff4d4f">作废</a>');
   return btns.join(' · ');
 }
 
@@ -776,6 +860,7 @@ function resetFilter() {
   document.getElementById('fStatus').selectedIndex = 0;
   document.getElementById('fSlip').selectedIndex = 0;
   document.getElementById('fContract').selectedIndex = 0;
+  document.getElementById('fException').selectedIndex = 0;
   render();
 }
 
@@ -784,9 +869,10 @@ function openDrawer(idx) {
   var o = ORDERS[idx];
   document.getElementById('dTitle').textContent = o.code;
   document.getElementById('dStatus').className = '';
-  document.getElementById('dStatus').innerHTML = statusBadge(o.status);
+  document.getElementById('dStatus').innerHTML = statusWithException(o);
 
   var html = '';
+  html += exceptionNotice(o);
   html += '<section class="order-detail-section"><h4>基础信息</h4><div class="order-info-grid">' +
     '<div class="item"><span class="label">租户</span><span class="value">' + o.customer + '</span></div>' +
     '<div class="item"><span class="label">订单类型</span><span class="value">' + o.type + '</span></div>' +
@@ -832,9 +918,7 @@ function openCreate() {
     '<div class="item"><span class="label">生效时间</span><span class="value"><input id="createStart" class="create-control" type="date" value="2026-06-02" onchange="syncCreatePeriod()"></span></div>' +
     '<div class="item"><span class="label">到期时间</span><span class="value"><input id="createEnd" class="create-control" type="date" value="2027-06-01" onchange="markCreateCustomPeriod()"></span></div>' +
     '</div></section>' +
-    '<section class="order-detail-section"><h4>订单项</h4><table class="order-detail-table"><thead><tr><th>商品</th><th>单价</th><th>购买周期</th><th id="createQtyHead" class="num">数量</th></tr></thead><tbody>' +
-    '<tr><td><select id="createProduct" class="create-control" onchange="syncCreateProduct()"><option value="erpFlagship">ERP 旗舰版</option><option value="erpPro">ERP 专业版</option><option value="scmEnt">SCM 企业版</option><option value="orderPack">订单扩容包</option><option value="mskuPack">MSKU 扩容包</option><option value="kdcs">金蝶云星空对接</option></select></td><td id="createUnitPrice">¥69,800/年</td><td><span id="createPeriodText" class="create-period-pill">1年</span></td><td id="createQtyCell" class="num"><input id="createQty" class="create-control" type="number" min="1" value="1" onchange="syncCreateProduct()" style="width:76px;display:inline-block"></td></tr>' +
-    '</tbody></table><div class="create-amount-row"><div class="create-amount-card"><div class="label">成交金额</div><input id="createDealAmount" class="create-control money" value="¥69,800"></div></div></section>' +
+    '<section class="order-detail-section"><h4>订单项</h4><table class="order-detail-table"><thead><tr><th>商品</th><th>购买周期</th><th class="num">数量</th><th class="num">成交金额</th><th class="row-action">操作</th></tr></thead><tbody id="createItemsBody"></tbody><tfoot><tr><td colspan="3" class="num">小计</td><td class="num" id="createTotalAmount">¥0</td><td></td></tr></tfoot></table><div class="create-table-actions"><a class="ly-link" href="#" onclick="addCreateItem();return false">+ 添加订单项</a><span id="createOpenResult">主套餐权益 + 系统授权</span></div></section>' +
     '<section class="order-detail-section"><h4>附件</h4><div class="attachment-list">' +
     '<a class="attachment-chip" href="#" onclick="return false"><span class="file-icon"></span><span>银行水单：点击上传</span></a>' +
     '<a class="attachment-chip" href="#" onclick="return false"><span class="file-icon"></span><span>合同附件：点击上传</span></a>' +
@@ -844,6 +928,7 @@ function openCreate() {
     '<button type="button" class="ly-btn ly-btn-primary" onclick="closeDrawer()">保存并开通</button>';
   document.getElementById('dActions').style.display = 'flex';
   document.getElementById('drawerMask').classList.add('open');
+  createOrderItems = [{ product: 'erpFlagship', qty: 1, amount: null, amountTouched: false }];
   syncCreatePeriod();
   syncCreateProduct();
 }
@@ -854,8 +939,11 @@ var CREATE_PRODUCTS = {
   scmEnt: { name: 'SCM 企业版', type: 'package', price: 48000, unit: '年' },
   orderPack: { name: '订单扩容包', type: 'addon', price: 1000, unit: '包' },
   mskuPack: { name: 'MSKU 扩容包', type: 'addon', price: 2000, unit: '包' },
+  traceMeter: { name: '物流轨迹查询', type: 'meteredFixed', price: 0.1, unit: '物流单', defaultAmount: 5000, result: '开通服务权限；按业务系统实际上报物流单累计计费' },
+  patentCall: { name: '专利 / 侵权检测', type: 'metered', price: 0, unit: '次', defaultQty: 1, result: '开通服务权限；成功调用生成记录，后续线下核算' },
   kdcs: { name: '金蝶云星空对接', type: 'service', price: 20000, unit: '次' }
 };
+var createOrderItems = [];
 var CREATE_CYCLES = {
   '15d': { label: '15天', amountFactor: 15 / 365 },
   '1m': { label: '1个月', amountFactor: 1 / 12 },
@@ -882,6 +970,10 @@ function formatCreateDate(date) {
 }
 function formatCreateMoney(amount) {
   return '¥' + Math.round(amount).toLocaleString();
+}
+function formatCreateUnitPrice(amount) {
+  if (amount > 0 && amount < 1) return '¥' + amount;
+  return formatCreateMoney(amount);
 }
 function markCreateCustomPeriod() {
   var cycle = document.getElementById('createCycle');
@@ -923,23 +1015,83 @@ function syncCreateOrderType() {
   syncCreateProduct();
 }
 function syncCreateProduct() {
-  var productEl = document.getElementById('createProduct');
   var cycleEl = document.getElementById('createCycle');
-  var qtyEl = document.getElementById('createQty');
-  if (!productEl || !cycleEl || !qtyEl) return;
-  var product = CREATE_PRODUCTS[productEl.value];
-  var cycle = CREATE_CYCLES[cycleEl.value] || CREATE_CYCLES.custom;
-  var qty = Math.max(parseInt(qtyEl.value || '1', 10), 1);
-  qtyEl.value = qty;
-  var isPackage = product.type === 'package';
-  document.getElementById('createQtyHead').style.display = isPackage ? 'none' : '';
-  document.getElementById('createQtyCell').style.display = isPackage ? 'none' : '';
-  document.getElementById('createUnitPrice').textContent = product.price === 0 ? '¥0' : formatCreateMoney(product.price) + '/' + product.unit;
-  document.getElementById('createPeriodText').textContent = cycle.label;
+  if (!cycleEl || !document.getElementById('createItemsBody')) return;
+  renderCreateItems();
+}
+function productOptions(selected) {
+  return Object.keys(CREATE_PRODUCTS).map(function(key) {
+    var p = CREATE_PRODUCTS[key];
+    return '<option value="' + key + '"' + (key === selected ? ' selected' : '') + '>' + p.name + '</option>';
+  }).join('');
+}
+function defaultCreateAmount(productKey, qty) {
+  var product = CREATE_PRODUCTS[productKey];
   var orderTypeEl = document.getElementById('createOrderType');
-  var dealAmount = isPackage ? product.price * getCreatePeriodFactor() : product.price * qty;
-  if (orderTypeEl && orderTypeEl.value === '试用') dealAmount = 0;
-  document.getElementById('createDealAmount').value = formatCreateMoney(dealAmount);
+  if (orderTypeEl && orderTypeEl.value === '试用') return 0;
+  if (product.type === 'metered') return 10000;
+  if (product.type === 'meteredFixed') return product.defaultAmount || 0;
+  if (product.type === 'package') return product.price * getCreatePeriodFactor();
+  return product.price * Math.max(Number(qty || 1), 1);
+}
+function parseCreateMoney(value) {
+  return Number(String(value || '').replace(/[^\d.]/g, '')) || 0;
+}
+function updateCreateItem(index, field, value) {
+  var item = createOrderItems[index];
+  if (!item) return;
+  if (field === 'product') {
+    item.product = value;
+    item.qty = 1;
+    item.amountTouched = false;
+    item.amount = null;
+  }
+  if (field === 'qty') {
+    item.qty = Math.max(parseInt(value || '1', 10), 1);
+    item.amountTouched = false;
+    item.amount = null;
+  }
+  if (field === 'amount') {
+    item.amount = parseCreateMoney(value);
+    item.amountTouched = true;
+  }
+  renderCreateItems();
+}
+function addCreateItem() {
+  createOrderItems.push({ product: 'orderPack', qty: 1, amount: null, amountTouched: false });
+  renderCreateItems();
+}
+function removeCreateItem(index) {
+  if (createOrderItems.length <= 1) return;
+  createOrderItems.splice(index, 1);
+  renderCreateItems();
+}
+function renderCreateItems() {
+  var body = document.getElementById('createItemsBody');
+  if (!body) return;
+  var cycle = CREATE_CYCLES[(document.getElementById('createCycle') || {}).value] || CREATE_CYCLES.custom;
+  var total = 0;
+  var resultLabels = [];
+  body.innerHTML = '';
+  createOrderItems.forEach(function(item, index) {
+    var product = CREATE_PRODUCTS[item.product] || CREATE_PRODUCTS.erpFlagship;
+    var qtyHidden = product.type === 'package' || product.type === 'metered' || product.type === 'meteredFixed';
+    var amount = item.amountTouched ? Number(item.amount || 0) : defaultCreateAmount(item.product, item.qty);
+    total += amount;
+    var result = product.result || (product.type === 'service' ? '生成服务记录' : (product.type === 'addon' ? '发放对应权益额度' : '主套餐权益 + 系统授权'));
+    if (resultLabels.indexOf(result) === -1) resultLabels.push(result);
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><select class="create-control" onchange="updateCreateItem(' + index + ', &quot;product&quot;, this.value)">' + productOptions(item.product) + '</select></td>' +
+      '<td><span class="create-period-pill">' + cycle.label + '</span></td>' +
+      '<td class="num">' + (qtyHidden ? '—' : '<input class="create-control" type="number" min="1" value="' + (item.qty || 1) + '" onchange="updateCreateItem(' + index + ', &quot;qty&quot;, this.value)" style="width:76px;display:inline-block;text-align:right">') + '</td>' +
+      '<td class="num"><input class="create-control money" value="' + formatCreateMoney(amount) + '" onchange="updateCreateItem(' + index + ', &quot;amount&quot;, this.value)" style="width:120px;display:inline-block"></td>' +
+      '<td class="row-action">' + (createOrderItems.length > 1 ? '<a class="ly-link" href="#" onclick="removeCreateItem(' + index + ');return false" style="color:#ff4d4f">删除</a>' : '—') + '</td>';
+    body.appendChild(tr);
+  });
+  document.getElementById('createTotalAmount').textContent = formatCreateMoney(total);
+  var resultEl = document.getElementById('createOpenResult');
+  if (resultEl) resultEl.textContent = resultLabels.join('；');
 }
 
 /* ===== 行内操作（一期：直接生效，不走二次审批） ===== */
@@ -973,6 +1125,21 @@ function refund(idx, fromDrawer) {
   if (confirm('确认退款并作废 ' + ORDERS[idx].code + '？\n\n• 立即回收本订单贡献的权益与菜单授权\n• 状态：' + ORDERS[idx].status + ' → 已作废')) {
     ORDERS[idx].status = '已作废';
     ORDERS[idx].log.push({ t: nowStr(), who: '胡仕玲', action: '订单作废（退款处理，权益已回收）' });
+    render();
+    if (fromDrawer) openDrawer(idx);
+  }
+}
+function retryException(idx, fromDrawer) {
+  var order = ORDERS[idx];
+  var action = retryText(order.exception);
+  if (confirm('确认' + action + ' ' + order.code + '？\n\nMVP 原型：从失败环节继续处理，成功后清除异常标记。')) {
+    order.log.push({ t: nowStr(), who: '胡仕玲', action: action + '成功，清除' + order.exception });
+    order.exception = null;
+    if (order.status === '草稿') {
+      order.status = '已开通';
+      order.openedAt = nowStr();
+      order.openedBy = '胡仕玲';
+    }
     render();
     if (fromDrawer) openDrawer(idx);
   }
