@@ -961,16 +961,11 @@ function openDrawer(idx) {
     '<div class="item"><span class="label">创建人</span><span class="value">' + o.createdBy + '</span></div>' +
     '<div class="item"><span class="label">创建时间</span><span class="value">' + o.createdAt + '</span></div>' +
     '</div></section>';
-  html += '<section class="order-detail-section"><h4>订单项</h4><table class="order-detail-table"><thead><tr><th>商品</th><th>处理结果</th><th>购买周期</th><th class="num">数量</th><th class="num">成交金额</th></tr></thead><tbody>';
+  html += '<section class="order-detail-section"><h4>订单项</h4><table class="order-detail-table"><thead><tr><th>商品</th><th>购买周期</th><th class="num">数量</th><th class="num">成交金额</th></tr></thead><tbody>';
   o.items.forEach(function (it) {
-    html += '<tr><td>' + it.name + '</td><td>' + itemResultText(it) + '</td><td>' + (it.period || o.period || '—') + '</td><td class="num">' + itemQtyText(it) + '</td><td class="num">' + moneyText(it.subtotal || 0) + '</td></tr>';
+    html += '<tr><td>' + it.name + '</td><td>' + (it.period || o.period || '—') + '</td><td class="num">' + itemQtyText(it) + '</td><td class="num">' + moneyText(it.subtotal || 0) + '</td></tr>';
   });
-  html += '</tbody><tfoot><tr><td colspan="4" class="num">小计</td><td class="num">' + moneyText(o.amount) + '</td></tr></tfoot></table></section>';
-  html += '<section class="order-detail-section"><h4>权益发放结果</h4><div class="entitlement-result-list">';
-  o.items.forEach(function (it) {
-    html += '<div class="entitlement-result-item"><div class="name">' + orderItemName(it) + '</div><div class="result">' + itemResultText(it) + '</div></div>';
-  });
-  html += '</div></section>';
+  html += '</tbody><tfoot><tr><td colspan="3" class="num">小计</td><td class="num">' + moneyText(o.amount) + '</td></tr></tfoot></table></section>';
   html += '<section class="order-detail-section"><h4>附件</h4><div class="attachment-list">' +
     attachmentChip(o.slip, '银行水单') +
     attachmentChip(o.contract, '合同/补充材料') +
