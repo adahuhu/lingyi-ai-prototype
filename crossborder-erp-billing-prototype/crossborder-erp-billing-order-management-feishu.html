@@ -313,6 +313,11 @@
       border-color: var(--ly-primary);
       box-shadow: 0 0 0 2px rgba(47, 107, 255, .08);
     }
+    .create-control:disabled {
+      color: var(--ly-muted);
+      background: #f7f9fc;
+      cursor: not-allowed;
+    }
     .create-control.money {
       text-align: right;
       font-family: var(--ly-font-num);
@@ -332,6 +337,20 @@
       color: var(--ly-primary);
       font-size: 12px;
       font-weight: 500;
+    }
+    .create-rule-tip {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border: 1px solid #c8d8ff;
+      border-radius: 6px;
+      background: #f5f8ff;
+      color: #38507a;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .create-rule-tip strong {
+      color: var(--ly-primary);
+      font-weight: 600;
     }
     .create-amount-row {
       display: grid;
@@ -441,6 +460,11 @@
       color: var(--ly-primary);
       border-color: var(--ly-primary);
       background: #f0f7ff;
+    }
+    .attachment-chip.uploaded {
+      border-color: #b7eb8f;
+      background: #f6ffed;
+      color: #237804;
     }
     .attachment-chip .file-icon {
       width: 22px;
@@ -985,41 +1009,51 @@ function closeDrawer() { document.getElementById('drawerMask').classList.remove(
 function openCreate() {
   var params = new URLSearchParams(window.location.search);
   var buyer = params.get('buyer') || '杭州星河跨境';
+  createUploads = { slip: false, contract: false };
   document.getElementById('dTitle').textContent = '创建订单';
   document.getElementById('dStatus').innerHTML = '';
   document.getElementById('dBody').innerHTML =
     '<section class="order-detail-section"><h4>基础信息</h4><div class="order-info-grid">' +
     '<div class="item"><span class="label">租户</span><span class="value">' + buyer + '</span></div>' +
-    '<div class="item"><span class="label">订单类型</span><span class="value"><select id="createOrderType" class="create-control" onchange="syncCreateOrderType()"><option>新购</option><option>续费</option><option>升级</option><option>扩容</option><option>试用</option></select></span></div>' +
+    '<div class="item"><span class="label">订单类型</span><span class="value"><select id="createOrderType" class="create-control" onchange="syncCreateOrderType()"><option>新购</option><option>试用</option><option>续费</option><option>升级</option><option>购买增值服务</option></select></span></div>' +
     '<div class="item"><span class="label">购买周期</span><span class="value"><select id="createCycle" class="create-control" onchange="syncCreatePeriod()"><option value="15d">15天</option><option value="1m">1个月</option><option value="3m">3个月</option><option value="1y" selected>1年</option><option value="2y">2年</option><option value="3y">3年</option><option value="custom">自定义</option></select></span></div>' +
     '<div class="item"><span class="label">生效时间</span><span class="value"><input id="createStart" class="create-control" type="date" value="2026-06-02" onchange="syncCreatePeriod()"></span></div>' +
     '<div class="item"><span class="label">到期时间</span><span class="value"><input id="createEnd" class="create-control" type="date" value="2027-06-01" onchange="markCreateCustomPeriod()"></span></div>' +
-    '</div></section>' +
+    '</div><div id="createRuleTip" class="create-rule-tip"></div></section>' +
     '<section class="order-detail-section"><h4>订单项</h4><table class="order-detail-table"><thead><tr><th>商品</th><th>购买周期</th><th class="num">数量</th><th class="num">成交金额</th><th class="row-action">操作</th></tr></thead><tbody id="createItemsBody"></tbody><tfoot><tr><td colspan="3" class="num">小计</td><td class="num" id="createTotalAmount">¥0</td><td></td></tr></tfoot></table><div class="create-table-actions"><a class="ly-link" href="#" onclick="addCreateItem();return false">+ 添加订单项</a><span id="createOpenResult">保存并开通后按订单项生成权益 / 系统开通 / 服务记录</span></div></section>' +
     '<section class="order-detail-section"><h4>附件</h4><div class="attachment-list">' +
-    '<a class="attachment-chip" href="#" onclick="return false"><span class="file-icon"></span><span>银行水单：点击上传</span></a>' +
-    '<a class="attachment-chip" href="#" onclick="return false"><span class="file-icon"></span><span>合同附件：点击上传</span></a>' +
+    '<a id="createSlipChip" class="attachment-chip" href="#" onclick="markCreateUpload(&quot;slip&quot;);return false"><span class="file-icon"></span><span>银行水单：点击上传</span></a>' +
+    '<a id="createContractChip" class="attachment-chip" href="#" onclick="markCreateUpload(&quot;contract&quot;);return false"><span class="file-icon"></span><span>合同附件：点击上传</span></a>' +
     '</div></section>';
   document.getElementById('dActions').innerHTML =
     '<button type="button" class="ly-btn" onclick="closeDrawer()">取消</button>' +
-    '<button type="button" class="ly-btn ly-btn-primary" onclick="closeDrawer()">保存并开通</button>';
+    '<button type="button" class="ly-btn ly-btn-primary" onclick="submitCreateOrder()">保存并开通</button>';
   document.getElementById('dActions').style.display = 'flex';
   document.getElementById('drawerMask').classList.add('open');
-  createOrderItems = [{ product: 'erpFlagship', qty: 1, amount: null, amountTouched: false }];
+  createOrderItems = [{ product: getFirstAllowedProduct('新购'), qty: 1, amount: null, amountTouched: false }];
   syncCreatePeriod();
-  syncCreateProduct();
+  syncCreateOrderType();
 }
 
 var CREATE_PRODUCTS = {
-  erpFlagship: { name: 'ERP 旗舰版', type: 'package', price: 69800, unit: '年', result: '生成或延长主套餐权益与系统授权' },
-  erpPro: { name: 'ERP 专业版', type: 'package', price: 29800, unit: '年', result: '生成或延长主套餐权益与系统授权' },
-  scmEnt: { name: 'SCM 企业版', type: 'package', price: 48000, unit: '年', result: '生成或延长主套餐权益与系统授权' },
+  erpFlagship: { name: 'ERP 旗舰版', type: 'package', level: 3, price: 69800, unit: '年', result: '生成或延长主套餐权益与系统授权' },
+  erpPro: { name: 'ERP 专业版', type: 'package', level: 2, price: 29800, unit: '年', result: '生成或延长主套餐权益与系统授权' },
+  scmEnt: { name: 'SCM 企业版', type: 'package', level: 2, price: 48000, unit: '年', result: '生成或延长主套餐权益与系统授权' },
   orderPack: { name: '订单扩容包', type: 'addon', price: 1000, unit: '包', result: '增加订单量权益额度' },
   mskuPack: { name: 'MSKU 扩容包', type: 'addon', price: 2000, unit: '包', result: '增加 MSKU 权益额度' },
   traceMeter: { name: '物流轨迹查询', type: 'meteredFixed', price: 0.1, unit: '物流单', defaultAmount: 5000, result: '开通服务权限；按业务系统实际上报物流单累计计费' },
   kdcs: { name: '金蝶云星空对接', type: 'service', price: 20000, unit: '次' }
 };
 var createOrderItems = [];
+var createUploads = { slip: false, contract: false };
+var CREATE_TENANT_STATE = {
+  hasMain: true,
+  trialUsed: true,
+  currentMainProduct: 'erpPro',
+  currentMainName: 'ERP 专业版',
+  currentMainEnd: '2026-12-31',
+  currentLevel: 2
+};
 var CREATE_CYCLES = {
   '15d': { label: '15天', amountFactor: 15 / 365 },
   '1m': { label: '1个月', amountFactor: 1 / 12 },
@@ -1083,20 +1117,88 @@ function getCreatePeriodFactor() {
 function syncCreateOrderType() {
   var typeEl = document.getElementById('createOrderType');
   var cycleEl = document.getElementById('createCycle');
-  if (typeEl && cycleEl && typeEl.value === '试用') {
-    cycleEl.value = '15d';
-    syncCreatePeriod();
-    return;
+  var startEl = document.getElementById('createStart');
+  var endEl = document.getElementById('createEnd');
+  if (!typeEl || !cycleEl || !startEl || !endEl) return;
+  var orderType = typeEl.value;
+  if (orderType === '试用') cycleEl.value = '15d';
+  if (orderType === '购买增值服务') cycleEl.value = 'custom';
+  cycleEl.disabled = orderType === '试用';
+  startEl.disabled = orderType === '续费';
+  endEl.disabled = orderType === '试用' || orderType === '续费' || (orderType !== '购买增值服务' && cycleEl.value !== 'custom');
+  if (orderType === '续费') {
+    startEl.value = nextCreateDate(CREATE_TENANT_STATE.currentMainEnd);
+  }
+  createOrderItems = createOrderItems.map(function(item) {
+    if (isProductAllowed(item.product, orderType)) return item;
+    return { product: getFirstAllowedProduct(orderType), qty: 1, amount: null, amountTouched: false };
+  });
+  updateCreateRuleTip();
+  syncCreatePeriod();
+}
+function nextCreateDate(dateText) {
+  var d = new Date(dateText + 'T00:00:00');
+  d.setDate(d.getDate() + 1);
+  return formatCreateDate(d);
+}
+function isProductAllowed(productKey, orderType) {
+  var p = CREATE_PRODUCTS[productKey];
+  if (!p) return false;
+  if (orderType === '新购' || orderType === '试用') return p.type === 'package';
+  if (orderType === '续费') return productKey === CREATE_TENANT_STATE.currentMainProduct;
+  if (orderType === '升级') return p.type === 'package' && Number(p.level || 0) > CREATE_TENANT_STATE.currentLevel;
+  if (orderType === '购买增值服务') return p.type !== 'package';
+  return false;
+}
+function getFirstAllowedProduct(orderType) {
+  var keys = Object.keys(CREATE_PRODUCTS);
+  for (var i = 0; i < keys.length; i++) {
+    if (isProductAllowed(keys[i], orderType)) return keys[i];
+  }
+  return keys[0];
+}
+function getCreateOrderType() {
+  var el = document.getElementById('createOrderType');
+  return el ? el.value : '新购';
+}
+function updateCreateRuleTip() {
+  var tip = document.getElementById('createRuleTip');
+  if (!tip) return;
+  var orderType = getCreateOrderType();
+  var rules = {
+    '新购': '仅可选择主套餐。租户已有有效主套餐时不可创建新购订单；保存后开通对应系统并生成套餐权益。',
+    '试用': '仅可选择主套餐，购买周期固定 15 天，成交金额可为 0。已有有效主套餐或已试用过时不可创建。',
+    '续费': '仅可选择当前主套餐。生效时间自动取当前套餐到期日次日，到期时间按购买周期自动计算。',
+    '升级': '仅可选择高于当前套餐等级的主套餐。保存后按新套餐重新生成有效期内权益。',
+    '购买增值服务': '仅可选择增值服务。额度类服务按数量增加权益；一次性交付生成服务记录；按量/固定单价服务开通权限后按业务上报计费。'
+  };
+  tip.innerHTML = '<strong>' + orderType + '规则：</strong>' + rules[orderType];
+}
+function markCreateUpload(type) {
+  createUploads[type] = true;
+  var id = type === 'slip' ? 'createSlipChip' : 'createContractChip';
+  var label = type === 'slip' ? '银行水单' : '合同附件';
+  var el = document.getElementById(id);
+  if (el) {
+    el.classList.add('uploaded');
+    el.innerHTML = '<span class="file-icon"></span><span>' + label + '：已上传</span>';
   }
   syncCreateProduct();
 }
 function syncCreateProduct() {
   var cycleEl = document.getElementById('createCycle');
   if (!cycleEl || !document.getElementById('createItemsBody')) return;
+  var orderType = getCreateOrderType();
+  var endEl = document.getElementById('createEnd');
+  if (endEl) endEl.disabled = orderType === '试用' || orderType === '续费' || (orderType !== '购买增值服务' && cycleEl.value !== 'custom');
+  updateCreateRuleTip();
   renderCreateItems();
 }
 function productOptions(selected) {
-  return Object.keys(CREATE_PRODUCTS).map(function(key) {
+  var orderType = getCreateOrderType();
+  return Object.keys(CREATE_PRODUCTS).filter(function(key) {
+    return isProductAllowed(key, orderType);
+  }).map(function(key) {
     var p = CREATE_PRODUCTS[key];
     return '<option value="' + key + '"' + (key === selected ? ' selected' : '') + '>' + p.name + '</option>';
   }).join('');
@@ -1134,7 +1236,7 @@ function updateCreateItem(index, field, value) {
   renderCreateItems();
 }
 function addCreateItem() {
-  createOrderItems.push({ product: 'orderPack', qty: 1, amount: null, amountTouched: false });
+  createOrderItems.push({ product: getFirstAllowedProduct(getCreateOrderType()), qty: 1, amount: null, amountTouched: false });
   renderCreateItems();
 }
 function removeCreateItem(index) {
@@ -1145,21 +1247,28 @@ function removeCreateItem(index) {
 function renderCreateItems() {
   var body = document.getElementById('createItemsBody');
   if (!body) return;
+  var orderType = getCreateOrderType();
   var cycle = CREATE_CYCLES[(document.getElementById('createCycle') || {}).value] || CREATE_CYCLES.custom;
   var total = 0;
   var resultLabels = [];
   body.innerHTML = '';
   createOrderItems.forEach(function(item, index) {
-    var product = CREATE_PRODUCTS[item.product] || CREATE_PRODUCTS.erpFlagship;
+    if (!isProductAllowed(item.product, orderType)) {
+      item.product = getFirstAllowedProduct(orderType);
+      item.qty = 1;
+      item.amount = null;
+      item.amountTouched = false;
+    }
+    var product = CREATE_PRODUCTS[item.product] || CREATE_PRODUCTS[getFirstAllowedProduct(orderType)];
     var qtyHidden = product.type === 'package' || product.type === 'metered' || product.type === 'meteredFixed';
     var amount = item.amountTouched ? Number(item.amount || 0) : defaultCreateAmount(item.product, item.qty);
     total += amount;
-    var result = product.result || (product.type === 'service' ? '生成服务记录' : (product.type === 'addon' ? '发放对应权益额度' : '主套餐权益 + 系统授权'));
+    var result = createResultText(orderType, product);
     if (resultLabels.indexOf(result) === -1) resultLabels.push(result);
     var tr = document.createElement('tr');
     tr.innerHTML =
       '<td><select class="create-control" onchange="updateCreateItem(' + index + ', &quot;product&quot;, this.value)">' + productOptions(item.product) + '</select></td>' +
-      '<td><span class="create-period-pill">' + cycle.label + '</span></td>' +
+      '<td><span class="create-period-pill">' + createPeriodLabel(orderType, cycle) + '</span></td>' +
       '<td class="num">' + (qtyHidden ? '—' : '<input class="create-control" type="number" min="1" value="' + (item.qty || 1) + '" onchange="updateCreateItem(' + index + ', &quot;qty&quot;, this.value)" style="width:76px;display:inline-block;text-align:right">') + '</td>' +
       '<td class="num"><input class="create-control money" value="' + formatCreateMoney(amount) + '" onchange="updateCreateItem(' + index + ', &quot;amount&quot;, this.value)" style="width:120px;display:inline-block"></td>' +
       '<td class="row-action">' + (createOrderItems.length > 1 ? '<a class="ly-link" href="#" onclick="removeCreateItem(' + index + ');return false" style="color:#ff4d4f">删除</a>' : '—') + '</td>';
@@ -1168,6 +1277,58 @@ function renderCreateItems() {
   document.getElementById('createTotalAmount').textContent = formatCreateMoney(total);
   var resultEl = document.getElementById('createOpenResult');
   if (resultEl) resultEl.textContent = resultLabels.join('；');
+}
+function createPeriodLabel(orderType, cycle) {
+  if (orderType === '购买增值服务') return '按订单填写';
+  if (orderType === '试用') return '15天';
+  return cycle.label;
+}
+function createResultText(orderType, product) {
+  if (orderType === '新购') return '开通主套餐，生成套餐权益和系统授权';
+  if (orderType === '试用') return '开通试用套餐，15 天后自动失效';
+  if (orderType === '续费') return '延长当前套餐有效期，生成新周期权益';
+  if (orderType === '升级') return '切换为新套餐，按新套餐重新生成权益';
+  if (product.type === 'addon') return product.result || '按购买数量增加对应权益额度';
+  if (product.type === 'service') return product.result || '生成服务记录';
+  if (product.type === 'meteredFixed') return product.result || '开通服务权限，后续按业务上报计费';
+  return product.result || '按订单项处理';
+}
+function submitCreateOrder() {
+  var orderType = getCreateOrderType();
+  var total = parseCreateMoney(document.getElementById('createTotalAmount').textContent);
+  if (orderType === '新购' && CREATE_TENANT_STATE.hasMain) {
+    alert('当前租户已存在有效主套餐，不能创建新购订单。');
+    return;
+  }
+  if (orderType === '试用' && (CREATE_TENANT_STATE.hasMain || CREATE_TENANT_STATE.trialUsed)) {
+    alert('当前租户已有有效主套餐或已使用过试用，不能创建试用订单。');
+    return;
+  }
+  if ((orderType === '续费' || orderType === '购买增值服务') && !CREATE_TENANT_STATE.hasMain) {
+    alert('当前租户没有有效主套餐，不能创建' + orderType + '订单。');
+    return;
+  }
+  var invalidProduct = createOrderItems.some(function(item) {
+    return !isProductAllowed(item.product, orderType);
+  });
+  if (invalidProduct) {
+    alert('订单项商品不符合当前订单类型，请重新选择。');
+    return;
+  }
+  if (orderType !== '试用' && total <= 0) {
+    alert('成交金额必须大于 0。');
+    return;
+  }
+  if (!createUploads.contract) {
+    alert('请先上传合同附件。');
+    return;
+  }
+  if (orderType !== '试用' && !createUploads.slip) {
+    alert('请先上传银行水单。');
+    return;
+  }
+  alert('原型校验通过，可保存并开通。');
+  closeDrawer();
 }
 
 /* ===== 行内操作（一期：直接生效，不走二次审批） ===== */
