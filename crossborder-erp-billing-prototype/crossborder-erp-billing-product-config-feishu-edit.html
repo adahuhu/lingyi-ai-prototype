@@ -103,6 +103,12 @@
       border-color: #3370ff;
       box-shadow: 0 0 0 3px rgba(51, 112, 255, .10);
     }
+    .field select:disabled,
+    .field input:read-only {
+      color: #8f959e;
+      background: #f6f8fb;
+      cursor: not-allowed;
+    }
     .system-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -352,10 +358,9 @@
               <label>计价模式 <span class="req">*</span></label>
               <select id="priceMode" onchange="syncPriceUnit()">
                 <option>按年订阅</option>
+                <option>额度包</option>
                 <option>固定单价</option>
-                <option>一次性</option>
-                <option>按量计费</option>
-                <option>按实际调用核算</option>
+                <option>一次性服务</option>
                 <option>线下报价</option>
               </select>
             </div>
@@ -425,6 +430,10 @@
 
 <script>
 var currentProductType = 'MAIN';
+var PRICE_MODE_OPTIONS = {
+  MAIN: ['按年订阅'],
+  ADDON: ['额度包', '固定单价', '一次性服务', '线下报价']
+};
 var RIGHTS_LIB = [
   { code: 'QUOTA_ORDER_QTY', name: '年订单量', unit: '单/年', type: '主套餐配额' },
   { code: 'QUOTA_MSKU', name: 'MSKU 额度', unit: '个', type: '主套餐配额' },
@@ -432,6 +441,8 @@ var RIGHTS_LIB = [
   { code: 'QUOTA_SUB_USER', name: '子账号', unit: '个', type: '主套餐配额' },
   { code: 'QUOTA_PLATFORM', name: '平台授权', unit: '个', type: '主套餐配额' },
   { code: 'SVC_TRACK_QUERY', name: '物流轨迹查询服务权限', unit: '单', type: '服务权限' },
+  { code: 'SVC_PATENT_MONITOR', name: '专利监测服务权限', unit: '次', type: '服务权限' },
+  { code: 'SVC_TORT_CHECK', name: '侵权检测服务权限', unit: '次', type: '服务权限' },
   { code: 'SVC_KDCS', name: '金蝶云星空对接', unit: '次', type: '服务项' },
   { code: 'SVC_TRAINING', name: '线下实施培训', unit: '人天', type: '服务项' }
 ];
@@ -472,6 +483,15 @@ function syncAddonUsageUnit() {
   var code = document.getElementById('addonUsageRightCode').value;
   var def = getRightDef(code);
   document.getElementById('priceUnit').value = def.unit || '';
+}
+function syncPriceModeOptions(type, selectedMode) {
+  var priceMode = document.getElementById('priceMode');
+  var modes = PRICE_MODE_OPTIONS[type];
+  var targetMode = modes.indexOf(selectedMode) > -1 ? selectedMode : modes[0];
+  priceMode.innerHTML = modes.map(function(mode) {
+    return '<option ' + (mode === targetMode ? 'selected' : '') + '>' + mode + '</option>';
+  }).join('');
+  priceMode.disabled = type === 'MAIN';
 }
 function renderAddonRight() {
   var select = document.getElementById('addonRightCode');
@@ -550,19 +570,19 @@ function syncPriceUnit() {
   var addonUsageFields = document.getElementById('addonUsageFields');
   salePriceLabel.textContent = '销售价格';
   if (mode === '按年订阅') unit.value = '年';
-  if (mode === '固定单价') unit.value = currentProductType === 'ADDON' ? '单' : '';
-  if (mode === '一次性') unit.value = '次';
-  if (mode === '按量计费') unit.value = '单';
-  if (mode === '按实际调用核算') unit.value = '次';
+  if (mode === '额度包') unit.value = '包';
+  if (mode === '固定单价') unit.value = '单';
+  if (mode === '一次性服务') unit.value = '次';
   if (mode === '线下报价') unit.value = '';
   if (currentProductType === 'ADDON') {
-    var isUsageService = mode === '固定单价' || mode === '按实际调用核算';
-    unitLabel.textContent = isUsageService ? '计费单位' : '售卖单位';
-    salePriceLabel.textContent = isUsageService ? '服务单价' : '销售价格';
+    var isQuotaPack = mode === '额度包';
+    var onlyRightItem = mode === '固定单价' || mode === '一次性服务' || mode === '线下报价';
+    unitLabel.textContent = mode === '固定单价' ? '计费单位' : '售卖单位';
+    salePriceLabel.textContent = mode === '固定单价' ? '服务单价' : '销售价格';
     addonConfigTitle.textContent = '权益内容';
-    addonQuotaFields.classList.toggle('hidden', isUsageService);
-    addonUsageFields.classList.toggle('hidden', !isUsageService);
-    if (isUsageService) syncAddonUsageUnit();
+    addonQuotaFields.classList.toggle('hidden', !isQuotaPack);
+    addonUsageFields.classList.toggle('hidden', !onlyRightItem);
+    if (onlyRightItem) syncAddonUsageUnit();
   }
 }
 function applyType(type) {
@@ -576,7 +596,7 @@ function applyType(type) {
   document.getElementById('mainRightsConfig').classList.toggle('hidden', type !== 'MAIN');
   document.getElementById('addonRightsConfig').classList.toggle('hidden', type !== 'ADDON');
   if (type === 'MAIN') {
-    priceMode.value = '按年订阅';
+    syncPriceModeOptions('MAIN', '按年订阅');
     unit.value = '年';
     unitLabel.textContent = '售卖周期';
     document.getElementById('salePriceLabel').textContent = '销售价格';
@@ -584,7 +604,7 @@ function applyType(type) {
       input.checked = input.getAttribute('data-system') === 'ERP';
     });
   } else {
-    priceMode.value = '固定单价';
+    syncPriceModeOptions('ADDON', priceMode.value);
     renderAddonRight();
   }
   syncPriceUnit();
@@ -594,10 +614,13 @@ function confirmPublish() {
 }
 function initPage() {
   var params = new URLSearchParams(location.search);
-  document.getElementById('skuCode').value = params.get('mode') === 'new' ? createSkuCode() : 'SKU_ERP_FLAGSHIP_001';
-  if (params.get('mode') !== 'new') {
-    document.getElementById('productName').value = 'ERP 旗舰版';
-    document.getElementById('salePrice').value = '¥69,800';
+  var code = params.get('code') || '';
+  var isNew = params.get('mode') === 'new';
+  var isMainProduct = !code || code.indexOf('SKU_ERP_') === 0 || code.indexOf('SKU_SCM_ENT') === 0;
+  document.getElementById('skuCode').value = isNew ? createSkuCode() : (code || 'SKU_ERP_FLAGSHIP_001');
+  if (!isNew) {
+    document.getElementById('productName').value = isMainProduct ? 'ERP 旗舰版' : '订单扩容包';
+    document.getElementById('salePrice').value = isMainProduct ? '¥69,800' : '¥1,000';
     rightsRows = [
       { code: 'QUOTA_ORDER_QTY', value: 3000000, unit: '单/年', type: '主套餐配额', unlimited: false },
       { code: 'QUOTA_MSKU', value: 100000, unit: '个', type: '主套餐配额', unlimited: false },
@@ -608,7 +631,11 @@ function initPage() {
     btn.addEventListener('click', function() { applyType(btn.getAttribute('data-type')); });
   });
   renderAddonRight();
-  applyType('MAIN');
+  applyType(isMainProduct ? 'MAIN' : 'ADDON');
+  if (!isMainProduct) {
+    syncPriceModeOptions('ADDON', code.indexOf('PACK') > -1 ? '额度包' : '固定单价');
+    syncPriceUnit();
+  }
   renderRights();
 }
 initPage();
