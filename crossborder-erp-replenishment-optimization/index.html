@@ -1,0 +1,2191 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>备货计划优化综合原型 v1</title>
+  <style>
+    :root {
+      --nav: #15173b;
+      --side: #202244;
+      --side-active: #555978;
+      --page: #f5f5f7;
+      --card: #fff;
+      --text: #172947;
+      --muted: #9aa1ad;
+      --line: #e2e6ee;
+      --line-strong: #d4d9e3;
+      --blue: #176bff;
+      --blue-soft: #edf5ff;
+      --red: #ee4d4f;
+      --green: #18a05f;
+      --orange: #f59a23;
+      --yellow-soft: #fff4dc;
+      --purple-soft: #f1e8ff;
+      --cyan-soft: #e6f6ff;
+      --shadow: 0 8px 28px rgba(22, 29, 57, .10);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--page);
+      font: 14px/1.45 -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    .app { min-width: 1280px; min-height: 100vh; }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      height: 64px;
+      background: var(--nav);
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+
+    .brand {
+      width: 272px;
+      height: 64px;
+      padding-left: 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 30px;
+      position: relative;
+      border-radius: 8px;
+      background: linear-gradient(145deg, #2d7aff, #61a9ff);
+      transform: skewY(-14deg);
+      box-shadow: inset 0 -6px 0 rgba(10, 39, 104, .25);
+    }
+
+    .brand-logo::before,
+    .brand-logo::after {
+      content: "";
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      height: 5px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, .78);
+    }
+
+    .brand-logo::before { top: 7px; }
+    .brand-logo::after { bottom: 7px; }
+
+    .module-nav {
+      flex: 1;
+      height: 64px;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .module {
+      height: 52px;
+      min-width: 100px;
+      padding: 0 12px;
+      border: 0;
+      border-radius: 4px;
+      background: transparent;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      font-size: 17px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .module.active { background: rgba(255, 255, 255, .14); }
+    .module .icon { width: 18px; text-align: center; opacity: .92; font-size: 17px; }
+    .module.more { min-width: 36px; width: 36px; padding: 0; }
+
+    .top-actions {
+      height: 64px;
+      padding: 0 18px 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      white-space: nowrap;
+    }
+
+    .tenant {
+      height: 38px;
+      min-width: 176px;
+      padding: 0 12px;
+      border: 0;
+      border-radius: 5px;
+      background: #fff;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 15px;
+      font-weight: 650;
+    }
+
+    .top-icon {
+      position: relative;
+      width: 26px;
+      height: 26px;
+      border: 0;
+      background: transparent;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 21px;
+      line-height: 1;
+    }
+
+    .badge-count {
+      position: absolute;
+      right: -12px;
+      top: -13px;
+      min-width: 34px;
+      height: 22px;
+      padding: 0 7px;
+      border-radius: 12px;
+      background: var(--red);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      font-size: 17px;
+      font-weight: 650;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, #c79b6f, #79583f);
+      color: #fff;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 64px;
+      bottom: 0;
+      z-index: 40;
+      width: 272px;
+      background: var(--side);
+      color: #fff;
+      padding-top: 54px;
+      overflow: hidden;
+    }
+
+    .side-section {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px 0 34px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 650;
+    }
+
+    .side-section .left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .side-icon {
+      width: 25px;
+      text-align: center;
+      color: #dce3ff;
+      font-size: 20px;
+    }
+
+    .side-item {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      padding-left: 88px;
+      font-size: 17px;
+      font-weight: 650;
+      color: #fff;
+    }
+
+    .side-item.active {
+      height: 50px;
+      margin: 4px 14px;
+      padding-left: 76px;
+      border-radius: 4px;
+      background: var(--side-active);
+    }
+
+    .side-collapse {
+      position: absolute;
+      right: 20px;
+      bottom: 14px;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: rgba(255, 255, 255, .08);
+      font-size: 21px;
+    }
+
+    .page {
+      margin-left: 272px;
+      padding-top: 64px;
+      min-height: 100vh;
+      background: var(--page);
+    }
+
+    .tabs-top {
+      height: 58px;
+      padding-left: 22px;
+      display: flex;
+      align-items: flex-end;
+      gap: 0;
+      position: relative;
+    }
+
+    .tabs-top::after {
+      content: "";
+      position: absolute;
+      right: 24px;
+      bottom: 17px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 0;
+      background:
+        radial-gradient(circle at 50% 50%, transparent 7px, var(--text) 8px, transparent 9px),
+        conic-gradient(from 35deg, transparent 0 70deg, var(--text) 70deg 105deg, transparent 105deg 360deg);
+      opacity: .9;
+      transform: rotate(-20deg);
+    }
+
+    .top-tab {
+      height: 52px;
+      min-width: 92px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-left: 1px solid #e4e6ec;
+      color: var(--text);
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .top-tab.active {
+      border-left: 0;
+      border-radius: 12px 12px 0 0;
+      background: #fff;
+      color: var(--blue);
+      box-shadow: 0 -4px 16px rgba(27, 33, 58, .04);
+    }
+
+    .content {
+      margin: 0 22px 0 22px;
+      background: #fff;
+      border-radius: 2px;
+      min-height: calc(100vh - 126px);
+      padding: 22px 22px 12px;
+      box-shadow: 0 1px 0 rgba(18, 29, 56, .04);
+    }
+
+    .filters {
+      padding-bottom: 14px;
+    }
+
+    .filter-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px 10px;
+      margin-bottom: 10px;
+    }
+
+    .filter {
+      height: 44px;
+      min-width: 150px;
+      padding: 0 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #c0c4cc;
+      font-size: 15px;
+      white-space: nowrap;
+    }
+
+    .filter b {
+      color: var(--text);
+      font-weight: 700;
+      margin-right: 2px;
+    }
+
+    .filter .arrow {
+      margin-left: auto;
+      color: #b7bdc8;
+      font-size: 16px;
+    }
+
+    .filter.interactive { cursor: pointer; }
+    .filter.interactive:hover { border-color: #9fc4ff; }
+
+    .filter-menu {
+      position: fixed;
+      z-index: 85;
+      min-width: 118px;
+      padding: 5px 0;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      display: none;
+    }
+
+    .filter-menu.show { display: block; }
+
+    .filter-menu button {
+      width: 100%;
+      height: 30px;
+      border: 0;
+      background: #fff;
+      color: var(--text);
+      text-align: left;
+      padding: 0 10px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .filter-menu button:hover,
+    .filter-menu button.active {
+      background: #f2f7ff;
+      color: var(--blue);
+    }
+
+    .filter.sm { min-width: 122px; }
+    .filter.md { min-width: 185px; }
+    .filter.lg { min-width: 245px; }
+    .date-range { width: 370px; }
+
+    .search-group {
+      height: 44px;
+      display: flex;
+      align-items: stretch;
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .search-select {
+      min-width: 138px;
+      padding: 0 12px;
+      border: 0;
+      border-right: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 650;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .search-input {
+      width: 235px;
+      border: 0;
+      outline: 0;
+      padding: 0 12px;
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .search-input::placeholder { color: #c4c7cf; }
+
+    .list-icon,
+    .filter-icon {
+      width: 45px;
+      height: 44px;
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      background: #fff;
+      color: #9ca4b3;
+      font-size: 21px;
+      display: grid;
+      place-items: center;
+    }
+
+    .search-group .list-icon {
+      border: 0;
+      border-left: 1px solid var(--line);
+      border-radius: 0;
+    }
+
+    .btn {
+      height: 44px;
+      border-radius: 4px;
+      border: 1px solid var(--line-strong);
+      padding: 0 22px;
+      background: #fff;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 650;
+    }
+
+    .btn.primary {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .toolbar {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 0 14px;
+    }
+
+    .view-switch-top {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0 0 8px;
+    }
+
+    .view-tabs {
+      display: flex;
+      align-items: center;
+      height: 38px;
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .view-tab {
+      min-width: 76px;
+      height: 38px;
+      border: 0;
+      border-right: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      font-weight: 650;
+    }
+
+    .view-tab:last-child { border-right: 0; }
+    .view-tab.active {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .table-shell {
+      border-top: 0;
+      background: #fff;
+      position: relative;
+    }
+
+    .table-scroll {
+      overflow: auto;
+      max-height: calc(100vh - 390px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .plan-table {
+      width: max-content;
+      min-width: 4920px;
+      border-collapse: separate;
+      border-spacing: 0;
+      color: var(--text);
+      table-layout: fixed;
+    }
+
+    .plan-table th,
+    .plan-table td {
+      height: 82px;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+      vertical-align: middle;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .plan-table th {
+      height: 70px;
+      background: #fafafa;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .th-sub {
+      display: block;
+      margin-top: 2px;
+      color: #6f7d91;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .plan-table tbody tr:nth-child(2) td { background: #edf6ff; }
+    .plan-table tfoot td {
+      height: 58px;
+      background: #fff;
+      font-weight: 800;
+      color: #111;
+    }
+
+    .plan-table .center { text-align: center; }
+    .checkbox {
+      width: 22px;
+      height: 22px;
+      border: 1px solid #d5dae4;
+      border-radius: 3px;
+      background: #fff;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .checkbox.disabled {
+      background: #f2f3f5;
+      border-color: #dfe3eb;
+      position: relative;
+    }
+
+    .checkbox.disabled::after {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: 10px;
+      width: 10px;
+      height: 1px;
+      background: #b9bec8;
+      transform: rotate(-35deg);
+    }
+
+    .sort {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-left: 5px;
+      vertical-align: middle;
+    }
+
+    .sort::before,
+    .sort::after {
+      content: "";
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+    }
+
+    .sort::before { border-bottom: 8px solid #c4c9d3; }
+    .sort::after { border-top: 8px solid #c4c9d3; }
+
+    .info {
+      display: inline-grid;
+      place-items: center;
+      width: 16px;
+      height: 16px;
+      border: 1px solid var(--text);
+      border-radius: 50%;
+      margin-left: 3px;
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .help-tip {
+      position: relative;
+      cursor: default;
+    }
+
+    .help-tip:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      left: 50%;
+      top: 22px;
+      z-index: 20;
+      transform: translateX(-50%);
+      min-width: 170px;
+      height: 30px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: #fff;
+      color: #566173;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .thumb {
+      position: relative;
+      width: 52px;
+      height: 52px;
+      border-radius: 6px;
+      border: 1px solid #dfe3eb;
+      overflow: hidden;
+      background: linear-gradient(140deg, #e9f0ff, #ccd7e9);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.45);
+    }
+
+    .thumb::before {
+      content: "";
+      position: absolute;
+      inset: 9px 15px 7px 18px;
+      border-radius: 9px 9px 3px 3px;
+      background: linear-gradient(180deg, #d43231, #a51f26);
+      box-shadow: -8px 12px 0 #cfb18a, 10px 14px 0 #e6d9c8;
+    }
+
+    .thumb.t2::before {
+      inset: 10px 12px 9px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #61d8ff, #6a61ff);
+      box-shadow: 7px 11px 0 #dfe8f2, -7px 14px 0 #c6d0db;
+    }
+
+    .thumb.t3::before {
+      inset: 12px 7px 14px;
+      border-radius: 3px;
+      background: repeating-linear-gradient(90deg, #1f5961 0 8px, #f5f0e7 8px 14px);
+      box-shadow: 0 13px 0 #cfc7b5;
+    }
+
+    .thumb.t4::before {
+      inset: 25px 7px 13px;
+      border-radius: 12px 12px 5px 5px;
+      background: #202b33;
+      box-shadow: 10px -7px 0 #303f4a, -7px -2px 0 #1a242a;
+    }
+
+    .thumb.t5::before {
+      inset: 11px 8px 11px;
+      border-radius: 5px;
+      background: linear-gradient(120deg, #ddd5c9, #8797a1);
+      box-shadow: 9px 10px 0 #c2d6d7;
+    }
+
+    .thumb::after {
+      content: "单";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 10px 0 5px 0;
+      background: #8ce8df;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .two-line {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+      line-height: 1.35;
+    }
+
+    .link {
+      color: var(--blue);
+      font-weight: 650;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .copy {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border: 1px solid #c9ced8;
+      border-radius: 1px;
+      margin-left: 3px;
+      position: relative;
+      vertical-align: -1px;
+      opacity: .72;
+    }
+
+    .copy::after {
+      content: "";
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      right: -4px;
+      bottom: -4px;
+      border: 1px solid #d7dbe3;
+      border-radius: 1px;
+      background: #fff;
+    }
+
+    .risk { font-weight: 750; }
+    .risk.p1 { color: var(--red); }
+    .risk.p2 { color: var(--orange); }
+    .risk.p3 { color: #0fbd4b; }
+    .risk.safe { color: var(--text); }
+
+    .loss-mark {
+      display: inline-flex;
+      height: 22px;
+      align-items: center;
+      margin-left: 6px;
+      padding: 0 7px;
+      border-radius: 4px;
+      background: #fff0f0;
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 26px;
+      padding: 0 10px;
+      border-radius: 5px;
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .pill.normal { background: #eaf7f1; color: var(--green); }
+    .pill.paused { background: #fff2e5; color: #d97800; }
+    .pill.hot { background: var(--purple-soft); color: #8f43ff; }
+    .pill.new { background: #fff4dc; color: #ee9500; }
+    .pill.common { background: #e6f6ff; color: #238bd4; }
+    .pill.event { background: #fff1e8; color: #ee8a30; }
+    .pill.gray { background: #f1f3f6; color: #87909f; }
+
+    .money { font-weight: 650; }
+    .money.negative { color: var(--red); }
+    .money.positive { color: var(--text); }
+    .rate.negative { color: var(--red); }
+
+    .avg-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 34px);
+      grid-template-rows: 24px 18px;
+      column-gap: 8px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .avg-grid strong {
+      font-size: 15px;
+      color: var(--text);
+      font-weight: 750;
+    }
+
+    .avg-grid span {
+      color: #9aa1ad;
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .day-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 26px);
+      grid-template-rows: 24px 18px;
+      column-gap: 7px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .day-grid strong {
+      font-size: 15px;
+      color: var(--text);
+      font-weight: 750;
+    }
+
+    .day-grid span {
+      color: #9aa1ad;
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .forecast-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .forecast-avg {
+      display: grid;
+      min-width: 36px;
+      grid-template-rows: 24px 18px;
+      align-items: center;
+      justify-items: center;
+    }
+
+    .forecast-avg strong {
+      font-size: 15px;
+      color: var(--text);
+      font-weight: 750;
+    }
+
+    .forecast-avg span {
+      color: #9aa1ad;
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .purchase-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      line-height: 1.32;
+    }
+
+    .plan-no {
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .spark {
+      width: 148px;
+      height: 48px;
+      display: block;
+    }
+
+    .number-dd {
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      padding: 0;
+      font-weight: 650;
+    }
+
+    .status-dash { color: var(--text); }
+
+    .op-cell {
+      position: sticky;
+      right: 0;
+      z-index: 3;
+      width: 210px;
+      min-width: 210px;
+      background: #fff !important;
+      box-shadow: -8px 0 18px rgba(25, 32, 54, .12);
+    }
+
+    th.op-cell {
+      z-index: 5;
+      background: #fafafa !important;
+    }
+
+    tr:nth-child(2) .op-cell { background: #edf6ff !important; }
+
+    .op-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .op-link {
+      border: 0;
+      background: transparent;
+      color: var(--blue);
+      font-weight: 700;
+      padding: 0;
+    }
+
+    .op-link.disabled {
+      color: #a7aeb9;
+      cursor: default;
+    }
+
+    .more-btn {
+      border: 0;
+      background: transparent;
+      color: #9aa1ad;
+      font-size: 22px;
+      line-height: 1;
+      padding: 0 4px;
+    }
+
+    .summary-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+      padding: 0 0 0 14px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .scroll-shadow {
+      height: 12px;
+      background: linear-gradient(180deg, #f4f5f7, #edeff3);
+      position: relative;
+    }
+
+    .scroll-shadow::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 2px;
+      width: 420px;
+      height: 8px;
+      border-radius: 5px;
+      background: linear-gradient(90deg, #babdc2, #d5d7db);
+    }
+
+    .pagination {
+      height: 56px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 14px;
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .page-no {
+      width: 44px;
+      height: 36px;
+      border: 1px solid var(--blue);
+      border-radius: 4px;
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .page-size {
+      height: 36px;
+      min-width: 100px;
+      padding: 0 10px;
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .row-menu {
+      position: fixed;
+      z-index: 80;
+      width: 120px;
+      padding: 6px 0;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      display: none;
+    }
+
+    .row-menu.show { display: block; }
+    .row-menu button {
+      width: 100%;
+      height: 34px;
+      border: 0;
+      background: #fff;
+      color: var(--text);
+      text-align: left;
+      padding: 0 12px;
+      font-weight: 650;
+    }
+
+    .row-menu button:hover { background: #f5f7fb; color: var(--blue); }
+
+    .modal-mask {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      background: rgba(15, 19, 42, .18);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .modal-mask.show { display: flex; }
+
+    .transit-modal {
+      width: min(1180px, calc(100vw - 80px));
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 0 16px 48px rgba(17, 24, 45, .22);
+      padding: 24px 26px 26px;
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .modal-head h3 {
+      margin: 0;
+      font-size: 18px;
+      color: var(--text);
+    }
+
+    .close {
+      width: 28px;
+      height: 28px;
+      border: 0;
+      background: #fff;
+      color: #88909d;
+      font-size: 22px;
+    }
+
+    .stockout-strip {
+      height: 42px;
+      padding: 0 16px;
+      margin-bottom: 12px;
+      border: 1px solid #d8e7ff;
+      border-radius: 4px;
+      background: #f4f9ff;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--text);
+    }
+
+    .stockout-strip span { color: #687385; font-weight: 650; }
+    .stockout-strip strong { color: var(--blue); font-size: 16px; }
+
+    .transit-wrap {
+      border: 1px solid var(--line);
+      overflow: auto;
+    }
+
+    .transit-table {
+      width: 1180px;
+      border-collapse: separate;
+      border-spacing: 0;
+      color: var(--text);
+    }
+
+    .transit-table th,
+    .transit-table td {
+      height: 56px;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      text-align: left;
+      white-space: nowrap;
+      font-size: 15px;
+    }
+
+    .transit-table th {
+      background: #f3f3f4;
+      font-weight: 800;
+    }
+
+    .transit-table tr:last-child td { border-bottom: 0; }
+    .transit-table th:last-child,
+    .transit-table td:last-child { border-right: 0; }
+
+    .create-modal {
+      width: min(760px, calc(100vw - 80px));
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 0 16px 48px rgba(17, 24, 45, .22);
+      padding: 22px 24px 20px;
+    }
+
+    .create-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border: 1px solid var(--line);
+      color: var(--text);
+    }
+
+    .create-table th,
+    .create-table td {
+      height: 42px;
+      padding: 0 10px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .create-table th {
+      background: #fafafa;
+      font-weight: 700;
+    }
+
+    .create-table th:last-child,
+    .create-table td:last-child { border-right: 0; }
+    .create-table tr:last-child td { border-bottom: 0; }
+
+    .qty-input {
+      width: 86px;
+      height: 30px;
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      padding: 0 8px;
+      color: var(--text);
+      outline: 0;
+    }
+
+    .qty-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 2px rgba(23, 107, 255, .08);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .toast {
+      position: fixed;
+      z-index: 120;
+      left: 50%;
+      top: 76px;
+      transform: translateX(-50%);
+      min-width: 220px;
+      height: 36px;
+      padding: 0 18px;
+      border-radius: 4px;
+      background: rgba(21, 23, 59, .92);
+      color: #fff;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      box-shadow: 0 10px 24px rgba(18, 29, 56, .22);
+    }
+
+    .toast.show { display: flex; }
+
+    @media (max-width: 1500px) {
+      .brand, .sidebar { width: 248px; }
+      .page { margin-left: 248px; }
+      .module { min-width: 86px; font-size: 16px; }
+      .top-actions { gap: 8px; }
+      .filter { min-width: 132px; }
+      .filter.md { min-width: 165px; }
+      .filter.lg { min-width: 220px; }
+      .search-input { width: 190px; }
+    }
+
+    /* 紧凑版：让表格成为首屏主体，贴近系统工作台密度。 */
+    .topbar { height: 50px; }
+    .brand {
+      width: 226px;
+      height: 50px;
+      padding-left: 22px;
+      gap: 10px;
+      font-size: 22px;
+    }
+    .brand-logo {
+      width: 32px;
+      height: 27px;
+      border-radius: 7px;
+    }
+    .module-nav { height: 50px; gap: 2px; }
+    .module {
+      height: 44px;
+      min-width: 84px;
+      padding: 0 10px;
+      gap: 7px;
+      font-size: 15px;
+    }
+    .module .icon { width: 16px; font-size: 15px; }
+    .top-actions {
+      height: 50px;
+      gap: 8px;
+      padding-right: 12px;
+    }
+    .tenant {
+      height: 32px;
+      min-width: 150px;
+      font-size: 14px;
+    }
+    .top-icon {
+      width: 22px;
+      height: 22px;
+      font-size: 18px;
+    }
+    .badge-count {
+      min-width: 30px;
+      height: 20px;
+      top: -12px;
+      right: -12px;
+      font-size: 12px;
+    }
+    .avatar {
+      width: 30px;
+      height: 30px;
+      font-size: 15px;
+    }
+    .user { font-size: 15px; gap: 7px; }
+
+    .sidebar {
+      top: 50px;
+      width: 226px;
+      padding-top: 34px;
+    }
+    .side-section {
+      height: 44px;
+      padding: 0 22px 0 30px;
+      font-size: 15px;
+    }
+    .side-section .left { gap: 11px; }
+    .side-icon { width: 20px; font-size: 16px; }
+    .side-item {
+      height: 39px;
+      padding-left: 78px;
+      font-size: 15px;
+    }
+    .side-item.active {
+      height: 40px;
+      margin: 3px 10px;
+      padding-left: 68px;
+    }
+    .side-collapse {
+      width: 28px;
+      height: 28px;
+      right: 16px;
+      bottom: 12px;
+      font-size: 18px;
+    }
+
+    .page {
+      margin-left: 226px;
+      padding-top: 50px;
+    }
+    .tabs-top {
+      height: 42px;
+      padding-left: 16px;
+    }
+    .tabs-top::after {
+      width: 22px;
+      height: 22px;
+      right: 18px;
+      bottom: 10px;
+      background:
+        radial-gradient(circle at 50% 50%, transparent 6px, var(--text) 7px, transparent 8px),
+        conic-gradient(from 35deg, transparent 0 70deg, var(--text) 70deg 105deg, transparent 105deg 360deg);
+    }
+    .top-tab {
+      height: 38px;
+      min-width: 78px;
+      padding: 0 18px;
+      font-size: 15px;
+    }
+    .top-tab.active { border-radius: 9px 9px 0 0; }
+
+    .content {
+      margin: 0 12px;
+      min-height: calc(100vh - 92px);
+      padding: 12px 14px 8px;
+    }
+    .filters { padding-bottom: 4px; }
+    .filter-row {
+      gap: 5px;
+      margin-bottom: 5px;
+    }
+    .filter {
+      height: 30px;
+      min-width: 104px;
+      padding: 0 8px;
+      gap: 6px;
+      font-size: 12px;
+    }
+    .filter b { font-weight: 500; }
+    .filter.sm { min-width: 82px; }
+    .filter.md { min-width: 100px; }
+    .filter.lg { min-width: 148px; }
+    .date-range { width: 180px; }
+    .filter .arrow { font-size: 13px; }
+    .search-group { height: 30px; }
+    .search-select {
+      min-width: 68px;
+      padding: 0 7px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .search-input {
+      width: 78px;
+      padding: 0 7px;
+      font-size: 12px;
+    }
+    .list-icon,
+    .filter-icon {
+      width: 32px;
+      height: 30px;
+      font-size: 16px;
+    }
+    .btn {
+      height: 30px;
+      padding: 0 10px;
+      font-size: 12px;
+    }
+    .toolbar {
+      min-height: 38px;
+      padding: 0 0 6px;
+    }
+    .view-tabs,
+    .view-tab { height: 30px; }
+    .view-tab {
+      min-width: 60px;
+      font-size: 12px;
+    }
+    .toolbar-actions { gap: 8px; }
+
+    .table-scroll { max-height: calc(100vh - 216px); }
+    .plan-table th,
+    .plan-table td {
+      height: 64px;
+      padding: 0 12px;
+      font-size: 13px;
+    }
+    .plan-table th {
+      height: 52px;
+      font-size: 13px;
+    }
+    .plan-table tfoot td { height: 42px; }
+    .thumb {
+      width: 44px;
+      height: 44px;
+    }
+    .two-line { gap: 2px; line-height: 1.32; }
+    .pill {
+      height: 22px;
+      padding: 0 8px;
+      font-size: 12px;
+    }
+    .loss-mark {
+      height: 20px;
+      padding: 0 6px;
+      font-size: 12px;
+    }
+    .checkbox {
+      width: 18px;
+      height: 18px;
+    }
+    .checkbox.disabled::after {
+      left: 4px;
+      top: 8px;
+      width: 9px;
+    }
+    .info {
+      width: 14px;
+      height: 14px;
+      font-size: 10px;
+    }
+    .sort { gap: 2px; margin-left: 4px; }
+    .sort::before,
+    .sort::after {
+      border-left-width: 5px;
+      border-right-width: 5px;
+    }
+    .sort::before { border-bottom-width: 7px; }
+    .sort::after { border-top-width: 7px; }
+    .spark {
+      width: 128px;
+      height: 38px;
+    }
+    .avg-grid {
+      grid-template-columns: repeat(4, 30px);
+      grid-template-rows: 20px 16px;
+      column-gap: 6px;
+    }
+    .avg-grid strong { font-size: 13px; }
+    .avg-grid span { font-size: 11px; }
+    .day-grid {
+      grid-template-columns: repeat(7, 23px);
+      grid-template-rows: 20px 16px;
+      column-gap: 5px;
+    }
+    .day-grid strong,
+    .forecast-avg strong { font-size: 13px; }
+    .day-grid span,
+    .forecast-avg span { font-size: 11px; }
+    .forecast-cell { gap: 7px; }
+    .forecast-avg { min-width: 32px; grid-template-rows: 20px 16px; }
+    .op-cell {
+      width: 142px;
+      min-width: 142px;
+    }
+    .op-wrap { gap: 7px; }
+    .op-link { font-size: 12px; }
+    .more-btn { font-size: 18px; }
+    .scroll-shadow { height: 10px; }
+    .pagination {
+      height: 42px;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .page-no {
+      width: 36px;
+      height: 30px;
+    }
+    .page-size {
+      height: 30px;
+      min-width: 88px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand"><span class="brand-logo"></span><span>凌羿ERP</span></div>
+      <nav class="module-nav" aria-label="主导航">
+        <button class="module"><span class="icon">▦</span>工作台</button>
+        <button class="module"><span class="icon">⚙</span>设置</button>
+        <button class="module"><span class="icon">▣</span>基础资料</button>
+        <button class="module active"><span class="icon">⌬</span>供应链</button>
+        <button class="module"><span class="icon">¥</span>财务</button>
+        <button class="module"><span class="icon">a</span>亚马逊</button>
+        <button class="module"><span class="icon">♪</span>Tiktok</button>
+        <button class="module more">...</button>
+      </nav>
+      <div class="top-actions">
+        <button class="tenant"><span>凌羿DE...</span><span>⌄</span></button>
+        <button class="top-icon" aria-label="搜索">⌕</button>
+        <button class="top-icon" aria-label="应用">◎</button>
+        <button class="top-icon" aria-label="消息">♢<span class="badge-count">12</span></button>
+        <button class="top-icon" aria-label="云同步">☁</button>
+        <button class="top-icon" aria-label="移动端">▯</button>
+        <div class="user"><span class="avatar">胡</span><span>胡仕玲⌄</span></div>
+      </div>
+    </header>
+
+    <aside class="sidebar">
+      <div class="side-section">
+        <span class="left"><span class="side-icon">▥</span><span>采购管理</span></span>
+        <span>⌄</span>
+      </div>
+      <div class="side-item">采购计划</div>
+      <div class="side-item">采购订单</div>
+      <div class="side-item">采购变更单</div>
+      <div class="side-item">加工计划</div>
+      <div class="side-item">采购跟单</div>
+      <div class="side-item active">备货计划</div>
+      <div class="side-section">
+        <span class="left"><span class="side-icon">▣</span><span>仓储管理</span></span>
+        <span>›</span>
+      </div>
+      <div class="side-section">
+        <span class="left"><span class="side-icon">◇</span><span>库存管理</span></span>
+        <span>›</span>
+      </div>
+      <div class="side-section">
+        <span class="left"><span class="side-icon">▱</span><span>FBA发货</span></span>
+        <span>›</span>
+      </div>
+      <div class="side-collapse">≡</div>
+    </aside>
+
+    <main class="page">
+      <div class="tabs-top">
+        <div class="top-tab">首页</div>
+        <div class="top-tab active">备货计划</div>
+      </div>
+
+      <section class="content">
+        <div class="view-switch-top">
+          <div class="view-tabs" role="tablist" aria-label="视图切换">
+            <button class="view-tab active" data-view="msku">MSKU</button>
+            <button class="view-tab" data-view="asin">ASIN</button>
+          </div>
+        </div>
+
+        <div class="filters">
+          <div class="filter-row">
+            <div class="filter sm"><b>国家</b><span>所有</span><span class="arrow">⌄</span></div>
+            <div class="filter md"><b>店铺</b><span>请选择店铺</span><span class="arrow">⌄</span></div>
+            <div class="filter md"><b>币种</b><span>原币</span><span class="arrow">⌄</span></div>
+            <div class="filter sm"><b>负责人</b><span>所有</span><span class="arrow">⌄</span></div>
+            <div class="filter md"><b>风险等级</b><span>所有</span><span class="arrow">⌄</span></div>
+            <div class="filter lg"><b>listing标签</b><span>所有</span><span class="arrow">⌄</span></div>
+            <div class="filter md interactive" data-filter="profit"><b>利润</b><span data-value>所有</span><span class="arrow">⌄</span></div>
+            <div class="filter md interactive" data-filter="replenish"><b>补货状态</b><span data-value>所有</span><span class="arrow">⌄</span></div>
+          </div>
+          <div class="filter-row">
+            <div class="filter md"><b>是否建议采购</b><span>所有</span><span class="arrow">⌄</span></div>
+            <div class="filter md"><b>建议采购时间</b><span class="arrow">⌄</span></div>
+            <div class="filter date-range"><span>开始时间</span><span style="margin-left:auto;">→</span><span>结束时间</span><span class="arrow">□</span></div>
+            <div class="search-group">
+              <div class="search-select"><span>模糊搜索</span><span>⌄</span></div>
+              <div class="search-select"><span>SKU</span><span>⌄</span></div>
+              <input class="search-input" placeholder="请输入">
+              <button class="list-icon" aria-label="字段">☷</button>
+            </div>
+            <div class="search-group">
+              <div class="search-select"><span>模糊搜索</span><span>⌄</span></div>
+              <div class="search-select"><span>品名</span><span>⌄</span></div>
+              <input class="search-input" placeholder="请输入">
+              <button class="list-icon" aria-label="字段">☷</button>
+            </div>
+            <button class="filter-icon" aria-label="筛选">⌯</button>
+            <button class="btn primary">查 询</button>
+            <button class="btn">重 置</button>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <div class="toolbar-actions">
+            <button class="btn primary" id="batchCreate">生成采购计划</button>
+            <button class="btn">规则配置⌄</button>
+            <button class="btn">导 出</button>
+            <button class="list-icon" aria-label="列配置">☷</button>
+          </div>
+        </div>
+
+        <div class="table-shell">
+          <div class="table-scroll">
+            <table class="plan-table" aria-label="备货计划列表">
+              <colgroup>
+                <col style="width:54px">
+                <col style="width:86px">
+                <col style="width:180px">
+                <col style="width:150px">
+                <col style="width:128px">
+                <col style="width:150px">
+                <col style="width:185px">
+                <col style="width:170px">
+                <col style="width:96px">
+                <col style="width:140px">
+                <col style="width:120px">
+                <col style="width:130px">
+                <col style="width:130px">
+                <col style="width:130px">
+                <col style="width:148px">
+                <col style="width:140px">
+                <col style="width:126px">
+                <col style="width:126px">
+                <col style="width:126px">
+                <col style="width:132px">
+                <col style="width:112px">
+                <col style="width:238px">
+                <col style="width:176px">
+                <col style="width:176px">
+                <col style="width:180px">
+                <col style="width:176px">
+                <col style="width:160px">
+                <col style="width:170px">
+                <col style="width:158px">
+                <col style="width:160px">
+                <col style="width:136px">
+                <col style="width:128px">
+                <col style="width:120px">
+                <col style="width:160px">
+                <col style="width:120px">
+                <col style="width:170px">
+                <col style="width:146px">
+                <col style="width:146px">
+                <col style="width:176px">
+                <col style="width:176px">
+                <col style="width:176px">
+                <col style="width:176px">
+                <col style="width:142px">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th class="center"><span class="checkbox"></span></th>
+                  <th>图片</th>
+                  <th id="identityTitle">MSKU/FNSKU</th>
+                  <th>风险等级<span class="info">i</span><span class="sort"></span></th>
+                  <th>ASIN</th>
+                  <th>SKU/品名</th>
+                  <th>店铺/国家</th>
+                  <th>状态<span class="sort"></span></th>
+                  <th>Listing标签</th>
+                  <th>产品标签</th>
+                  <th>品线</th>
+                  <th>分类</th>
+                  <th>品牌</th>
+                  <th>开发时间<span class="sort"></span></th>
+                  <th>Listing负责人</th>
+                  <th>收入<span class="info">i</span><span class="sort"></span></th>
+                  <th>支出<span class="info">i</span><span class="sort"></span></th>
+                  <th>成本<span class="info">i</span><span class="sort"></span></th>
+                  <th>毛利润<span class="info">i</span><span class="sort"></span></th>
+                  <th>毛利率<span class="info">i</span></th>
+                  <th>净利润<span class="sort"></span></th>
+                  <th>近七天销量</th>
+                  <th>分段日均销量</th>
+                  <th>分段汇总销量</th>
+                  <th>预测销量</th>
+                  <th>平台可用库存<span class="info">i</span><span class="sort"></span></th>
+                  <th>平台在途库存<span class="info">i</span><span class="sort"></span></th>
+                  <th>本地实际总量<span class="info">i</span><span class="sort"></span></th>
+                  <th>本地预计总量<span class="info">i</span><span class="sort"></span></th>
+                  <th>总库存<span class="info">i</span><span class="sort"></span></th>
+                  <th>总库存可售天数<span class="info">i</span><span class="sort"></span></th>
+                  <th>可售天数<span class="th-sub">平台可用库存 <span class="info help-tip" data-tip="平台可用库存/预测日均销量">i</span></span></th>
+                  <th>安全天数<span class="sort"></span></th>
+                  <th>预计断货时间<span class="info">i</span><span class="sort"></span></th>
+                  <th>采购时效<span class="info">i</span><span class="sort"></span></th>
+                  <th>是否建议采购<span class="sort"></span></th>
+                  <th>建议采购量<span class="sort"></span></th>
+                  <th>建议采购时间<span class="sort"></span></th>
+                  <th>最近采购信息</th>
+                  <th>补货状态</th>
+                  <th>listing创建时间<span class="sort"></span></th>
+                  <th>最后更新时间<span class="sort"></span></th>
+                  <th class="op-cell">操作</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody"></tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="2">合计</td>
+                  <td colspan="13"></td>
+                  <td>$ 917500</td>
+                  <td>$ 235500</td>
+                  <td>$ 199000</td>
+                  <td>$ 483000</td>
+                  <td>-</td>
+                  <td>$ 457800</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>2600</td>
+                  <td>280</td>
+                  <td>3375</td>
+                  <td>3940</td>
+                  <td>6375</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td class="op-cell"></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <div class="scroll-shadow"></div>
+          <div class="pagination">
+            <span>共 10 条</span>
+            <span class="page-no">1</span>
+            <span class="page-size">10条/页 <span>⌄</span></span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="filter-menu" id="filterMenu"></div>
+
+  <div class="row-menu" id="rowMenu">
+    <button id="toggleReplenish">暂不补货</button>
+  </div>
+
+  <div class="modal-mask" id="transitModal" aria-hidden="true">
+    <div class="transit-modal" role="dialog" aria-label="FBA在途信息">
+      <div class="modal-head">
+        <h3>FBA在途信息</h3>
+        <button class="close" id="closeTransit" aria-label="关闭">×</button>
+      </div>
+      <div class="stockout-strip">
+        <span>预计断货时间</span>
+        <strong id="modalStockoutDate">2026-06-26</strong>
+      </div>
+      <div class="transit-wrap">
+        <table class="transit-table">
+          <thead>
+            <tr>
+              <th style="width:120px">运输方式</th>
+              <th style="width:300px">FBA货件|签收数量</th>
+              <th style="width:150px">货件状态</th>
+              <th style="width:330px">发货单|发货数量</th>
+              <th style="width:160px">发货时间</th>
+              <th style="width:160px">预计到货时间</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td rowspan="2"><div class="two-line"><span>铁运</span><span>(100)</span></div></td>
+              <td>FBA123456789 (80)<span class="copy"></span></td>
+              <td>IN_TRANSIT⌄</td>
+              <td>SP240401001 (100)<span class="copy"></span></td>
+              <td>2026-04-01</td>
+              <td>2026-04-15</td>
+            </tr>
+            <tr>
+              <td>FBA123456790 (50)<span class="copy"></span></td>
+              <td>IN_TRANSIT⌄</td>
+              <td>SP240401001 (60)<span class="copy"></span></td>
+              <td>2026-04-01</td>
+              <td>2026-04-15</td>
+            </tr>
+            <tr>
+              <td><div class="two-line"><span>空派</span><span>(40)</span></div></td>
+              <td>FBA987654321 (30)<span class="copy"></span></td>
+              <td>RECEIVING⌄</td>
+              <td>SP240402002 (40)<span class="copy"></span></td>
+              <td>2026-04-02</td>
+              <td>2026-04-08</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-mask" id="createModal" aria-hidden="true">
+    <div class="create-modal" role="dialog" aria-label="生成采购计划">
+      <div class="modal-head">
+        <h3>生成采购计划</h3>
+        <button class="close" id="closeCreate" aria-label="关闭">×</button>
+      </div>
+      <table class="create-table" aria-label="生成采购计划确认信息">
+        <thead>
+          <tr>
+            <th>SKU</th>
+            <th style="width:120px">建议采购量</th>
+            <th style="width:130px">本次采购量</th>
+            <th style="width:160px">最近采购时间</th>
+          </tr>
+        </thead>
+        <tbody id="createBody"></tbody>
+      </table>
+      <div class="modal-actions">
+        <button class="btn" id="cancelCreate">取消</button>
+        <button class="btn primary" id="confirmCreate">确认生成</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">已生成采购计划</div>
+
+  <script>
+    const mskuRows = [
+      {
+        thumb: "t1", identity: ["MSKU-SP-001", "FNSKU-SP-001"], risk: "P1", riskClass: "p1", negative: true,
+        replenish: "normal", asin: "B09SP001", sku: ["LY-SPORT-001", "运动防水手表"], store: ["Amazon美国站-旗舰店", "美国"], status: "-",
+        listingTags: ["爆款", "新品"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-02-15",
+        owner: "张三", income: "$ 53500", expense: "$ 14,100", cost: "$ 11,800", gross: "$ 27600", grossRate: "-", net: "-$ 680",
+        avg: [6, 7, 7, 6], segmentTotal: [18, 46, 92, 180], stock: [170, 15, 100, 225, 268, 435, 7, "-", "2026-06-26", 13],
+        daySales: [12, 20, 18, 14, 9, 16, 11], forecastAvg: "27.4", purchase: "2026-06-18｜采购中｜120", planNo: "PP260611002", suggest: "是", qty: "180", suggestDate: "2026-06-08", created: "2026-02-10 09:00:00", updated: "2026-06-01 16:30:00"
+      },
+      {
+        thumb: "t2", identity: ["MSKU-SP-002", "FNSKU-SP-002"], risk: "P2", riskClass: "p2", negative: false,
+        replenish: "paused", asin: "B09SP002", sku: ["LY-SPORT-002", "硅胶瑜伽垫"], store: ["Amazon美国站-运动店", "美国"], status: "-",
+        listingTags: ["常规"], productTag: "新品", line: "运动户外", category: "瑜伽用品", brand: "凌羿运动", develop: "2026-03-15",
+        owner: "李四", income: "$ 62000", expense: "$ 16,200", cost: "$ 13,600", gross: "$ 32200", grossRate: "-", net: "$ 2580",
+        avg: [5, 6, 6, 5], segmentTotal: [15, 38, 84, 155], stock: [190, 19, 60, 250, 296, 480, 8, "-", "2026-07-02", 14],
+        daySales: [10, 18, 16, 12, 8, 14, 9], forecastAvg: "23.6", purchase: "2026-06-16｜已下单｜80", planNo: "PP260610018", suggest: "-", qty: "-", suggestDate: "-", created: "2026-03-10 09:00:00", updated: "2026-06-01 16:30:00"
+      },
+      {
+        thumb: "t3", identity: ["MSKU-WEAR-001", "FNSKU-WEAR-001"], risk: "P3", riskClass: "p3", negative: false,
+        replenish: "normal", asin: "B09WEAR01", sku: ["LY-WEAR-001", "智能手环Pro"], store: ["Amazon英国站-数码店", "英国"], status: "-",
+        listingTags: ["新品"], productTag: "配件", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-04-15",
+        owner: "王五", income: "£ 70500", expense: "£ 18,300", cost: "£ 15,400", gross: "£ 36800", grossRate: "-", net: "£ 3120",
+        avg: [4, 5, 5, 4], segmentTotal: [12, 31, 70, 128], stock: [210, 26, 40, 275, 324, 525, 9, "-", "2026-07-18", 15],
+        daySales: [8, 15, 13, 10, 7, 11, 9], forecastAvg: "19.2", purchase: "-", planNo: "", suggest: "是", qty: "90", suggestDate: "2026-06-08", created: "2026-04-10 09:00:00", updated: "2026-06-01 16:30:00"
+      },
+      {
+        thumb: "t4", identity: ["MSKU-WEAR-002", "FNSKU-WEAR-002"], risk: "安全", riskClass: "safe", negative: false,
+        replenish: "normal", asin: "B09WEAR02", sku: ["LY-WEAR-002", "智能手环Lite"], store: ["Amazon英国站-数码店", "英国"], status: "-",
+        listingTags: [], productTag: "新品", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-05-15",
+        owner: "王五", income: "£ 79000", expense: "£ 20,400", cost: "£ 17,200", gross: "£ 41400", grossRate: "-", net: "£ 4200",
+        avg: [4, 4, 5, 4], segmentTotal: [11, 29, 63, 118], stock: [230, 33, 0, 300, 352, 570, 10, "-", "-", 16],
+        daySales: [7, 13, 11, 9, 6, 10, 8], forecastAvg: "16.8", purchase: "2026-06-10｜已入库｜60", planNo: "PP260606008", suggest: "-", qty: "-", suggestDate: "-", created: "2026-05-10 09:00:00", updated: "2026-06-01 16:30:00"
+      },
+      {
+        thumb: "t5", identity: ["MSKU-ACC-001", "FNSKU-ACC-001"], risk: "P2", riskClass: "p2", negative: true,
+        replenish: "normal", asin: "B09ACC001", sku: ["LY-ACC-001", "无线充电宝"], store: ["Amazon德国站-配件店", "德国"], status: "-",
+        listingTags: ["活动款"], productTag: "新品", line: "数码配件", category: "移动电源", brand: "凌羿数码", develop: "2026-06-15",
+        owner: "赵六", income: "€ 87500", expense: "€ 22,500", cost: "€ 19,000", gross: "€ 46000", grossRate: "-", net: "-€ 230",
+        avg: [6, 6, 7, 6], segmentTotal: [17, 42, 86, 168], stock: [250, 28, 80, 325, 380, 615, 11, "-", "2026-07-05", 17],
+        daySales: [11, 19, 16, 13, 9, 15, 12], forecastAvg: "25.1", purchase: "2026-06-20｜采购中｜140", planNo: "PP260620006", suggest: "是", qty: "150", suggestDate: "-", created: "2026-01-10 09:00:00", updated: "2026-06-01 16:30:00"
+      }
+    ];
+
+    const asinRows = [
+      {
+        thumb: "t1", identity: ["B09SP001", "聚合 2 个MSKU"], risk: "P1", riskClass: "p1", negative: true,
+        replenish: "paused", asin: "B09SP001", sku: ["LY-SPORT", "运动防水手表系列"], store: ["Amazon美国站-旗舰店", "美国"], status: "-",
+        listingTags: ["爆款", "新品"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-02-15",
+        owner: "张三", income: "$ 115500", expense: "$ 30,300", cost: "$ 25,400", gross: "$ 59800", grossRate: "-", net: "-$ 680",
+        avg: [11, 12, 12, 11], segmentTotal: [33, 84, 176, 335], stock: [360, 33, 160, 475, 564, 915, 8, "-", "2026-06-26", 13],
+        daySales: [22, 38, 34, 26, 17, 30, 20], forecastAvg: "51.0", purchase: "2026-06-18｜采购中｜200", planNo: "PP260611002", suggest: "-", qty: "-", suggestDate: "-", created: "2026-02-10 09:00:00", updated: "2026-06-01 16:30:00"
+      },
+      {
+        thumb: "t3", identity: ["B09WEAR01", "聚合 2 个MSKU"], risk: "P3", riskClass: "p3", negative: false,
+        replenish: "normal", asin: "B09WEAR01", sku: ["LY-WEAR", "智能手环系列"], store: ["Amazon英国站-数码店", "英国"], status: "-",
+        listingTags: ["新品"], productTag: "配件", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-04-15",
+        owner: "王五", income: "£ 149500", expense: "£ 38,700", cost: "£ 32,600", gross: "£ 78200", grossRate: "-", net: "£ 7320",
+        avg: [8, 9, 10, 8], segmentTotal: [23, 60, 133, 246], stock: [440, 55, 40, 575, 676, 1095, 10, "-", "2026-07-18", 15],
+        daySales: [15, 28, 24, 19, 13, 21, 17], forecastAvg: "36.0", purchase: "2026-06-10｜已入库｜60", planNo: "PP260606008", suggest: "是", qty: "90", suggestDate: "2026-06-08", created: "2026-04-10 09:00:00", updated: "2026-06-01 16:30:00"
+      },
+      {
+        thumb: "t5", identity: ["B09ACC001", "聚合 1 个MSKU"], risk: "P2", riskClass: "p2", negative: true,
+        replenish: "normal", asin: "B09ACC001", sku: ["LY-ACC-001", "无线充电宝"], store: ["Amazon德国站-配件店", "德国"], status: "-",
+        listingTags: ["活动款"], productTag: "新品", line: "数码配件", category: "移动电源", brand: "凌羿数码", develop: "2026-06-15",
+        owner: "赵六", income: "€ 87500", expense: "€ 22,500", cost: "€ 19,000", gross: "€ 46000", grossRate: "-", net: "-€ 230",
+        avg: [6, 6, 7, 6], segmentTotal: [17, 42, 86, 168], stock: [250, 28, 80, 325, 380, 615, 11, "-", "2026-07-05", 17],
+        daySales: [11, 19, 16, 13, 9, 15, 12], forecastAvg: "25.1", purchase: "2026-06-20｜采购中｜140", planNo: "PP260620006", suggest: "是", qty: "150", suggestDate: "-", created: "2026-01-10 09:00:00", updated: "2026-06-01 16:30:00"
+      }
+    ];
+
+    let currentView = "msku";
+    let activeRow = null;
+    let pendingCreateRows = [];
+    const filterState = { profit: "all", replenish: "all" };
+    const filterOptions = {
+      profit: [
+        { value: "all", label: "所有" },
+        { value: "positive", label: "正利润" },
+        { value: "negative", label: "负利润" }
+      ],
+      replenish: [
+        { value: "all", label: "所有" },
+        { value: "normal", label: "正常补货" },
+        { value: "paused", label: "暂不补货" }
+      ]
+    };
+
+    function spark(seed) {
+      const paths = {
+        1: "M2 38 C18 12 36 34 52 16 S82 23 96 8 S126 10 146 2",
+        2: "M2 34 C22 14 36 20 50 24 S76 3 95 10 S126 18 146 8",
+        3: "M2 36 C18 18 40 16 54 22 S76 5 94 10 S126 14 146 4",
+        4: "M2 34 C20 10 36 28 52 20 S80 16 94 6 S125 9 146 17",
+        5: "M2 36 C22 18 36 21 54 12 S78 20 96 5 S126 3 146 14"
+      };
+      const d = paths[seed] || paths[1];
+      return `<svg class="spark" viewBox="0 0 150 48" aria-hidden="true">
+        <path d="${d} L146 48 L2 48 Z" fill="#d8e8ff"></path>
+        <path d="${d}" fill="none" stroke="#2f7cff" stroke-width="2"></path>
+      </svg>`;
+    }
+
+    function tags(list) {
+      if (!list || list.length === 0) return "-";
+      return list.map(tag => {
+        const cls = tag === "爆款" ? "hot" : tag === "新品" ? "new" : tag === "常规" ? "common" : "event";
+        return `<span class="pill ${cls}">${tag}</span>`;
+      }).join(" ");
+    }
+
+    function getBaseRows() {
+      return currentView === "msku" ? mskuRows : asinRows;
+    }
+
+    function getVisibleRows() {
+      return getBaseRows().filter(row => {
+        if (filterState.profit === "positive" && row.negative) return false;
+        if (filterState.profit === "negative" && !row.negative) return false;
+        if (filterState.replenish !== "all" && row.replenish !== filterState.replenish) return false;
+        return true;
+      });
+    }
+
+    function metricGrid(values, labels, className) {
+      return `<div class="${className}">
+        ${values.map(value => `<strong>${value}</strong>`).join("")}
+        ${labels.map(label => `<span>${label}</span>`).join("")}
+      </div>`;
+    }
+
+    function daySalesCell(row) {
+      return metricGrid(row.daySales, ["D-1", "D-2", "D-3", "D-4", "D-5", "D-6", "D-7"], "day-grid");
+    }
+
+    function segmentCell(values) {
+      return metricGrid(values, ["3天", "7天", "14天", "30天"], "avg-grid");
+    }
+
+    function latestPurchaseDate(row) {
+      if (!row.purchase || row.purchase === "-") return "-";
+      return row.purchase.split("｜")[0] || row.purchase;
+    }
+
+    function purchaseCell(row) {
+      if (!row.purchase || row.purchase === "-") return "-";
+      if (!row.planNo) return row.purchase;
+      return `<div class="purchase-info"><span>${row.purchase}</span><span class="plan-no">${row.planNo}</span></div>`;
+    }
+
+    function renderRows() {
+      const rows = getVisibleRows();
+      document.getElementById("identityTitle").textContent = currentView === "msku" ? "MSKU/FNSKU" : "ASIN/聚合MSKU";
+      document.getElementById("tableBody").innerHTML = rows.map((row, index) => {
+        const canCreate = row.replenish !== "paused" && row.suggest === "是";
+        const checkbox = canCreate ? "checkbox" : "checkbox disabled";
+        const opDisabled = canCreate ? "" : " disabled";
+        const opAttr = canCreate ? "" : " disabled";
+        const statusPill = row.replenish === "paused"
+          ? '<span class="pill paused">暂不补货</span>'
+          : '<span class="pill normal">正常补货</span>';
+        const stockoutDate = row.stock[8] || "-";
+        return `<tr>
+          <td class="center"><span class="${checkbox}"></span></td>
+          <td><div class="thumb ${row.thumb}"></div></td>
+          <td><div class="two-line"><span>${row.identity[0]}<span class="copy"></span></span><span>${row.identity[1]}<span class="copy"></span></span></div></td>
+          <td><span class="risk ${row.riskClass}">${row.risk}</span>${row.negative ? '<span class="loss-mark">负利润</span>' : ''}</td>
+          <td><span class="link">${row.asin}</span><span class="copy"></span></td>
+          <td><div class="two-line"><span class="link">${row.sku[0]}<span class="copy"></span></span><span>${row.sku[1]}<span class="copy"></span></span></div></td>
+          <td><div class="two-line"><span>${row.store[0]}<span class="copy"></span></span><span>${row.store[1]}<span class="copy"></span></span></div></td>
+          <td class="status-dash">${row.status}</td>
+          <td>${tags(row.listingTags)}</td>
+          <td><span class="pill new">${row.productTag}</span></td>
+          <td>${row.line}</td>
+          <td>${row.category}</td>
+          <td>${row.brand}</td>
+          <td>${row.develop}</td>
+          <td>${row.owner}</td>
+          <td class="money">${row.income}</td>
+          <td class="money">${row.expense}⌄</td>
+          <td class="money">${row.cost}⌄</td>
+          <td class="money ${row.negative ? 'negative' : 'positive'}">${row.gross}</td>
+          <td class="rate ${row.negative ? 'negative' : ''}">${row.grossRate}</td>
+          <td class="money ${row.negative ? 'negative' : 'positive'}">${row.net}</td>
+          <td>${daySalesCell(row)}</td>
+          <td>${segmentCell(row.avg)}</td>
+          <td>${segmentCell(row.segmentTotal)}</td>
+          <td><div class="forecast-cell">${spark(((index + 1) % 5) + 1)}<div class="forecast-avg"><strong>${row.forecastAvg}</strong><span>日均</span></div></div></td>
+          <td><button class="number-dd">${row.stock[0]}⌄</button></td>
+          <td><button class="number-dd transit-open link" data-stockout="${stockoutDate}">${row.stock[2]}⌄</button></td>
+          <td><button class="number-dd">${row.stock[3]}⌄</button></td>
+          <td><button class="number-dd">${row.stock[4]}⌄</button></td>
+          <td>${row.stock[5]}</td>
+          <td>${row.stock[6]}</td>
+          <td>${row.stock[1]}</td>
+          <td>${row.stock[7]}</td>
+          <td>${stockoutDate}</td>
+          <td>${row.stock[9]}</td>
+          <td>${row.suggest}</td>
+          <td>${row.qty}</td>
+          <td>${row.suggestDate}</td>
+          <td>${purchaseCell(row)}</td>
+          <td>${statusPill}</td>
+          <td>${row.created}</td>
+          <td>${row.updated}</td>
+          <td class="op-cell">
+            <div class="op-wrap">
+              <button class="op-link${opDisabled}"${opAttr} data-index="${index}" data-create="single">生成采购计划</button>
+              <button class="more-btn" data-index="${index}" data-state="${row.replenish}">⋮</button>
+            </div>
+          </td>
+        </tr>`;
+      }).join("");
+
+      document.querySelectorAll(".transit-open").forEach(btn => {
+        btn.addEventListener("click", () => openTransit(btn.dataset.stockout));
+      });
+
+      document.querySelectorAll("[data-create='single']").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const rows = getVisibleRows();
+          const row = rows[Number(btn.dataset.index)];
+          openCreateModal([row], "single");
+        });
+      });
+
+      document.querySelectorAll(".more-btn").forEach(btn => {
+        btn.addEventListener("click", event => {
+          event.stopPropagation();
+          activeRow = btn;
+          const rect = btn.getBoundingClientRect();
+          const menu = document.getElementById("rowMenu");
+          document.getElementById("toggleReplenish").textContent = btn.dataset.state === "paused" ? "恢复补货" : "暂不补货";
+          menu.style.left = `${rect.left - 88}px`;
+          menu.style.top = `${rect.bottom + 6}px`;
+          menu.classList.add("show");
+        });
+      });
+    }
+
+    function openTransit(date) {
+      document.getElementById("modalStockoutDate").textContent = date === "-" ? "-" : date;
+      document.getElementById("transitModal").classList.add("show");
+      document.getElementById("transitModal").setAttribute("aria-hidden", "false");
+    }
+
+    function eligibleForCreate(row) {
+      return row.replenish !== "paused" && row.suggest === "是" && row.qty !== "-";
+    }
+
+    function openCreateModal(rows) {
+      pendingCreateRows = rows.filter(eligibleForCreate);
+      if (pendingCreateRows.length === 0) {
+        showToast("当前没有可生成采购计划的数据");
+        return;
+      }
+
+      document.getElementById("createBody").innerHTML = pendingCreateRows.map((row, index) => `
+        <tr>
+          <td>${row.sku[0]}</td>
+          <td>${row.qty}</td>
+          <td><input class="qty-input" type="number" min="0" step="1" value="${row.qty}" data-create-qty="${index}"></td>
+          <td>${latestPurchaseDate(row)}</td>
+        </tr>
+      `).join("");
+      document.getElementById("createModal").classList.add("show");
+      document.getElementById("createModal").setAttribute("aria-hidden", "false");
+    }
+
+    function closeCreateModal() {
+      document.getElementById("createModal").classList.remove("show");
+      document.getElementById("createModal").setAttribute("aria-hidden", "true");
+      pendingCreateRows = [];
+    }
+
+    function showToast(text) {
+      const toast = document.getElementById("toast");
+      toast.textContent = text;
+      toast.classList.add("show");
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 1800);
+    }
+
+    document.getElementById("closeTransit").addEventListener("click", () => {
+      document.getElementById("transitModal").classList.remove("show");
+      document.getElementById("transitModal").setAttribute("aria-hidden", "true");
+    });
+
+    document.getElementById("transitModal").addEventListener("click", event => {
+      if (event.target.id === "transitModal") {
+        document.getElementById("transitModal").classList.remove("show");
+        document.getElementById("transitModal").setAttribute("aria-hidden", "true");
+      }
+    });
+
+    document.getElementById("closeCreate").addEventListener("click", closeCreateModal);
+    document.getElementById("cancelCreate").addEventListener("click", closeCreateModal);
+    document.getElementById("createModal").addEventListener("click", event => {
+      if (event.target.id === "createModal") closeCreateModal();
+    });
+
+    document.getElementById("confirmCreate").addEventListener("click", () => {
+      pendingCreateRows.forEach((row, index) => {
+        const input = document.querySelector(`[data-create-qty="${index}"]`);
+        const qty = input && input.value ? input.value : row.qty;
+        row.purchase = `2026-06-21｜已生成｜${qty}`;
+        row.planNo = "PP260621009";
+      });
+      const total = pendingCreateRows.length;
+      closeCreateModal();
+      renderRows();
+      showToast(`已生成${total}条采购计划`);
+    });
+
+    document.querySelectorAll(".view-tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        currentView = tab.dataset.view;
+        document.querySelectorAll(".view-tab").forEach(item => item.classList.toggle("active", item === tab));
+        renderRows();
+        document.querySelector(".table-scroll").scrollLeft = 0;
+      });
+    });
+
+    document.addEventListener("click", event => {
+      if (!event.target.closest("#rowMenu") && !event.target.closest(".more-btn")) {
+        document.getElementById("rowMenu").classList.remove("show");
+      }
+      if (!event.target.closest("#filterMenu") && !event.target.closest("[data-filter]")) {
+        document.getElementById("filterMenu").classList.remove("show");
+      }
+    });
+
+    document.querySelectorAll("[data-filter]").forEach(filter => {
+      filter.addEventListener("click", event => {
+        event.stopPropagation();
+        const key = filter.dataset.filter;
+        const rect = filter.getBoundingClientRect();
+        const menu = document.getElementById("filterMenu");
+        menu.innerHTML = filterOptions[key].map(option => `
+          <button class="${filterState[key] === option.value ? "active" : ""}" data-key="${key}" data-value="${option.value}">${option.label}</button>
+        `).join("");
+        menu.style.left = `${rect.left}px`;
+        menu.style.top = `${rect.bottom + 4}px`;
+        menu.style.minWidth = `${rect.width}px`;
+        menu.classList.add("show");
+      });
+    });
+
+    document.getElementById("filterMenu").addEventListener("click", event => {
+      const btn = event.target.closest("button");
+      if (!btn) return;
+      const key = btn.dataset.key;
+      const value = btn.dataset.value;
+      filterState[key] = value;
+      const label = filterOptions[key].find(option => option.value === value).label;
+      document.querySelector(`[data-filter="${key}"] [data-value]`).textContent = label;
+      document.getElementById("filterMenu").classList.remove("show");
+      renderRows();
+    });
+
+    document.getElementById("toggleReplenish").addEventListener("click", () => {
+      document.getElementById("rowMenu").classList.remove("show");
+      if (!activeRow) return;
+      const rows = getVisibleRows();
+      const row = rows[Number(activeRow.dataset.index)];
+      row.replenish = row.replenish === "paused" ? "normal" : "paused";
+      renderRows();
+    });
+
+    document.getElementById("batchCreate").addEventListener("click", () => {
+      const rows = getVisibleRows();
+      openCreateModal(rows, currentView === "asin" ? "asin" : "batch");
+    });
+
+    renderRows();
+  </script>
+</body>
+</html>
