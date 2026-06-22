@@ -486,6 +486,7 @@
       display: flex;
       align-items: center;
       justify-content: flex-start;
+      gap: 8px;
       padding: 0 0 8px;
     }
 
@@ -515,11 +516,24 @@
       color: #fff;
     }
 
+    .view-dimension-badge {
+      height: 32px;
+      padding: 0 10px;
+      border: 1px solid #b8d8ff;
+      border-radius: 4px;
+      background: #f4f9ff;
+      color: var(--blue);
+      display: inline-flex;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
     .asin-summary-toggle {
       height: 32px;
-      margin-left: 12px;
       padding: 0 10px;
-      border: 1px solid var(--line-strong);
+      border: 1px solid #b8d8ff;
       border-radius: 4px;
       background: #fff;
       display: inline-flex;
@@ -1503,9 +1517,13 @@
       min-width: 60px;
       font-size: 12px;
     }
+    .view-dimension-badge {
+      height: 28px;
+      padding: 0 8px;
+      font-size: 12px;
+    }
     .asin-summary-toggle {
       height: 28px;
-      margin-left: 8px;
       padding: 0 8px;
       gap: 5px;
       font-size: 12px;
@@ -1677,6 +1695,7 @@
             <button class="view-tab active" data-view="msku">MSKU</button>
             <button class="view-tab" data-view="asin">ASIN</button>
           </div>
+          <span class="view-dimension-badge" id="viewDimensionBadge">当前：MSKU + 店铺/国家</span>
           <label class="asin-summary-toggle hidden" id="asinSummaryToggle">
             <input type="checkbox" id="sameAsinSummary">
             <span>同 ASIN 汇总</span>
@@ -2145,7 +2164,10 @@
       const rows = getVisibleRows();
       document.getElementById("identityTitle").textContent = currentView === "msku"
         ? "MSKU/FNSKU"
-        : sameAsinSummary ? "ASIN/聚合MSKU" : "ASIN/店铺";
+        : sameAsinSummary ? "ASIN汇总" : "ASIN/店铺/国家";
+      document.getElementById("viewDimensionBadge").textContent = currentView === "msku"
+        ? "当前：MSKU + 店铺/国家"
+        : sameAsinSummary ? "当前：同 ASIN 汇总" : "默认：ASIN + 店铺/国家";
       document.getElementById("asinSummaryToggle").classList.toggle("hidden", currentView !== "asin");
       document.getElementById("tableBody").innerHTML = rows.map((row, index) => {
         const canCreate = row.replenish !== "paused" && row.suggest === "是";
