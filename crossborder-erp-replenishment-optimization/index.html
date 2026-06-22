@@ -1989,14 +1989,10 @@
       }
     ];
 
-    const asinDetailRows = mskuRows.map(row => ({
-      ...row,
-      identity: [row.asin, `${row.store[0]} / ${row.store[1]}`]
-    }));
+    const asinDetailRows = mskuRows.map(row => ({ ...row }));
     asinDetailRows[1] = {
       ...asinDetailRows[1],
       asin: "B09SP001",
-      identity: ["B09SP001", "Amazon美国站-运动店 / 美国"],
       sku: ["LY-SPORT-001-B", "运动防水手表"],
       listingTags: ["常规"],
       suggest: "是",
@@ -2006,7 +2002,7 @@
 
     const asinRows = [
       {
-        thumb: "t1", identity: ["B09SP001", "聚合 2 个MSKU"], risk: "P1", riskClass: "p1", negative: true,
+        thumb: "t1", identity: ["聚合MSKU 2个", "聚合FNSKU 2个"], risk: "P1", riskClass: "p1", negative: true,
         replenish: "paused", asin: "B09SP001", sku: ["LY-SPORT", "运动防水手表系列"], store: ["Amazon美国站-旗舰店", "美国"], status: "-",
         listingTags: ["爆款", "新品"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-02-15",
         owner: "张三", income: "$ 115500", expense: "$ 30,300", cost: "$ 25,400", gross: "$ 59800", grossRate: "-", net: "-$ 680",
@@ -2014,7 +2010,7 @@
         daySales: [22, 38, 34, 26, 17, 30, 20], forecastAvg: "51.0", purchase: "2026-06-18｜采购中｜200", planNo: "PP260611002", suggest: "-", qty: "-", suggestDate: "-", created: "2026-02-10 09:00:00", updated: "2026-06-01 16:30:00"
       },
       {
-        thumb: "t3", identity: ["B09WEAR01", "聚合 2 个MSKU"], risk: "P3", riskClass: "p3", negative: false,
+        thumb: "t3", identity: ["聚合MSKU 2个", "聚合FNSKU 2个"], risk: "P3", riskClass: "p3", negative: false,
         replenish: "normal", asin: "B09WEAR01", sku: ["LY-WEAR", "智能手环系列"], store: ["Amazon英国站-数码店", "英国"], status: "-",
         listingTags: ["新品"], productTag: "配件", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-04-15",
         owner: "王五", income: "£ 149500", expense: "£ 38,700", cost: "£ 32,600", gross: "£ 78200", grossRate: "-", net: "£ 7320",
@@ -2022,7 +2018,7 @@
         daySales: [15, 28, 24, 19, 13, 21, 17], forecastAvg: "36.0", purchase: "2026-06-10｜已入库｜60", planNo: "PP260606008", suggest: "是", qty: "90", suggestDate: "2026-06-08", created: "2026-04-10 09:00:00", updated: "2026-06-01 16:30:00"
       },
       {
-        thumb: "t5", identity: ["B09ACC001", "聚合 1 个MSKU"], risk: "P2", riskClass: "p2", negative: true,
+        thumb: "t5", identity: ["聚合MSKU 1个", "聚合FNSKU 1个"], risk: "P2", riskClass: "p2", negative: true,
         replenish: "normal", asin: "B09ACC001", sku: ["LY-ACC-001", "无线充电宝"], store: ["Amazon德国站-配件店", "德国"], status: "-",
         listingTags: ["活动款"], productTag: "新品", line: "数码配件", category: "移动电源", brand: "凌羿数码", develop: "2026-06-15",
         owner: "赵六", income: "€ 87500", expense: "€ 22,500", cost: "€ 19,000", gross: "€ 46000", grossRate: "-", net: "-€ 230",
@@ -2118,9 +2114,7 @@
 
     function renderRows() {
       const rows = getVisibleRows();
-      document.getElementById("identityTitle").textContent = currentView === "msku"
-        ? "MSKU/FNSKU"
-        : "ASIN/店铺/国家";
+      document.getElementById("identityTitle").textContent = "MSKU/FNSKU";
       document.getElementById("asinSummaryToggle").classList.toggle("hidden", currentView !== "asin");
       document.getElementById("tableBody").innerHTML = rows.map((row, index) => {
         const canCreate = row.replenish !== "paused" && row.suggest === "是";
