@@ -515,6 +515,29 @@
       color: #fff;
     }
 
+    .asin-summary-toggle {
+      height: 32px;
+      margin-left: 12px;
+      padding: 0 10px;
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      background: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    .asin-summary-toggle.hidden { display: none; }
+    .asin-summary-toggle input {
+      width: 14px;
+      height: 14px;
+      accent-color: var(--blue);
+    }
+
     .toolbar-actions {
       display: flex;
       align-items: center;
@@ -858,6 +881,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      cursor: pointer;
     }
 
     .forecast-avg {
@@ -878,6 +902,80 @@
       color: #9aa1ad;
       font-size: 12px;
       font-weight: 650;
+    }
+
+    .forecast-modal {
+      width: min(710px, calc(100vw - 80px));
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 0 16px 48px rgba(17, 24, 45, .28);
+      padding: 22px 24px 24px;
+    }
+
+    .forecast-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .forecast-head h3 {
+      margin: 0;
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .forecast-sub {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 16px;
+      color: var(--red);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .forecast-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .forecast-card {
+      height: 96px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: #fafbfe;
+    }
+
+    .forecast-card span {
+      display: block;
+      color: #8d95a3;
+      font-size: 15px;
+      font-weight: 650;
+      margin-bottom: 7px;
+    }
+
+    .forecast-card strong {
+      color: #1f2638;
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .forecast-chart-title {
+      margin: 4px 0 8px;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .forecast-chart {
+      height: 220px;
+      border-top: 1px dashed #e5e9f0;
     }
 
     .purchase-info {
@@ -1383,6 +1481,17 @@
       min-width: 60px;
       font-size: 12px;
     }
+    .asin-summary-toggle {
+      height: 28px;
+      margin-left: 8px;
+      padding: 0 8px;
+      gap: 5px;
+      font-size: 12px;
+    }
+    .asin-summary-toggle input {
+      width: 13px;
+      height: 13px;
+    }
     .toolbar-actions { gap: 8px; }
 
     .table-scroll { max-height: calc(100vh - 216px); }
@@ -1456,6 +1565,10 @@
     .forecast-avg span { font-size: 11px; }
     .forecast-cell { gap: 7px; }
     .forecast-avg { min-width: 32px; grid-template-rows: 20px 16px; }
+    .forecast-modal {
+      width: min(660px, calc(100vw - 70px));
+      padding: 18px 22px 20px;
+    }
     .op-cell {
       width: 142px;
       min-width: 142px;
@@ -1542,6 +1655,10 @@
             <button class="view-tab active" data-view="msku">MSKU</button>
             <button class="view-tab" data-view="asin">ASIN</button>
           </div>
+          <label class="asin-summary-toggle hidden" id="asinSummaryToggle">
+            <input type="checkbox" id="sameAsinSummary">
+            <span>同 ASIN 汇总</span>
+          </label>
         </div>
 
         <div class="filters">
@@ -1809,6 +1926,26 @@
     </div>
   </div>
 
+  <div class="modal-mask" id="forecastModal" aria-hidden="true">
+    <div class="forecast-modal" role="dialog" aria-label="未来销量预测">
+      <div class="forecast-head">
+        <h3>未来7天销量预测</h3>
+        <button class="close" id="closeForecast" aria-label="关闭">×</button>
+      </div>
+      <div class="forecast-sub">
+        <span>预测日均(7天)<strong id="forecastAvg7">27.4</strong></span>
+        <span>预测日均（备货周期）<strong id="forecastCycleAvg">30</strong></span>
+      </div>
+      <div class="forecast-cards">
+        <div class="forecast-card"><span>未来7天</span><strong id="forecastFuture7">192</strong></div>
+        <div class="forecast-card"><span>未来15天</span><strong id="forecastFuture15">384</strong></div>
+        <div class="forecast-card"><span>未来30天</span><strong id="forecastFuture30">768</strong></div>
+      </div>
+      <div class="forecast-chart-title">未来7天预测趋势</div>
+      <div class="forecast-chart" id="forecastChart"></div>
+    </div>
+  </div>
+
   <div class="toast" id="toast">已生成采购计划</div>
 
   <script>
@@ -1855,6 +1992,21 @@
       }
     ];
 
+    const asinDetailRows = mskuRows.map(row => ({
+      ...row,
+      identity: [row.asin, `${row.store[0]} / ${row.store[1]}`]
+    }));
+    asinDetailRows[1] = {
+      ...asinDetailRows[1],
+      asin: "B09SP001",
+      identity: ["B09SP001", "Amazon美国站-运动店 / 美国"],
+      sku: ["LY-SPORT-001-B", "运动防水手表"],
+      listingTags: ["常规"],
+      suggest: "是",
+      qty: "120",
+      suggestDate: "2026-06-12"
+    };
+
     const asinRows = [
       {
         thumb: "t1", identity: ["B09SP001", "聚合 2 个MSKU"], risk: "P1", riskClass: "p1", negative: true,
@@ -1883,6 +2035,7 @@
     ];
 
     let currentView = "msku";
+    let sameAsinSummary = false;
     let activeRow = null;
     let pendingCreateRows = [];
     const filterState = { profit: "all", replenish: "all" };
@@ -1923,7 +2076,8 @@
     }
 
     function getBaseRows() {
-      return currentView === "msku" ? mskuRows : asinRows;
+      if (currentView === "msku") return mskuRows;
+      return sameAsinSummary ? asinRows : asinDetailRows;
     }
 
     function getVisibleRows() {
@@ -1963,7 +2117,10 @@
 
     function renderRows() {
       const rows = getVisibleRows();
-      document.getElementById("identityTitle").textContent = currentView === "msku" ? "MSKU/FNSKU" : "ASIN/聚合MSKU";
+      document.getElementById("identityTitle").textContent = currentView === "msku"
+        ? "MSKU/FNSKU"
+        : sameAsinSummary ? "ASIN/聚合MSKU" : "ASIN/店铺";
+      document.getElementById("asinSummaryToggle").classList.toggle("hidden", currentView !== "asin");
       document.getElementById("tableBody").innerHTML = rows.map((row, index) => {
         const canCreate = row.replenish !== "paused" && row.suggest === "是";
         const checkbox = canCreate ? "checkbox" : "checkbox disabled";
@@ -1998,7 +2155,7 @@
           <td>${daySalesCell(row)}</td>
           <td>${segmentCell(row.avg)}</td>
           <td>${segmentCell(row.segmentTotal)}</td>
-          <td><div class="forecast-cell">${spark(((index + 1) % 5) + 1)}<div class="forecast-avg"><strong>${row.forecastAvg}</strong><span>日均</span></div></div></td>
+          <td><div class="forecast-cell forecast-open" data-index="${index}">${spark(((index + 1) % 5) + 1)}<div class="forecast-avg"><strong>${row.forecastAvg}</strong><span>日均</span></div></div></td>
           <td><button class="number-dd">${row.stock[0]}⌄</button></td>
           <td><button class="number-dd transit-open link" data-stockout="${stockoutDate}">${row.stock[2]}⌄</button></td>
           <td><button class="number-dd">${row.stock[3]}⌄</button></td>
@@ -2037,6 +2194,13 @@
         });
       });
 
+      document.querySelectorAll(".forecast-open").forEach(cell => {
+        cell.addEventListener("mouseenter", () => {
+          const rows = getVisibleRows();
+          openForecast(rows[Number(cell.dataset.index)], Number(cell.dataset.index));
+        });
+      });
+
       document.querySelectorAll(".more-btn").forEach(btn => {
         btn.addEventListener("click", event => {
           event.stopPropagation();
@@ -2049,6 +2213,73 @@
           menu.classList.add("show");
         });
       });
+    }
+
+    function forecastTotals(row, index) {
+      const avg = Number(row.forecastAvg) || 0;
+      const cycleAvg = Math.round(avg * 1.1);
+      const customFirst = index === 0 && row.forecastAvg === "27.4";
+      return {
+        avg7: row.forecastAvg,
+        cycleAvg,
+        future7: customFirst ? 192 : Math.round(avg * 7),
+        future15: customFirst ? 384 : Math.round(avg * 15),
+        future30: customFirst ? 768 : Math.round(avg * 30)
+      };
+    }
+
+    function forecastChart(row) {
+      const base = Number(row.forecastAvg) || 20;
+      const points = [0.66, 0.75, 0.9, 1.1, 0.88, 1.12, 1.0].map((rate, index) => ({
+        x: 42 + index * 86,
+        y: 170 - Math.min(112, Math.max(18, base * rate * 3.2))
+      }));
+      const line = points.map((point, index) => `${index === 0 ? "M" : "L"}${point.x} ${point.y}`).join(" ");
+      const area = `${line} L${points[points.length - 1].x} 190 L${points[0].x} 190 Z`;
+      return `<svg viewBox="0 0 620 210" width="100%" height="210" aria-hidden="true">
+        <g stroke="#e8ecf3" stroke-dasharray="4 4">
+          <line x1="42" y1="40" x2="590" y2="40"></line>
+          <line x1="42" y1="82" x2="590" y2="82"></line>
+          <line x1="42" y1="124" x2="590" y2="124"></line>
+          <line x1="42" y1="166" x2="590" y2="166"></line>
+        </g>
+        <g fill="#8c929d" font-size="12">
+          <text x="8" y="44">40</text>
+          <text x="8" y="86">30</text>
+          <text x="8" y="128">20</text>
+          <text x="8" y="170">10</text>
+          <text x="16" y="202">0</text>
+        </g>
+        <path d="${area}" fill="#d8e8ff" opacity=".72"></path>
+        <path d="${line}" fill="none" stroke="#176bff" stroke-width="3"></path>
+        <g fill="#8c929d" font-size="12" text-anchor="middle">
+          <text x="42" y="204">06/03</text>
+          <text x="128" y="204">06/04</text>
+          <text x="214" y="204">06/05</text>
+          <text x="300" y="204">06/06</text>
+          <text x="386" y="204">06/07</text>
+          <text x="472" y="204">06/08</text>
+          <text x="558" y="204">06/09</text>
+        </g>
+      </svg>`;
+    }
+
+    function openForecast(row, index) {
+      if (!row) return;
+      const totals = forecastTotals(row, index);
+      document.getElementById("forecastAvg7").textContent = totals.avg7;
+      document.getElementById("forecastCycleAvg").textContent = totals.cycleAvg;
+      document.getElementById("forecastFuture7").textContent = totals.future7;
+      document.getElementById("forecastFuture15").textContent = totals.future15;
+      document.getElementById("forecastFuture30").textContent = totals.future30;
+      document.getElementById("forecastChart").innerHTML = forecastChart(row);
+      document.getElementById("forecastModal").classList.add("show");
+      document.getElementById("forecastModal").setAttribute("aria-hidden", "false");
+    }
+
+    function closeForecast() {
+      document.getElementById("forecastModal").classList.remove("show");
+      document.getElementById("forecastModal").setAttribute("aria-hidden", "true");
     }
 
     function openTransit(date) {
@@ -2111,6 +2342,10 @@
     document.getElementById("createModal").addEventListener("click", event => {
       if (event.target.id === "createModal") closeCreateModal();
     });
+    document.getElementById("closeForecast").addEventListener("click", closeForecast);
+    document.getElementById("forecastModal").addEventListener("click", event => {
+      if (event.target.id === "forecastModal") closeForecast();
+    });
 
     document.getElementById("confirmCreate").addEventListener("click", () => {
       pendingCreateRows.forEach((row, index) => {
@@ -2132,6 +2367,12 @@
         renderRows();
         document.querySelector(".table-scroll").scrollLeft = 0;
       });
+    });
+
+    document.getElementById("sameAsinSummary").addEventListener("change", event => {
+      sameAsinSummary = event.target.checked;
+      renderRows();
+      document.querySelector(".table-scroll").scrollLeft = 0;
     });
 
     document.addEventListener("click", event => {
