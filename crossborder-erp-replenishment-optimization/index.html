@@ -877,6 +877,28 @@
       font-weight: 650;
     }
 
+    .sellable-days-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 34px);
+      grid-template-rows: 24px 18px;
+      column-gap: 10px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .sellable-days-grid strong {
+      font-size: 15px;
+      color: var(--text);
+      font-weight: 750;
+    }
+
+    .sellable-days-grid span {
+      color: #9aa1ad;
+      font-size: 12px;
+      font-weight: 650;
+    }
+
     .forecast-cell {
       display: flex;
       align-items: center;
@@ -1783,8 +1805,7 @@
                   <th>本地实际总量<span class="info">i</span><span class="sort"></span></th>
                   <th>本地预计总量<span class="info">i</span><span class="sort"></span></th>
                   <th>总库存<span class="info">i</span><span class="sort"></span></th>
-                  <th>总库存可售天数<span class="info">i</span><span class="sort"></span></th>
-                  <th>可售天数<span class="th-sub">平台可用库存 <span class="info help-tip" data-tip="平台可用库存/预测日均销量">i</span></span></th>
+                  <th>可售天数<span class="info help-tip" data-tip="总：总库存可售天数；可用：平台可用库存可售天数">i</span><span class="sort"></span></th>
                   <th>安全天数<span class="sort"></span></th>
                   <th>预计断货时间<span class="info">i</span><span class="sort"></span></th>
                   <th>采购时效<span class="info">i</span><span class="sort"></span></th>
@@ -1818,6 +1839,7 @@
                   <td>3375</td>
                   <td>3940</td>
                   <td>6375</td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -2104,6 +2126,10 @@
       return metricGrid(values, ["3天", "7天", "14天", "30天"], "avg-grid");
     }
 
+    function sellableDaysCell(row) {
+      return metricGrid([row.stock[6], row.stock[1]], ["总", "可用"], "sellable-days-grid");
+    }
+
     function latestPurchaseDate(row) {
       if (!row.purchase || row.purchase === "-") return "-";
       return row.purchase.split("｜")[0] || row.purchase;
@@ -2161,8 +2187,7 @@
           <td><button class="number-dd">${row.stock[3]}⌄</button></td>
           <td><button class="number-dd">${row.stock[4]}⌄</button></td>
           <td>${row.stock[5]}</td>
-          <td>${row.stock[6]}</td>
-          <td>${row.stock[1]}</td>
+          <td>${sellableDaysCell(row)}</td>
           <td>${row.stock[7]}</td>
           <td>${stockoutDate}</td>
           <td>${row.stock[9]}</td>
