@@ -397,6 +397,118 @@
       color: var(--blue);
     }
 
+    .country-panel {
+      position: fixed;
+      z-index: 100;
+      width: 486px;
+      border: 1px solid #d8dde8;
+      border-radius: 6px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(14, 30, 62, .18);
+      display: none;
+      overflow: hidden;
+    }
+
+    .country-panel.show { display: block; }
+
+    .country-body {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      height: 292px;
+      border-bottom: 1px solid #edf0f5;
+    }
+
+    .country-regions,
+    .country-options {
+      padding: 8px 0;
+      overflow-y: auto;
+    }
+
+    .country-options { border-left: 1px solid #edf0f5; }
+
+    .country-item {
+      width: 100%;
+      height: 46px;
+      padding: 0 20px;
+      border: 0;
+      background: #fff;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 16px;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .country-item:hover,
+    .country-item.active {
+      background: #eef4ff;
+    }
+
+    .country-checkbox {
+      width: 18px;
+      height: 18px;
+      border: 1px solid #d4d8df;
+      border-radius: 4px;
+      background: #fff;
+      flex: 0 0 auto;
+      position: relative;
+    }
+
+    .country-item.checked .country-checkbox {
+      border-color: var(--blue);
+      background: var(--blue);
+    }
+
+    .country-item.checked .country-checkbox::after {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: 2px;
+      width: 5px;
+      height: 10px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .country-chevron {
+      margin-left: auto;
+      color: #a7afbd;
+      font-size: 20px;
+    }
+
+    .country-item.active .country-chevron { color: var(--blue); }
+
+    .country-actions {
+      height: 72px;
+      padding: 0 14px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+    }
+
+    .country-actions button {
+      height: 38px;
+      padding: 0 20px;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .country-actions button.primary {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
     .filter.sm { min-width: 122px; }
     .filter.md { min-width: 185px; }
     .filter.lg { min-width: 245px; }
@@ -1656,7 +1768,7 @@
 
         <div class="filters">
           <div class="filter-row">
-            <div class="filter sm"><b>国家</b><span>所有</span><span class="arrow">⌄</span></div>
+            <div class="filter sm interactive country-filter" id="countryFilter" role="button" aria-haspopup="true" aria-expanded="false"><b>国家</b><span id="countryFilterValue">所有</span><span class="arrow">⌄</span></div>
             <div class="filter md"><b>店铺</b><span>请选择店铺</span><span class="arrow">⌄</span></div>
             <div class="filter md"><b>币种</b><span>原币</span><span class="arrow">⌄</span></div>
             <div class="filter sm"><b>负责人</b><span>所有</span><span class="arrow">⌄</span></div>
@@ -1842,6 +1954,17 @@
   </div>
 
   <div class="filter-menu" id="filterMenu"></div>
+
+  <div class="country-panel" id="countryPanel" aria-hidden="true">
+    <div class="country-body">
+      <div class="country-regions" id="countryRegions"></div>
+      <div class="country-options" id="countryOptions"></div>
+    </div>
+    <div class="country-actions">
+      <button id="countryCancel">取消</button>
+      <button class="primary" id="countryConfirm">确定</button>
+    </div>
+  </div>
 
   <div class="row-menu" id="rowMenu">
     <button id="toggleReplenish">暂不补货</button>
@@ -2031,7 +2154,7 @@
     let sameAsinSummary = false;
     let activeRow = null;
     let pendingCreateRows = [];
-    const filterState = { profit: "all", replenish: "all" };
+    const filterState = { profit: "all", replenish: "all", countries: [] };
     const filterOptions = {
       profit: [
         { value: "all", label: "所有" },
@@ -2044,6 +2167,16 @@
         { value: "paused", label: "暂不补货" }
       ]
     };
+    const countryGroups = [
+      { key: "all", label: "全部", countries: [] },
+      { key: "america", label: "美洲", countries: ["美国", "加拿大", "墨西哥"] },
+      { key: "europe", label: "欧洲", countries: ["德国", "意大利", "法国", "西班牙", "荷兰"] },
+      { key: "asia", label: "亚洲", countries: ["日本", "韩国", "新加坡", "泰国", "越南"] },
+      { key: "australia", label: "澳大利亚", countries: ["澳大利亚"] }
+    ];
+    let activeCountryRegion = "europe";
+    let selectedCountries = new Set();
+    let draftCountries = new Set();
 
     function spark(seed) {
       const paths = {
@@ -2075,11 +2208,62 @@
 
     function getVisibleRows() {
       return getBaseRows().filter(row => {
+        if (filterState.countries.length && !filterState.countries.includes(row.store[1])) return false;
         if (filterState.profit === "positive" && row.negative) return false;
         if (filterState.profit === "negative" && !row.negative) return false;
         if (filterState.replenish !== "all" && row.replenish !== filterState.replenish) return false;
         return true;
       });
+    }
+
+    function renderCountryPanel() {
+      const regions = document.getElementById("countryRegions");
+      const options = document.getElementById("countryOptions");
+      const activeGroup = countryGroups.find(group => group.key === activeCountryRegion) || countryGroups[2];
+      regions.innerHTML = countryGroups.map(group => {
+        const active = group.key === activeCountryRegion ? " active" : "";
+        const chevron = group.key === "all" ? "" : '<span class="country-chevron">›</span>';
+        return `<button class="country-item country-region-item${active}" data-region="${group.key}">
+          <span class="country-checkbox"></span><span>${group.label}</span>${chevron}
+        </button>`;
+      }).join("");
+      options.innerHTML = activeGroup.countries.map(country => {
+        const checked = draftCountries.has(country) ? " checked" : "";
+        return `<button class="country-item country-option-item${checked}" data-country="${country}">
+          <span class="country-checkbox"></span><span>${country}</span>
+        </button>`;
+      }).join("");
+    }
+
+    function openCountryPanel() {
+      const filter = document.getElementById("countryFilter");
+      const panel = document.getElementById("countryPanel");
+      const rect = filter.getBoundingClientRect();
+      draftCountries = new Set(selectedCountries);
+      document.getElementById("filterMenu").classList.remove("show");
+      renderCountryPanel();
+      panel.classList.add("show");
+      panel.setAttribute("aria-hidden", "false");
+      filter.setAttribute("aria-expanded", "true");
+      const left = Math.max(12, Math.min(rect.left, window.innerWidth - panel.offsetWidth - 12));
+      panel.style.left = `${left}px`;
+      panel.style.top = `${rect.bottom + 6}px`;
+    }
+
+    function closeCountryPanel() {
+      const panel = document.getElementById("countryPanel");
+      panel.classList.remove("show");
+      panel.setAttribute("aria-hidden", "true");
+      document.getElementById("countryFilter").setAttribute("aria-expanded", "false");
+    }
+
+    function updateCountryFilterLabel() {
+      const label = selectedCountries.size === 0
+        ? "所有"
+        : selectedCountries.size === 1
+          ? [...selectedCountries][0]
+          : `已选${selectedCountries.size}项`;
+      document.getElementById("countryFilterValue").textContent = label;
     }
 
     function metricGrid(values, labels, className) {
@@ -2369,12 +2553,51 @@
       document.querySelector(".table-scroll").scrollLeft = 0;
     });
 
+    document.getElementById("countryFilter").addEventListener("click", event => {
+      event.stopPropagation();
+      document.getElementById("rowMenu").classList.remove("show");
+      openCountryPanel();
+    });
+
+    document.getElementById("countryPanel").addEventListener("click", event => {
+      event.stopPropagation();
+      const regionBtn = event.target.closest("[data-region]");
+      const countryBtn = event.target.closest("[data-country]");
+      if (regionBtn) {
+        activeCountryRegion = regionBtn.dataset.region;
+        if (activeCountryRegion === "all") draftCountries.clear();
+        renderCountryPanel();
+        return;
+      }
+      if (countryBtn) {
+        const country = countryBtn.dataset.country;
+        if (draftCountries.has(country)) {
+          draftCountries.delete(country);
+        } else {
+          draftCountries.add(country);
+        }
+        renderCountryPanel();
+      }
+    });
+
+    document.getElementById("countryCancel").addEventListener("click", closeCountryPanel);
+    document.getElementById("countryConfirm").addEventListener("click", () => {
+      selectedCountries = new Set(draftCountries);
+      filterState.countries = [...selectedCountries];
+      updateCountryFilterLabel();
+      closeCountryPanel();
+      renderRows();
+    });
+
     document.addEventListener("click", event => {
       if (!event.target.closest("#rowMenu") && !event.target.closest(".more-btn")) {
         document.getElementById("rowMenu").classList.remove("show");
       }
       if (!event.target.closest("#filterMenu") && !event.target.closest("[data-filter]")) {
         document.getElementById("filterMenu").classList.remove("show");
+      }
+      if (!event.target.closest("#countryPanel") && !event.target.closest("#countryFilter")) {
+        closeCountryPanel();
       }
     });
 
@@ -2384,6 +2607,7 @@
         const key = filter.dataset.filter;
         const rect = filter.getBoundingClientRect();
         const menu = document.getElementById("filterMenu");
+        closeCountryPanel();
         menu.innerHTML = filterOptions[key].map(option => `
           <button class="${filterState[key] === option.value ? "active" : ""}" data-key="${key}" data-value="${option.value}">${option.label}</button>
         `).join("");
