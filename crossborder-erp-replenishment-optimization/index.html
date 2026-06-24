@@ -397,6 +397,30 @@
       color: var(--blue);
     }
 
+    .filter-menu.multiselect button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .menu-check {
+      width: 14px;
+      height: 14px;
+      border: 1px solid #d5dae4;
+      border-radius: 3px;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .filter-menu button.active .menu-check {
+      border-color: var(--blue);
+      background: var(--blue);
+    }
+
     .country-panel {
       position: fixed;
       z-index: 100;
@@ -654,6 +678,45 @@
       display: flex;
       align-items: center;
       gap: 10px;
+    }
+
+    .batch-more {
+      position: relative;
+    }
+
+    .batch-more-menu {
+      position: absolute;
+      right: 0;
+      top: 36px;
+      z-index: 30;
+      width: 118px;
+      padding: 5px 0;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      display: none;
+    }
+
+    .batch-more:hover .batch-more-menu {
+      display: block;
+    }
+
+    .batch-more-menu button {
+      width: 100%;
+      height: 32px;
+      border: 0;
+      background: #fff;
+      color: var(--text);
+      text-align: left;
+      padding: 0 12px;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .batch-more-menu button:hover {
+      background: #f5f7fb;
+      color: var(--blue);
     }
 
     .table-shell {
@@ -1808,6 +1871,13 @@
             <button class="btn primary" id="batchCreate">生成采购计划</button>
             <button class="btn">规则配置⌄</button>
             <button class="btn">导 出</button>
+            <div class="batch-more">
+              <button class="btn" id="batchMore" type="button">更多⌄</button>
+              <div class="batch-more-menu" aria-label="批量操作">
+                <button type="button" data-batch-action="pause">暂不补货</button>
+                <button type="button" data-batch-action="resume">恢复补货</button>
+              </div>
+            </div>
             <button class="list-icon" aria-label="列配置">☷</button>
           </div>
         </div>
@@ -1895,11 +1965,11 @@
                   <th>可售天数<span class="info help-tip" data-tip="总：总库存可售天数；可用：平台可用库存可售天数">i</span><span class="sort"></span></th>
                   <th>安全天数<span class="sort"></span></th>
                   <th>预计断货时间<span class="info">i</span><span class="sort"></span></th>
-                  <th>采购时效<span class="info">i</span><span class="sort"></span></th>
+                  <th>备货周期<span class="info">i</span><span class="sort"></span></th>
                   <th>是否建议采购<span class="sort"></span></th>
                   <th>建议采购量<span class="sort"></span></th>
                   <th>建议采购时间<span class="sort"></span></th>
-                  <th>最近采购信息</th>
+                  <th>最近采购计划</th>
                   <th>补货状态</th>
                   <th>listing创建时间<span class="sort"></span></th>
                   <th>最后更新时间<span class="sort"></span></th>
@@ -2034,7 +2104,7 @@
             <th>SKU</th>
             <th style="width:120px">建议采购量</th>
             <th style="width:130px">本次采购量</th>
-            <th style="width:160px">最近采购时间</th>
+            <th style="width:180px">最近采购计划创建时间</th>
           </tr>
         </thead>
         <tbody id="createBody"></tbody>
@@ -2098,7 +2168,7 @@
         thumb: "t4", identity: ["MSKU-WEAR-002", "FNSKU-WEAR-002"], risk: "安全", riskClass: "safe", negative: false,
         replenish: "normal", asin: "B09WEAR02", sku: ["LY-WEAR-002", "智能手环Lite"], store: ["Amazon英国站-数码店", "英国"], status: "-",
         listingTags: [], productTag: "新品", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-05-15",
-        owner: "王五", income: "£ 79000", expense: "£ 20,400", cost: "£ 17,200", gross: "£ 41400", grossRate: "-", net: "£ 4200",
+        owner: "王五", income: "£ 79000", expense: "£ 20,400", cost: "£ 17,200", gross: "£ 41400", grossRate: "-", net: "£ 0",
         avg: [4, 4, 5, 4], segmentTotal: [11, 29, 63, 118], stock: [230, 33, 0, 300, 352, 570, 10, "-", "-", 16],
         daySales: [7, 13, 11, 9, 6, 10, 8], forecastAvg: "16.8", purchase: "2026-06-10｜已入库｜60", planNo: "PP260606008", suggest: "-", qty: "-", suggestDate: "-", created: "2026-05-10 09:00:00", updated: "2026-06-01 16:30:00"
       },
@@ -2154,12 +2224,13 @@
     let sameAsinSummary = false;
     let activeRow = null;
     let pendingCreateRows = [];
-    const filterState = { profit: "all", replenish: "all", countries: [] };
+    const filterState = { profit: [], replenish: "all", countries: [] };
     const filterOptions = {
       profit: [
         { value: "all", label: "所有" },
-        { value: "positive", label: "正利润" },
-        { value: "negative", label: "负利润" }
+        { value: "positive", label: "大于0" },
+        { value: "negative", label: "小于0" },
+        { value: "zero", label: "等于0" }
       ],
       replenish: [
         { value: "all", label: "所有" },
@@ -2206,11 +2277,33 @@
       return sameAsinSummary ? asinRows : asinDetailRows;
     }
 
+    function getProfitType(row) {
+      const text = String(row.net || "");
+      if (text.includes("-")) return "negative";
+      const value = Number(text.replace(/[^0-9.]/g, ""));
+      return value === 0 ? "zero" : "positive";
+    }
+
+    function updateFilterLabel(key) {
+      const labelEl = document.querySelector(`[data-filter="${key}"] [data-value]`);
+      if (!labelEl) return;
+      if (key === "profit") {
+        if (!filterState.profit.length) {
+          labelEl.textContent = "所有";
+          return;
+        }
+        labelEl.textContent = filterState.profit.length === 1
+          ? filterOptions.profit.find(option => option.value === filterState.profit[0]).label
+          : `已选${filterState.profit.length}项`;
+        return;
+      }
+      labelEl.textContent = filterOptions[key].find(option => option.value === filterState[key]).label;
+    }
+
     function getVisibleRows() {
       return getBaseRows().filter(row => {
         if (filterState.countries.length && !filterState.countries.includes(row.store[1])) return false;
-        if (filterState.profit === "positive" && row.negative) return false;
-        if (filterState.profit === "negative" && !row.negative) return false;
+        if (filterState.profit.length && !filterState.profit.includes(getProfitType(row))) return false;
         if (filterState.replenish !== "all" && row.replenish !== filterState.replenish) return false;
         return true;
       });
@@ -2608,8 +2701,11 @@
         const rect = filter.getBoundingClientRect();
         const menu = document.getElementById("filterMenu");
         closeCountryPanel();
+        menu.classList.toggle("multiselect", key === "profit");
         menu.innerHTML = filterOptions[key].map(option => `
-          <button class="${filterState[key] === option.value ? "active" : ""}" data-key="${key}" data-value="${option.value}">${option.label}</button>
+          <button class="${key === "profit" ? ((option.value === "all" && !filterState.profit.length) || filterState.profit.includes(option.value) ? "active" : "") : (filterState[key] === option.value ? "active" : "")}" data-key="${key}" data-value="${option.value}">
+            ${key === "profit" ? '<span class="menu-check">✓</span>' : ''}${option.label}
+          </button>
         `).join("");
         menu.style.left = `${rect.left}px`;
         menu.style.top = `${rect.bottom + 4}px`;
@@ -2623,9 +2719,25 @@
       if (!btn) return;
       const key = btn.dataset.key;
       const value = btn.dataset.value;
+      if (key === "profit") {
+        if (value === "all") {
+          filterState.profit = [];
+        } else if (filterState.profit.includes(value)) {
+          filterState.profit = filterState.profit.filter(item => item !== value);
+        } else {
+          filterState.profit = [...filterState.profit, value];
+        }
+        updateFilterLabel("profit");
+        filterOptions.profit.forEach(option => {
+          const item = document.querySelector(`#filterMenu [data-value="${option.value}"]`);
+          if (!item) return;
+          item.classList.toggle("active", option.value === "all" ? !filterState.profit.length : filterState.profit.includes(option.value));
+        });
+        renderRows();
+        return;
+      }
       filterState[key] = value;
-      const label = filterOptions[key].find(option => option.value === value).label;
-      document.querySelector(`[data-filter="${key}"] [data-value]`).textContent = label;
+      updateFilterLabel(key);
       document.getElementById("filterMenu").classList.remove("show");
       renderRows();
     });
@@ -2637,6 +2749,18 @@
       const row = rows[Number(activeRow.dataset.index)];
       row.replenish = row.replenish === "paused" ? "normal" : "paused";
       renderRows();
+    });
+
+    document.querySelectorAll("[data-batch-action]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const rows = getVisibleRows();
+        const paused = btn.dataset.batchAction === "pause";
+        rows.forEach(row => {
+          row.replenish = paused ? "paused" : "normal";
+        });
+        renderRows();
+        showToast(paused ? "已批量标记暂不补货" : "已批量恢复补货");
+      });
     });
 
     document.getElementById("batchCreate").addEventListener("click", () => {
