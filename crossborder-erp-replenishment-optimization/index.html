@@ -1402,7 +1402,7 @@
     .transit-table td:last-child { border-right: 0; }
 
     .create-modal {
-      width: min(760px, calc(100vw - 80px));
+      width: min(1080px, calc(100vw - 80px));
       background: #fff;
       border-radius: 5px;
       box-shadow: 0 16px 48px rgba(17, 24, 45, .22);
@@ -1450,6 +1450,15 @@
     .qty-input:focus {
       border-color: var(--blue);
       box-shadow: 0 0 0 2px rgba(23, 107, 255, .08);
+    }
+
+    .source-value {
+      display: inline-block;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      vertical-align: bottom;
+      color: var(--text);
     }
 
     .modal-actions {
@@ -1934,45 +1943,46 @@
                 <tr>
                   <th class="center"><span class="checkbox"></span></th>
                   <th>图片</th>
-                  <th id="identityTitle">MSKU/FNSKU</th>
-                  <th>风险等级<span class="info">i</span><span class="sort"></span></th>
-                  <th>ASIN</th>
-                  <th>SKU/品名</th>
-                  <th>店铺/国家</th>
+                  <th id="identityTitle">MSKU/FNSKU<span class="info help-tip" data-tip="销售维度标识">i</span></th>
+                  <th>风险等级<span class="info help-tip" data-tip="按建议采购日判断">i</span><span class="sort"></span></th>
+                  <th>ASIN<span class="info help-tip" data-tip="Amazon商品编码">i</span></th>
+                  <th>SKU/品名<span class="info help-tip" data-tip="采购按SKU生成">i</span></th>
+                  <th>店铺/国家<span class="info help-tip" data-tip="备货分析维度">i</span></th>
                   <th>状态<span class="sort"></span></th>
-                  <th>Listing标签</th>
+                  <th>Listing标签<span class="info help-tip" data-tip="Listing业务标签">i</span></th>
                   <th>产品标签</th>
                   <th>品线</th>
                   <th>分类</th>
                   <th>品牌</th>
                   <th>开发时间<span class="sort"></span></th>
                   <th>Listing负责人</th>
-                  <th>收入<span class="info">i</span><span class="sort"></span></th>
-                  <th>支出<span class="info">i</span><span class="sort"></span></th>
-                  <th>成本<span class="info">i</span><span class="sort"></span></th>
-                  <th>毛利润<span class="info">i</span><span class="sort"></span></th>
-                  <th>毛利率<span class="info">i</span></th>
-                  <th>净利润<span class="sort"></span></th>
-                  <th>近七天销量</th>
-                  <th>分段日均销量</th>
-                  <th>分段汇总销量</th>
-                  <th>预测销量</th>
-                  <th>平台可用库存<span class="info">i</span><span class="sort"></span></th>
-                  <th>平台在途库存<span class="info">i</span><span class="sort"></span></th>
-                  <th>本地实际总量<span class="info">i</span><span class="sort"></span></th>
-                  <th>本地预计总量<span class="info">i</span><span class="sort"></span></th>
-                  <th>总库存<span class="info">i</span><span class="sort"></span></th>
-                  <th>可售天数<span class="info help-tip" data-tip="总：总库存可售天数；可用：平台可用库存可售天数">i</span><span class="sort"></span></th>
-                  <th>安全天数<span class="sort"></span></th>
-                  <th>预计断货时间<span class="info">i</span><span class="sort"></span></th>
-                  <th>备货周期<span class="info">i</span><span class="sort"></span></th>
-                  <th>是否建议采购<span class="sort"></span></th>
-                  <th>建议采购量<span class="sort"></span></th>
-                  <th>建议采购时间<span class="sort"></span></th>
-                  <th>最近采购计划</th>
-                  <th>补货状态</th>
-                  <th>listing创建时间<span class="sort"></span></th>
-                  <th>最后更新时间<span class="sort"></span></th>
+                  <th>收入<span class="info help-tip" data-tip="按计算口径取收入">i</span><span class="sort"></span></th>
+                  <th>支出<span class="info help-tip" data-tip="按计算口径取支出">i</span><span class="sort"></span></th>
+                  <th>成本<span class="info help-tip" data-tip="按计算口径取成本">i</span><span class="sort"></span></th>
+                  <th>毛利润<span class="info help-tip" data-tip="收入-支出-成本">i</span><span class="sort"></span></th>
+                  <th>毛利率<span class="info help-tip" data-tip="毛利润/收入">i</span></th>
+                  <th>净利润<span class="info help-tip" data-tip="利润口径参考">i</span><span class="sort"></span></th>
+                  <th>近七天销量<span class="info help-tip" data-tip="D-1至D-7销量">i</span></th>
+                  <th>分段日均销量<span class="info help-tip" data-tip="分段销量/天数">i</span></th>
+                  <th>分段汇总销量<span class="info help-tip" data-tip="3/7/14/30天销量">i</span></th>
+                  <th>预测销量<span class="info help-tip" data-tip="未来平均日销">i</span></th>
+                  <th>平台可用库存<span class="info help-tip" data-tip="平台当前可售库存">i</span><span class="sort"></span></th>
+                  <th>平台在途库存<span class="info help-tip" data-tip="平台在途未入库">i</span><span class="sort"></span></th>
+                  <th>本地实际总量<span class="info help-tip" data-tip="本地仓实际库存">i</span><span class="sort"></span></th>
+                  <th>本地预计总量<span class="info help-tip" data-tip="实际+预计入库">i</span><span class="sort"></span></th>
+                  <th>总库存<span class="info help-tip" data-tip="按库存口径汇总">i</span><span class="sort"></span></th>
+                  <th>可售天数（总）<span class="info help-tip" data-tip="总库存/未来平均日销">i</span><span class="sort"></span></th>
+                  <th>可售天数（可用）<span class="info help-tip" data-tip="平台可用库存/未来平均日销">i</span><span class="sort"></span></th>
+                  <th>安全天数<span class="info help-tip" data-tip="补货安全库存天数">i</span><span class="sort"></span></th>
+                  <th>预计断货时间<span class="info help-tip" data-tip="当前日期+可售天数">i</span><span class="sort"></span></th>
+                  <th>备货周期<span class="info help-tip" data-tip="采购+质检+物流">i</span><span class="sort"></span></th>
+                  <th>是否建议采购<span class="info help-tip" data-tip="按建议量和状态判断">i</span><span class="sort"></span></th>
+                  <th>建议采购量<span class="info help-tip" data-tip="按补货公式计算">i</span><span class="sort"></span></th>
+                  <th>建议采购时间<span class="info help-tip" data-tip="断货日-备货周期-安全天数">i</span><span class="sort"></span></th>
+                  <th>最近采购计划<span class="info help-tip" data-tip="最近采购计划记录">i</span></th>
+                  <th>补货状态<span class="info help-tip" data-tip="正常或暂不补货">i</span></th>
+                  <th>listing创建时间<span class="info help-tip" data-tip="Listing创建时间">i</span><span class="sort"></span></th>
+                  <th>最后更新时间<span class="info help-tip" data-tip="列表数据更新时间">i</span><span class="sort"></span></th>
                   <th class="op-cell">操作</th>
                 </tr>
               </thead>
@@ -2101,7 +2111,10 @@
       <table class="create-table" aria-label="生成采购计划确认信息">
         <thead>
           <tr>
-            <th>SKU</th>
+            <th style="width:180px">SKU/品名</th>
+            <th style="width:170px">店铺</th>
+            <th style="width:120px">MSKU</th>
+            <th style="width:120px">FNSKU</th>
             <th style="width:120px">建议采购量</th>
             <th style="width:130px">本次采购量</th>
             <th style="width:180px">最近采购计划创建时间</th>
@@ -2383,6 +2396,47 @@
       return row.purchase.split("｜")[0] || row.purchase;
     }
 
+    function escapeAttr(value) {
+      return String(value).replace(/"/g, "&quot;");
+    }
+
+    function sourceValue(values) {
+      const unique = [...new Set(values.filter(Boolean))];
+      if (unique.length === 0) return "-";
+      if (unique.length === 1) return unique[0];
+      return `<span class="source-value" title="${escapeAttr(unique.join("、"))}">多个</span>`;
+    }
+
+    function groupCreateRows(rows) {
+      const groups = new Map();
+      rows.filter(eligibleForCreate).forEach(row => {
+        const key = `${row.sku[0]}__${row.store[0]}`;
+        if (!groups.has(key)) {
+          groups.set(key, {
+            sku: row.sku[0],
+            name: row.sku[1],
+            store: row.store[0],
+            mskus: [],
+            fnskus: [],
+            qty: 0,
+            dates: [],
+            sourceRows: []
+          });
+        }
+        const group = groups.get(key);
+        group.mskus.push(row.identity[0]);
+        group.fnskus.push(row.identity[1]);
+        group.qty += Number(row.qty) || 0;
+        const date = latestPurchaseDate(row);
+        if (date !== "-") group.dates.push(date);
+        group.sourceRows.push(row);
+      });
+      return [...groups.values()].map(group => ({
+        ...group,
+        latestDate: group.dates.length ? [...group.dates].sort().pop() : "-"
+      }));
+    }
+
     function purchaseCell(row) {
       if (!row.purchase || row.purchase === "-") return "-";
       if (!row.planNo) return row.purchase;
@@ -2391,7 +2445,7 @@
 
     function renderRows() {
       const rows = getVisibleRows();
-      document.getElementById("identityTitle").textContent = "MSKU/FNSKU";
+      document.getElementById("identityTitle").innerHTML = 'MSKU/FNSKU<span class="info help-tip" data-tip="销售维度标识">i</span>';
       document.getElementById("asinSummaryToggle").classList.toggle("hidden", currentView !== "asin");
       document.getElementById("tableBody").innerHTML = rows.map((row, index) => {
         const canCreate = row.replenish !== "paused" && row.suggest === "是";
@@ -2433,7 +2487,8 @@
           <td><button class="number-dd">${row.stock[3]}⌄</button></td>
           <td><button class="number-dd">${row.stock[4]}⌄</button></td>
           <td>${row.stock[5]}</td>
-          <td>${sellableDaysCell(row)}</td>
+          <td>${row.stock[6]}</td>
+          <td>${row.stock[1]}</td>
           <td>${row.stock[7]}</td>
           <td>${stockoutDate}</td>
           <td>${row.stock[9]}</td>
@@ -2564,18 +2619,21 @@
     }
 
     function openCreateModal(rows) {
-      pendingCreateRows = rows.filter(eligibleForCreate);
+      pendingCreateRows = groupCreateRows(rows);
       if (pendingCreateRows.length === 0) {
         showToast("当前没有可生成采购计划的数据");
         return;
       }
 
-      document.getElementById("createBody").innerHTML = pendingCreateRows.map((row, index) => `
+      document.getElementById("createBody").innerHTML = pendingCreateRows.map((group, index) => `
         <tr>
-          <td>${row.sku[0]}</td>
-          <td>${row.qty}</td>
-          <td><input class="qty-input" type="number" min="0" step="1" value="${row.qty}" data-create-qty="${index}"></td>
-          <td>${latestPurchaseDate(row)}</td>
+          <td><div class="two-line"><span>${group.sku}</span><span>${group.name}</span></div></td>
+          <td>${group.store}</td>
+          <td>${sourceValue(group.mskus)}</td>
+          <td>${sourceValue(group.fnskus)}</td>
+          <td>${group.qty}</td>
+          <td><input class="qty-input" type="number" min="0" step="1" value="${group.qty}" data-create-qty="${index}"></td>
+          <td>${group.latestDate}</td>
         </tr>
       `).join("");
       document.getElementById("createModal").classList.add("show");
@@ -2619,11 +2677,13 @@
     });
 
     document.getElementById("confirmCreate").addEventListener("click", () => {
-      pendingCreateRows.forEach((row, index) => {
+      pendingCreateRows.forEach((group, index) => {
         const input = document.querySelector(`[data-create-qty="${index}"]`);
-        const qty = input && input.value ? input.value : row.qty;
-        row.purchase = `2026-06-21｜已生成｜${qty}`;
-        row.planNo = "PP260621009";
+        const qty = input && input.value ? input.value : group.qty;
+        group.sourceRows.forEach(row => {
+          row.purchase = `2026-06-21｜已生成｜${qty}`;
+          row.planNo = "PP260621009";
+        });
       });
       const total = pendingCreateRows.length;
       closeCreateModal();
