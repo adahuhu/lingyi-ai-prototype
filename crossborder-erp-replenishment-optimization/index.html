@@ -1402,7 +1402,7 @@
     .transit-table td:last-child { border-right: 0; }
 
     .create-modal {
-      width: min(1080px, calc(100vw - 80px));
+      width: min(860px, calc(100vw - 80px));
       background: #fff;
       border-radius: 5px;
       box-shadow: 0 16px 48px rgba(17, 24, 45, .22);
@@ -1450,15 +1450,6 @@
     .qty-input:focus {
       border-color: var(--blue);
       box-shadow: 0 0 0 2px rgba(23, 107, 255, .08);
-    }
-
-    .source-value {
-      display: inline-block;
-      max-width: 120px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      vertical-align: bottom;
-      color: var(--text);
     }
 
     .modal-actions {
@@ -2113,8 +2104,6 @@
           <tr>
             <th style="width:180px">SKU/品名</th>
             <th style="width:170px">店铺</th>
-            <th style="width:120px">MSKU</th>
-            <th style="width:120px">FNSKU</th>
             <th style="width:120px">建议采购量</th>
             <th style="width:130px">本次采购量</th>
             <th style="width:180px">最近采购计划创建时间</th>
@@ -2396,17 +2385,6 @@
       return row.purchase.split("｜")[0] || row.purchase;
     }
 
-    function escapeAttr(value) {
-      return String(value).replace(/"/g, "&quot;");
-    }
-
-    function sourceValue(values) {
-      const unique = [...new Set(values.filter(Boolean))];
-      if (unique.length === 0) return "-";
-      if (unique.length === 1) return unique[0];
-      return `<span class="source-value" title="${escapeAttr(unique.join("、"))}">多个</span>`;
-    }
-
     function groupCreateRows(rows) {
       const groups = new Map();
       rows.filter(eligibleForCreate).forEach(row => {
@@ -2416,16 +2394,12 @@
             sku: row.sku[0],
             name: row.sku[1],
             store: row.store[0],
-            mskus: [],
-            fnskus: [],
             qty: 0,
             dates: [],
             sourceRows: []
           });
         }
         const group = groups.get(key);
-        group.mskus.push(row.identity[0]);
-        group.fnskus.push(row.identity[1]);
         group.qty += Number(row.qty) || 0;
         const date = latestPurchaseDate(row);
         if (date !== "-") group.dates.push(date);
@@ -2629,8 +2603,6 @@
         <tr>
           <td><div class="two-line"><span>${group.sku}</span><span>${group.name}</span></div></td>
           <td>${group.store}</td>
-          <td>${sourceValue(group.mskus)}</td>
-          <td>${sourceValue(group.fnskus)}</td>
           <td>${group.qty}</td>
           <td><input class="qty-input" type="number" min="0" step="1" value="${group.qty}" data-create-qty="${index}"></td>
           <td>${group.latestDate}</td>
