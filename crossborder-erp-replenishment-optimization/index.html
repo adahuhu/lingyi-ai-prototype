@@ -1180,6 +1180,76 @@
 
     .status-dash { color: var(--text); }
 
+    .status-cell {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      color: var(--text);
+      cursor: default;
+    }
+
+    .status-mixed {
+      color: var(--blue);
+      font-weight: 650;
+    }
+
+    .status-hover-layer {
+      position: fixed;
+      z-index: 30;
+      display: none;
+      width: 360px;
+      padding: 12px;
+      border: 1px solid #d8dee9;
+      border-radius: 4px;
+      background: #fff;
+      box-shadow: 0 10px 26px rgba(23, 33, 58, .18);
+      white-space: normal;
+    }
+
+    .status-hover-layer.show { display: block; }
+
+    .status-summary {
+      display: flex;
+      gap: 22px;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .status-detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    .status-detail-table th,
+    .status-detail-table td {
+      height: 30px;
+      padding: 0 8px;
+      border-bottom: 1px solid #edf0f5;
+      background: #fff;
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .status-detail-table th {
+      color: #6f7d91;
+      font-weight: 750;
+    }
+
+    .status-more {
+      margin-top: 8px;
+      color: #8b95a5;
+      font-size: 12px;
+      font-weight: 650;
+    }
+
     .op-cell {
       position: sticky;
       right: 0;
@@ -2139,12 +2209,13 @@
   </div>
 
   <div class="toast" id="toast">已生成采购计划</div>
+  <div class="status-hover-layer" id="statusHoverLayer" aria-hidden="true"></div>
 
   <script>
     const mskuRows = [
       {
         thumb: "t1", identity: ["MSKU-SP-001", "FNSKU-SP-001"], risk: "P1", riskClass: "p1", negative: true,
-        replenish: "normal", asin: "B09SP001", sku: ["LY-SPORT-001", "运动防水手表"], store: ["Amazon美国站-旗舰店", "美国"], status: "-",
+        replenish: "normal", asin: "B09SP001", sku: ["LY-SPORT-001", "运动防水手表"], store: ["Amazon美国站-旗舰店", "美国"], status: "在售",
         listingTags: ["爆款", "新品"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-02-15",
         owner: "张三", income: "$ 53500", expense: "$ 14,100", cost: "$ 11,800", gross: "$ 27600", grossRate: "-", net: "-$ 680",
         avg: [6, 7, 7, 6], segmentTotal: [18, 46, 92, 180], stock: [170, 15, 100, 225, 268, 435, 7, "-", "2026-06-26", 13],
@@ -2152,7 +2223,7 @@
       },
       {
         thumb: "t2", identity: ["MSKU-SP-002", "FNSKU-SP-002"], risk: "P2", riskClass: "p2", negative: false,
-        replenish: "paused", asin: "B09SP002", sku: ["LY-SPORT-002", "硅胶瑜伽垫"], store: ["Amazon美国站-运动店", "美国"], status: "-",
+        replenish: "paused", asin: "B09SP002", sku: ["LY-SPORT-002", "硅胶瑜伽垫"], store: ["Amazon美国站-运动店", "美国"], status: "停售",
         listingTags: ["常规"], productTag: "新品", line: "运动户外", category: "瑜伽用品", brand: "凌羿运动", develop: "2026-03-15",
         owner: "李四", income: "$ 62000", expense: "$ 16,200", cost: "$ 13,600", gross: "$ 32200", grossRate: "-", net: "$ 2580",
         avg: [5, 6, 6, 5], segmentTotal: [15, 38, 84, 155], stock: [190, 19, 60, 250, 296, 480, 8, "-", "2026-07-02", 14],
@@ -2160,7 +2231,7 @@
       },
       {
         thumb: "t3", identity: ["MSKU-WEAR-001", "FNSKU-WEAR-001"], risk: "P3", riskClass: "p3", negative: false,
-        replenish: "normal", asin: "B09WEAR01", sku: ["LY-WEAR-001", "智能手环Pro"], store: ["Amazon英国站-数码店", "英国"], status: "-",
+        replenish: "normal", asin: "B09WEAR01", sku: ["LY-WEAR-001", "智能手环Pro"], store: ["Amazon英国站-数码店", "英国"], status: "在售",
         listingTags: ["新品"], productTag: "配件", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-04-15",
         owner: "王五", income: "£ 70500", expense: "£ 18,300", cost: "£ 15,400", gross: "£ 36800", grossRate: "-", net: "£ 3120",
         avg: [4, 5, 5, 4], segmentTotal: [12, 31, 70, 128], stock: [210, 26, 40, 275, 324, 525, 9, "-", "2026-07-18", 15],
@@ -2168,7 +2239,7 @@
       },
       {
         thumb: "t4", identity: ["MSKU-WEAR-002", "FNSKU-WEAR-002"], risk: "安全", riskClass: "safe", negative: false,
-        replenish: "normal", asin: "B09WEAR02", sku: ["LY-WEAR-002", "智能手环Lite"], store: ["Amazon英国站-数码店", "英国"], status: "-",
+        replenish: "normal", asin: "B09WEAR02", sku: ["LY-WEAR-002", "智能手环Lite"], store: ["Amazon英国站-数码店", "英国"], status: "停售",
         listingTags: [], productTag: "新品", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-05-15",
         owner: "王五", income: "£ 79000", expense: "£ 20,400", cost: "£ 17,200", gross: "£ 41400", grossRate: "-", net: "£ 0",
         avg: [4, 4, 5, 4], segmentTotal: [11, 29, 63, 118], stock: [230, 33, 0, 300, 352, 570, 10, "-", "-", 16],
@@ -2176,7 +2247,7 @@
       },
       {
         thumb: "t5", identity: ["MSKU-ACC-001", "FNSKU-ACC-001"], risk: "P2", riskClass: "p2", negative: true,
-        replenish: "normal", asin: "B09ACC001", sku: ["LY-ACC-001", "无线充电宝"], store: ["Amazon德国站-配件店", "德国"], status: "-",
+        replenish: "normal", asin: "B09ACC001", sku: ["LY-ACC-001", "无线充电宝"], store: ["Amazon德国站-配件店", "德国"], status: "在售",
         listingTags: ["活动款"], productTag: "新品", line: "数码配件", category: "移动电源", brand: "凌羿数码", develop: "2026-06-15",
         owner: "赵六", income: "€ 87500", expense: "€ 22,500", cost: "€ 19,000", gross: "€ 46000", grossRate: "-", net: "-€ 230",
         avg: [6, 6, 7, 6], segmentTotal: [17, 42, 86, 168], stock: [250, 28, 80, 325, 380, 615, 11, "-", "2026-07-05", 17],
@@ -2197,8 +2268,13 @@
 
     const asinRows = [
       {
-        thumb: "t1", identity: ["聚合MSKU 2个", "聚合FNSKU 2个"], risk: "P1", riskClass: "p1", negative: true,
-        replenish: "paused", asin: "B09SP001", sku: ["LY-SPORT", "运动防水手表系列"], store: ["Amazon美国站-旗舰店", "美国"], status: "-",
+        thumb: "t1", identity: ["聚合MSKU 3个", "聚合FNSKU 3个"], risk: "P1", riskClass: "p1", negative: true,
+        replenish: "paused", asin: "B09SP001", sku: ["LY-SPORT", "运动防水手表系列"], store: ["Amazon美国站-旗舰店", "美国"], status: "在售 2 / 停售 1",
+        statusDetails: [
+          { msku: "MSKU-SP-001", fnsku: "FNSKU-SP-001", status: "在售" },
+          { msku: "MSKU-SP-002", fnsku: "FNSKU-SP-002", status: "在售" },
+          { msku: "MSKU-SP-003", fnsku: "FNSKU-SP-003", status: "停售" }
+        ],
         listingTags: ["爆款", "新品"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-02-15",
         owner: "张三", income: "$ 115500", expense: "$ 30,300", cost: "$ 25,400", gross: "$ 59800", grossRate: "-", net: "-$ 680",
         avg: [11, 12, 12, 11], segmentTotal: [33, 84, 176, 335], stock: [360, 33, 160, 475, 564, 915, 8, "-", "2026-06-26", 13],
@@ -2206,7 +2282,11 @@
       },
       {
         thumb: "t3", identity: ["聚合MSKU 2个", "聚合FNSKU 2个"], risk: "P3", riskClass: "p3", negative: false,
-        replenish: "normal", asin: "B09WEAR01", sku: ["LY-WEAR", "智能手环系列"], store: ["Amazon英国站-数码店", "英国"], status: "-",
+        replenish: "normal", asin: "B09WEAR01", sku: ["LY-WEAR", "智能手环系列"], store: ["Amazon英国站-数码店", "英国"], status: "在售 1 / 停售 1",
+        statusDetails: [
+          { msku: "MSKU-WEAR-001", fnsku: "FNSKU-WEAR-001", status: "在售" },
+          { msku: "MSKU-WEAR-002", fnsku: "FNSKU-WEAR-002", status: "停售" }
+        ],
         listingTags: ["新品"], productTag: "配件", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-04-15",
         owner: "王五", income: "£ 149500", expense: "£ 38,700", cost: "£ 32,600", gross: "£ 78200", grossRate: "-", net: "£ 7320",
         avg: [8, 9, 10, 8], segmentTotal: [23, 60, 133, 246], stock: [440, 55, 40, 575, 676, 1095, 10, "-", "2026-07-18", 15],
@@ -2214,7 +2294,7 @@
       },
       {
         thumb: "t5", identity: ["聚合MSKU 1个", "聚合FNSKU 1个"], risk: "P2", riskClass: "p2", negative: true,
-        replenish: "normal", asin: "B09ACC001", sku: ["LY-ACC-001", "无线充电宝"], store: ["Amazon德国站-配件店", "德国"], status: "-",
+        replenish: "normal", asin: "B09ACC001", sku: ["LY-ACC-001", "无线充电宝"], store: ["Amazon德国站-配件店", "德国"], status: "在售",
         listingTags: ["活动款"], productTag: "新品", line: "数码配件", category: "移动电源", brand: "凌羿数码", develop: "2026-06-15",
         owner: "赵六", income: "€ 87500", expense: "€ 22,500", cost: "€ 19,000", gross: "€ 46000", grossRate: "-", net: "-€ 230",
         avg: [6, 6, 7, 6], segmentTotal: [17, 42, 86, 168], stock: [250, 28, 80, 325, 380, 615, 11, "-", "2026-07-05", 17],
@@ -2417,6 +2497,59 @@
       return `<div class="purchase-info"><span>${row.purchase}</span><span class="plan-no">${row.planNo}</span></div>`;
     }
 
+    function statusPopoverContent(row) {
+      const details = row.statusDetails || [];
+      const counts = details.reduce((acc, item) => {
+        acc[item.status] = (acc[item.status] || 0) + 1;
+        return acc;
+      }, {});
+      const summary = Object.entries(counts)
+        .map(([status, count]) => `<span>${status} ${count}</span>`)
+        .join("");
+      const detailRows = details.slice(0, 10).map(item => `<tr>
+        <td>${item.msku}</td>
+        <td>${item.fnsku}</td>
+        <td>${item.status}</td>
+      </tr>`).join("");
+      const more = details.length > 10 ? `<div class="status-more">仅展示前 10 条，共 ${details.length} 条</div>` : "";
+      return `<div class="status-summary">${summary}</div>
+        <table class="status-detail-table">
+          <thead><tr><th>MSKU</th><th>FNSKU</th><th>状态</th></tr></thead>
+          <tbody>${detailRows}</tbody>
+        </table>
+        ${more}`;
+    }
+
+    function statusCell(row, index) {
+      const details = row.statusDetails || [];
+      if (!details.length) return row.status || "-";
+      return `<div class="status-cell" data-status-row="${index}">
+        <span class="status-mixed">${row.status}</span>
+      </div>`;
+    }
+
+    function bindStatusHover(rows) {
+      const layer = document.getElementById("statusHoverLayer");
+      document.querySelectorAll(".status-cell[data-status-row]").forEach(cell => {
+        cell.addEventListener("mouseenter", () => {
+          const row = rows[Number(cell.dataset.statusRow)];
+          if (!row || !row.statusDetails) return;
+          const rect = cell.getBoundingClientRect();
+          layer.innerHTML = statusPopoverContent(row);
+          layer.classList.add("show");
+          layer.setAttribute("aria-hidden", "false");
+          const top = Math.max(58, Math.min(rect.bottom + 6, window.innerHeight - layer.offsetHeight - 12));
+          const left = Math.max(12, Math.min(rect.left, window.innerWidth - layer.offsetWidth - 12));
+          layer.style.top = `${top}px`;
+          layer.style.left = `${left}px`;
+        });
+        cell.addEventListener("mouseleave", () => {
+          layer.classList.remove("show");
+          layer.setAttribute("aria-hidden", "true");
+        });
+      });
+    }
+
     function renderRows() {
       const rows = getVisibleRows();
       document.getElementById("identityTitle").innerHTML = 'MSKU/FNSKU<span class="info help-tip" data-tip="销售维度标识">i</span>';
@@ -2438,7 +2571,7 @@
           <td><span class="link">${row.asin}</span></td>
           <td><div class="two-line"><span class="link">${row.sku[0]}</span><span>${row.sku[1]}</span></div></td>
           <td><div class="two-line"><span>${row.store[0]}</span><span>${row.store[1]}</span></div></td>
-          <td class="status-dash">${row.status}</td>
+          <td class="status-dash">${statusCell(row, index)}</td>
           <td>${tags(row.listingTags)}</td>
           <td><span class="pill new">${row.productTag}</span></td>
           <td>${row.line}</td>
@@ -2485,6 +2618,8 @@
       document.querySelectorAll(".transit-open").forEach(btn => {
         btn.addEventListener("click", () => openTransit(btn.dataset.stockout));
       });
+
+      bindStatusHover(rows);
 
       document.querySelectorAll("[data-create='single']").forEach(btn => {
         btn.addEventListener("click", () => {
