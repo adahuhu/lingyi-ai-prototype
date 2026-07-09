@@ -2615,7 +2615,11 @@
 
     function statusCell(row, index) {
       if (!sourceDetails(row).length) return row.status || "-";
-      return sourceTrigger(row, index, `<span class="status-mixed">${row.status}</span>`, "inline");
+      const values = aggregateSourceValues(row, "status", row.status);
+      const hasMany = values.length > 1;
+      const displayStatus = values.includes("停售") ? "停售" : (values[0] || row.status);
+      const inner = sourceLabel(displayStatus, hasMany);
+      return hasMany ? sourceTrigger(row, index, inner, "inline") : inner;
     }
 
     function sourceDetailPopoverContent(row) {
