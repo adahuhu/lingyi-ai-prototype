@@ -1180,25 +1180,29 @@
 
     .status-dash { color: var(--text); }
 
-    .status-cell {
+    .source-trigger {
       position: relative;
       display: inline-flex;
-      align-items: center;
+      flex-direction: column;
+      align-items: flex-start;
       min-height: 30px;
-      color: var(--text);
+      color: var(--blue);
+      font-weight: 650;
       cursor: default;
     }
 
-    .status-mixed {
-      color: var(--blue);
-      font-weight: 650;
+    .source-trigger.inline {
+      display: inline-flex;
+      min-height: 0;
     }
 
     .status-hover-layer {
       position: fixed;
       z-index: 30;
       display: none;
-      width: 360px;
+      width: min(920px, calc(100vw - 80px));
+      max-height: 380px;
+      overflow: auto;
       padding: 12px;
       border: 1px solid #d8dee9;
       border-radius: 4px;
@@ -1211,6 +1215,7 @@
 
     .status-summary {
       display: flex;
+      align-items: center;
       gap: 22px;
       padding-bottom: 10px;
       margin-bottom: 10px;
@@ -1220,8 +1225,14 @@
       font-weight: 750;
     }
 
+    .status-summary .muted {
+      color: #6f7d91;
+      font-weight: 650;
+    }
+
     .status-detail-table {
-      width: 100%;
+      width: max-content;
+      min-width: 1120px;
       border-collapse: collapse;
       font-size: 12px;
       color: var(--text);
@@ -2269,11 +2280,11 @@
     const asinRows = [
       {
         thumb: "t1", identity: ["聚合MSKU 3个", "聚合FNSKU 3个"], risk: "P1", riskClass: "p1", negative: true,
-        replenish: "paused", asin: "B09SP001", sku: ["LY-SPORT", "运动防水手表系列"], store: ["Amazon美国站-旗舰店", "美国"], status: "在售 2 / 停售 1",
-        statusDetails: [
-          { msku: "MSKU-SP-001", fnsku: "FNSKU-SP-001", status: "在售" },
-          { msku: "MSKU-SP-002", fnsku: "FNSKU-SP-002", status: "在售" },
-          { msku: "MSKU-SP-003", fnsku: "FNSKU-SP-003", status: "停售" }
+        replenish: "paused", asin: "B09SP001", sku: ["多个SKU", "运动防水手表系列"], store: ["Amazon美国站-旗舰店", "美国"], status: "在售 2 / 停售 1",
+        sourceDetails: [
+          { msku: "MSKU-SP-001", fnsku: "FNSKU-SP-001", sku: "LY-SPORT-001", name: "运动防水手表", store: "Amazon美国站-旗舰店", country: "美国", status: "在售", listingTags: ["爆款", "新品"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-02-15", owner: "张三" },
+          { msku: "MSKU-SP-002", fnsku: "FNSKU-SP-002", sku: "LY-SPORT-001-B", name: "运动防水手表", store: "Amazon美国站-运动店", country: "美国", status: "在售", listingTags: ["常规"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-03-15", owner: "李四" },
+          { msku: "MSKU-SP-003", fnsku: "FNSKU-SP-003", sku: "LY-SPORT-001-C", name: "运动防水手表", store: "Amazon美国站-渠道店", country: "美国", status: "停售", listingTags: ["活动款"], productTag: "配件", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-04-02", owner: "张三" }
         ],
         listingTags: ["爆款", "新品"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-02-15",
         owner: "张三", income: "$ 115500", expense: "$ 30,300", cost: "$ 25,400", gross: "$ 59800", grossRate: "-", net: "-$ 680",
@@ -2282,10 +2293,10 @@
       },
       {
         thumb: "t3", identity: ["聚合MSKU 2个", "聚合FNSKU 2个"], risk: "P3", riskClass: "p3", negative: false,
-        replenish: "normal", asin: "B09WEAR01", sku: ["LY-WEAR", "智能手环系列"], store: ["Amazon英国站-数码店", "英国"], status: "在售 1 / 停售 1",
-        statusDetails: [
-          { msku: "MSKU-WEAR-001", fnsku: "FNSKU-WEAR-001", status: "在售" },
-          { msku: "MSKU-WEAR-002", fnsku: "FNSKU-WEAR-002", status: "停售" }
+        replenish: "normal", asin: "B09WEAR01", sku: ["多个SKU", "智能手环系列"], store: ["Amazon英国站-数码店", "英国"], status: "在售 1 / 停售 1",
+        sourceDetails: [
+          { msku: "MSKU-WEAR-001", fnsku: "FNSKU-WEAR-001", sku: "LY-WEAR-001", name: "智能手环Pro", store: "Amazon英国站-数码店", country: "英国", status: "在售", listingTags: ["新品"], productTag: "配件", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-04-15", owner: "王五" },
+          { msku: "MSKU-WEAR-002", fnsku: "FNSKU-WEAR-002", sku: "LY-WEAR-002", name: "智能手环Lite", store: "Amazon英国站-数码店", country: "英国", status: "停售", listingTags: [], productTag: "新品", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-05-15", owner: "赵六" }
         ],
         listingTags: ["新品"], productTag: "配件", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-04-15",
         owner: "王五", income: "£ 149500", expense: "£ 38,700", cost: "£ 32,600", gross: "£ 78200", grossRate: "-", net: "£ 7320",
@@ -2497,45 +2508,141 @@
       return `<div class="purchase-info"><span>${row.purchase}</span><span class="plan-no">${row.planNo}</span></div>`;
     }
 
-    function statusPopoverContent(row) {
-      const details = row.statusDetails || [];
-      const counts = details.reduce((acc, item) => {
-        acc[item.status] = (acc[item.status] || 0) + 1;
-        return acc;
-      }, {});
-      const summary = Object.entries(counts)
-        .map(([status, count]) => `<span>${status} ${count}</span>`)
-        .join("");
+    let sourceHoverTimer = null;
+    let sourceLayerBound = false;
+
+    function detailText(value) {
+      if (Array.isArray(value)) return value.length ? value.join("、") : "-";
+      return value || "-";
+    }
+
+    function sourceDetails(row) {
+      return Array.isArray(row.sourceDetails) ? row.sourceDetails : [];
+    }
+
+    function sourceValues(row, key) {
+      return [...new Set(sourceDetails(row).map(item => detailText(item[key])))];
+    }
+
+    function hasMultipleSourceValues(row, key) {
+      return sourceDetails(row).length > 1 && sourceValues(row, key).length > 1;
+    }
+
+    function sourceTrigger(row, index, inner, extraClass = "") {
+      if (!sourceDetails(row).length) return inner;
+      return `<div class="source-trigger ${extraClass}" data-source-row="${index}">${inner}</div>`;
+    }
+
+    function identityCell(row, index) {
+      const inner = `<div class="two-line"><span>${row.identity[0]}</span><span>${row.identity[1]}</span></div>`;
+      return sourceTrigger(row, index, inner);
+    }
+
+    function skuCell(row, index) {
+      const inner = `<div class="two-line"><span class="link">${row.sku[0]}</span><span>${row.sku[1]}</span></div>`;
+      return hasMultipleSourceValues(row, "sku") ? sourceTrigger(row, index, inner) : inner;
+    }
+
+    function storeCell(row, index) {
+      const stores = sourceValues(row, "store");
+      const countries = sourceValues(row, "country");
+      const storeText = stores.length > 1 ? "多个店铺" : row.store[0];
+      const countryText = countries.length > 1 ? "多个国家" : row.store[1];
+      const inner = `<div class="two-line"><span>${storeText}</span><span>${countryText}</span></div>`;
+      return stores.length > 1 || countries.length > 1 ? sourceTrigger(row, index, inner) : inner;
+    }
+
+    function sourceFieldCell(row, index, key, fallback, multiLabel = "多值") {
+      if (!hasMultipleSourceValues(row, key)) return fallback || "-";
+      return sourceTrigger(row, index, `<span>${multiLabel}</span>`, "inline");
+    }
+
+    function listingTagsCell(row, index) {
+      const inner = tags(row.listingTags);
+      return hasMultipleSourceValues(row, "listingTags") ? sourceTrigger(row, index, inner, "inline") : inner;
+    }
+
+    function productTagCell(row, index) {
+      const inner = hasMultipleSourceValues(row, "productTag")
+        ? '<span class="pill gray">多值</span>'
+        : `<span class="pill new">${row.productTag}</span>`;
+      return hasMultipleSourceValues(row, "productTag") ? sourceTrigger(row, index, inner, "inline") : inner;
+    }
+
+    function statusCell(row, index) {
+      if (!sourceDetails(row).length) return row.status || "-";
+      return sourceTrigger(row, index, `<span class="status-mixed">${row.status}</span>`, "inline");
+    }
+
+    function sourceDetailPopoverContent(row) {
+      const details = sourceDetails(row);
       const detailRows = details.slice(0, 10).map(item => `<tr>
-        <td>${item.msku}</td>
-        <td>${item.fnsku}</td>
-        <td>${item.status}</td>
+        <td><div class="two-line"><span>${detailText(item.msku)}</span><span>${detailText(item.fnsku)}</span></div></td>
+        <td><div class="two-line"><span>${detailText(item.sku)}</span><span>${detailText(item.name)}</span></div></td>
+        <td><div class="two-line"><span>${detailText(item.store)}</span><span>${detailText(item.country)}</span></div></td>
+        <td>${detailText(item.status)}</td>
+        <td>${detailText(item.listingTags)}</td>
+        <td>${detailText(item.productTag)}</td>
+        <td>${detailText(item.line)}</td>
+        <td>${detailText(item.category)}</td>
+        <td>${detailText(item.brand)}</td>
+        <td>${detailText(item.develop)}</td>
+        <td>${detailText(item.owner)}</td>
       </tr>`).join("");
       const more = details.length > 10 ? `<div class="status-more">仅展示前 10 条，共 ${details.length} 条</div>` : "";
-      return `<div class="status-summary">${summary}</div>
+      return `<div class="status-summary">
+          <span>来源明细</span>
+          <span class="muted">共 ${details.length} 条</span>
+        </div>
         <table class="status-detail-table">
-          <thead><tr><th>MSKU</th><th>FNSKU</th><th>状态</th></tr></thead>
+          <thead>
+            <tr>
+              <th>MSKU/FNSKU</th>
+              <th>SKU/品名</th>
+              <th>店铺/国家</th>
+              <th>状态</th>
+              <th>Listing标签</th>
+              <th>产品标签</th>
+              <th>品线</th>
+              <th>分类</th>
+              <th>品牌</th>
+              <th>开发时间</th>
+              <th>负责人</th>
+            </tr>
+          </thead>
           <tbody>${detailRows}</tbody>
         </table>
         ${more}`;
     }
 
-    function statusCell(row, index) {
-      const details = row.statusDetails || [];
-      if (!details.length) return row.status || "-";
-      return `<div class="status-cell" data-status-row="${index}">
-        <span class="status-mixed">${row.status}</span>
-      </div>`;
+    function hideSourceLayer() {
+      const layer = document.getElementById("statusHoverLayer");
+      layer.classList.remove("show");
+      layer.setAttribute("aria-hidden", "true");
     }
 
-    function bindStatusHover(rows) {
+    function scheduleSourceLayerHide() {
+      window.clearTimeout(sourceHoverTimer);
+      sourceHoverTimer = window.setTimeout(hideSourceLayer, 120);
+    }
+
+    function bindSourceLayerEvents(layer) {
+      if (sourceLayerBound) return;
+      layer.addEventListener("mouseenter", () => window.clearTimeout(sourceHoverTimer));
+      layer.addEventListener("mouseleave", scheduleSourceLayerHide);
+      sourceLayerBound = true;
+    }
+
+    function bindSourceHover(rows) {
       const layer = document.getElementById("statusHoverLayer");
-      document.querySelectorAll(".status-cell[data-status-row]").forEach(cell => {
+      bindSourceLayerEvents(layer);
+      document.querySelectorAll(".source-trigger[data-source-row]").forEach(cell => {
         cell.addEventListener("mouseenter", () => {
-          const row = rows[Number(cell.dataset.statusRow)];
-          if (!row || !row.statusDetails) return;
+          const row = rows[Number(cell.dataset.sourceRow)];
+          if (!row || !sourceDetails(row).length) return;
+          window.clearTimeout(sourceHoverTimer);
           const rect = cell.getBoundingClientRect();
-          layer.innerHTML = statusPopoverContent(row);
+          layer.innerHTML = sourceDetailPopoverContent(row);
           layer.classList.add("show");
           layer.setAttribute("aria-hidden", "false");
           const top = Math.max(58, Math.min(rect.bottom + 6, window.innerHeight - layer.offsetHeight - 12));
@@ -2543,10 +2650,7 @@
           layer.style.top = `${top}px`;
           layer.style.left = `${left}px`;
         });
-        cell.addEventListener("mouseleave", () => {
-          layer.classList.remove("show");
-          layer.setAttribute("aria-hidden", "true");
-        });
+        cell.addEventListener("mouseleave", scheduleSourceLayerHide);
       });
     }
 
@@ -2566,19 +2670,19 @@
         return `<tr>
           <td class="center"><span class="${checkbox}"></span></td>
           <td><div class="thumb ${row.thumb}"></div></td>
-          <td><div class="two-line"><span>${row.identity[0]}</span><span>${row.identity[1]}</span></div></td>
+          <td>${identityCell(row, index)}</td>
           <td><span class="risk ${row.riskClass}">${row.risk}</span>${row.negative ? '<span class="loss-mark">负利润</span>' : ''}</td>
           <td><span class="link">${row.asin}</span></td>
-          <td><div class="two-line"><span class="link">${row.sku[0]}</span><span>${row.sku[1]}</span></div></td>
-          <td><div class="two-line"><span>${row.store[0]}</span><span>${row.store[1]}</span></div></td>
+          <td>${skuCell(row, index)}</td>
+          <td>${storeCell(row, index)}</td>
           <td class="status-dash">${statusCell(row, index)}</td>
-          <td>${tags(row.listingTags)}</td>
-          <td><span class="pill new">${row.productTag}</span></td>
-          <td>${row.line}</td>
-          <td>${row.category}</td>
-          <td>${row.brand}</td>
-          <td>${row.develop}</td>
-          <td>${row.owner}</td>
+          <td>${listingTagsCell(row, index)}</td>
+          <td>${productTagCell(row, index)}</td>
+          <td>${sourceFieldCell(row, index, "line", row.line)}</td>
+          <td>${sourceFieldCell(row, index, "category", row.category)}</td>
+          <td>${sourceFieldCell(row, index, "brand", row.brand)}</td>
+          <td>${sourceFieldCell(row, index, "develop", row.develop)}</td>
+          <td>${sourceFieldCell(row, index, "owner", row.owner, "多人")}</td>
           <td class="money">${row.income}</td>
           <td class="money">${row.expense}⌄</td>
           <td class="money">${row.cost}⌄</td>
@@ -2619,7 +2723,7 @@
         btn.addEventListener("click", () => openTransit(btn.dataset.stockout));
       });
 
-      bindStatusHover(rows);
+      bindSourceHover(rows);
 
       document.querySelectorAll("[data-create='single']").forEach(btn => {
         btn.addEventListener("click", () => {
