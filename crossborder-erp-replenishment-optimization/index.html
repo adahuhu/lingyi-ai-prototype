@@ -988,7 +988,7 @@
 
     .avg-grid {
       display: grid;
-      grid-template-columns: repeat(4, 34px);
+      grid-template-columns: repeat(6, 34px);
       grid-template-rows: 24px 18px;
       column-gap: 8px;
       align-items: center;
@@ -1105,7 +1105,7 @@
       align-items: center;
       gap: 20px;
       margin-bottom: 16px;
-      color: var(--red);
+      color: var(--text);
       font-size: 18px;
       font-weight: 800;
     }
@@ -1193,7 +1193,23 @@
 
     .source-trigger.inline {
       display: inline-flex;
+      flex-direction: row;
+      align-items: center;
       min-height: 0;
+    }
+
+    .source-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      white-space: nowrap;
+    }
+
+    .source-arrow {
+      color: #7b8797;
+      font-size: 12px;
+      font-weight: 750;
+      line-height: 1;
     }
 
     .status-hover-layer {
@@ -1801,7 +1817,7 @@
       height: 38px;
     }
     .avg-grid {
-      grid-template-columns: repeat(4, 30px);
+      grid-template-columns: repeat(6, 28px);
       grid-template-rows: 20px 16px;
       column-gap: 6px;
     }
@@ -2229,7 +2245,7 @@
         replenish: "normal", asin: "B09SP001", sku: ["LY-SPORT-001", "运动防水手表"], store: ["Amazon美国站-旗舰店", "美国"], status: "在售",
         listingTags: ["爆款", "新品"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-02-15",
         owner: "张三", income: "$ 53500", expense: "$ 14,100", cost: "$ 11,800", gross: "$ 27600", grossRate: "-", net: "-$ 680",
-        avg: [6, 7, 7, 6], segmentTotal: [18, 46, 92, 180], stock: [170, 15, 100, 225, 268, 435, 7, "-", "2026-06-26", 13],
+        avg: [6, 7, 7, 6, 6, 6], segmentTotal: [18, 46, 92, 180, 360, 540], stock: [170, 15, 100, 225, 268, 435, 7, "-", "2026-06-26", 13],
         daySales: [12, 20, 18, 14, 9, 16, 11], forecastAvg: "27.4", purchase: "2026-06-18｜采购中｜120", planNo: "PP260611002", suggest: "是", qty: "180", suggestDate: "2026-06-08", created: "2026-02-10 09:00:00", updated: "2026-06-01 16:30:00"
       },
       {
@@ -2237,7 +2253,7 @@
         replenish: "paused", asin: "B09SP002", sku: ["LY-SPORT-002", "硅胶瑜伽垫"], store: ["Amazon美国站-运动店", "美国"], status: "停售",
         listingTags: ["常规"], productTag: "新品", line: "运动户外", category: "瑜伽用品", brand: "凌羿运动", develop: "2026-03-15",
         owner: "李四", income: "$ 62000", expense: "$ 16,200", cost: "$ 13,600", gross: "$ 32200", grossRate: "-", net: "$ 2580",
-        avg: [5, 6, 6, 5], segmentTotal: [15, 38, 84, 155], stock: [190, 19, 60, 250, 296, 480, 8, "-", "2026-07-02", 14],
+        avg: [5, 6, 6, 5, 5, 5], segmentTotal: [15, 38, 84, 155, 300, 450], stock: [190, 19, 60, 250, 296, 480, 8, "-", "2026-07-02", 14],
         daySales: [10, 18, 16, 12, 8, 14, 9], forecastAvg: "23.6", purchase: "2026-06-16｜已下单｜80", planNo: "PP260610018", suggest: "-", qty: "-", suggestDate: "-", created: "2026-03-10 09:00:00", updated: "2026-06-01 16:30:00"
       },
       {
@@ -2245,7 +2261,7 @@
         replenish: "normal", asin: "B09WEAR01", sku: ["LY-WEAR-001", "智能手环Pro"], store: ["Amazon英国站-数码店", "英国"], status: "在售",
         listingTags: ["新品"], productTag: "配件", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-04-15",
         owner: "王五", income: "£ 70500", expense: "£ 18,300", cost: "£ 15,400", gross: "£ 36800", grossRate: "-", net: "£ 3120",
-        avg: [4, 5, 5, 4], segmentTotal: [12, 31, 70, 128], stock: [210, 26, 40, 275, 324, 525, 9, "-", "2026-07-18", 15],
+        avg: [4, 5, 5, 4, 4, 4], segmentTotal: [12, 31, 70, 128, 240, 360], stock: [210, 26, 40, 275, 324, 525, 9, "-", "2026-07-18", 15],
         daySales: [8, 15, 13, 10, 7, 11, 9], forecastAvg: "19.2", purchase: "-", planNo: "", suggest: "是", qty: "90", suggestDate: "2026-06-08", created: "2026-04-10 09:00:00", updated: "2026-06-01 16:30:00"
       },
       {
@@ -2253,7 +2269,7 @@
         replenish: "normal", asin: "B09WEAR02", sku: ["LY-WEAR-002", "智能手环Lite"], store: ["Amazon英国站-数码店", "英国"], status: "停售",
         listingTags: [], productTag: "新品", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-05-15",
         owner: "王五", income: "£ 79000", expense: "£ 20,400", cost: "£ 17,200", gross: "£ 41400", grossRate: "-", net: "£ 0",
-        avg: [4, 4, 5, 4], segmentTotal: [11, 29, 63, 118], stock: [230, 33, 0, 300, 352, 570, 10, "-", "-", 16],
+        avg: [4, 4, 5, 4, 4, 4], segmentTotal: [11, 29, 63, 118, 240, 360], stock: [230, 33, 0, 300, 352, 570, 10, "-", "-", 16],
         daySales: [7, 13, 11, 9, 6, 10, 8], forecastAvg: "16.8", purchase: "2026-06-10｜已入库｜60", planNo: "PP260606008", suggest: "-", qty: "-", suggestDate: "-", created: "2026-05-10 09:00:00", updated: "2026-06-01 16:30:00"
       },
       {
@@ -2261,7 +2277,7 @@
         replenish: "normal", asin: "B09ACC001", sku: ["LY-ACC-001", "无线充电宝"], store: ["Amazon德国站-配件店", "德国"], status: "在售",
         listingTags: ["活动款"], productTag: "新品", line: "数码配件", category: "移动电源", brand: "凌羿数码", develop: "2026-06-15",
         owner: "赵六", income: "€ 87500", expense: "€ 22,500", cost: "€ 19,000", gross: "€ 46000", grossRate: "-", net: "-€ 230",
-        avg: [6, 6, 7, 6], segmentTotal: [17, 42, 86, 168], stock: [250, 28, 80, 325, 380, 615, 11, "-", "2026-07-05", 17],
+        avg: [6, 6, 7, 6, 6, 6], segmentTotal: [17, 42, 86, 168, 360, 540], stock: [250, 28, 80, 325, 380, 615, 11, "-", "2026-07-05", 17],
         daySales: [11, 19, 16, 13, 9, 15, 12], forecastAvg: "25.1", purchase: "2026-06-20｜采购中｜140", planNo: "PP260620006", suggest: "是", qty: "150", suggestDate: "-", created: "2026-01-10 09:00:00", updated: "2026-06-01 16:30:00"
       }
     ];
@@ -2279,8 +2295,8 @@
 
     const asinRows = [
       {
-        thumb: "t1", identity: ["聚合MSKU 3个"], risk: "P1", riskClass: "p1", negative: true,
-        replenish: "paused", asin: "B09SP001", sku: ["多个SKU", "运动防水手表系列"], store: ["Amazon美国站-旗舰店", "美国"], status: "在售 2 / 停售 1",
+        thumb: "t1", identity: ["MSKU-SP-001"], risk: "P1", riskClass: "p1", negative: true,
+        replenish: "paused", asin: "B09SP001", sku: ["LY-SPORT-001", "运动防水手表"], store: ["Amazon美国站-旗舰店", "美国"], status: "在售 2 / 停售 1",
         sourceDetails: [
           { msku: "MSKU-SP-001", sku: "LY-SPORT-001", name: "运动防水手表", store: "Amazon美国站-旗舰店", country: "美国", status: "在售", listingTags: ["爆款", "新品"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-02-15", owner: "张三" },
           { msku: "MSKU-SP-002", sku: "LY-SPORT-001-B", name: "运动防水手表", store: "Amazon美国站-运动店", country: "美国", status: "在售", listingTags: ["常规"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-03-15", owner: "李四" },
@@ -2288,27 +2304,27 @@
         ],
         listingTags: ["爆款", "新品"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-02-15",
         owner: "张三", income: "$ 115500", expense: "$ 30,300", cost: "$ 25,400", gross: "$ 59800", grossRate: "-", net: "-$ 680",
-        avg: [11, 12, 12, 11], segmentTotal: [33, 84, 176, 335], stock: [360, 33, 160, 475, 564, 915, 8, "-", "2026-06-26", 13],
+        avg: [11, 12, 12, 11, 11, 11], segmentTotal: [33, 84, 176, 335, 660, 990], stock: [360, 33, 160, 475, 564, 915, 8, "-", "2026-06-26", 13],
         daySales: [22, 38, 34, 26, 17, 30, 20], forecastAvg: "51.0", purchase: "2026-06-18｜采购中｜200", planNo: "PP260611002", suggest: "-", qty: "-", suggestDate: "-", created: "2026-02-10 09:00:00", updated: "2026-06-01 16:30:00"
       },
       {
-        thumb: "t3", identity: ["聚合MSKU 2个"], risk: "P3", riskClass: "p3", negative: false,
-        replenish: "normal", asin: "B09WEAR01", sku: ["多个SKU", "智能手环系列"], store: ["Amazon英国站-数码店", "英国"], status: "在售 1 / 停售 1",
+        thumb: "t3", identity: ["MSKU-WEAR-001"], risk: "P3", riskClass: "p3", negative: false,
+        replenish: "normal", asin: "B09WEAR01", sku: ["LY-WEAR-001", "智能手环Pro"], store: ["Amazon英国站-数码店", "英国"], status: "在售 1 / 停售 1",
         sourceDetails: [
           { msku: "MSKU-WEAR-001", sku: "LY-WEAR-001", name: "智能手环Pro", store: "Amazon英国站-数码店", country: "英国", status: "在售", listingTags: ["新品"], productTag: "配件", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-04-15", owner: "王五" },
           { msku: "MSKU-WEAR-002", sku: "LY-WEAR-002", name: "智能手环Lite", store: "Amazon英国站-数码店", country: "英国", status: "停售", listingTags: [], productTag: "新品", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-05-15", owner: "赵六" }
         ],
         listingTags: ["新品"], productTag: "配件", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-04-15",
         owner: "王五", income: "£ 149500", expense: "£ 38,700", cost: "£ 32,600", gross: "£ 78200", grossRate: "-", net: "£ 7320",
-        avg: [8, 9, 10, 8], segmentTotal: [23, 60, 133, 246], stock: [440, 55, 40, 575, 676, 1095, 10, "-", "2026-07-18", 15],
+        avg: [8, 9, 10, 8, 8, 8], segmentTotal: [23, 60, 133, 246, 480, 720], stock: [440, 55, 40, 575, 676, 1095, 10, "-", "2026-07-18", 15],
         daySales: [15, 28, 24, 19, 13, 21, 17], forecastAvg: "36.0", purchase: "2026-06-10｜已入库｜60", planNo: "PP260606008", suggest: "是", qty: "90", suggestDate: "2026-06-08", created: "2026-04-10 09:00:00", updated: "2026-06-01 16:30:00"
       },
       {
-        thumb: "t5", identity: ["聚合MSKU 1个"], risk: "P2", riskClass: "p2", negative: true,
+        thumb: "t5", identity: ["MSKU-ACC-001"], risk: "P2", riskClass: "p2", negative: true,
         replenish: "normal", asin: "B09ACC001", sku: ["LY-ACC-001", "无线充电宝"], store: ["Amazon德国站-配件店", "德国"], status: "在售",
         listingTags: ["活动款"], productTag: "新品", line: "数码配件", category: "移动电源", brand: "凌羿数码", develop: "2026-06-15",
         owner: "赵六", income: "€ 87500", expense: "€ 22,500", cost: "€ 19,000", gross: "€ 46000", grossRate: "-", net: "-€ 230",
-        avg: [6, 6, 7, 6], segmentTotal: [17, 42, 86, 168], stock: [250, 28, 80, 325, 380, 615, 11, "-", "2026-07-05", 17],
+        avg: [6, 6, 7, 6, 6, 6], segmentTotal: [17, 42, 86, 168, 360, 540], stock: [250, 28, 80, 325, 380, 615, 11, "-", "2026-07-05", 17],
         daySales: [11, 19, 16, 13, 9, 15, 12], forecastAvg: "25.1", purchase: "2026-06-20｜采购中｜140", planNo: "PP260620006", suggest: "是", qty: "150", suggestDate: "-", created: "2026-01-10 09:00:00", updated: "2026-06-01 16:30:00"
       }
     ];
@@ -2464,7 +2480,7 @@
     }
 
     function segmentCell(values) {
-      return metricGrid(values, ["3天", "7天", "14天", "30天"], "avg-grid");
+      return metricGrid(values, ["3天", "7天", "14天", "30天", "60天", "90天"], "avg-grid");
     }
 
     function sellableDaysCell(row) {
@@ -2528,28 +2544,47 @@
       return sourceDetails(row).length > 1 && sourceValues(row, key).length > 1;
     }
 
+    function aggregateSourceValues(row, key, fallback) {
+      const details = sourceDetails(row);
+      const rawValues = details.length ? details.map(item => item[key]) : [fallback];
+      const values = [];
+      rawValues.forEach(value => {
+        if (Array.isArray(value)) values.push(...value);
+        else values.push(value);
+      });
+      return [...new Set(values.map(detailText).filter(value => value && value !== "-"))];
+    }
+
+    function sourceLabel(text, showArrow) {
+      return `<span class="source-label"><span>${text || "-"}</span>${showArrow ? '<span class="source-arrow">⌄</span>' : ""}</span>`;
+    }
+
     function sourceTrigger(row, index, inner, extraClass = "") {
       if (!sourceDetails(row).length) return inner;
       return `<div class="source-trigger ${extraClass}" data-source-row="${index}">${inner}</div>`;
     }
 
     function identityCell(row, index) {
-      const inner = `<div class="two-line"><span>${row.identity[0]}</span></div>`;
-      return sourceTrigger(row, index, inner);
+      const values = aggregateSourceValues(row, "msku", row.identity[0]);
+      const hasMany = values.length > 1;
+      const inner = `<div class="two-line">${sourceLabel(values[0] || row.identity[0], hasMany)}</div>`;
+      return hasMany ? sourceTrigger(row, index, inner) : inner;
     }
 
     function skuCell(row, index) {
-      const inner = `<div class="two-line"><span class="link">${row.sku[0]}</span><span>${row.sku[1]}</span></div>`;
-      return hasMultipleSourceValues(row, "sku") ? sourceTrigger(row, index, inner) : inner;
+      const values = aggregateSourceValues(row, "sku", row.sku[0]);
+      const names = aggregateSourceValues(row, "name", row.sku[1]);
+      const hasMany = values.length > 1;
+      const inner = `<div class="two-line"><span class="link">${sourceLabel(values[0] || row.sku[0], hasMany)}</span><span>${names[0] || row.sku[1]}</span></div>`;
+      return hasMany ? sourceTrigger(row, index, inner) : inner;
     }
 
     function storeCell(row, index) {
-      const stores = sourceValues(row, "store");
-      const countries = sourceValues(row, "country");
-      const storeText = stores.length > 1 ? "多个店铺" : row.store[0];
-      const countryText = countries.length > 1 ? "多个国家" : row.store[1];
-      const inner = `<div class="two-line"><span>${storeText}</span><span>${countryText}</span></div>`;
-      return stores.length > 1 || countries.length > 1 ? sourceTrigger(row, index, inner) : inner;
+      const stores = aggregateSourceValues(row, "store", row.store[0]);
+      const countries = aggregateSourceValues(row, "country", row.store[1]);
+      const hasMany = stores.length > 1 || countries.length > 1;
+      const inner = `<div class="two-line">${sourceLabel(stores[0] || row.store[0], hasMany)}<span>${countries[0] || row.store[1]}</span></div>`;
+      return hasMany ? sourceTrigger(row, index, inner) : inner;
     }
 
     function sourceFieldCell(row, index, key, fallback, multiLabel = "多值") {
@@ -2563,10 +2598,19 @@
     }
 
     function productTagCell(row, index) {
-      const inner = hasMultipleSourceValues(row, "productTag")
-        ? '<span class="pill gray">多值</span>'
-        : `<span class="pill new">${row.productTag}</span>`;
-      return hasMultipleSourceValues(row, "productTag") ? sourceTrigger(row, index, inner, "inline") : inner;
+      return tags(aggregateSourceValues(row, "productTag", row.productTag));
+    }
+
+    function developCell(row, index) {
+      const dates = aggregateSourceValues(row, "develop", row.develop).sort();
+      const hasMany = dates.length > 1;
+      const inner = sourceLabel(dates[0] || row.develop, hasMany);
+      return hasMany ? sourceTrigger(row, index, inner, "inline") : inner;
+    }
+
+    function ownerCell(row) {
+      const owners = aggregateSourceValues(row, "owner", row.owner);
+      return owners.length ? owners.join("、") : "-";
     }
 
     function statusCell(row, index) {
@@ -2681,8 +2725,8 @@
           <td>${sourceFieldCell(row, index, "line", row.line)}</td>
           <td>${sourceFieldCell(row, index, "category", row.category)}</td>
           <td>${sourceFieldCell(row, index, "brand", row.brand)}</td>
-          <td>${sourceFieldCell(row, index, "develop", row.develop)}</td>
-          <td>${sourceFieldCell(row, index, "owner", row.owner, "多人")}</td>
+          <td>${developCell(row, index)}</td>
+          <td>${ownerCell(row)}</td>
           <td class="money">${row.income}</td>
           <td class="money">${row.expense}⌄</td>
           <td class="money">${row.cost}⌄</td>
