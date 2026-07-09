@@ -2015,7 +2015,7 @@
                 <tr>
                   <th class="center"><span class="checkbox"></span></th>
                   <th>图片</th>
-                  <th id="identityTitle">MSKU/FNSKU<span class="info help-tip" data-tip="销售维度标识">i</span></th>
+                  <th id="identityTitle">MSKU<span class="info help-tip" data-tip="销售维度标识">i</span></th>
                   <th>风险等级<span class="info help-tip" data-tip="按采购日、库存、销量、利润判断">i</span><span class="sort"></span></th>
                   <th>ASIN<span class="info help-tip" data-tip="Amazon商品编码">i</span></th>
                   <th>SKU/品名<span class="info help-tip" data-tip="采购按SKU生成">i</span></th>
@@ -2225,7 +2225,7 @@
   <script>
     const mskuRows = [
       {
-        thumb: "t1", identity: ["MSKU-SP-001", "FNSKU-SP-001"], risk: "P1", riskClass: "p1", negative: true,
+        thumb: "t1", identity: ["MSKU-SP-001"], risk: "P1", riskClass: "p1", negative: true,
         replenish: "normal", asin: "B09SP001", sku: ["LY-SPORT-001", "运动防水手表"], store: ["Amazon美国站-旗舰店", "美国"], status: "在售",
         listingTags: ["爆款", "新品"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-02-15",
         owner: "张三", income: "$ 53500", expense: "$ 14,100", cost: "$ 11,800", gross: "$ 27600", grossRate: "-", net: "-$ 680",
@@ -2233,7 +2233,7 @@
         daySales: [12, 20, 18, 14, 9, 16, 11], forecastAvg: "27.4", purchase: "2026-06-18｜采购中｜120", planNo: "PP260611002", suggest: "是", qty: "180", suggestDate: "2026-06-08", created: "2026-02-10 09:00:00", updated: "2026-06-01 16:30:00"
       },
       {
-        thumb: "t2", identity: ["MSKU-SP-002", "FNSKU-SP-002"], risk: "P2", riskClass: "p2", negative: false,
+        thumb: "t2", identity: ["MSKU-SP-002"], risk: "P2", riskClass: "p2", negative: false,
         replenish: "paused", asin: "B09SP002", sku: ["LY-SPORT-002", "硅胶瑜伽垫"], store: ["Amazon美国站-运动店", "美国"], status: "停售",
         listingTags: ["常规"], productTag: "新品", line: "运动户外", category: "瑜伽用品", brand: "凌羿运动", develop: "2026-03-15",
         owner: "李四", income: "$ 62000", expense: "$ 16,200", cost: "$ 13,600", gross: "$ 32200", grossRate: "-", net: "$ 2580",
@@ -2241,7 +2241,7 @@
         daySales: [10, 18, 16, 12, 8, 14, 9], forecastAvg: "23.6", purchase: "2026-06-16｜已下单｜80", planNo: "PP260610018", suggest: "-", qty: "-", suggestDate: "-", created: "2026-03-10 09:00:00", updated: "2026-06-01 16:30:00"
       },
       {
-        thumb: "t3", identity: ["MSKU-WEAR-001", "FNSKU-WEAR-001"], risk: "P3", riskClass: "p3", negative: false,
+        thumb: "t3", identity: ["MSKU-WEAR-001"], risk: "P3", riskClass: "p3", negative: false,
         replenish: "normal", asin: "B09WEAR01", sku: ["LY-WEAR-001", "智能手环Pro"], store: ["Amazon英国站-数码店", "英国"], status: "在售",
         listingTags: ["新品"], productTag: "配件", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-04-15",
         owner: "王五", income: "£ 70500", expense: "£ 18,300", cost: "£ 15,400", gross: "£ 36800", grossRate: "-", net: "£ 3120",
@@ -2249,7 +2249,7 @@
         daySales: [8, 15, 13, 10, 7, 11, 9], forecastAvg: "19.2", purchase: "-", planNo: "", suggest: "是", qty: "90", suggestDate: "2026-06-08", created: "2026-04-10 09:00:00", updated: "2026-06-01 16:30:00"
       },
       {
-        thumb: "t4", identity: ["MSKU-WEAR-002", "FNSKU-WEAR-002"], risk: "安全", riskClass: "safe", negative: false,
+        thumb: "t4", identity: ["MSKU-WEAR-002"], risk: "安全", riskClass: "safe", negative: false,
         replenish: "normal", asin: "B09WEAR02", sku: ["LY-WEAR-002", "智能手环Lite"], store: ["Amazon英国站-数码店", "英国"], status: "停售",
         listingTags: [], productTag: "新品", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-05-15",
         owner: "王五", income: "£ 79000", expense: "£ 20,400", cost: "£ 17,200", gross: "£ 41400", grossRate: "-", net: "£ 0",
@@ -2257,7 +2257,7 @@
         daySales: [7, 13, 11, 9, 6, 10, 8], forecastAvg: "16.8", purchase: "2026-06-10｜已入库｜60", planNo: "PP260606008", suggest: "-", qty: "-", suggestDate: "-", created: "2026-05-10 09:00:00", updated: "2026-06-01 16:30:00"
       },
       {
-        thumb: "t5", identity: ["MSKU-ACC-001", "FNSKU-ACC-001"], risk: "P2", riskClass: "p2", negative: true,
+        thumb: "t5", identity: ["MSKU-ACC-001"], risk: "P2", riskClass: "p2", negative: true,
         replenish: "normal", asin: "B09ACC001", sku: ["LY-ACC-001", "无线充电宝"], store: ["Amazon德国站-配件店", "德国"], status: "在售",
         listingTags: ["活动款"], productTag: "新品", line: "数码配件", category: "移动电源", brand: "凌羿数码", develop: "2026-06-15",
         owner: "赵六", income: "€ 87500", expense: "€ 22,500", cost: "€ 19,000", gross: "€ 46000", grossRate: "-", net: "-€ 230",
@@ -2279,12 +2279,12 @@
 
     const asinRows = [
       {
-        thumb: "t1", identity: ["聚合MSKU 3个", "聚合FNSKU 3个"], risk: "P1", riskClass: "p1", negative: true,
+        thumb: "t1", identity: ["聚合MSKU 3个"], risk: "P1", riskClass: "p1", negative: true,
         replenish: "paused", asin: "B09SP001", sku: ["多个SKU", "运动防水手表系列"], store: ["Amazon美国站-旗舰店", "美国"], status: "在售 2 / 停售 1",
         sourceDetails: [
-          { msku: "MSKU-SP-001", fnsku: "FNSKU-SP-001", sku: "LY-SPORT-001", name: "运动防水手表", store: "Amazon美国站-旗舰店", country: "美国", status: "在售", listingTags: ["爆款", "新品"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-02-15", owner: "张三" },
-          { msku: "MSKU-SP-002", fnsku: "FNSKU-SP-002", sku: "LY-SPORT-001-B", name: "运动防水手表", store: "Amazon美国站-运动店", country: "美国", status: "在售", listingTags: ["常规"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-03-15", owner: "李四" },
-          { msku: "MSKU-SP-003", fnsku: "FNSKU-SP-003", sku: "LY-SPORT-001-C", name: "运动防水手表", store: "Amazon美国站-渠道店", country: "美国", status: "停售", listingTags: ["活动款"], productTag: "配件", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-04-02", owner: "张三" }
+          { msku: "MSKU-SP-001", sku: "LY-SPORT-001", name: "运动防水手表", store: "Amazon美国站-旗舰店", country: "美国", status: "在售", listingTags: ["爆款", "新品"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-02-15", owner: "张三" },
+          { msku: "MSKU-SP-002", sku: "LY-SPORT-001-B", name: "运动防水手表", store: "Amazon美国站-运动店", country: "美国", status: "在售", listingTags: ["常规"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-03-15", owner: "李四" },
+          { msku: "MSKU-SP-003", sku: "LY-SPORT-001-C", name: "运动防水手表", store: "Amazon美国站-渠道店", country: "美国", status: "停售", listingTags: ["活动款"], productTag: "配件", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-04-02", owner: "张三" }
         ],
         listingTags: ["爆款", "新品"], productTag: "新品", line: "运动户外", category: "智能穿戴", brand: "凌羿运动", develop: "2026-02-15",
         owner: "张三", income: "$ 115500", expense: "$ 30,300", cost: "$ 25,400", gross: "$ 59800", grossRate: "-", net: "-$ 680",
@@ -2292,11 +2292,11 @@
         daySales: [22, 38, 34, 26, 17, 30, 20], forecastAvg: "51.0", purchase: "2026-06-18｜采购中｜200", planNo: "PP260611002", suggest: "-", qty: "-", suggestDate: "-", created: "2026-02-10 09:00:00", updated: "2026-06-01 16:30:00"
       },
       {
-        thumb: "t3", identity: ["聚合MSKU 2个", "聚合FNSKU 2个"], risk: "P3", riskClass: "p3", negative: false,
+        thumb: "t3", identity: ["聚合MSKU 2个"], risk: "P3", riskClass: "p3", negative: false,
         replenish: "normal", asin: "B09WEAR01", sku: ["多个SKU", "智能手环系列"], store: ["Amazon英国站-数码店", "英国"], status: "在售 1 / 停售 1",
         sourceDetails: [
-          { msku: "MSKU-WEAR-001", fnsku: "FNSKU-WEAR-001", sku: "LY-WEAR-001", name: "智能手环Pro", store: "Amazon英国站-数码店", country: "英国", status: "在售", listingTags: ["新品"], productTag: "配件", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-04-15", owner: "王五" },
-          { msku: "MSKU-WEAR-002", fnsku: "FNSKU-WEAR-002", sku: "LY-WEAR-002", name: "智能手环Lite", store: "Amazon英国站-数码店", country: "英国", status: "停售", listingTags: [], productTag: "新品", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-05-15", owner: "赵六" }
+          { msku: "MSKU-WEAR-001", sku: "LY-WEAR-001", name: "智能手环Pro", store: "Amazon英国站-数码店", country: "英国", status: "在售", listingTags: ["新品"], productTag: "配件", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-04-15", owner: "王五" },
+          { msku: "MSKU-WEAR-002", sku: "LY-WEAR-002", name: "智能手环Lite", store: "Amazon英国站-数码店", country: "英国", status: "停售", listingTags: [], productTag: "新品", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-05-15", owner: "赵六" }
         ],
         listingTags: ["新品"], productTag: "配件", line: "穿戴设备", category: "智能手环", brand: "凌羿数码", develop: "2026-04-15",
         owner: "王五", income: "£ 149500", expense: "£ 38,700", cost: "£ 32,600", gross: "£ 78200", grossRate: "-", net: "£ 7320",
@@ -2304,7 +2304,7 @@
         daySales: [15, 28, 24, 19, 13, 21, 17], forecastAvg: "36.0", purchase: "2026-06-10｜已入库｜60", planNo: "PP260606008", suggest: "是", qty: "90", suggestDate: "2026-06-08", created: "2026-04-10 09:00:00", updated: "2026-06-01 16:30:00"
       },
       {
-        thumb: "t5", identity: ["聚合MSKU 1个", "聚合FNSKU 1个"], risk: "P2", riskClass: "p2", negative: true,
+        thumb: "t5", identity: ["聚合MSKU 1个"], risk: "P2", riskClass: "p2", negative: true,
         replenish: "normal", asin: "B09ACC001", sku: ["LY-ACC-001", "无线充电宝"], store: ["Amazon德国站-配件店", "德国"], status: "在售",
         listingTags: ["活动款"], productTag: "新品", line: "数码配件", category: "移动电源", brand: "凌羿数码", develop: "2026-06-15",
         owner: "赵六", income: "€ 87500", expense: "€ 22,500", cost: "€ 19,000", gross: "€ 46000", grossRate: "-", net: "-€ 230",
@@ -2534,7 +2534,7 @@
     }
 
     function identityCell(row, index) {
-      const inner = `<div class="two-line"><span>${row.identity[0]}</span><span>${row.identity[1]}</span></div>`;
+      const inner = `<div class="two-line"><span>${row.identity[0]}</span></div>`;
       return sourceTrigger(row, index, inner);
     }
 
@@ -2577,7 +2577,7 @@
     function sourceDetailPopoverContent(row) {
       const details = sourceDetails(row);
       const detailRows = details.slice(0, 10).map(item => `<tr>
-        <td><div class="two-line"><span>${detailText(item.msku)}</span><span>${detailText(item.fnsku)}</span></div></td>
+        <td>${detailText(item.msku)}</td>
         <td><div class="two-line"><span>${detailText(item.sku)}</span><span>${detailText(item.name)}</span></div></td>
         <td><div class="two-line"><span>${detailText(item.store)}</span><span>${detailText(item.country)}</span></div></td>
         <td>${detailText(item.status)}</td>
@@ -2597,7 +2597,7 @@
         <table class="status-detail-table">
           <thead>
             <tr>
-              <th>MSKU/FNSKU</th>
+              <th>MSKU</th>
               <th>SKU/品名</th>
               <th>店铺/国家</th>
               <th>状态</th>
@@ -2656,7 +2656,7 @@
 
     function renderRows() {
       const rows = getVisibleRows();
-      document.getElementById("identityTitle").innerHTML = 'MSKU/FNSKU<span class="info help-tip" data-tip="销售维度标识">i</span>';
+      document.getElementById("identityTitle").innerHTML = 'MSKU<span class="info help-tip" data-tip="销售维度标识">i</span>';
       document.getElementById("asinSummaryToggle").classList.toggle("hidden", currentView !== "asin");
       document.getElementById("tableBody").innerHTML = rows.map((row, index) => {
         const canCreate = row.replenish !== "paused" && row.suggest === "是";
