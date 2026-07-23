@@ -1,0 +1,948 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>经营策略中心 - 产品定义版线框图</title>
+  <style>
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    :root {
+      --blue: #1677ff;
+      --blue-50: #eef5ff;
+      --blue-100: #d8e8ff;
+      --ink: #172033;
+      --text: #475467;
+      --muted: #8a96a8;
+      --line: #dfe6ef;
+      --line-soft: #edf1f5;
+      --soft: #f6f8fb;
+      --green: #0a8f67;
+      --green-50: #eaf8f2;
+      --orange: #b85d00;
+      --orange-50: #fff5e8;
+      --red: #cf3f36;
+      --red-50: #fff2f0;
+    }
+    body { margin: 0; color: var(--ink); background: #eef2f7; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; font-size: 12px; }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .shell { width: min(1680px, 100vw); min-height: 100vh; margin: 0 auto; display: grid; grid-template-columns: 212px minmax(0, 1fr); background: #f7f9fc; }
+    .side { background: #fff; border-right: 1px solid var(--line); padding: 18px 12px; }
+    .brand { display: flex; align-items: center; gap: 10px; padding: 0 8px 20px; }
+    .logo { width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; background: var(--blue); color: #fff; font-weight: 760; }
+    .brand strong, .brand small { display: block; }
+    .brand strong { font-size: 15px; }
+    .brand small { margin-top: 2px; color: var(--muted); font-size: 10px; }
+    .group { margin: 16px 9px 7px; color: #98a2b3; font-size: 10px; }
+    .nav { min-height: 34px; border-radius: 7px; padding: 0 10px; margin: 2px 0; display: flex; align-items: center; gap: 9px; color: #344054; font-size: 12px; }
+    .nav::before { content: ""; width: 6px; height: 6px; border: 1.5px solid #7d8a9c; border-radius: 2px; }
+    .nav.active { color: var(--blue); background: var(--blue-50); font-weight: 680; }
+    .nav.active::before { border-color: var(--blue); background: var(--blue); }
+    .workspace { min-width: 0; display: grid; grid-template-rows: 54px minmax(0, 1fr); }
+    .topbar { background: rgba(255,255,255,.96); border-bottom: 1px solid var(--line); padding: 0 20px; display: flex; align-items: center; justify-content: space-between; }
+    .topbar strong { font-size: 14px; }
+    .search { width: 350px; height: 32px; border: 1px solid var(--line); border-radius: 8px; padding: 0 12px; display: flex; align-items: center; color: #98a2b3; font-size: 11px; }
+    main { padding: 14px 16px 28px; overflow: auto; }
+    .pagebar { min-height: 42px; display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 10px; }
+    .relation { min-height: 30px; padding: 0 10px; border: 1px solid #d8e7ff; border-radius: 8px; background: #f8fbff; display: flex; align-items: center; flex-wrap: wrap; gap: 7px; color: #667085; font-size: 10px; }
+    .relation span { display: inline-flex; align-items: center; gap: 6px; }
+    .relation b { color: var(--blue); }
+    .relation i { color: #a1adbd; font-style: normal; }
+    .page-actions { display: flex; align-items: center; gap: 7px; }
+    .segments { padding: 3px; display: flex; gap: 3px; border: 1px solid var(--line); border-radius: 9px; background: #fff; }
+    .segments button { min-height: 30px; padding: 0 14px; border: 0; border-radius: 6px; background: transparent; color: #667085; font-size: 11px; }
+    .segments button.active { background: var(--blue-50); color: var(--blue); font-weight: 700; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .card { border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+    .card + .card { margin-top: 10px; }
+    .card-head { min-height: 46px; padding: 0 13px; border-bottom: 1px solid var(--line-soft); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .card-head strong { font-size: 12px; }
+    .card-head small { display: block; margin-top: 3px; color: var(--muted); font-size: 9px; }
+    .head-actions { display: flex; align-items: center; gap: 7px; }
+    .btn { min-height: 30px; border: 1px solid #d7e0eb; border-radius: 7px; background: #fff; color: #344054; padding: 0 11px; font-size: 10px; }
+    .btn:hover { border-color: #9fc5ff; color: var(--blue); }
+    .btn.primary { border-color: var(--blue); background: var(--blue); color: #fff; }
+    .btn.ghost { border-color: transparent; background: var(--soft); }
+    .stage-rail { display: grid; grid-template-columns: repeat(5, 1fr); padding: 12px; gap: 7px; }
+    .stage { min-height: 65px; border: 1px solid #e0e6ee; border-radius: 8px; padding: 9px 10px; position: relative; background: #fbfcfe; text-align: left; color: var(--ink); }
+    .stage + .stage::before { content: "›"; position: absolute; left: -7px; top: 19px; color: #a3afbf; font-size: 18px; }
+    .stage:hover { border-color: #b8d4ff; background: #fbfdff; }
+    .stage.active { border-color: #8eb9ff; background: var(--blue-50); box-shadow: inset 3px 0 0 var(--blue); }
+    .stage i { color: #98a2b3; font-style: normal; font-size: 9px; }
+    .stage b { display: block; margin-top: 5px; font-size: 12px; }
+    .stage span { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; }
+    .stage .count { position: absolute; right: 9px; top: 9px; min-width: 20px; height: 20px; border-radius: 10px; background: #edf1f6; display: grid; place-items: center; color: #667085; font-size: 9px; }
+    .stage.active .count { background: #fff; color: var(--blue); }
+    .rule-summary { min-height: 42px; padding: 0 13px; border-bottom: 1px solid var(--line-soft); display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #fbfcfe; }
+    .rule-summary strong { font-size: 12px; }
+    .rule-summary span { margin-left: 8px; color: var(--muted); font-size: 9px; }
+    .system-check { display: flex; align-items: center; gap: 6px; color: #667085; font-size: 9px; }
+    .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(10,143,103,.08); }
+    .rules { padding: 0 12px 10px; }
+    .rule-toolbar { min-height: 50px; padding: 8px 12px; border-bottom: 1px solid var(--line-soft); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .rule-filters { display: flex; align-items: center; gap: 7px; min-width: 0; }
+    .rule-filter { height: 30px; border: 1px solid #dfe6ef; border-radius: 7px; background: #fff; color: #475467; padding: 0 9px; font-size: 9px; }
+    input.rule-filter { width: 165px; }
+    select.rule-filter { min-width: 112px; }
+    .rule-empty { min-height: 120px; display: grid; place-items: center; color: #98a2b3; font-size: 10px; border-top: 1px solid var(--line-soft); }
+    .rule-labels, .rule-row { display: grid; grid-template-columns: minmax(125px,.75fr) minmax(280px,1.7fr) minmax(170px,1fr) minmax(165px,1fr) minmax(150px,.9fr) 58px 48px; gap: 11px; align-items: center; }
+    .rule-labels { min-height: 34px; color: #98a2b3; font-size: 9px; }
+    .rule-row { min-height: 78px; border-top: 1px solid var(--line-soft); color: #344054; font-size: 10px; }
+    .rule-row b { display: block; color: var(--ink); font-size: 11px; }
+    .rule-row small { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; line-height: 1.45; }
+    .condition-box { min-height: 50px; padding: 7px 8px; border: 1px solid #e2e8f0; border-radius: 7px; background: #fbfcfe; }
+    .condition-line { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+    .condition-line + .condition-line { margin-top: 5px; }
+    .condition-chip { min-height: 20px; padding: 0 6px; border-radius: 5px; background: #edf2f7; color: #475467; display: inline-flex; align-items: center; font-size: 9px; }
+    .and { color: #98a2b3; font-size: 9px; }
+    .signal { display: grid; gap: 4px; }
+    .signal-line { display: flex; align-items: center; gap: 6px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--blue); }
+    .dot.green { background: var(--green); }
+    .dot.orange { background: var(--orange); }
+    .dot.red { background: var(--red); }
+    .tag { min-height: 21px; border-radius: 999px; padding: 0 7px; background: #f1f4f8; color: #667085; display: inline-flex; align-items: center; font-size: 9px; font-weight: 650; }
+    .tag.blue { background: var(--blue-50); color: var(--blue); }
+    .tag.green { background: var(--green-50); color: var(--green); }
+    .tag.orange { background: var(--orange-50); color: var(--orange); }
+    .tag.red { background: var(--red-50); color: var(--red); }
+    .text-btn { border: 0; background: transparent; color: var(--blue); padding: 0; font-size: 10px; font-weight: 650; }
+    .rules-foot { min-height: 42px; border-top: 1px solid var(--line-soft); padding: 0 2px; display: flex; align-items: center; justify-content: space-between; color: #667085; font-size: 9px; }
+    .rules-foot b { color: #344054; }
+    .view-layout { display: grid; grid-template-columns: 260px minmax(0,1fr); min-height: 570px; }
+    .view-list { border-right: 1px solid var(--line-soft); padding: 10px; }
+    .view-list-head { min-height: 35px; padding: 0 5px; display: flex; align-items: center; justify-content: space-between; color: #667085; font-size: 10px; }
+    .view-item { width: 100%; min-height: 52px; margin: 3px 0; border: 1px solid transparent; border-radius: 8px; padding: 8px 9px; background: transparent; text-align: left; color: var(--ink); cursor: pointer; }
+    .view-item:hover { background: #f8fafc; }
+    .view-item.active { border-color: #afd0ff; background: var(--blue-50); box-shadow: inset 3px 0 0 var(--blue); }
+    .view-item b { display: flex; align-items: center; justify-content: space-between; font-size: 11px; }
+    .view-item small { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .view-main { padding: 13px; }
+    .view-title { min-height: 36px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .view-title-line { display: flex; align-items: center; gap: 8px; }
+    .view-title h2 { margin: 0; font-size: 14px; }
+    .view-name-input { width: 230px; height: 32px; border: 1px solid #9fc5ff; border-radius: 7px; padding: 0 9px; color: var(--ink); font-size: 12px; font-weight: 700; outline: 3px solid rgba(22,119,255,.08); }
+    .view-source { margin-top: 10px; min-height: 54px; border: 1px solid #dbe5f2; border-radius: 8px; padding: 8px 10px; display: grid; grid-template-columns: 82px minmax(0,1fr) auto; gap: 10px; align-items: center; background: #fbfcfe; }
+    .view-source-label { color: #667085; font-size: 9px; }
+    .view-source-main { min-width: 0; }
+    .view-source-main strong { color: #344054; font-size: 10px; }
+    .view-source-main small { display: block; margin-top: 3px; color: var(--muted); font-size: 8px; }
+    .source-rules { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; }
+    .source-empty { color: #98a2b3; font-size: 9px; }
+    .view-config { margin-top: 10px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; }
+    .view-config-row { min-height: 45px; padding: 7px 10px; display: grid; grid-template-columns: 82px minmax(0,1fr) auto; gap: 10px; align-items: center; }
+    .view-config-row + .view-config-row { border-top: 1px solid var(--line-soft); }
+    .view-config-label { color: #667085; font-size: 9px; }
+    .view-editor { margin-top: 10px; border: 1px solid #bad5ff; border-radius: 8px; overflow: hidden; background: #fbfdff; }
+    .view-editor-head { min-height: 39px; padding: 0 10px; border-bottom: 1px solid #deebff; display: flex; align-items: center; justify-content: space-between; }
+    .view-editor-head strong { font-size: 10px; }
+    .view-editor-head small { color: var(--muted); font-size: 8px; }
+    .view-base-row { min-height: 46px; padding: 7px 10px; border-bottom: 1px solid #e8eef6; display: grid; grid-template-columns: 82px minmax(0,1fr); gap: 10px; align-items: center; }
+    .view-condition-rows { display: grid; }
+    .view-condition-edit { min-height: 47px; padding: 6px 10px; border-bottom: 1px solid #e8eef6; display: grid; grid-template-columns: minmax(150px,1.25fr) 110px minmax(145px,1fr) 28px; gap: 7px; align-items: center; }
+    .view-condition-edit .field { height: 32px; }
+    .view-condition-edit .remove { height: 32px; }
+    .view-editor-add { min-height: 40px; padding: 0 10px; display: flex; align-items: center; }
+    .view-empty-condition { min-height: 46px; padding: 0 10px; display: flex; align-items: center; color: #98a2b3; font-size: 9px; border-bottom: 1px solid #e8eef6; }
+    .notice { min-height: 38px; border: 1px solid #cfe2ff; border-radius: 8px; padding: 0 10px; background: #f8fbff; display: flex; align-items: center; justify-content: space-between; color: #5c6b82; font-size: 9px; }
+    .notice b { color: var(--blue); }
+    .filter-section { margin-top: 12px; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+    .filter-head { min-height: 40px; padding: 0 11px; background: #fbfcfe; border-bottom: 1px solid var(--line-soft); display: flex; align-items: center; justify-content: space-between; }
+    .filter-head strong { font-size: 11px; }
+    .filter-head span { color: var(--muted); font-size: 9px; }
+    .filter-group { min-height: 52px; padding: 8px 11px; display: grid; grid-template-columns: 105px minmax(0,1fr) 55px; gap: 10px; align-items: center; border-top: 1px solid var(--line-soft); }
+    .filter-group:first-of-type { border-top: 0; }
+    .filter-group label { color: #667085; font-size: 9px; }
+    .chips { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; }
+    .chip { min-height: 25px; padding: 0 8px; border: 1px solid #dfe6ef; border-radius: 6px; background: #fff; color: #475467; display: inline-flex; align-items: center; font-size: 9px; }
+    .chip.fixed { border-color: #bad5ff; background: var(--blue-50); color: var(--blue); }
+    .preview { margin-top: 12px; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+    .preview-head { min-height: 40px; padding: 0 11px; display: flex; align-items: center; justify-content: space-between; background: #fbfcfe; }
+    .preview-head strong { font-size: 11px; }
+    .mini-table { width: 100%; border-collapse: collapse; font-size: 9px; }
+    .mini-table th { height: 34px; padding: 0 10px; background: #f7f9fc; color: #667085; text-align: left; font-weight: 600; }
+    .mini-table td { height: 48px; padding: 7px 10px; border-top: 1px solid var(--line-soft); color: #344054; }
+    .mini-table strong { display: block; color: var(--ink); font-size: 10px; }
+    .mini-table small { display: block; margin-top: 3px; color: var(--muted); font-size: 8px; }
+    .field { height: 36px; border: 1px solid #dfe6ef; border-radius: 7px; background: #fff; color: #344054; padding: 0 9px; font-size: 10px; }
+    .field:focus { outline: 2px solid rgba(22,119,255,.12); border-color: #90baff; }
+    .drawer-mask { position: fixed; inset: 0; z-index: 20; background: rgba(15,23,42,.24); opacity: 0; pointer-events: none; transition: .18s ease; }
+    .drawer-mask.open { opacity: 1; pointer-events: auto; }
+    .drawer { position: fixed; z-index: 21; top: 0; right: 0; bottom: 0; width: min(760px, calc(100vw - 40px)); background: #fff; box-shadow: -18px 0 50px rgba(15,23,42,.12); transform: translateX(100%); transition: .2s ease; display: grid; grid-template-rows: 58px minmax(0,1fr) 62px; }
+    .drawer.rule-drawer { width: min(1180px, 60vw); max-width: calc(100vw - 24px); }
+    .drawer.wide { width: min(880px, calc(100vw - 40px)); }
+    .drawer.open { transform: translateX(0); }
+    .drawer-head, .drawer-foot { padding: 0 18px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .drawer-head { border-bottom: 1px solid var(--line); }
+    .drawer-head strong { font-size: 14px; }
+    .drawer-head small { display: block; margin-top: 3px; color: var(--muted); font-size: 9px; }
+    .drawer-body { overflow: auto; padding: 14px 18px 24px; }
+    .drawer-foot { border-top: 1px solid var(--line); justify-content: flex-end; }
+    .close { width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 7px; background: #fff; color: #475467; }
+    .stepper { min-height: 42px; border: 1px solid #dbe5f2; border-radius: 8px; padding: 0 10px; display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; align-items: center; background: #fbfcfe; }
+    .step { display: flex; align-items: center; gap: 7px; color: #667085; font-size: 10px; }
+    .step b { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: #edf2f7; color: #667085; font-size: 9px; }
+    .step.active { color: var(--blue); font-weight: 680; }
+    .step.active b { background: var(--blue); color: #fff; }
+    .ai-mode { margin-top: 11px; border: 1px solid #c6dcff; border-radius: 9px; background: #f7faff; padding: 10px; }
+    .mode-head { display: flex; align-items: center; justify-content: space-between; color: var(--blue); font-size: 10px; font-weight: 700; }
+    .mode-head small { color: #7b8aa0; font-size: 9px; font-weight: 400; }
+    .ai-input { width: 100%; min-height: 64px; margin-top: 7px; resize: vertical; border: 0; outline: 0; background: transparent; color: #344054; font-size: 11px; line-height: 1.6; }
+    .ai-actions { display: flex; align-items: center; justify-content: space-between; color: #8a96a8; font-size: 9px; }
+    .form-section { margin-top: 15px; }
+    .form-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; color: #344054; font-size: 11px; font-weight: 700; }
+    .form-title span { color: #98a2b3; font-size: 9px; font-weight: 400; }
+    .scope-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
+    .scope-card { min-height: 47px; border: 1px solid #dbe5f2; border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; justify-content: space-between; background: #fbfcfe; font-size: 10px; }
+    .scope-card small { display: block; margin-top: 3px; color: var(--muted); font-size: 8px; }
+    .logic-switch { display: flex; align-items: center; gap: 5px; }
+    .logic-switch button { min-height: 25px; padding: 0 8px; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: #667085; font-size: 9px; }
+    .logic-switch button.active { color: var(--blue); border-color: #a9cbff; background: var(--blue-50); }
+    .conditions { display: grid; gap: 7px; }
+    .condition-edit { display: grid; grid-template-columns: minmax(0,1.45fr) 90px 105px 105px 28px; gap: 6px; }
+    .condition-edit .field { height: 38px; }
+    .remove { width: 28px; height: 38px; border: 0; border-radius: 6px; background: #f5f7fa; color: #98a2b3; }
+    .stability { margin-top: 8px; display: grid; grid-template-columns: 125px minmax(0,1fr); align-items: center; gap: 8px; color: #667085; font-size: 9px; }
+    .execution-mode { width: fit-content; margin-bottom: 8px; padding: 3px; border: 1px solid var(--line); border-radius: 8px; display: flex; gap: 3px; background: #f7f9fc; }
+    .execution-mode button { min-height: 28px; border: 0; border-radius: 6px; padding: 0 12px; background: transparent; color: #667085; font-size: 9px; }
+    .execution-mode button.active { background: #fff; color: var(--blue); font-weight: 700; box-shadow: 0 1px 3px rgba(23,35,58,.08); }
+    .execution-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+    .execution-grid.single { grid-template-columns: minmax(0,1fr); }
+    .outcome-card { min-height: 150px; border: 1px solid #dbe5f2; border-radius: 8px; padding: 11px; background: #fbfcfe; }
+    .outcome-card.task { border-color: #d5e4ff; background: #f8fbff; }
+    .outcome-card.lifecycle { background: #fff; }
+    .outcome-card.destination { min-height: 92px; margin-top: 8px; border-color: #d7e5f7; background: #fbfdff; }
+    .destination-content { margin-top: 9px; display: grid; grid-template-columns: minmax(220px,.75fr) minmax(0,1.25fr); gap: 10px; align-items: center; }
+    .destination-select { min-height: 48px; border: 1px solid #e1e8f1; border-radius: 7px; padding: 6px 9px; background: #fff; }
+    .destination-copy { color: #667085; font-size: 9px; line-height: 1.55; }
+    .outcome-card.inactive { border-color: #e5eaf1; background: #f8fafc; }
+    .outcome-card.inactive > :not(.outcome-head) { opacity: .52; }
+    .outcome-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .outcome-title { display: flex; align-items: center; gap: 7px; color: var(--ink); font-size: 11px; font-weight: 700; }
+    .outcome-enable { display: flex; align-items: center; gap: 7px; cursor: pointer; }
+    .outcome-enable input { width: 15px; height: 15px; margin: 0; accent-color: var(--blue); }
+    .outcome-icon { width: 24px; height: 24px; border-radius: 7px; display: grid; place-items: center; background: #e9f2ff; color: var(--blue); font-size: 12px; font-weight: 750; }
+    .outcome-card.lifecycle .outcome-icon { background: #eef8f5; color: var(--green); }
+    .outcome-fields { margin-top: 10px; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; }
+    .outcome-field { min-height: 48px; border: 1px solid #e5eaf1; border-radius: 7px; padding: 7px 8px; background: #fff; }
+    .outcome-field.full { grid-column: 1 / -1; }
+    .outcome-field span { display: block; color: #98a2b3; font-size: 8px; }
+    .outcome-field strong { display: block; margin-top: 5px; color: #344054; font-size: 10px; }
+    .match-note { margin-top: 4px; display: flex; align-items: center; justify-content: space-between; color: var(--blue); font-size: 8px; }
+    .custom-issue { grid-column: 1 / -1; display: none; grid-template-columns: minmax(0,1fr); gap: 7px; }
+    .custom-issue.open { display: grid; }
+    .inline-field { width: 100%; height: 24px; margin-top: 3px; border: 0; outline: 0; background: transparent; color: #344054; padding: 0; font-size: 10px; font-weight: 650; }
+    .stage-flow { margin-top: 10px; min-height: 48px; display: grid; grid-template-columns: minmax(0,1fr) 24px minmax(0,1fr); align-items: center; gap: 4px; }
+    .stage-node { min-height: 48px; border: 1px solid #e5eaf1; border-radius: 7px; padding: 7px 8px; background: #fff; }
+    .stage-node span { display: block; color: #98a2b3; font-size: 8px; }
+    .stage-node strong { display: block; margin-top: 5px; color: #344054; font-size: 10px; }
+    .stage-arrow { color: var(--blue); text-align: center; font-size: 15px; }
+    .outcome-foot { min-height: 30px; margin-top: 7px; border-top: 1px solid #e8edf3; padding-top: 7px; display: flex; align-items: center; justify-content: space-between; gap: 8px; color: #667085; font-size: 9px; }
+    .outcome-foot span { display: flex; align-items: center; gap: 6px; }
+    .outcome-foot .inline-field { width: auto; min-width: 132px; margin: 0; text-align: right; font-size: 9px; font-weight: 600; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 3px rgba(22,119,255,.08); }
+    .status-dot.green { background: var(--green); box-shadow: 0 0 0 3px rgba(10,143,103,.08); }
+    .ai-action { margin-top: 8px; border: 1px solid #c9ddff; border-radius: 8px; background: #f7faff; padding: 10px 11px; }
+    .ai-action div { display: flex; align-items: center; justify-content: space-between; }
+    .ai-action b { font-size: 10px; }
+    .ai-action p { margin: 6px 0 0; color: #667085; font-size: 9px; line-height: 1.5; }
+    .library-toolbar { min-height: 48px; display: grid; grid-template-columns: minmax(240px,1fr) 150px 150px auto; gap: 7px; align-items: center; }
+    table { width: 100%; border-collapse: collapse; font-size: 10px; }
+    th { height: 36px; background: #f7f9fc; color: #667085; text-align: left; padding: 0 10px; font-size: 9px; }
+    td { height: 58px; border-top: 1px solid var(--line-soft); padding: 7px 10px; color: #344054; }
+    td strong { display: block; color: var(--ink); font-size: 10px; }
+    td small { display: block; margin-top: 3px; color: var(--muted); font-size: 8px; }
+    .stage-manage { display: grid; gap: 7px; }
+    .stage-manage-row { min-height: 48px; border: 1px solid var(--line); border-radius: 8px; padding: 0 10px; display: grid; grid-template-columns: 32px minmax(0,1fr) 105px; gap: 8px; align-items: center; }
+    .stage-index { width: 26px; height: 26px; border-radius: 7px; display: grid; place-items: center; background: var(--soft); color: #667085; font-size: 9px; font-weight: 700; }
+    .stage-manage-row b { display: block; font-size: 10px; }
+    .stage-manage-row small { display: block; margin-top: 3px; color: var(--muted); font-size: 8px; }
+    .view-toolbar { min-height: 44px; margin-bottom: 9px; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+    .view-toolbar-copy { display: flex; align-items: baseline; gap: 9px; }
+    .view-toolbar-copy b { color: #344054; font-size: 11px; }
+    .view-toolbar-copy span { color: var(--muted); font-size: 8px; }
+    .view-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 10px; }
+    .view-card { min-height: 132px; border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; background: #fff; color: var(--ink); font: inherit; text-align: left; cursor: pointer; box-shadow: 0 8px 22px rgba(31,46,77,.028); transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease; }
+    .view-card:hover { border-color: #a9cbff; box-shadow: 0 12px 30px rgba(31,83,156,.07); transform: translateY(-1px); }
+    .view-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .view-card-title { min-width: 0; display: flex; align-items: center; gap: 9px; }
+    .view-icon { width: 30px; height: 30px; flex: 0 0 30px; border-radius: 8px; display: grid; place-items: center; background: var(--blue-50); color: var(--blue); font-size: 11px; font-weight: 750; }
+    .view-icon.rule { background: #f3f0ff; color: #6f4bd8; }
+    .view-icon.team { background: #edf9f5; color: #0a8f67; }
+    .view-card-title b { overflow: hidden; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .view-type { flex: 0 0 auto; border-radius: 4px; padding: 2px 5px; background: #f1f4f8; color: #7d8a9c; font-size: 7px; font-weight: 650; }
+    .view-type.team { background: #edf9f5; color: #0a8f67; }
+    .view-condition-label { margin-top: 16px; color: #98a2b3; font-size: 8px; }
+    .view-condition { margin-top: 5px; min-height: 30px; color: #475467; font-size: 9px; line-height: 1.55; }
+    .view-condition b { color: #344054; font-weight: 650; }
+    .view-card-foot { margin-top: auto; padding-top: 9px; border-top: 1px solid var(--line-soft); display: flex; align-items: center; justify-content: space-between; color: var(--blue); font-size: 9px; font-weight: 650; }
+    .view-card-foot i { font-style: normal; font-size: 13px; transition: transform .16s ease; }
+    .view-card:hover .view-card-foot i { transform: translateX(2px); }
+    .view-drawer { width: min(860px, calc(100vw - 40px)); }
+    .view-condition-summary { min-height: 52px; border: 1px solid #dce7f5; border-radius: 8px; padding: 10px 11px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; background: #f8fbff; }
+    .condition-token { min-height: 25px; border: 1px solid #c7dcff; border-radius: 6px; padding: 0 8px; display: inline-flex; align-items: center; background: #fff; color: #285b9f; font-size: 9px; font-weight: 650; }
+    .linked-rule-list { overflow: hidden; border: 1px solid var(--line); border-radius: 8px; }
+    .linked-rule-row { min-height: 62px; padding: 9px 10px; background: #fff; }
+    .linked-rule-row + .linked-rule-row { border-top: 1px solid var(--line-soft); }
+    .linked-rule-head { display: flex; align-items: center; justify-content: space-between; gap: 9px; }
+    .linked-rule-head b { font-size: 10px; }
+    .linked-rule-row p { margin: 5px 0 0; color: #667085; font-size: 9px; line-height: 1.5; }
+    .linked-rule-row small { display: block; margin-top: 4px; color: #98a2b3; font-size: 8px; }
+    .linked-empty { min-height: 70px; display: grid; place-items: center; color: #98a2b3; font-size: 9px; }
+    .menu-setting { min-height: 50px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .menu-setting b { display: block; font-size: 10px; }
+    .menu-setting small { display: block; margin-top: 4px; color: var(--muted); font-size: 8px; }
+    .menu-switch { display: flex; align-items: center; gap: 7px; color: #667085; font-size: 9px; }
+    .menu-switch input { width: 16px; height: 16px; margin: 0; accent-color: var(--blue); }
+    .view-drawer-form { display: grid; gap: 14px; }
+    .form-block { border: 1px solid var(--line); border-radius: 9px; padding: 12px; background: #fff; }
+    .form-block-head { margin-bottom: 9px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .form-block-head strong { font-size: 11px; }
+    .form-block-head small { color: var(--muted); font-size: 8px; }
+    .form-grid-two { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .field-label { display: grid; gap: 5px; color: #667085; font-size: 9px; }
+    .field-label .field { width: 100%; }
+    .view-drawer-conditions { display: grid; gap: 7px; }
+    .view-drawer-condition { display: grid; grid-template-columns: minmax(130px,1.1fr) 90px minmax(140px,1fr) 28px; gap: 7px; align-items: center; }
+    .view-drawer-condition .field { width: 100%; }
+    .view-match-count { min-height: 40px; border-radius: 8px; padding: 0 11px; display: flex; align-items: center; justify-content: space-between; background: var(--blue-50); color: #5d6b82; font-size: 9px; }
+    .view-match-count b { color: var(--blue); font-size: 11px; }
+    .toast { position: fixed; z-index: 40; left: 50%; bottom: 28px; min-height: 36px; border-radius: 8px; padding: 0 14px; display: flex; align-items: center; background: #172033; color: #fff; font-size: 10px; opacity: 0; transform: translate(-50%,12px); transition: .18s ease; pointer-events: none; }
+    .toast.open { opacity: 1; transform: translate(-50%,0); }
+    @media (max-width: 1180px) {
+      .shell { grid-template-columns: 180px 1fr; }
+      .rule-labels, .rule-row { grid-template-columns: 115px minmax(245px,1.7fr) 150px 145px 135px 52px 42px; gap: 8px; }
+      .view-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+      .drawer.rule-drawer { width: calc(100vw - 24px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="side">
+      <div class="brand"><div class="logo">L</div><span><strong>羿链 AI</strong><small>Cross-border AI OS</small></span></div>
+      <div class="nav">首页</div>
+      <div class="group">商品经营</div>
+      <div class="nav">ASIN 总览</div>
+      <div class="nav">待处理中心</div>
+      <div class="nav">新品测试</div>
+      <div class="nav">不动销处置</div>
+      <div class="nav">在售经营</div>
+      <div class="nav">广告健康</div>
+      <div class="nav">库存与补货</div>
+      <div class="nav">清货与复盘</div>
+      <div class="nav">评论与洞察</div>
+      <div class="nav active">经营策略中心</div>
+    </aside>
+
+    <section class="workspace">
+      <header class="topbar"><strong>经营策略中心</strong><div class="search">搜索任务、MSKU、ASIN、异常、成果</div></header>
+      <main>
+        <div class="pagebar">
+          <div class="segments"><button type="button" class="active" data-panel="strategyPanel">生命周期与规则</button><button type="button" data-panel="viewPanel">经营视图</button></div>
+          <div class="relation" id="pageGuide"><b>生命周期已启用</b><span>多数情况下直接维护规则</span><i>→</i><span>系统自动生成任务或调整阶段</span></div>
+        </div>
+
+        <section class="panel active" id="strategyPanel">
+          <div class="card">
+            <div class="stage-rail" id="stageRail"></div>
+          </div>
+
+          <div class="card">
+            <div class="rule-toolbar">
+              <div class="rule-filters">
+                <input class="rule-filter" id="ruleSearch" placeholder="搜索规则或问题">
+                <select class="rule-filter" id="ruleSourceFilter"><option value="">全部来源</option><option value="系统">系统模板</option><option value="租户">租户规则</option></select>
+                <select class="rule-filter" id="ruleExecutionFilter"><option value="">全部执行结果</option><option>异常任务</option><option>阶段流转</option><option>任务 + 流转</option><option>仅记录</option></select>
+              </div>
+              <div class="head-actions"><button class="btn" id="openLibrary">全部规则</button><button class="btn primary" id="newRule">＋ 新建规则</button></div>
+            </div>
+            <div class="rules">
+              <div class="rule-labels"><span>规则</span><span>当满足</span><span>识别问题</span><span>命中后执行</span><span>阶段变化</span><span>状态</span><span></span></div>
+              <div id="ruleRows"></div>
+              <div class="rules-foot"><span><b>系统自动完成：</b>保留命中证据 · 合并同类信号 · 按处理主题去重任务 · 自动显示到对应经营视图</span><span id="filteredCount">显示 3 条</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="viewPanel">
+          <div class="view-toolbar">
+            <div class="view-toolbar-copy"><b id="viewCount">共 0 个视图</b><span>系统视图自动维护；团队视图可发布到菜单</span></div>
+            <button class="btn primary" id="newView">＋ 新建团队视图</button>
+          </div>
+          <div class="view-grid" id="viewRows"></div>
+        </section>
+      </main>
+    </section>
+  </div>
+
+  <div class="drawer-mask" id="mask"></div>
+
+  <aside class="drawer rule-drawer" id="ruleDrawer">
+    <div class="drawer-head"><div><strong id="drawerTitle">新建结构化规则</strong><small>AI 可帮助填写，最终仍以结构化字段执行</small></div><button class="close" data-close>×</button></div>
+    <div class="drawer-body">
+      <div class="stepper"><div class="step active"><b>1</b>适用范围</div><div class="step active"><b>2</b>判断条件</div><div class="step active"><b>3</b>命中后执行</div></div>
+
+      <div class="ai-mode">
+        <div class="mode-head"><span>AI 辅助创建</span><small>用一句话描述你想判断的问题</small></div>
+        <textarea class="ai-input" id="aiInput">新品开售 30 天后，如果近 30 日销量为 0、库存仍大于 0 且 Listing 可售，识别为 D30 零单，今天通知负责人，并建议进入清货。</textarea>
+        <div class="ai-actions"><span>AI 只能使用已注册指标，无法识别的内容会要求确认</span><button class="btn primary" id="parseRule">识别并填入</button></div>
+      </div>
+
+      <section class="form-section">
+        <div class="form-title">1. 适用范围 <span>限定规则对哪些经营对象生效</span></div>
+        <div class="scope-grid">
+          <div class="scope-card"><span><b>生命周期阶段</b><small id="scopeStage">新品测试</small></span><button class="text-btn">更改</button></div>
+          <div class="scope-card"><span><b>站点 / 店铺</b><small>全部已授权范围</small></span><button class="text-btn">限定</button></div>
+          <div class="scope-card"><span><b>类目 / 商品</b><small>全部</small></span><button class="text-btn">限定</button></div>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <div class="form-title"><span style="color:#344054;font-size:11px;font-weight:700">2. 判断条件</span><div class="logic-switch"><button class="active">全部满足</button><button>任一满足</button></div></div>
+        <div class="conditions" id="conditions">
+          <div class="condition-edit"><select class="field"><option>销量</option><option>库存</option><option>广告花费</option><option>广告订单</option><option>Listing 状态</option><option>平均利润/单</option></select><select class="field"><option>近30日</option><option>近7日</option><option>当前</option></select><select class="field"><option>等于</option><option>大于</option><option>小于</option></select><input class="field" value="0"><button class="remove">×</button></div>
+          <div class="condition-edit"><select class="field"><option>库存</option><option>销量</option><option>Listing 状态</option></select><select class="field"><option>当前</option></select><select class="field"><option>大于</option><option>等于</option></select><input class="field" value="0"><button class="remove">×</button></div>
+          <div class="condition-edit"><select class="field"><option>Listing 状态</option><option>Buy Box 状态</option><option>基础广告状态</option></select><select class="field"><option>当前</option></select><select class="field"><option>等于</option><option>不等于</option></select><input class="field" value="可售"><button class="remove">×</button></div>
+        </div>
+        <button class="text-btn" id="addCondition" style="margin-top:8px">＋ 添加条件</button>
+        <div class="stability"><span>稳定性要求</span><select class="field"><option>单次完整数据命中即可</option><option>连续 2 个周期命中</option><option>7 天内命中 3 次</option></select></div>
+      </section>
+
+      <section class="form-section">
+        <div class="form-title">3. 命中后执行 <span>先选择系统需要执行的结果</span></div>
+        <div class="execution-mode" id="executionMode"><button type="button" data-execution-mode="issue">生成待处理任务</button><button type="button" data-execution-mode="stage">调整生命周期</button><button type="button" class="active" data-execution-mode="both">两者都执行</button></div>
+        <div class="execution-grid" id="executionGrid">
+          <article class="outcome-card task" id="issueOutcomeCard">
+            <div class="outcome-head"><div class="outcome-title"><input type="checkbox" id="issueOutcomeEnabled" checked hidden><i class="outcome-icon">!</i>问题处理</div><span class="tag red" id="taskOutcomeTag">异常任务</span></div>
+            <div class="outcome-fields">
+              <label class="outcome-field"><span>识别问题</span><select class="inline-field" id="issueSelect"><option>D30 零单</option><option>D15 弱动销</option><option>连续零单</option><option>有花费无订单</option><option>ACOS 过高</option><option>TACoS 过高</option><option>库存覆盖不足</option><option>补货候选</option><option>清货消化慢</option><option>差评集中出现</option><option>新建问题类型…</option></select><small class="match-note"><span>AI 已自动匹配，可修改</span></small></label>
+              <label class="outcome-field"><span>处理时效</span><select class="inline-field" id="deadlineSelect"><option>今天处理</option><option>48 小时内处理</option><option>仅记录，持续观察</option></select></label>
+              <div class="custom-issue" id="customIssueFields"><input class="field" id="customIssueName" placeholder="输入新的问题名称"></div>
+            </div>
+            <div class="outcome-foot"><span><i class="status-dot"></i><span id="taskSystemAction">自动生成待处理任务</span></span></div>
+          </article>
+          <article class="outcome-card lifecycle" id="stageOutcomeCard">
+            <div class="outcome-head"><div class="outcome-title"><input type="checkbox" id="stageOutcomeEnabled" checked hidden><i class="outcome-icon">→</i>生命周期处理</div><span class="tag blue" id="stageOutcomeTag">阶段流转</span></div>
+            <div class="stage-flow"><div class="stage-node"><span>当前阶段</span><strong id="currentStageOutcome">新品测试</strong></div><i class="stage-arrow">→</i><label class="stage-node"><span>目标阶段</span><select class="inline-field" id="stageTargetSelect"><option value="清货">清货</option><option value="正常经营">正常经营</option><option value="停售归档">停售归档</option><option value="保持当前阶段">保持当前阶段</option></select></label></div>
+            <div class="outcome-foot"><span><i class="status-dot green"></i>流转方式</span><select class="inline-field" id="stageMethodSelect"><option>负责人确认后流转</option><option>系统自动流转</option></select></div>
+          </article>
+        </div>
+        <article class="outcome-card destination" id="viewOutcomeCard">
+          <div class="outcome-head"><div class="outcome-title"><i class="outcome-icon">▦</i>结果呈现</div><span class="tag blue">经营视图</span></div>
+          <div class="destination-content">
+            <label class="destination-select"><span style="display:block;color:#98a2b3;font-size:8px">归入经营视图</span><select class="inline-field" id="issueViewSelect"><option>不动销处置</option><option>新品测试</option><option>在售经营</option><option>广告健康</option><option>库存与补货</option><option>清货与复盘</option><option>评论与洞察</option></select></label>
+            <div class="destination-copy"><b id="viewMatchNote" style="display:block;color:#344054;font-size:10px">根据识别问题自动匹配，可修改</b>经营视图只决定结果在哪里展示，不改变规则判断和生命周期。</div>
+          </div>
+        </article>
+        <div class="ai-action"><div><b>建议动作</b><span class="tag blue">由 AI 自动分析</span></div><p>系统将结合当前 ASIN 数据、规则证据和企业知识库，生成适合该商品的具体处理建议。</p></div>
+      </section>
+    </div>
+    <div class="drawer-foot"><button class="btn" id="saveDraft">保存草稿</button><button class="btn primary" id="enableRule">确认启用</button></div>
+  </aside>
+
+  <aside class="drawer wide" id="libraryDrawer">
+    <div class="drawer-head"><div><strong>全部规则</strong><small>跨阶段查看、启停和管理规则版本</small></div><button class="close" data-close>×</button></div>
+    <div class="drawer-body">
+      <div class="library-toolbar"><input class="field" placeholder="搜索规则、指标或识别问题"><select class="field"><option>全部生命周期</option><option>新品测试</option><option>正常经营</option><option>清货</option></select><select class="field"><option>全部问题类型</option><option>销售</option><option>广告</option><option>库存</option><option>Listing</option></select><button class="btn">重置</button></div>
+      <div class="card" style="margin-top:8px;overflow:hidden"><table><thead><tr><th>规则</th><th>适用范围</th><th>条件摘要</th><th>识别问题</th><th>执行结果</th><th>阶段变化</th><th>版本/状态</th><th></th></tr></thead><tbody>
+        <tr><td><strong>D30 仍未出单</strong><small>系统模板</small></td><td>新品测试 · D30</td><td>30日销量=0 且库存&gt;0</td><td><span class="tag red">D30 零单 · 今天处理</span></td><td><span class="tag blue">任务 + 流转</span></td><td>建议进入清货</td><td><span class="tag green">V3 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
+        <tr><td><strong>D30 测试达标</strong><small>系统模板</small></td><td>新品测试 · D30</td><td>30日销量≥60 且利润为正</td><td><span class="tag green">测试通过</span></td><td><span class="tag green">阶段流转</span></td><td>建议进入正常经营</td><td><span class="tag green">V2 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
+        <tr><td><strong>广告有花费无订单</strong><small>租户规则</small></td><td>新品测试、正常经营</td><td>7日花费&gt;0 且广告订单=0</td><td><span class="tag orange">有花费无订单 · 48小时</span></td><td><span class="tag orange">异常任务</span></td><td>保持当前阶段</td><td><span class="tag green">V4 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
+        <tr><td><strong>库存覆盖不足</strong><small>租户规则</small></td><td>正常经营</td><td>覆盖天数&lt;采购+物流周期</td><td><span class="tag blue">补货候选 · 48小时</span></td><td><span class="tag orange">异常任务</span></td><td>保持当前阶段</td><td><span class="tag">V1 · 草稿</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
+      </tbody></table></div>
+    </div>
+    <div class="drawer-foot"><button class="btn primary" id="newFromLibrary">＋ 新建规则</button></div>
+  </aside>
+
+  <aside class="drawer view-drawer" id="viewDrawer">
+    <div class="drawer-head"><div><strong id="viewDrawerTitle">视图设置</strong><small id="viewDrawerSubtitle">查看收录条件与关联规则</small></div><button class="close" data-close>×</button></div>
+    <div class="drawer-body">
+      <div class="view-drawer-form">
+        <section class="form-block" id="teamViewInfoBlock">
+          <div class="form-block-head"><strong>基本信息</strong><small>团队视图可发布到业务菜单</small></div>
+          <div class="form-grid-two">
+            <label class="field-label">视图名称<input class="field" id="teamViewName" placeholder="例如：本周主管关注"></label>
+            <label class="field-label">数据范围<select class="field" id="teamViewBase"><option value="all">全部经营结果</option><option>新品测试</option><option>不动销处置</option><option>在售经营</option><option>广告健康</option><option>库存与补货</option><option>清货与复盘</option><option>评论与洞察</option></select></label>
+          </div>
+        </section>
+        <section class="form-block" id="teamViewConditionsBlock">
+          <div class="form-block-head"><strong>筛选条件</strong><small>默认同时满足，仅影响当前团队视图</small></div>
+          <div class="view-drawer-conditions" id="viewDrawerConditions"></div>
+          <button class="text-btn" id="addTeamViewCondition" style="margin-top:10px">＋ 添加条件</button>
+        </section>
+        <section class="form-block" id="systemViewConditionBlock" hidden>
+          <div class="form-block-head"><strong>收录条件</strong><small>满足条件的商品自动进入当前视图</small></div>
+          <div class="view-condition-summary" id="systemViewConditions"></div>
+        </section>
+        <section class="form-block" id="linkedRulesBlock" hidden>
+          <div class="form-block-head"><strong>关联规则</strong><button class="text-btn" id="toggleLinkedRules" hidden>展开全部</button></div>
+          <div class="linked-rule-list" id="linkedRuleList"></div>
+        </section>
+        <section class="form-block">
+          <div class="menu-setting">
+            <span><b>左侧菜单展示</b><small id="viewMenuHint">保存后可在左侧菜单中使用</small></span>
+            <label class="menu-switch"><input type="checkbox" id="viewMenuEnabled">展示在菜单</label>
+          </div>
+        </section>
+        <div class="view-match-count" id="viewMatchCountBlock"><span>系统将基于现有结果实时计算匹配范围</span><b id="teamViewMatchCount">预计匹配 12 条</b></div>
+      </div>
+    </div>
+    <div class="drawer-foot"><button class="btn" id="viewDrawerCancel" data-close>取消</button><button class="btn primary" id="saveTeamView">保存视图</button></div>
+  </aside>
+
+  <aside class="drawer" id="stageDrawer">
+    <div class="drawer-head"><div><strong>生命周期阶段</strong><small>系统统一使用五个标准阶段</small></div><button class="close" data-close>×</button></div>
+    <div class="drawer-body">
+      <div class="notice"><span><b>统一口径：</b>阶段用于定位商品当前所处位置</span><span>不提供新增、删除或子阶段</span></div>
+      <div class="stage-manage" style="margin-top:12px">
+        <div class="stage-manage-row"><span class="stage-index">01</span><span><b>待开售</b><small>等待系统识别有效开售时间</small></span><span class="tag">标准阶段</span></div>
+        <div class="stage-manage-row"><span class="stage-index">02</span><span><b>新品测试</b><small>按经营天数识别 D7 · D15 · D30</small></span><span class="tag">标准阶段</span></div>
+        <div class="stage-manage-row"><span class="stage-index">03</span><span><b>正常经营</b><small>持续检查销量、广告、库存、利润和 Listing</small></span><span class="tag">标准阶段</span></div>
+        <div class="stage-manage-row"><span class="stage-index">04</span><span><b>清货</b><small>执行清货动作并持续监控结果</small></span><span class="tag">标准阶段</span></div>
+        <div class="stage-manage-row"><span class="stage-index">05</span><span><b>停售归档</b><small>停止日常巡检，保留历史记录</small></span><span class="tag">标准阶段</span></div>
+      </div>
+    </div>
+    <div class="drawer-foot"><button class="btn primary" data-close>完成</button></div>
+  </aside>
+
+  <div class="toast" id="toast">操作完成</div>
+
+  <script>
+    const stageData = [
+      { name: '待开售', subtitle: '等待识别开售日期', count: 2 },
+      { name: '新品测试', subtitle: 'D7 · D15 · D30', count: 3 },
+      { name: '正常经营', subtitle: '持续经营', count: 4 },
+      { name: '清货', subtitle: '执行 · 监控', count: 3 },
+      { name: '停售归档', subtitle: '停止日常巡检', count: 1 }
+    ];
+    const ruleData = {
+      '待开售': [
+        { name:'识别有效开售日期', meta:'系统生命周期规则', conditions:['有效开售日期 已识别'], signal:'已开售', signalClass:'green', priority:'', result:'自动进入新品测试', resultMeta:'系统低风险流转', stage:'进入新品测试', stageMeta:'自动执行' },
+        { name:'开售数据缺失', meta:'数据质量规则', conditions:['商品已同步','开售日期 缺失'], signal:'开售数据缺失', signalClass:'orange', priority:'48小时处理', result:'生成数据补充任务', resultMeta:'通知管理员', stage:'保持待开售', stageMeta:'不参与新品计时', view:'新品测试' }
+      ],
+      '新品测试': [
+        { name:'D30 仍未出单', meta:'D30 · 系统模板', conditions:['近30日 销量 = 0','库存 > 0','Listing = 可售'], signal:'D30 零单', signalClass:'red', priority:'今天处理', result:'自动生成待处理任务', resultMeta:'AI 分析具体建议动作', stage:'建议进入清货', stageMeta:'需人工确认', view:'不动销处置' },
+        { name:'D30 测试达标', meta:'D30 · 系统模板', conditions:['近30日 销量 ≥ 60','平均利润/单 > 0'], signal:'测试通过', signalClass:'green', priority:'', result:'记录测试结论', resultMeta:'不创建异常任务', stage:'建议进入正常经营', stageMeta:'可设置自动流转' },
+        { name:'广告有花费无订单', meta:'持续检查 · 租户规则', conditions:['近7日 广告花费 > 0','近7日 广告订单 = 0','库存 > 0'], signal:'有花费无订单', signalClass:'orange', priority:'48小时处理', result:'自动合并到处理任务', resultMeta:'AI 分析具体建议动作', stage:'保持当前阶段', stageMeta:'显示到广告健康', view:'广告健康' }
+      ],
+      '正常经营': [
+        { name:'30 日销量明显下滑', meta:'持续检查 · 系统模板', conditions:['销量变化率 < -40%','近30日 销量 > 0'], signal:'销量明显下滑', signalClass:'orange', priority:'48小时处理', result:'自动生成待处理任务', resultMeta:'AI 联动库存、广告和 Listing 分析', stage:'保持当前阶段', stageMeta:'不自动流转', view:'在售经营' },
+        { name:'平均利润转负', meta:'持续检查 · 系统模板', conditions:['近30日 平均利润/单 < 0'], signal:'平均利润转负', signalClass:'red', priority:'48小时处理', result:'自动生成待处理任务', resultMeta:'AI 复查成本、售价和广告', stage:'保持当前阶段', stageMeta:'不自动流转', view:'在售经营' },
+        { name:'库存覆盖不足', meta:'持续检查 · 租户规则', conditions:['覆盖天数 < 安全库存天数','近30日 销量 > 0'], signal:'补货候选', signalClass:'blue', priority:'48小时处理', result:'自动生成待处理任务', resultMeta:'AI 生成补货建议', stage:'保持当前阶段', stageMeta:'显示到库存与补货', view:'库存与补货' }
+      ],
+      '清货': [
+        { name:'清货库存消化慢', meta:'进入清货后持续检查', conditions:['清货天数 ≥ 14','库存消化率 < 20%'], signal:'清货消化慢', signalClass:'orange', priority:'48小时处理', result:'自动生成待处理任务', resultMeta:'AI 复查价格和促销', stage:'保持清货', stageMeta:'继续观察', view:'清货与复盘' },
+        { name:'清货期广告误投', meta:'进入清货后持续检查', conditions:['近7日 广告花费 > 0','近7日 广告订单 = 0'], signal:'清货期广告误投', signalClass:'red', priority:'48小时处理', result:'自动合并到清货任务', resultMeta:'AI 分析广告调整动作', stage:'保持清货', stageMeta:'不自动流转', view:'清货与复盘' },
+        { name:'清货完成', meta:'系统生命周期规则', conditions:['库存 = 0','在途库存 = 0'], signal:'清货完成', signalClass:'green', priority:'', result:'生成归档确认', resultMeta:'保留清货复盘', stage:'建议停售归档', stageMeta:'需人工确认', view:'清货与复盘' }
+      ],
+      '停售归档': [
+        { name:'归档对象停止巡检', meta:'系统生命周期规则', conditions:['生命周期 = 停售归档'], signal:'已归档', signalClass:'blue', priority:'', result:'保留历史与动作日志', resultMeta:'不创建日常任务', stage:'保持停售归档', stageMeta:'管理员可恢复' }
+      ]
+    };
+    const views = [
+      { name:'新品测试', type:'系统视图', desc:'生命周期阶段：新品测试', sourceType:'stage', sourceValue:'新品测试', extra:['经营天数 = D7 / D15 / D30'] },
+      { name:'不动销处置', type:'系统视图', desc:'汇总不动销相关规则结果', sourceType:'rules', extra:['任务状态 ≠ 已关闭'] },
+      { name:'在售经营', type:'系统视图', desc:'生命周期阶段：正常经营', sourceType:'stage', sourceValue:'正常经营', extra:['经营状态 = 在售'] },
+      { name:'广告健康', type:'系统视图', desc:'汇总广告规则识别结果', sourceType:'rules', extra:['任务状态 ≠ 已关闭','处理时效 = 今天 / 48小时'] },
+      { name:'库存与补货', type:'系统视图', desc:'汇总库存与补货规则结果', sourceType:'rules', extra:['问题状态 = 生效中'] },
+      { name:'清货与复盘', type:'系统视图', desc:'生命周期阶段：清货', sourceType:'stage', sourceValue:'清货', extra:['最近命中时间 = 降序'] },
+      { name:'评论与洞察', type:'系统视图', desc:'汇总评论与退货规则结果', sourceType:'rules', extra:['近30日 = 有新问题'] },
+      { name:'本周主管关注', type:'团队视图', desc:'基于全部经营结果的团队筛选', sourceType:'all', sourceValue:'全部经营结果', extra:['处理时效 = 今天 / 48小时','负责人团队 = 当前团队','任务状态 ≠ 已关闭'] }
+    ];
+    const viewSamples = {
+      '新品测试': [
+        ['黑色 3D 立体睡眠眼罩','20260421001LYY / B0GYVNMMT6','新品测试 · D30','D30 0 单','P0','林舟','待处理'],
+        ['便携化妆镜','YL-BEA-099 / B0BEAU099','新品测试 · D15','D15 弱动销','P1','苏禾','待处理'],
+        ['桌面线缆收纳盒','YL-HOM-033 / B0HOME033','新品测试 · D7','基础条件阻断','P1','周屿','处理中']
+      ],
+      '不动销处置': [
+        ['黑色 3D 立体睡眠眼罩','20260421001LYY / B0GYVNMMT6','新品测试 · D30','D30 0 单','P0','林舟','待处理'],
+        ['便携化妆镜','YL-BEA-099 / B0BEAU099','新品测试 · D15','连续 15 日低动销','P1','苏禾','待处理']
+      ],
+      '在售经营': [
+        ['家居收纳套装','YL-ADS-091 / B0ADS091','正常经营','销量明显下滑','P1','许青','待处理'],
+        ['可折叠硅胶沥水篮','YL-KIT-042 / B0KITCH42','正常经营','平均利润转负','P1','苏禾','处理中']
+      ],
+      '广告健康': [
+        ['家居收纳套装','YL-ADS-091 / B0ADS091','正常经营','有花费无订单','P1','许青','待处理'],
+        ['桌面线缆收纳盒','YL-HOM-033 / B0HOME033','新品测试 · D15','TACoS 偏高','P1','周屿','处理中']
+      ],
+      '库存与补货': [
+        ['可折叠硅胶沥水篮','YL-KIT-042 / B0KITCH42','正常经营','补货候选','P1','苏禾','处理中'],
+        ['家居收纳套装','YL-ADS-091 / B0ADS091','正常经营','断货风险','P0','许青','待处理']
+      ],
+      '清货与复盘': [
+        ['便携化妆镜','YL-BEA-099 / B0BEAU099','清货','清货消化慢','P1','苏禾','待处理'],
+        ['家居收纳套装','YL-ADS-091 / B0ADS091','清货','清货期广告误投','P1','许青','处理中']
+      ],
+      '评论与洞察': [
+        ['桌面线缆收纳盒','YL-HOM-033 / B0HOME033','正常经营','差评集中出现','P1','周屿','待处理'],
+        ['可折叠硅胶沥水篮','YL-KIT-042 / B0KITCH42','正常经营','退货原因异常','P1','苏禾','处理中']
+      ],
+      '本周主管关注': [
+        ['黑色 3D 立体睡眠眼罩','20260421001LYY / B0GYVNMMT6','新品测试 · D30','D30 0 单','P0','林舟','待处理'],
+        ['家居收纳套装','YL-ADS-091 / B0ADS091','正常经营','断货风险','P0','许青','待处理'],
+        ['桌面线缆收纳盒','YL-HOM-033 / B0HOME033','正常经营','差评集中出现','P1','周屿','处理中']
+      ]
+    };
+
+    let activeStage = '新品测试';
+    let activeView = 3;
+    let ruleCreating = true;
+    const problemViewMap = {
+      'D30 零单':'不动销处置', 'D15 弱动销':'不动销处置', '连续零单':'不动销处置',
+      '有花费无订单':'广告健康', 'ACOS 过高':'广告健康', 'TACoS 过高':'广告健康',
+      '库存覆盖不足':'库存与补货', '补货候选':'库存与补货',
+      '清货消化慢':'清货与复盘', '差评集中出现':'评论与洞察'
+    };
+    const stageRail = document.getElementById('stageRail');
+    const ruleRows = document.getElementById('ruleRows');
+
+    function renderStages() {
+      stageRail.innerHTML = stageData.map((stage, index) => `<button class="stage ${stage.name === activeStage ? 'active' : ''}" data-stage="${stage.name}"><i>阶段 ${String(index + 1).padStart(2,'0')}</i><b>${stage.name}</b><span>${stage.subtitle}</span><em class="count">${stage.count}</em></button>`).join('');
+      stageRail.querySelectorAll('.stage').forEach(button => button.addEventListener('click', () => { activeStage = button.dataset.stage; renderStages(); renderRules(); }));
+    }
+
+    function getRuleExecution(rule) {
+      const changesStage = !rule.stage.includes('保持') && (rule.stage.includes('进入') || rule.stage.includes('建议'));
+      const createsTask = rule.result.includes('任务') && !rule.resultMeta.includes('不创建');
+      const type = createsTask && changesStage ? '任务 + 流转' : createsTask ? '异常任务' : changesStage ? '阶段流转' : '仅记录';
+      const color = type === '异常任务' ? 'orange' : type === '阶段流转' ? 'green' : 'blue';
+      return { type, color };
+    }
+
+    function renderRules() {
+      const allRows = ruleData[activeStage] || [];
+      const keyword = document.getElementById('ruleSearch').value.trim().toLowerCase();
+      const source = document.getElementById('ruleSourceFilter').value;
+      const execution = document.getElementById('ruleExecutionFilter').value;
+      const rows = allRows.filter(rule => {
+        const searchable = [rule.name, rule.meta, rule.signal, ...rule.conditions].join(' ').toLowerCase();
+        return (!keyword || searchable.includes(keyword)) && (!source || rule.meta.includes(source)) && (!execution || getRuleExecution(rule).type === execution);
+      });
+      document.getElementById('filteredCount').textContent = `显示 ${rows.length} / ${allRows.length} 条`;
+      ruleRows.innerHTML = rows.map(rule => {
+        const executionResult = getRuleExecution(rule);
+        return `<div class="rule-row">
+        <div><b>${rule.name}</b><small>${rule.meta}</small></div>
+        <div class="condition-box"><div class="condition-line">${rule.conditions.map((item,index) => `${index ? '<span class="and">且</span>' : ''}<span class="condition-chip">${item}</span>`).join('')}</div></div>
+        <div class="signal"><div class="signal-line"><i class="dot ${rule.signalClass}"></i><b>${rule.signal}</b></div><small>${rule.priority ? rule.priority + ' · ' : ''}同类信号自动合并</small></div>
+        <div><span class="tag ${executionResult.color}">${executionResult.type}</span><small>${rule.result}</small></div>
+        <div><b>${rule.stage}</b><small>${rule.stageMeta}</small></div>
+        <span class="tag green">已启用</span><button class="text-btn editRule">编辑</button>
+      </div>`;
+      }).join('') || '<div class="rule-empty">当前筛选条件下没有规则</div>';
+      ruleRows.querySelectorAll('.editRule').forEach(button => button.addEventListener('click', () => openRuleDrawer(false)));
+    }
+
+    function getRulesForView(viewName) {
+      return Object.values(ruleData).flat().filter(rule => rule.view === viewName);
+    }
+
+    function parseViewCondition(text) {
+      const match = text.match(/^(.+?)\s*(≠|=|包含)\s*(.+)$/);
+      return match ? { field:match[1].trim(), operator:match[2], value:match[3].trim() } : { field:'任务状态', operator:'≠', value:text || '已关闭' };
+    }
+
+    function createViewConditionRow(text = '') {
+      const parsed = parseViewCondition(text);
+      const row = document.createElement('div');
+      row.className = 'view-drawer-condition';
+      const fields = ['负责人','负责人团队','任务状态','处理时效','生命周期阶段','经营天数','问题状态','经营状态','最近命中时间'];
+      row.innerHTML = `<select class="field view-field">${fields.map(field => `<option ${field === parsed.field ? 'selected' : ''}>${field}</option>`).join('')}</select><select class="field view-operator"><option ${parsed.operator === '=' ? 'selected' : ''}>=</option><option ${parsed.operator === '≠' ? 'selected' : ''}>≠</option><option ${parsed.operator === '包含' ? 'selected' : ''}>包含</option></select><input class="field view-value" value="${parsed.value}"><button class="remove" title="删除条件">×</button>`;
+      row.querySelector('.remove').addEventListener('click', () => { row.remove(); updateViewMatchCount(); });
+      row.querySelectorAll('select,input').forEach(field => field.addEventListener('change', updateViewMatchCount));
+      return row;
+    }
+
+    function renderViewEditorConditions(items) {
+      const host = document.getElementById('viewDrawerConditions');
+      host.innerHTML = '';
+      items.forEach(item => host.appendChild(createViewConditionRow(item)));
+      if (!items.length) host.innerHTML = '<div class="view-empty-condition">暂无筛选条件，可直接添加</div>';
+    }
+
+    function getLinkedRules(view) {
+      const allRules = Object.values(ruleData).flat();
+      if (view.sourceType === 'rules') return allRules.filter(rule => rule.view === view.name);
+      if (view.sourceType === 'stage') return ruleData[view.sourceValue] || [];
+      return [];
+    }
+
+    function getViewConditionParts(view) {
+      if (view.sourceType === 'stage') return [`当前阶段 = ${view.sourceValue}`];
+      if (view.sourceType === 'rules') {
+        const signals = [...new Set(getLinkedRules(view).map(rule => rule.signal))];
+        return signals.length ? [`识别问题 = ${signals.join(' / ')}`] : ['尚未配置识别规则'];
+      }
+      return view.extra.length ? view.extra : ['尚未设置收录条件'];
+    }
+
+    function getViewConditionHTML(view) {
+      if (view.sourceType === 'stage') return `当前阶段 = <b>${view.sourceValue}</b>`;
+      if (view.sourceType === 'rules') {
+        const signals = [...new Set(getLinkedRules(view).map(rule => rule.signal))];
+        return signals.length ? `识别问题 = <b>${signals.join(' / ')}</b>` : '<b>尚未配置识别规则</b>';
+      }
+      return `<b>${view.extra.length}</b> 个团队筛选条件`;
+    }
+
+    function renderViews() {
+      document.getElementById('viewCount').textContent = `共 ${views.length} 个视图`;
+      document.getElementById('viewRows').innerHTML = views.map((view,index) => {
+        const isTeam = view.type === '团队视图';
+        const iconClass = isTeam ? 'team' : (view.sourceType === 'rules' ? 'rule' : 'stage');
+        const typeLabel = isTeam ? '团队' : '系统';
+        return `<button type="button" class="view-card" data-view-action="settings" data-index="${index}">
+          <div class="view-card-head">
+            <div class="view-card-title"><span class="view-icon ${iconClass}">${isTeam ? '团' : view.name.slice(0,1)}</span><b>${view.name}</b></div>
+            <span class="view-type ${isTeam ? 'team' : ''}">${typeLabel}</span>
+          </div>
+          <div class="view-condition-label">收录条件</div>
+          <div class="view-condition">${getViewConditionHTML(view)}</div>
+          <div class="view-card-foot"><span>查看设置</span><i>→</i></div>
+        </button>`;
+      }).join('');
+    }
+
+    function collectViewConditions() {
+      return [...document.querySelectorAll('#viewDrawerConditions .view-drawer-condition')].map(row => `${row.querySelector('.view-field').value} ${row.querySelector('.view-operator').value} ${row.querySelector('.view-value').value.trim()}`).filter(item => !item.endsWith(' '));
+    }
+
+    function updateViewMatchCount() {
+      const count = Math.max(3, 18 - document.querySelectorAll('#viewDrawerConditions .view-drawer-condition').length * 3);
+      document.getElementById('teamViewMatchCount').textContent = `预计匹配 ${count} 条`;
+    }
+
+    let editingViewIndex = -1;
+    let linkedRulesExpanded = false;
+
+    function renderLinkedRules(view) {
+      const rules = getLinkedRules(view);
+      const host = document.getElementById('linkedRuleList');
+      const toggle = document.getElementById('toggleLinkedRules');
+      const visibleRules = linkedRulesExpanded ? rules : rules.slice(0,3);
+      host.innerHTML = visibleRules.length ? visibleRules.map(rule => `<article class="linked-rule-row">
+        <div class="linked-rule-head"><b>${rule.name}</b><span class="tag green">已启用</span></div>
+        <p>${rule.conditions.join(' 且 ')}</p>
+        <small>${rule.signal}${rule.priority ? ` · ${rule.priority}` : ' · 持续检查'}</small>
+      </article>`).join('') : '<div class="linked-empty">当前没有关联规则</div>';
+      toggle.hidden = rules.length <= 3;
+      toggle.textContent = linkedRulesExpanded ? '收起' : `展开全部（${rules.length}）`;
+    }
+
+    function openViewSettings(index = -1) {
+      editingViewIndex = index;
+      const view = index >= 0 ? views[index] : null;
+      const isNew = !view;
+      const isTeam = isNew || view.type === '团队视图';
+      linkedRulesExpanded = false;
+
+      document.getElementById('viewDrawerTitle').textContent = isNew ? '新建团队视图' : view.name;
+      document.getElementById('viewDrawerSubtitle').textContent = isNew ? '保存团队常用关注范围' : (isTeam ? '编辑收录条件与菜单状态' : '查看收录条件与关联规则');
+      document.getElementById('teamViewInfoBlock').hidden = !isTeam;
+      document.getElementById('teamViewConditionsBlock').hidden = !isTeam;
+      document.getElementById('systemViewConditionBlock').hidden = isTeam;
+      document.getElementById('linkedRulesBlock').hidden = isTeam;
+      document.getElementById('viewMatchCountBlock').hidden = !isTeam;
+      document.getElementById('saveTeamView').hidden = !isTeam;
+      document.getElementById('viewDrawerCancel').textContent = isTeam ? '取消' : '完成';
+
+      const menuEnabled = document.getElementById('viewMenuEnabled');
+      menuEnabled.checked = view ? view.menuEnabled !== false : false;
+      menuEnabled.disabled = !isTeam;
+      document.getElementById('viewMenuHint').textContent = isTeam ? '保存后可在左侧菜单中使用' : '系统视图默认展示在左侧菜单';
+
+      if (isTeam) {
+        document.getElementById('teamViewName').value = view ? view.name : '';
+        document.getElementById('teamViewBase').value = view ? (view.sourceType === 'base' ? view.sourceValue : 'all') : 'all';
+        renderViewEditorConditions(view ? view.extra : ['任务状态 ≠ 已关闭']);
+        updateViewMatchCount();
+      } else {
+        document.getElementById('systemViewConditions').innerHTML = getViewConditionParts(view).map(item => `<span class="condition-token">${item}</span>`).join('');
+        renderLinkedRules(view);
+      }
+      openDrawer(document.getElementById('viewDrawer'));
+    }
+
+    document.getElementById('viewPanel').addEventListener('click', event => {
+      const button = event.target.closest('[data-view-action]');
+      if (!button) return;
+      const index = Number(button.dataset.index);
+      if (button.dataset.viewAction === 'settings') openViewSettings(index);
+    });
+
+    const panels = document.querySelectorAll('.panel');
+    const pageGuide = document.getElementById('pageGuide');
+    document.querySelectorAll('[data-panel]').forEach(button => button.addEventListener('click', () => {
+      document.querySelectorAll('[data-panel]').forEach(item => item.classList.toggle('active', item === button));
+      panels.forEach(panel => panel.classList.toggle('active', panel.id === button.dataset.panel));
+      pageGuide.innerHTML = button.dataset.panel === 'viewPanel'
+        ? '<b>经营视图</b><span>设置左侧菜单展示哪些规则结果</span>'
+        : '<b>生命周期已启用</b><span>多数情况下直接维护规则</span><i>→</i><span>系统自动生成任务或调整阶段</span>';
+    }));
+
+    const mask = document.getElementById('mask');
+    const drawers = document.querySelectorAll('.drawer');
+    function openDrawer(drawer) { drawers.forEach(item => item.classList.remove('open')); drawer.classList.add('open'); mask.classList.add('open'); }
+    function closeDrawers() { drawers.forEach(item => item.classList.remove('open')); mask.classList.remove('open'); }
+    function openRuleDrawer(create = true, preferredView = '') {
+      ruleCreating = create;
+      document.getElementById('drawerTitle').textContent = create ? '新建结构化规则' : '编辑结构化规则';
+      document.getElementById('scopeStage').textContent = activeStage;
+      document.getElementById('currentStageOutcome').textContent = activeStage;
+      setExecutionMode('both');
+      if (preferredView) {
+        issueSelect.value = '新建问题类型…';
+        syncIssueMapping();
+        document.getElementById('issueViewSelect').value = preferredView;
+        document.getElementById('viewMatchNote').textContent = '已按当前经营视图预选，可修改';
+      } else {
+        if (create) issueSelect.value = 'D30 零单';
+        syncIssueMapping();
+      }
+      updateOutcomeSummary();
+      openDrawer(document.getElementById('ruleDrawer'));
+    }
+    function openLibrary() { openDrawer(document.getElementById('libraryDrawer')); }
+    document.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', closeDrawers));
+    mask.addEventListener('click', closeDrawers);
+    document.getElementById('newRule').addEventListener('click', () => openRuleDrawer(true));
+    document.getElementById('openLibrary').addEventListener('click', openLibrary);
+    document.getElementById('newFromLibrary').addEventListener('click', () => openRuleDrawer(true));
+    document.querySelectorAll('.editRule').forEach(button => button.addEventListener('click', () => openRuleDrawer(false)));
+
+    const toast = document.getElementById('toast');
+    function showToast(message) { toast.textContent = message; toast.classList.add('open'); setTimeout(() => toast.classList.remove('open'), 1700); }
+    document.getElementById('parseRule').addEventListener('click', () => {
+      document.getElementById('issueSelect').value = 'D30 零单';
+      syncIssueMapping(true);
+      showToast('AI 已识别条件，并匹配为 D30 零单');
+    });
+    document.getElementById('saveDraft').addEventListener('click', () => showToast('规则草稿已保存'));
+    document.getElementById('enableRule').addEventListener('click', () => {
+      if (ruleCreating) {
+        const handlesIssue = issueOutcomeEnabled.checked;
+        const custom = issueSelect.value === '新建问题类型…';
+        const signal = handlesIssue ? (custom ? document.getElementById('customIssueName').value.trim() : issueSelect.value) : `流转至${stageTargetSelect.value}`;
+        if (handlesIssue && !signal) { showToast('请填写问题名称'); return; }
+        const targetView = handlesIssue ? issueViewSelect.value : '';
+        ruleData[activeStage].unshift({ name:`${signal}规则`, meta:'持续检查 · 租户规则', conditions:['按当前结构化条件执行'], signal, signalClass:handlesIssue ? 'orange' : 'green', priority:handlesIssue ? deadlineSelect.value : '', result:handlesIssue ? '自动生成待处理任务' : '记录生命周期判断', resultMeta:handlesIssue ? 'AI 分析具体建议动作' : '不创建异常任务', stage:stageOutcomeEnabled.checked ? `建议进入${stageTargetSelect.value}` : '保持当前阶段', stageMeta:stageOutcomeEnabled.checked ? stageMethodSelect.value : '不执行生命周期处理', view:targetView || undefined });
+        renderRules();
+        renderViews();
+      }
+      closeDrawers();
+      showToast('规则已启用，经营视图已更新识别来源');
+    });
+    document.getElementById('newView').addEventListener('click', () => openViewSettings());
+    document.getElementById('toggleLinkedRules').addEventListener('click', () => {
+      if (editingViewIndex < 0) return;
+      linkedRulesExpanded = !linkedRulesExpanded;
+      renderLinkedRules(views[editingViewIndex]);
+    });
+    document.getElementById('addTeamViewCondition').addEventListener('click', () => {
+      const empty = document.querySelector('#viewDrawerConditions .view-empty-condition');
+      if (empty) empty.remove();
+      document.getElementById('viewDrawerConditions').appendChild(createViewConditionRow('负责人 = 当前用户'));
+      updateViewMatchCount();
+    });
+    document.getElementById('saveTeamView').addEventListener('click', () => {
+      const created = editingViewIndex < 0;
+      const extra = collectViewConditions();
+      const name = document.getElementById('teamViewName').value.trim();
+      const base = document.getElementById('teamViewBase').value;
+      if (!name) { showToast('请输入视图名称'); return; }
+      if (views.some((view,index) => view.name === name && index !== editingViewIndex)) { showToast('视图名称已存在'); return; }
+      const definition = { name, type:'团队视图', desc:base === 'all' ? '基于全部经营结果的团队筛选' : `基于 ${base} 的团队筛选`, sourceType:base === 'all' ? 'all' : 'base', sourceValue:base === 'all' ? '全部经营结果' : base, extra, menuEnabled:document.getElementById('viewMenuEnabled').checked };
+      if (created) {
+        views.push(definition);
+      } else {
+        views[editingViewIndex] = definition;
+      }
+      renderViews();
+      closeDrawers();
+      showToast(created ? '团队视图已创建' : '团队视图已更新');
+    });
+    document.getElementById('ruleSearch').addEventListener('input', renderRules);
+    document.getElementById('ruleSourceFilter').addEventListener('change', renderRules);
+    document.getElementById('ruleExecutionFilter').addEventListener('change', renderRules);
+    document.querySelectorAll('.logic-switch button').forEach(button => button.addEventListener('click', () => { document.querySelectorAll('.logic-switch button').forEach(item => item.classList.remove('active')); button.classList.add('active'); }));
+    const issueOutcomeEnabled = document.getElementById('issueOutcomeEnabled');
+    const stageOutcomeEnabled = document.getElementById('stageOutcomeEnabled');
+    const executionMode = document.getElementById('executionMode');
+    const executionGrid = document.getElementById('executionGrid');
+    const issueOutcomeCard = document.getElementById('issueOutcomeCard');
+    const stageOutcomeCard = document.getElementById('stageOutcomeCard');
+    const issueSelect = document.getElementById('issueSelect');
+    const issueViewSelect = document.getElementById('issueViewSelect');
+    const customIssueFields = document.getElementById('customIssueFields');
+    const deadlineSelect = document.getElementById('deadlineSelect');
+    const stageTargetSelect = document.getElementById('stageTargetSelect');
+    const stageMethodSelect = document.getElementById('stageMethodSelect');
+    function syncIssueMapping(fromAI = false) {
+      const isCustom = issueSelect.value === '新建问题类型…';
+      customIssueFields.classList.toggle('open', isCustom);
+      if (isCustom) {
+        document.getElementById('viewMatchNote').textContent = '新问题需确认归属视图';
+      } else {
+        const matchedView = problemViewMap[issueSelect.value];
+        if (matchedView) issueViewSelect.value = matchedView;
+        document.getElementById('viewMatchNote').textContent = fromAI ? 'AI 已自动匹配，可修改' : '已按问题类型自动匹配，可修改';
+      }
+    }
+    function setExecutionMode(mode) {
+      issueOutcomeEnabled.checked = mode !== 'stage';
+      stageOutcomeEnabled.checked = mode !== 'issue';
+      executionMode.querySelectorAll('[data-execution-mode]').forEach(button => button.classList.toggle('active', button.dataset.executionMode === mode));
+      updateOutcomeSummary();
+    }
+    function updateOutcomeSummary() {
+      const handlesIssue = issueOutcomeEnabled.checked;
+      const handlesStage = stageOutcomeEnabled.checked;
+      const target = stageTargetSelect.value;
+      const keepsStage = target === '保持当前阶段';
+      const automaticOption = stageMethodSelect.options[1];
+      const isHighRiskStage = target === '清货' || target === '停售归档';
+      issueSelect.disabled = !handlesIssue;
+      issueViewSelect.disabled = !handlesIssue;
+      document.getElementById('customIssueName').disabled = !handlesIssue;
+      deadlineSelect.disabled = !handlesIssue;
+      stageTargetSelect.disabled = !handlesStage;
+      stageMethodSelect.disabled = !handlesStage;
+      automaticOption.disabled = !handlesStage || isHighRiskStage;
+      if (isHighRiskStage && stageMethodSelect.value === '系统自动流转') stageMethodSelect.value = '负责人确认后流转';
+      issueOutcomeCard.hidden = !handlesIssue;
+      stageOutcomeCard.hidden = !handlesStage;
+      executionGrid.classList.toggle('single', handlesIssue !== handlesStage);
+      document.getElementById('viewOutcomeCard').hidden = !handlesIssue;
+      const taskTag = document.getElementById('taskOutcomeTag');
+      taskTag.textContent = handlesIssue ? '异常任务' : '不执行';
+      taskTag.className = `tag ${handlesIssue ? 'red' : ''}`;
+      document.getElementById('taskSystemAction').textContent = handlesIssue ? '自动生成待处理任务' : '不生成问题任务';
+      const stageTag = document.getElementById('stageOutcomeTag');
+      stageTag.textContent = handlesStage ? (keepsStage ? '阶段不变' : '阶段流转') : '不执行';
+      stageTag.className = `tag ${handlesStage && !keepsStage ? 'blue' : ''}`;
+    }
+    executionMode.querySelectorAll('[data-execution-mode]').forEach(button => button.addEventListener('click', () => setExecutionMode(button.dataset.executionMode)));
+    issueSelect.addEventListener('change', () => { syncIssueMapping(); updateOutcomeSummary(); });
+    issueViewSelect.addEventListener('change', () => { document.getElementById('viewMatchNote').textContent = '已人工调整归属视图'; });
+    [deadlineSelect, stageTargetSelect, stageMethodSelect].forEach(field => field.addEventListener('change', updateOutcomeSummary));
+    document.getElementById('addCondition').addEventListener('click', () => {
+      const row = document.createElement('div');
+      row.className = 'condition-edit';
+      row.innerHTML = '<select class="field"><option>选择指标</option><option>销量</option><option>库存覆盖天数</option><option>广告花费</option><option>TACoS</option><option>平均利润/单</option></select><select class="field"><option>近7日</option><option>近30日</option><option>当前</option></select><select class="field"><option>大于</option><option>小于</option><option>等于</option></select><input class="field" placeholder="输入值"><button class="remove">×</button>';
+      row.querySelector('.remove').addEventListener('click', () => row.remove()); document.getElementById('conditions').appendChild(row);
+    });
+    document.querySelectorAll('.remove').forEach(button => button.addEventListener('click', () => button.closest('.condition-edit').remove()));
+
+    renderStages();
+    renderRules();
+    renderViews();
+    syncIssueMapping();
+    setExecutionMode('both');
+  </script>
+</body>
+</html>
