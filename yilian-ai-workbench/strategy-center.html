@@ -198,6 +198,19 @@
     .mode-head small { color: #7b8aa0; font-size: 9px; font-weight: 400; }
     .ai-input { width: 100%; min-height: 64px; margin-top: 7px; resize: vertical; border: 0; outline: 0; background: transparent; color: #344054; font-size: 11px; line-height: 1.6; }
     .ai-actions { display: flex; align-items: center; justify-content: space-between; color: #8a96a8; font-size: 9px; }
+    .ai-validation { margin-top: 14px; border: 1px solid #b7ebc6; border-radius: 8px; padding: 10px 12px; background: #f6ffed; color: #475467; }
+    .ai-validation[hidden] { display: none; }
+    .ai-validation.warning { border-color: #ffe0a3; background: #fffaf0; }
+    .ai-validation.error { border-color: #ffccc7; background: #fff2f0; }
+    .ai-validation-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .ai-validation-head b { color: #344054; font-size: 10px; }
+    .ai-validation-status { color: #039855; font-size: 9px; font-weight: 700; }
+    .ai-validation.warning .ai-validation-status { color: #b54708; }
+    .ai-validation.error .ai-validation-status { color: #d92d20; }
+    .ai-validation p { margin: 5px 0 0; font-size: 9px; line-height: 1.5; }
+    .drawer-foot .ai-validation { flex: 1; min-width: 0; margin: 0; padding: 6px 10px; }
+    .drawer-foot .ai-validation p { margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .drawer-foot-actions { display: flex; align-items: center; gap: 8px; }
     .form-section { margin-top: 15px; }
     .form-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; color: #344054; font-size: 11px; font-weight: 700; }
     .form-title span { color: #98a2b3; font-size: 9px; font-weight: 400; }
@@ -511,7 +524,7 @@
                 <select class="rule-filter" id="ruleSourceFilter"><option value="">全部来源</option><option value="系统">系统模板</option><option value="租户">租户规则</option></select>
                 <select class="rule-filter" id="ruleExecutionFilter"><option value="">全部执行结果</option><option>异常任务</option><option>阶段流转</option><option>任务 + 流转</option><option>仅记录</option></select>
               </div>
-              <div class="head-actions"><button class="btn" id="openLibrary">全部规则</button><button class="btn primary" id="newRule">＋ 新建规则</button></div>
+              <div class="head-actions"><button class="btn" id="openLibrary">全部规则</button><button class="btn primary" id="newRule">AI 创建规则</button></div>
             </div>
             <div class="rules">
               <div class="rule-labels"><span>规则</span><span>当满足</span><span>识别问题</span><span>命中后执行</span><span>阶段变化</span><span>状态</span><span></span></div>
@@ -531,14 +544,14 @@
   <div class="drawer-mask" id="mask"></div>
 
   <aside class="drawer rule-drawer" id="ruleDrawer">
-    <div class="drawer-head"><div><strong id="drawerTitle">新建结构化规则</strong><small>AI 可帮助填写，最终仍以结构化字段执行</small></div><button class="close" data-close>×</button></div>
+    <div class="drawer-head"><div><strong id="drawerTitle">AI 创建规则</strong><small>描述经营问题，AI 自动转换为结构化规则</small></div><button class="close" data-close>×</button></div>
     <div class="drawer-body">
       <div class="stepper"><div class="step active"><b>1</b>适用范围</div><div class="step active"><b>2</b>判断条件</div><div class="step active"><b>3</b>命中后执行</div></div>
 
       <div class="ai-mode">
-        <div class="mode-head"><span>AI 辅助创建</span><small>用一句话描述你想判断的问题</small></div>
+        <div class="mode-head"><span>描述经营问题</span><small>AI 将自动填写范围、条件和执行结果</small></div>
         <textarea class="ai-input" id="aiInput">新品开售 30 天后，如果近 30 日销量为 0、库存仍大于 0 且 Listing 可售，识别为 D30 零单，今天通知负责人，并建议进入清货。</textarea>
-        <div class="ai-actions"><span>AI 只能使用已注册指标，无法识别的内容会要求确认</span><button class="btn primary" id="parseRule">识别并填入</button></div>
+        <div class="ai-actions"><span>无法识别的字段会提示确认</span><button class="btn primary" id="parseRule">AI 生成规则</button></div>
       </div>
 
       <section class="form-section">
@@ -590,7 +603,13 @@
         <div class="ai-action"><div><b>建议动作</b><span class="tag blue">由 AI 自动分析</span></div><p>系统将结合当前 ASIN 数据、规则证据和企业知识库，生成适合该商品的具体处理建议。</p></div>
       </section>
     </div>
-    <div class="drawer-foot"><button class="btn" id="saveDraft">保存草稿</button><button class="btn primary" id="enableRule">确认启用</button></div>
+    <div class="drawer-foot">
+      <div class="ai-validation" id="aiValidation" hidden>
+        <div class="ai-validation-head"><b>AI 校验结果</b><span class="ai-validation-status" id="aiValidationStatus">通过</span></div>
+        <p id="aiValidationMessage">字段可用，条件无冲突，未发现互斥的生命周期动作。</p>
+      </div>
+      <div class="drawer-foot-actions"><button class="btn" id="saveDraft">保存草稿</button><button class="btn primary" id="enableRule">AI 校验并启用</button></div>
+    </div>
   </aside>
 
   <aside class="drawer wide" id="libraryDrawer">
@@ -737,6 +756,7 @@
     let activeStage = '新品测试';
     let activeView = 3;
     let ruleCreating = true;
+    let ruleValidated = false;
     let stageDraft = [];
     const problemViewMap = {
       'D30 零单':'不动销处置', 'D15 弱动销':'不动销处置', '连续零单':'不动销处置',
@@ -1051,7 +1071,10 @@
     document.getElementById('saveStages').addEventListener('click', saveLifecycleStages);
     function openRuleDrawer(create = true, preferredView = '') {
       ruleCreating = create;
-      document.getElementById('drawerTitle').textContent = create ? '新建结构化规则' : '编辑结构化规则';
+      ruleValidated = false;
+      document.getElementById('drawerTitle').textContent = create ? 'AI 创建规则' : '编辑结构化规则';
+      document.getElementById('aiValidation').hidden = true;
+      document.getElementById('enableRule').textContent = create ? 'AI 校验并启用' : 'AI 校验并保存';
       document.getElementById('scopeStage').textContent = activeStage;
       document.getElementById('currentStageOutcome').textContent = activeStage;
       updateStageTargetOptions();
@@ -1078,13 +1101,46 @@
 
     const toast = document.getElementById('toast');
     function showToast(message) { toast.textContent = message; toast.classList.add('open'); setTimeout(() => toast.classList.remove('open'), 1700); }
+    function resetRuleValidation() {
+      if (!ruleValidated) return;
+      ruleValidated = false;
+      document.getElementById('aiValidation').hidden = true;
+      document.getElementById('enableRule').textContent = ruleCreating ? 'AI 校验并启用' : 'AI 校验并保存';
+    }
+    function validateCurrentRule() {
+      const handlesIssue = issueOutcomeEnabled.checked;
+      const handlesStage = stageOutcomeEnabled.checked;
+      if (!handlesIssue && !handlesStage) return { type:'error', status:'需要补充', message:'至少选择一种命中结果：生成待处理任务或调整生命周期。' };
+      const custom = issueSelect.value === '新建问题类型…';
+      const signal = handlesIssue ? (custom ? document.getElementById('customIssueName').value.trim() : issueSelect.value) : '';
+      if (handlesIssue && !signal) return { type:'error', status:'需要补充', message:'问题名称为空，暂时无法生成待处理任务。' };
+      const duplicate = ruleCreating && handlesIssue && (ruleData[activeStage] || []).some(rule => rule.signal === signal);
+      if (duplicate) return { type:'warning', status:'发现相似规则', message:`“${signal}”已存在相似规则。字段与条件结构有效，请确认是否仍要启用。` };
+      return { type:'success', status:'校验通过', message:'字段可用，条件无冲突，未发现重复规则或互斥的生命周期动作。' };
+    }
+    function showRuleValidation(result) {
+      const validation = document.getElementById('aiValidation');
+      validation.className = `ai-validation ${result.type === 'success' ? '' : result.type}`.trim();
+      validation.hidden = false;
+      document.getElementById('aiValidationStatus').textContent = result.status;
+      document.getElementById('aiValidationMessage').textContent = result.message;
+    }
     document.getElementById('parseRule').addEventListener('click', () => {
       document.getElementById('issueSelect').value = 'D30 零单';
       syncIssueMapping(true);
-      showToast('AI 已识别条件，并匹配为 D30 零单');
+      resetRuleValidation();
+      showToast('AI 已生成结构化规则，并匹配为 D30 零单');
     });
     document.getElementById('saveDraft').addEventListener('click', () => showToast('规则草稿已保存'));
     document.getElementById('enableRule').addEventListener('click', () => {
+      if (!ruleValidated) {
+        const validation = validateCurrentRule();
+        showRuleValidation(validation);
+        if (validation.type === 'error') return;
+        ruleValidated = true;
+        document.getElementById('enableRule').textContent = validation.type === 'warning' ? '仍然启用' : (ruleCreating ? '确认启用' : '确认保存');
+        return;
+      }
       if (ruleCreating) {
         const handlesIssue = issueOutcomeEnabled.checked;
         const custom = issueSelect.value === '新建问题类型…';
@@ -1098,6 +1154,8 @@
       closeDrawers();
       showToast('规则已启用，经营视图已更新识别来源');
     });
+    document.getElementById('ruleDrawer').addEventListener('input', resetRuleValidation);
+    document.getElementById('ruleDrawer').addEventListener('change', resetRuleValidation);
     document.getElementById('newView').addEventListener('click', () => openViewSettings());
     document.getElementById('toggleLinkedRules').addEventListener('click', () => {
       if (editingViewIndex < 0) return;
