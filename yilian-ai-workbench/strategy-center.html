@@ -270,6 +270,20 @@
     .stage-index { width: 26px; height: 26px; border-radius: 7px; display: grid; place-items: center; background: var(--soft); color: #667085; font-size: 9px; font-weight: 700; }
     .stage-manage-row b { display: block; font-size: 10px; }
     .stage-manage-row small { display: block; margin-top: 3px; color: var(--muted); font-size: 8px; }
+    .pagebar-actions { display: flex; align-items: center; gap: 8px; }
+    .stage-rail { overflow-x: auto; scrollbar-width: none; }
+    .stage-rail::-webkit-scrollbar { display: none; }
+    .stage-drawer { width: min(760px, calc(100vw - 28px)); }
+    .stage-manage-row.editable { min-height: 68px; padding: 8px 10px; grid-template-columns: 32px minmax(0,1fr) auto; }
+    .stage-edit-fields { display: grid; grid-template-columns: minmax(120px,.45fr) minmax(220px,1fr); gap: 8px; }
+    .stage-field { width: 100%; height: 34px; border: 1px solid #dfe6ef; border-radius: 7px; padding: 0 9px; color: #344054; background: #fff; font: inherit; font-size: 10px; }
+    .stage-field:focus { border-color: #91caff; outline: 2px solid rgba(22,119,255,.1); }
+    .stage-row-actions { display: flex; align-items: center; gap: 4px; }
+    .stage-icon-btn { width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 7px; background: #fff; color: #667085; cursor: pointer; }
+    .stage-icon-btn:hover { border-color: #91caff; color: var(--blue); }
+    .stage-icon-btn.danger:hover { border-color: #ffccc7; color: var(--red); }
+    .stage-icon-btn:disabled { opacity: .34; cursor: not-allowed; }
+    .stage-add-row { margin-top: 10px; min-height: 44px; border: 1px dashed #b9d4ff; border-radius: 8px; display: grid; place-items: center; background: #f8fbff; color: var(--blue); font-size: 11px; font-weight: 650; cursor: pointer; }
     .view-toolbar { min-height: 44px; margin-bottom: 9px; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
     .view-toolbar-copy { display: flex; align-items: baseline; gap: 9px; }
     .view-toolbar-copy b { color: #344054; font-size: 11px; }
@@ -491,7 +505,10 @@
       <main>
         <div class="pagebar">
           <div class="segments"><button type="button" class="active" data-panel="strategyPanel">生命周期与规则</button><button type="button" data-panel="viewPanel">经营视图</button></div>
-          <div class="relation" id="pageGuide"><b>生命周期已启用</b><span>规则持续执行</span></div>
+          <div class="pagebar-actions">
+            <div class="relation" id="pageGuide"><b>生命周期已启用</b><span>规则持续执行</span></div>
+            <button class="btn" id="manageStages" type="button">管理阶段</button>
+          </div>
         </div>
 
         <section class="panel active" id="strategyPanel">
@@ -642,32 +659,27 @@
     <div class="drawer-foot"><button class="btn" id="viewDrawerCancel" data-close>取消</button><button class="btn primary" id="saveTeamView">保存视图</button></div>
   </aside>
 
-  <aside class="drawer" id="stageDrawer">
-    <div class="drawer-head"><div><strong>生命周期阶段</strong><small>系统统一使用五个标准阶段</small></div><button class="close" data-close>×</button></div>
+  <aside class="drawer stage-drawer" id="stageDrawer">
+    <div class="drawer-head"><div><strong>管理生命周期</strong><small>维护主阶段名称、说明与顺序</small></div><button class="close" data-close>×</button></div>
     <div class="drawer-body">
-      <div class="notice"><span><b>统一口径：</b>阶段用于定位商品当前所处位置</span><span>不提供新增、删除或子阶段</span></div>
-      <div class="stage-manage" style="margin-top:12px">
-        <div class="stage-manage-row"><span class="stage-index">01</span><span><b>待开售</b><small>等待系统识别有效开售时间</small></span><span class="tag">标准阶段</span></div>
-        <div class="stage-manage-row"><span class="stage-index">02</span><span><b>新品测试</b><small>按经营天数识别 D7 · D15 · D30</small></span><span class="tag">标准阶段</span></div>
-        <div class="stage-manage-row"><span class="stage-index">03</span><span><b>正常经营</b><small>持续检查销量、广告、库存、利润和 Listing</small></span><span class="tag">标准阶段</span></div>
-        <div class="stage-manage-row"><span class="stage-index">04</span><span><b>清货</b><small>执行清货动作并持续监控结果</small></span><span class="tag">标准阶段</span></div>
-        <div class="stage-manage-row"><span class="stage-index">05</span><span><b>停售归档</b><small>停止日常巡检，保留历史记录</small></span><span class="tag">标准阶段</span></div>
-      </div>
+      <div class="notice"><span><b>阶段结构</b>决定商品当前处于哪里</span><span>何时流转统一在规则中配置</span></div>
+      <div class="stage-manage" id="stageManageList" style="margin-top:10px"></div>
+      <button class="stage-add-row" id="addStage" type="button">＋ 新增主阶段</button>
     </div>
-    <div class="drawer-foot"><button class="btn primary" data-close>完成</button></div>
+    <div class="drawer-foot"><button class="btn" data-close>取消</button><button class="btn primary" id="saveStages">保存阶段</button></div>
   </aside>
 
   <div class="toast" id="toast">操作完成</div>
 
   <script>
-    const stageData = [
-      { name: '待开售', subtitle: '等待识别开售日期', count: 2 },
-      { name: '新品测试', subtitle: 'D7 · D15 · D30', count: 3 },
-      { name: '正常经营', subtitle: '持续经营', count: 4 },
-      { name: '清货', subtitle: '执行 · 监控', count: 3 },
-      { name: '停售归档', subtitle: '停止日常巡检', count: 1 }
+    let stageData = [
+      { id:'prelaunch', name: '待开售', subtitle: '等待识别开售日期', count: 2, standard:true },
+      { id:'testing', name: '新品测试', subtitle: 'D7 · D15 · D30', count: 3, standard:true },
+      { id:'operating', name: '正常经营', subtitle: '持续经营', count: 4, standard:true },
+      { id:'clearance', name: '清货', subtitle: '执行 · 监控', count: 3, standard:true },
+      { id:'archive', name: '停售归档', subtitle: '停止日常巡检', count: 1, standard:true }
     ];
-    const ruleData = {
+    let ruleData = {
       '待开售': [
         { name:'识别有效开售日期', meta:'系统生命周期规则', conditions:['有效开售日期 已识别'], signal:'已开售', signalClass:'green', priority:'', result:'自动进入新品测试', resultMeta:'系统低风险流转', stage:'进入新品测试', stageMeta:'自动执行' },
         { name:'开售数据缺失', meta:'数据质量规则', conditions:['商品已同步','开售日期 缺失'], signal:'开售数据缺失', signalClass:'orange', priority:'48小时处理', result:'生成数据补充任务', resultMeta:'通知管理员', stage:'保持待开售', stageMeta:'不参与新品计时', view:'新品测试' }
@@ -741,6 +753,7 @@
     let activeStage = '新品测试';
     let activeView = 3;
     let ruleCreating = true;
+    let stageDraft = [];
     const problemViewMap = {
       'D30 零单':'不动销处置', 'D15 弱动销':'不动销处置', '连续零单':'不动销处置',
       '有花费无订单':'广告健康', 'ACOS 过高':'广告健康', 'TACoS 过高':'广告健康',
@@ -750,9 +763,110 @@
     const stageRail = document.getElementById('stageRail');
     const ruleRows = document.getElementById('ruleRows');
 
+    function escapeHTML(value = '') {
+      return String(value).replace(/[&<>"']/g, character => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' })[character]);
+    }
+
     function renderStages() {
-      stageRail.innerHTML = stageData.map((stage, index) => `<button class="stage ${stage.name === activeStage ? 'active' : ''}" data-stage="${stage.name}"><i>阶段 ${String(index + 1).padStart(2,'0')}</i><b>${stage.name}</b><span>${stage.subtitle}</span><em class="count">${stage.count}</em></button>`).join('');
-      stageRail.querySelectorAll('.stage').forEach(button => button.addEventListener('click', () => { activeStage = button.dataset.stage; renderStages(); renderRules(); }));
+      stageRail.style.gridTemplateColumns = `repeat(${stageData.length}, minmax(145px,1fr))`;
+      stageRail.innerHTML = stageData.map((stage, index) => `<button class="stage ${stage.name === activeStage ? 'active' : ''}" data-stage-index="${index}"><i>阶段 ${String(index + 1).padStart(2,'0')}</i><b>${escapeHTML(stage.name)}</b><span>${escapeHTML(stage.subtitle)}</span><em class="count">${stage.count}</em></button>`).join('');
+      stageRail.querySelectorAll('.stage').forEach(button => button.addEventListener('click', () => {
+        activeStage = stageData[Number(button.dataset.stageIndex)].name;
+        renderStages();
+        renderRules();
+      }));
+    }
+
+    function renderStageManager() {
+      const host = document.getElementById('stageManageList');
+      host.innerHTML = stageDraft.map((stage, index) => {
+        const linkedRuleCount = stage.originalName ? (ruleData[stage.originalName] || []).length : 0;
+        const canDelete = !stage.standard && linkedRuleCount === 0;
+        const deleteTitle = stage.standard ? '系统阶段不可删除' : linkedRuleCount ? '该阶段已有规则，无法删除' : '删除阶段';
+        return `<div class="stage-manage-row editable" data-stage-id="${escapeHTML(stage.id)}">
+          <span class="stage-index">${String(index + 1).padStart(2,'0')}</span>
+          <div class="stage-edit-fields">
+            <input class="stage-field stage-name" value="${escapeHTML(stage.name)}" aria-label="阶段名称" placeholder="阶段名称">
+            <input class="stage-field stage-subtitle" value="${escapeHTML(stage.subtitle)}" aria-label="阶段说明" placeholder="一句话说明">
+          </div>
+          <div class="stage-row-actions">
+            <button class="stage-icon-btn" type="button" data-stage-action="up" title="上移" ${index === 0 ? 'disabled' : ''}>↑</button>
+            <button class="stage-icon-btn" type="button" data-stage-action="down" title="下移" ${index === stageDraft.length - 1 ? 'disabled' : ''}>↓</button>
+            <button class="stage-icon-btn danger" type="button" data-stage-action="delete" title="${deleteTitle}" ${canDelete ? '' : 'disabled'}>×</button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function syncStageDraftField(input) {
+      const row = input.closest('[data-stage-id]');
+      if (!row) return;
+      const stage = stageDraft.find(item => item.id === row.dataset.stageId);
+      if (!stage) return;
+      if (input.classList.contains('stage-name')) stage.name = input.value;
+      if (input.classList.contains('stage-subtitle')) stage.subtitle = input.value;
+    }
+
+    function openStageManager() {
+      stageDraft = stageData.map(stage => ({ ...stage, originalName:stage.name }));
+      renderStageManager();
+      openDrawer(document.getElementById('stageDrawer'));
+    }
+
+    function addLifecycleStage() {
+      const usedNames = new Set(stageDraft.map(stage => stage.name));
+      let sequence = 1;
+      let name = '自定义阶段';
+      while (usedNames.has(name)) name = `自定义阶段 ${++sequence}`;
+      const stage = { id:`custom-${Date.now()}`, name, subtitle:'持续检查', count:0, standard:false, originalName:'' };
+      const archiveIndex = stageDraft.findIndex(item => item.id === 'archive');
+      stageDraft.splice(archiveIndex >= 0 ? archiveIndex : stageDraft.length, 0, stage);
+      renderStageManager();
+      const input = document.querySelector(`[data-stage-id="${stage.id}"] .stage-name`);
+      if (input) { input.focus(); input.select(); }
+    }
+
+    function saveLifecycleStages() {
+      const names = stageDraft.map(stage => stage.name.trim());
+      if (names.some(name => !name)) { showToast('阶段名称不能为空'); return; }
+      if (new Set(names).size !== names.length) { showToast('阶段名称不能重复'); return; }
+
+      stageDraft.forEach((stage, index) => {
+        stage.name = names[index];
+        stage.subtitle = stage.subtitle.trim() || '持续检查';
+      });
+
+      const renameMap = new Map(stageDraft.filter(stage => stage.originalName).map(stage => [stage.originalName, stage.name]));
+      const nextRuleData = {};
+      stageDraft.forEach(stage => {
+        const rules = stage.originalName ? (ruleData[stage.originalName] || []) : [];
+        rules.forEach(rule => {
+          renameMap.forEach((newName, oldName) => {
+            rule.stage = rule.stage.replaceAll(oldName, newName);
+            rule.conditions = rule.conditions.map(condition => condition.replaceAll(oldName, newName));
+          });
+        });
+        nextRuleData[stage.name] = rules;
+      });
+      ruleData = nextRuleData;
+      stageData = stageDraft.map(({ originalName, ...stage }) => stage);
+      activeStage = renameMap.get(activeStage) || stageData[0].name;
+
+      views.forEach(view => {
+        if (view.sourceType !== 'stage' || !renameMap.has(view.sourceValue)) return;
+        const oldName = view.sourceValue;
+        const newName = renameMap.get(oldName);
+        view.sourceValue = newName;
+        view.desc = `生命周期阶段：${newName}`;
+        if (view.name === oldName) view.name = newName;
+      });
+
+      updateStageTargetOptions();
+      renderStages();
+      renderRules();
+      renderViews();
+      closeDrawers();
+      showToast('生命周期阶段已更新');
     }
 
     function getRuleExecution(rule) {
@@ -926,9 +1040,11 @@
 
     const panels = document.querySelectorAll('.panel');
     const pageGuide = document.getElementById('pageGuide');
+    const manageStagesButton = document.getElementById('manageStages');
     document.querySelectorAll('[data-panel]').forEach(button => button.addEventListener('click', () => {
       document.querySelectorAll('[data-panel]').forEach(item => item.classList.toggle('active', item === button));
       panels.forEach(panel => panel.classList.toggle('active', panel.id === button.dataset.panel));
+      manageStagesButton.hidden = button.dataset.panel !== 'strategyPanel';
       pageGuide.innerHTML = button.dataset.panel === 'viewPanel'
         ? '<b>经营视图</b><span>规则结果展示</span>'
         : '<b>生命周期已启用</b><span>规则持续执行</span>';
@@ -938,11 +1054,30 @@
     const drawers = document.querySelectorAll('.drawer');
     function openDrawer(drawer) { drawers.forEach(item => item.classList.remove('open')); drawer.classList.add('open'); mask.classList.add('open'); }
     function closeDrawers() { drawers.forEach(item => item.classList.remove('open')); mask.classList.remove('open'); }
+    manageStagesButton.addEventListener('click', openStageManager);
+    document.getElementById('stageManageList').addEventListener('input', event => {
+      if (event.target.matches('.stage-field')) syncStageDraftField(event.target);
+    });
+    document.getElementById('stageManageList').addEventListener('click', event => {
+      const button = event.target.closest('[data-stage-action]');
+      if (!button || button.disabled) return;
+      const row = button.closest('[data-stage-id]');
+      const index = stageDraft.findIndex(stage => stage.id === row.dataset.stageId);
+      if (index < 0) return;
+      const action = button.dataset.stageAction;
+      if (action === 'up' && index > 0) [stageDraft[index - 1], stageDraft[index]] = [stageDraft[index], stageDraft[index - 1]];
+      if (action === 'down' && index < stageDraft.length - 1) [stageDraft[index + 1], stageDraft[index]] = [stageDraft[index], stageDraft[index + 1]];
+      if (action === 'delete') stageDraft.splice(index, 1);
+      renderStageManager();
+    });
+    document.getElementById('addStage').addEventListener('click', addLifecycleStage);
+    document.getElementById('saveStages').addEventListener('click', saveLifecycleStages);
     function openRuleDrawer(create = true, preferredView = '') {
       ruleCreating = create;
       document.getElementById('drawerTitle').textContent = create ? '新建结构化规则' : '编辑结构化规则';
       document.getElementById('scopeStage').textContent = activeStage;
       document.getElementById('currentStageOutcome').textContent = activeStage;
+      updateStageTargetOptions();
       setExecutionMode('both');
       if (preferredView) {
         issueSelect.value = '新建问题类型…';
@@ -1031,6 +1166,13 @@
     const deadlineSelect = document.getElementById('deadlineSelect');
     const stageTargetSelect = document.getElementById('stageTargetSelect');
     const stageMethodSelect = document.getElementById('stageMethodSelect');
+    function updateStageTargetOptions() {
+      const currentValue = stageTargetSelect.value;
+      const options = stageData.filter(stage => stage.name !== activeStage).map(stage => stage.name);
+      options.push('保持当前阶段');
+      stageTargetSelect.innerHTML = options.map(name => `<option value="${escapeHTML(name)}">${escapeHTML(name)}</option>`).join('');
+      stageTargetSelect.value = options.includes(currentValue) ? currentValue : (options[0] || '保持当前阶段');
+    }
     function syncIssueMapping(fromAI = false) {
       const isCustom = issueSelect.value === '新建问题类型…';
       customIssueFields.classList.toggle('open', isCustom);
@@ -1090,6 +1232,7 @@
     renderStages();
     renderRules();
     renderViews();
+    updateStageTargetOptions();
     syncIssueMapping();
     setExecutionMode('both');
   </script>
