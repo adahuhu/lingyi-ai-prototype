@@ -4,6 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>经营策略中心 - 产品定义版线框图</title>
+  <script>
+    if (new URLSearchParams(location.search).get('embedded') === '1') {
+      document.documentElement.classList.add('embedded-mode');
+    }
+  </script>
   <style>
     * { box-sizing: border-box; }
     [hidden] { display: none !important; }
@@ -28,6 +33,12 @@
     button, input, select, textarea { font: inherit; }
     button { cursor: pointer; }
     .shell { width: min(1680px, 100vw); min-height: 100vh; margin: 0 auto; display: grid; grid-template-columns: 212px minmax(0, 1fr); background: #f7f9fc; }
+    html.embedded-mode body { background: #f7f9fc; }
+    html.embedded-mode .shell { width: 100%; min-height: 0; display: block; }
+    html.embedded-mode .side,
+    html.embedded-mode .topbar { display: none; }
+    html.embedded-mode .workspace { display: block; min-width: 0; }
+    html.embedded-mode main { padding: 12px 14px 24px; overflow: visible; }
     .side { background: #fff; border-right: 1px solid var(--line); padding: 18px 12px; }
     .brand { display: flex; align-items: center; gap: 10px; padding: 0 8px 20px; }
     .logo { width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; background: var(--blue); color: #fff; font-weight: 760; }

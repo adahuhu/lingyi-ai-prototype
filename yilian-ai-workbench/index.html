@@ -18399,6 +18399,21 @@
     }
 
     /*经营策略中心*/
+    .strategy-embed {
+      width: 100%;
+      height: calc(100vh - 72px);
+      min-height: 720px;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #f7f9fc;
+    }
+    .strategy-embed iframe {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: 0;
+      background: #f7f9fc;
+    }
     .strategy-center {
       display: grid;
       gap: 10px;
@@ -24908,6 +24923,10 @@
     }
 
     function renderRules() {
+      return `<section class="strategy-embed"><iframe src="./strategy-center.html?embedded=1" title="经营策略中心" loading="eager"></iframe></section>`;
+    }
+
+    function renderRulesLegacy() {
       const sceneRules = [
         { title:"新品测试", view:"newProducts", count:4, icon:"timer", mark:"新", color:"#1f6fff", bg:"#eaf2ff", border:"#cfe0ff", desc:"管理新品首批表现、测款结果和后续去留。" },
         { title:"不动销处置", view:"inactive", count:5, icon:"list-end", mark:"滞", color:"#7c3aed", bg:"#f1ebff", border:"#ded2ff", desc:"集中处理长期无销量、库存占用和黑名单候选。" },
@@ -25092,7 +25111,7 @@
       `;
     }
 
-    function renderRules() {
+    function renderRulesLegacy2() {
       const tab = state.strategyCenterTab || "lifecycle";
       const stages = lifecycleStages();
       const activeStage = stages.find(stage => stage.id === state.strategyLifecycleStage) || stages.find(stage => stage.id === "new") || stages[0];
