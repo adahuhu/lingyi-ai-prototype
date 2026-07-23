@@ -56,10 +56,6 @@
     .search { width: 350px; height: 32px; border: 1px solid var(--line); border-radius: 8px; padding: 0 12px; display: flex; align-items: center; color: #98a2b3; font-size: 11px; }
     main { padding: 14px 16px 28px; overflow: auto; }
     .pagebar { min-height: 42px; display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 10px; }
-    .relation { min-height: 30px; padding: 0 10px; border: 1px solid #d8e7ff; border-radius: 8px; background: #f8fbff; display: flex; align-items: center; flex-wrap: wrap; gap: 7px; color: #667085; font-size: 10px; }
-    .relation span { display: inline-flex; align-items: center; gap: 6px; }
-    .relation b { color: var(--blue); }
-    .relation i { color: #a1adbd; font-style: normal; }
     .page-actions { display: flex; align-items: center; gap: 7px; }
     .segments { padding: 3px; display: flex; gap: 3px; border: 1px solid var(--line); border-radius: 9px; background: #fff; }
     .segments button { min-height: 30px; padding: 0 14px; border: 0; border-radius: 6px; background: transparent; color: #667085; font-size: 11px; }
@@ -284,10 +280,6 @@
     .stage-icon-btn.danger:hover { border-color: #ffccc7; color: var(--red); }
     .stage-icon-btn:disabled { opacity: .34; cursor: not-allowed; }
     .stage-add-row { margin-top: 10px; min-height: 44px; border: 1px dashed #b9d4ff; border-radius: 8px; display: grid; place-items: center; background: #f8fbff; color: var(--blue); font-size: 11px; font-weight: 650; cursor: pointer; }
-    .view-toolbar { min-height: 44px; margin-bottom: 9px; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
-    .view-toolbar-copy { display: flex; align-items: baseline; gap: 9px; }
-    .view-toolbar-copy b { color: #344054; font-size: 11px; }
-    .view-toolbar-copy span { color: var(--muted); font-size: 8px; }
     .view-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 10px; }
     .view-card { min-height: 132px; border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; background: #fff; color: var(--ink); font: inherit; text-align: left; cursor: pointer; box-shadow: 0 8px 22px rgba(31,46,77,.028); transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease; }
     .view-card:hover { border-color: #a9cbff; box-shadow: 0 12px 30px rgba(31,83,156,.07); transform: translateY(-1px); }
@@ -380,7 +372,6 @@
     html.embedded-mode body { background: #f5f7fb; }
     html.embedded-mode main { padding: 9px 10px 18px; }
     .pagebar { min-height: 34px; margin-bottom: 8px; }
-    .relation { min-height: 30px; padding: 0 10px; border-color: #d7e7ff; border-radius: 7px; font-size: 10px; }
     .segments { border-radius: 9px; }
     .segments button { min-height: 30px; padding: 0 13px; font-size: 11px; }
     .card { border-color: var(--line); border-radius: 8px; box-shadow: none; }
@@ -419,9 +410,6 @@
     .tag { min-height: 23px; padding: 0 8px; font-size: 10px; }
     .text-btn { font-size: 11px; }
     .rules-foot { min-height: 34px; font-size: 9px; justify-content: flex-end; }
-    .view-toolbar { min-height: 40px; margin-bottom: 8px; }
-    .view-toolbar-copy b { font-size: 12px; }
-    .view-toolbar-copy span { display: none; }
     .view-grid { grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; }
     .view-card { min-height: 132px; border-radius: 8px; padding: 12px; box-shadow: none; }
     .view-card:hover { box-shadow: none; transform: none; }
@@ -506,8 +494,8 @@
         <div class="pagebar">
           <div class="segments"><button type="button" class="active" data-panel="strategyPanel">生命周期与规则</button><button type="button" data-panel="viewPanel">经营视图</button></div>
           <div class="pagebar-actions">
-            <div class="relation" id="pageGuide"><b>生命周期已启用</b><span>规则持续执行</span></div>
             <button class="btn" id="manageStages" type="button">管理阶段</button>
+            <button class="btn primary" id="newView" type="button" hidden>＋ 新建团队视图</button>
           </div>
         </div>
 
@@ -534,10 +522,6 @@
         </section>
 
         <section class="panel" id="viewPanel">
-          <div class="view-toolbar">
-            <div class="view-toolbar-copy"><b id="viewCount">共 0 个视图</b></div>
-            <button class="btn primary" id="newView">＋ 新建团队视图</button>
-          </div>
           <div class="view-grid" id="viewRows"></div>
         </section>
       </main>
@@ -786,8 +770,8 @@
         return `<div class="stage-manage-row editable" data-stage-id="${escapeHTML(stage.id)}">
           <span class="stage-index">${String(index + 1).padStart(2,'0')}</span>
           <div class="stage-edit-fields">
-            <input class="stage-field stage-name" value="${escapeHTML(stage.name)}" aria-label="阶段名称" placeholder="阶段名称">
-            <input class="stage-field stage-subtitle" value="${escapeHTML(stage.subtitle)}" aria-label="阶段说明" placeholder="一句话说明">
+            <input class="stage-field stage-name" value="${escapeHTML(stage.name)}" aria-label="阶段名称" placeholder="请输入阶段名称">
+            <input class="stage-field stage-subtitle" value="${escapeHTML(stage.subtitle)}" aria-label="阶段说明" placeholder="请输入阶段说明（可选）">
           </div>
           <div class="stage-row-actions">
             <button class="stage-icon-btn" type="button" data-stage-action="up" title="上移" ${index === 0 ? 'disabled' : ''}>↑</button>
@@ -814,11 +798,7 @@
     }
 
     function addLifecycleStage() {
-      const usedNames = new Set(stageDraft.map(stage => stage.name));
-      let sequence = 1;
-      let name = '自定义阶段';
-      while (usedNames.has(name)) name = `自定义阶段 ${++sequence}`;
-      const stage = { id:`custom-${Date.now()}`, name, subtitle:'持续检查', count:0, standard:false, originalName:'' };
+      const stage = { id:`custom-${Date.now()}`, name:'', subtitle:'', count:0, standard:false, originalName:'' };
       const archiveIndex = stageDraft.findIndex(item => item.id === 'archive');
       stageDraft.splice(archiveIndex >= 0 ? archiveIndex : stageDraft.length, 0, stage);
       renderStageManager();
@@ -833,7 +813,7 @@
 
       stageDraft.forEach((stage, index) => {
         stage.name = names[index];
-        stage.subtitle = stage.subtitle.trim() || '持续检查';
+        stage.subtitle = stage.subtitle.trim();
       });
 
       const renameMap = new Map(stageDraft.filter(stage => stage.originalName).map(stage => [stage.originalName, stage.name]));
@@ -954,7 +934,6 @@
     }
 
     function renderViews() {
-      document.getElementById('viewCount').textContent = `共 ${views.length} 个视图`;
       document.getElementById('viewRows').innerHTML = views.map((view,index) => {
         const isTeam = view.type === '团队视图';
         const iconClass = isTeam ? 'team' : (view.sourceType === 'rules' ? 'rule' : 'stage');
@@ -1039,15 +1018,13 @@
     });
 
     const panels = document.querySelectorAll('.panel');
-    const pageGuide = document.getElementById('pageGuide');
     const manageStagesButton = document.getElementById('manageStages');
+    const newViewButton = document.getElementById('newView');
     document.querySelectorAll('[data-panel]').forEach(button => button.addEventListener('click', () => {
       document.querySelectorAll('[data-panel]').forEach(item => item.classList.toggle('active', item === button));
       panels.forEach(panel => panel.classList.toggle('active', panel.id === button.dataset.panel));
       manageStagesButton.hidden = button.dataset.panel !== 'strategyPanel';
-      pageGuide.innerHTML = button.dataset.panel === 'viewPanel'
-        ? '<b>经营视图</b><span>规则结果展示</span>'
-        : '<b>生命周期已启用</b><span>规则持续执行</span>';
+      newViewButton.hidden = button.dataset.panel !== 'viewPanel';
     }));
 
     const mask = document.getElementById('mask');
