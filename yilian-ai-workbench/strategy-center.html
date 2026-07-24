@@ -99,6 +99,7 @@
     .rule-row { min-height: 78px; border-top: 1px solid var(--line-soft); color: #344054; font-size: 10px; }
     .rule-row b { display: block; color: var(--ink); font-size: 11px; }
     .rule-row small { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; line-height: 1.45; }
+    .output-tags { display: flex; flex-wrap: wrap; gap: 4px; }
     .condition-box { min-height: 50px; padding: 7px 8px; border: 1px solid #e2e8f0; border-radius: 7px; background: #fbfcfe; }
     .condition-line { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
     .condition-line + .condition-line { margin-top: 5px; }
@@ -227,7 +228,7 @@
     .stability { margin-top: 8px; display: grid; grid-template-columns: 125px minmax(0,1fr); align-items: center; gap: 8px; color: #667085; font-size: 9px; }
     .execution-mode { width: fit-content; margin-bottom: 8px; padding: 3px; border: 1px solid var(--line); border-radius: 8px; display: flex; gap: 3px; background: #f7f9fc; }
     .execution-mode button { min-height: 28px; border: 0; border-radius: 6px; padding: 0 12px; background: transparent; color: #667085; font-size: 9px; }
-    .execution-mode button.active { background: #fff; color: var(--blue); font-weight: 700; box-shadow: 0 1px 3px rgba(23,35,58,.08); }
+    .execution-mode button.active { border: 1px solid #b8d4ff; background: #eef5ff; color: var(--blue); font-weight: 700; }
     .execution-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
     .execution-grid.single { grid-template-columns: minmax(0,1fr); }
     .outcome-card { min-height: 150px; border: 1px solid #dbe5f2; border-radius: 8px; padding: 11px; background: #fbfcfe; }
@@ -522,12 +523,12 @@
               <div class="rule-filters">
                 <input class="rule-filter" id="ruleSearch" placeholder="搜索规则或问题">
                 <select class="rule-filter" id="ruleSourceFilter"><option value="">全部来源</option><option value="系统">系统模板</option><option value="租户">租户规则</option></select>
-                <select class="rule-filter" id="ruleExecutionFilter"><option value="">全部执行结果</option><option>异常任务</option><option>阶段流转</option><option>任务 + 流转</option><option>仅记录</option></select>
+                <select class="rule-filter" id="ruleExecutionFilter"><option value="">全部执行结果</option><option>异常任务</option><option>生命周期流转</option><option>经营视图</option><option>组合执行</option></select>
               </div>
               <div class="head-actions"><button class="btn" id="openLibrary">全部规则</button><button class="btn primary" id="newRule">AI 创建规则</button></div>
             </div>
             <div class="rules">
-              <div class="rule-labels"><span>规则</span><span>当满足</span><span>识别问题</span><span>命中后执行</span><span>阶段变化</span><span>状态</span><span></span></div>
+              <div class="rule-labels"><span>规则</span><span>当满足</span><span>识别结果</span><span>命中后执行</span><span>生命周期流转</span><span>状态</span><span></span></div>
               <div id="ruleRows"></div>
               <div class="rules-foot"><span id="filteredCount">显示 3 条</span></div>
             </div>
@@ -575,32 +576,32 @@
       </section>
 
       <section class="form-section">
-        <div class="form-title">3. 命中后执行 <span>先选择系统需要执行的结果</span></div>
-        <div class="execution-mode" id="executionMode"><button type="button" data-execution-mode="issue">生成待处理任务</button><button type="button" data-execution-mode="stage">调整生命周期</button><button type="button" class="active" data-execution-mode="both">两者都执行</button></div>
+        <div class="form-title">3. 命中后执行 <span>结果可单独选择，也可组合执行</span></div>
+        <div class="execution-mode" id="executionMode"><button type="button" class="active" data-output="issue" aria-pressed="true">异常任务</button><button type="button" class="active" data-output="stage" aria-pressed="true">生命周期流转</button><button type="button" class="active" data-output="view" aria-pressed="true">经营视图</button></div>
         <div class="execution-grid" id="executionGrid">
           <article class="outcome-card task" id="issueOutcomeCard">
-            <div class="outcome-head"><div class="outcome-title"><input type="checkbox" id="issueOutcomeEnabled" checked hidden><i class="outcome-icon">!</i>问题处理</div><span class="tag red" id="taskOutcomeTag">异常任务</span></div>
+            <div class="outcome-head"><div class="outcome-title"><input type="checkbox" id="issueOutcomeEnabled" checked hidden><i class="outcome-icon">!</i>异常处理</div><span class="tag red" id="taskOutcomeTag">异常任务</span></div>
             <div class="outcome-fields">
-              <label class="outcome-field"><span>识别问题</span><select class="inline-field" id="issueSelect"><option>D30 零单</option><option>D15 弱动销</option><option>连续零单</option><option>有花费无订单</option><option>ACOS 过高</option><option>TACoS 过高</option><option>库存覆盖不足</option><option>补货候选</option><option>清货消化慢</option><option>差评集中出现</option><option>新建问题类型…</option></select><small class="match-note"><span>AI 已自动匹配，可修改</span></small></label>
-              <label class="outcome-field"><span>处理时效</span><select class="inline-field" id="deadlineSelect"><option>今天处理</option><option>48 小时内处理</option><option>仅记录，持续观察</option></select></label>
+              <label class="outcome-field"><span>识别为</span><select class="inline-field" id="issueSelect"><option>D30 零单</option><option>D15 弱动销</option><option>连续零单</option><option>有花费无订单</option><option>ACOS 过高</option><option>TACoS 过高</option><option>库存覆盖不足</option><option>补货候选</option><option>清货消化慢</option><option>差评集中出现</option><option>新建问题类型…</option></select><small class="match-note"><span>AI 已自动匹配，可修改</span></small></label>
+              <label class="outcome-field"><span>处理时效</span><select class="inline-field" id="deadlineSelect"><option>今天处理</option><option>48 小时内处理</option><option>7 天内复查</option></select></label>
               <div class="custom-issue" id="customIssueFields"><input class="field" id="customIssueName" placeholder="输入新的问题名称"></div>
             </div>
             <div class="outcome-foot"><span><i class="status-dot"></i><span id="taskSystemAction">自动生成待处理任务</span></span></div>
           </article>
           <article class="outcome-card lifecycle" id="stageOutcomeCard">
-            <div class="outcome-head"><div class="outcome-title"><input type="checkbox" id="stageOutcomeEnabled" checked hidden><i class="outcome-icon">→</i>生命周期处理</div><span class="tag blue" id="stageOutcomeTag">阶段流转</span></div>
-            <div class="stage-flow"><div class="stage-node"><span>当前阶段</span><strong id="currentStageOutcome">新品测试</strong></div><i class="stage-arrow">→</i><label class="stage-node"><span>目标阶段</span><select class="inline-field" id="stageTargetSelect"><option value="清货">清货</option><option value="正常经营">正常经营</option><option value="停售归档">停售归档</option><option value="保持当前阶段">保持当前阶段</option></select></label></div>
-            <div class="outcome-foot"><span><i class="status-dot green"></i>流转方式</span><select class="inline-field" id="stageMethodSelect"><option>负责人确认后流转</option><option>系统自动流转</option></select></div>
+            <div class="outcome-head"><div class="outcome-title"><input type="checkbox" id="stageOutcomeEnabled" checked hidden><i class="outcome-icon">→</i>生命周期流转</div><span class="tag blue" id="stageOutcomeTag">生命周期流转</span></div>
+            <div class="stage-flow"><div class="stage-node"><span>当前阶段</span><strong id="currentStageOutcome">新品测试</strong></div><i class="stage-arrow">→</i><label class="stage-node"><span>目标阶段</span><select class="inline-field" id="stageTargetSelect"><option value="清货">清货</option><option value="正常经营">正常经营</option><option value="停售归档">停售归档</option></select></label></div>
+            <div class="outcome-foot"><span><i class="status-dot green"></i>命中后由系统自动流转</span></div>
           </article>
         </div>
         <article class="outcome-card destination" id="viewOutcomeCard">
-          <div class="outcome-head"><div class="outcome-title"><i class="outcome-icon">▦</i>结果呈现</div><span class="tag blue">经营视图</span></div>
+          <div class="outcome-head"><div class="outcome-title"><input type="checkbox" id="viewOutcomeEnabled" checked hidden><i class="outcome-icon">▦</i>归入经营视图</div><span class="tag blue" id="viewOutcomeTag">经营视图</span></div>
           <div class="destination-content">
             <label class="destination-select"><span style="display:block;color:#98a2b3;font-size:8px">归入经营视图</span><select class="inline-field" id="issueViewSelect"><option>不动销处置</option><option>新品测试</option><option>在售经营</option><option>广告健康</option><option>库存与补货</option><option>清货与复盘</option><option>评论与洞察</option></select></label>
-            <div class="destination-copy"><b id="viewMatchNote" style="display:block;color:#344054;font-size:10px">根据识别问题自动匹配，可修改</b>经营视图只决定结果在哪里展示，不改变规则判断和生命周期。</div>
+            <div class="destination-copy"><b id="viewMatchNote" style="display:block;color:#344054;font-size:10px">系统已根据识别结果推荐，可修改</b>命中结果将展示在所选经营视图中。</div>
           </div>
         </article>
-        <div class="ai-action"><div><b>建议动作</b><span class="tag blue">由 AI 自动分析</span></div><p>系统将结合当前 ASIN 数据、规则证据和企业知识库，生成适合该商品的具体处理建议。</p></div>
+        <div class="ai-action"><div><b>建议动作由 AI 自动分析</b></div><p>系统将结合当前 ASIN 数据、规则证据和企业知识库，生成适合该商品的具体处理建议。</p></div>
       </section>
     </div>
     <div class="drawer-foot">
@@ -615,10 +616,10 @@
   <aside class="drawer wide" id="libraryDrawer">
     <div class="drawer-head"><div><strong>全部规则</strong><small>跨阶段查看、启停和管理规则版本</small></div><button class="close" data-close>×</button></div>
     <div class="drawer-body">
-      <div class="library-toolbar"><input class="field" placeholder="搜索规则、指标或识别问题"><select class="field"><option>全部生命周期</option><option>新品测试</option><option>正常经营</option><option>清货</option></select><select class="field"><option>全部问题类型</option><option>销售</option><option>广告</option><option>库存</option><option>Listing</option></select><button class="btn">重置</button></div>
-      <div class="card" style="margin-top:8px;overflow:hidden"><table><thead><tr><th>规则</th><th>适用范围</th><th>条件摘要</th><th>识别问题</th><th>执行结果</th><th>阶段变化</th><th>版本/状态</th><th></th></tr></thead><tbody>
-        <tr><td><strong>D30 仍未出单</strong><small>系统模板</small></td><td>新品测试 · D30</td><td>30日销量=0 且库存&gt;0</td><td><span class="tag red">D30 零单 · 今天处理</span></td><td><span class="tag blue">任务 + 流转</span></td><td>建议进入清货</td><td><span class="tag green">V3 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
-        <tr><td><strong>D30 测试达标</strong><small>系统模板</small></td><td>新品测试 · D30</td><td>30日销量≥60 且利润为正</td><td><span class="tag green">测试通过</span></td><td><span class="tag green">阶段流转</span></td><td>建议进入正常经营</td><td><span class="tag green">V2 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
+      <div class="library-toolbar"><input class="field" placeholder="搜索规则、指标或识别结果"><select class="field"><option>全部生命周期</option><option>新品测试</option><option>正常经营</option><option>清货</option></select><select class="field"><option>全部识别结果</option><option>销售</option><option>广告</option><option>库存</option><option>Listing</option></select><button class="btn">重置</button></div>
+      <div class="card" style="margin-top:8px;overflow:hidden"><table><thead><tr><th>规则</th><th>适用范围</th><th>条件摘要</th><th>识别结果</th><th>执行结果</th><th>生命周期流转</th><th>版本/状态</th><th></th></tr></thead><tbody>
+        <tr><td><strong>D30 仍未出单</strong><small>系统模板</small></td><td>新品测试 · D30</td><td>30日销量=0 且库存&gt;0</td><td><span class="tag red">D30 零单 · 今天处理</span></td><td><span class="tag orange">异常任务</span> <span class="tag green">生命周期流转</span> <span class="tag blue">经营视图</span></td><td>自动进入清货</td><td><span class="tag green">V3 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
+        <tr><td><strong>D30 测试达标</strong><small>系统模板</small></td><td>新品测试 · D30</td><td>30日销量≥60 且利润为正</td><td><span class="tag green">测试通过</span></td><td><span class="tag green">生命周期流转</span></td><td>自动进入正常经营</td><td><span class="tag green">V2 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
         <tr><td><strong>广告有花费无订单</strong><small>租户规则</small></td><td>新品测试、正常经营</td><td>7日花费&gt;0 且广告订单=0</td><td><span class="tag orange">有花费无订单 · 48小时</span></td><td><span class="tag orange">异常任务</span></td><td>保持当前阶段</td><td><span class="tag green">V4 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
         <tr><td><strong>库存覆盖不足</strong><small>租户规则</small></td><td>正常经营</td><td>覆盖天数&lt;采购+物流周期</td><td><span class="tag blue">补货候选 · 48小时</span></td><td><span class="tag orange">异常任务</span></td><td>保持当前阶段</td><td><span class="tag">V1 · 草稿</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
       </tbody></table></div>
@@ -676,20 +677,19 @@
 
   <script>
     let stageData = [
-      { id:'prelaunch', name: '待开售', subtitle: '等待识别开售日期', count: 2, standard:true },
+      { id:'prelaunch', name: '待开售', subtitle: '等待识别开售日期', count: 1, standard:true },
       { id:'testing', name: '新品测试', subtitle: 'D7 · D15 · D30', count: 3, standard:true },
-      { id:'operating', name: '正常经营', subtitle: '持续经营', count: 4, standard:true },
+      { id:'operating', name: '正常经营', subtitle: '持续经营', count: 3, standard:true },
       { id:'clearance', name: '清货', subtitle: '执行 · 监控', count: 3, standard:true },
-      { id:'archive', name: '停售归档', subtitle: '停止日常巡检', count: 1, standard:true }
+      { id:'archive', name: '停售归档', subtitle: '停止日常巡检', count: 0, standard:true }
     ];
     let ruleData = {
       '待开售': [
-        { name:'识别有效开售日期', meta:'系统生命周期规则', conditions:['有效开售日期 已识别'], signal:'已开售', signalClass:'green', priority:'', result:'自动进入新品测试', resultMeta:'系统低风险流转', stage:'进入新品测试', stageMeta:'自动执行' },
-        { name:'开售数据缺失', meta:'数据质量规则', conditions:['商品已同步','开售日期 缺失'], signal:'开售数据缺失', signalClass:'orange', priority:'48小时处理', result:'生成数据补充任务', resultMeta:'通知管理员', stage:'保持待开售', stageMeta:'不参与新品计时', view:'新品测试' }
+        { name:'识别有效开售日期', meta:'系统生命周期规则', conditions:['有效开售日期 已识别'], signal:'已开售', signalClass:'green', priority:'', result:'记录生命周期判断', resultMeta:'不创建异常任务', stage:'自动进入新品测试', stageMeta:'系统自动流转', view:'新品测试' }
       ],
       '新品测试': [
-        { name:'D30 仍未出单', meta:'D30 · 系统模板', conditions:['近30日 销量 = 0','库存 > 0','Listing = 可售'], signal:'D30 零单', signalClass:'red', priority:'今天处理', result:'自动生成待处理任务', resultMeta:'AI 分析具体建议动作', stage:'建议进入清货', stageMeta:'需人工确认', view:'不动销处置' },
-        { name:'D30 测试达标', meta:'D30 · 系统模板', conditions:['近30日 销量 ≥ 60','平均利润/单 > 0'], signal:'测试通过', signalClass:'green', priority:'', result:'记录测试结论', resultMeta:'不创建异常任务', stage:'建议进入正常经营', stageMeta:'可设置自动流转' },
+        { name:'D30 仍未出单', meta:'D30 · 系统模板', conditions:['近30日 销量 = 0','库存 > 0','Listing = 可售'], signal:'D30 零单', signalClass:'red', priority:'今天处理', result:'自动生成待处理任务', resultMeta:'AI 分析具体建议动作', stage:'自动进入清货', stageMeta:'系统自动流转', view:'不动销处置' },
+        { name:'D30 测试达标', meta:'D30 · 系统模板', conditions:['近30日 销量 ≥ 60','平均利润/单 > 0'], signal:'测试通过', signalClass:'green', priority:'', result:'记录生命周期判断', resultMeta:'不创建异常任务', stage:'自动进入正常经营', stageMeta:'系统自动流转' },
         { name:'广告有花费无订单', meta:'持续检查 · 租户规则', conditions:['近7日 广告花费 > 0','近7日 广告订单 = 0','库存 > 0'], signal:'有花费无订单', signalClass:'orange', priority:'48小时处理', result:'自动合并到处理任务', resultMeta:'AI 分析具体建议动作', stage:'保持当前阶段', stageMeta:'显示到广告健康', view:'广告健康' }
       ],
       '正常经营': [
@@ -700,11 +700,9 @@
       '清货': [
         { name:'清货库存消化慢', meta:'进入清货后持续检查', conditions:['清货天数 ≥ 14','库存消化率 < 20%'], signal:'清货消化慢', signalClass:'orange', priority:'48小时处理', result:'自动生成待处理任务', resultMeta:'AI 复查价格和促销', stage:'保持清货', stageMeta:'继续观察', view:'清货与复盘' },
         { name:'清货期广告误投', meta:'进入清货后持续检查', conditions:['近7日 广告花费 > 0','近7日 广告订单 = 0'], signal:'清货期广告误投', signalClass:'red', priority:'48小时处理', result:'自动合并到清货任务', resultMeta:'AI 分析广告调整动作', stage:'保持清货', stageMeta:'不自动流转', view:'清货与复盘' },
-        { name:'清货完成', meta:'系统生命周期规则', conditions:['库存 = 0','在途库存 = 0'], signal:'清货完成', signalClass:'green', priority:'', result:'生成归档确认', resultMeta:'保留清货复盘', stage:'建议停售归档', stageMeta:'需人工确认', view:'清货与复盘' }
+        { name:'清货完成', meta:'系统生命周期规则', conditions:['库存 = 0','在途库存 = 0'], signal:'清货完成', signalClass:'green', priority:'', result:'记录生命周期判断', resultMeta:'不创建异常任务', stage:'自动进入停售归档', stageMeta:'系统自动流转', view:'清货与复盘' }
       ],
-      '停售归档': [
-        { name:'归档对象停止巡检', meta:'系统生命周期规则', conditions:['生命周期 = 停售归档'], signal:'已归档', signalClass:'blue', priority:'', result:'保留历史与动作日志', resultMeta:'不创建日常任务', stage:'保持停售归档', stageMeta:'管理员可恢复' }
-      ]
+      '停售归档': []
     };
     const views = [
       { name:'新品测试', type:'系统视图', desc:'生命周期阶段：新品测试', sourceType:'stage', sourceValue:'新品测试', extra:['经营天数 = D7 / D15 / D30'] },
@@ -870,11 +868,15 @@
     }
 
     function getRuleExecution(rule) {
-      const changesStage = !rule.stage.includes('保持') && (rule.stage.includes('进入') || rule.stage.includes('建议'));
+      const changesStage = !rule.stage.includes('保持') && rule.stage.includes('进入');
       const createsTask = rule.result.includes('任务') && !rule.resultMeta.includes('不创建');
-      const type = createsTask && changesStage ? '任务 + 流转' : createsTask ? '异常任务' : changesStage ? '阶段流转' : '仅记录';
-      const color = type === '异常任务' ? 'orange' : type === '阶段流转' ? 'green' : 'blue';
-      return { type, color };
+      const entersView = Boolean(rule.view);
+      const outputs = [
+        createsTask ? { type:'异常任务', color:'orange' } : null,
+        changesStage ? { type:'生命周期流转', color:'green' } : null,
+        entersView ? { type:'经营视图', color:'blue' } : null
+      ].filter(Boolean);
+      return { outputs, type:outputs.length > 1 ? '组合执行' : (outputs[0]?.type || '无执行结果') };
     }
 
     function renderRules() {
@@ -884,7 +886,11 @@
       const execution = document.getElementById('ruleExecutionFilter').value;
       const rows = allRows.filter(rule => {
         const searchable = [rule.name, rule.meta, rule.signal, ...rule.conditions].join(' ').toLowerCase();
-        return (!keyword || searchable.includes(keyword)) && (!source || rule.meta.includes(source)) && (!execution || getRuleExecution(rule).type === execution);
+        const executionResult = getRuleExecution(rule);
+        const matchesExecution = !execution || (execution === '组合执行'
+          ? executionResult.outputs.length > 1
+          : executionResult.outputs.some(output => output.type === execution));
+        return (!keyword || searchable.includes(keyword)) && (!source || rule.meta.includes(source)) && matchesExecution;
       });
       document.getElementById('filteredCount').textContent = `显示 ${rows.length} / ${allRows.length} 条`;
       ruleRows.innerHTML = rows.map(rule => {
@@ -893,7 +899,7 @@
         <div><b>${rule.name}</b><small>${rule.meta}</small></div>
         <div class="condition-box"><div class="condition-line">${rule.conditions.map((item,index) => `${index ? '<span class="and">且</span>' : ''}<span class="condition-chip">${item}</span>`).join('')}</div></div>
         <div class="signal"><div class="signal-line"><i class="dot ${rule.signalClass}"></i><b>${rule.signal}</b></div><small>${rule.priority ? rule.priority + ' · ' : ''}同类信号自动合并</small></div>
-        <div><span class="tag ${executionResult.color}">${executionResult.type}</span><small>${rule.result}</small></div>
+        <div><div class="output-tags">${executionResult.outputs.map(output => `<span class="tag ${output.color}">${output.type}</span>`).join('')}</div><small>${rule.result}</small></div>
         <div><b>${rule.stage}</b><small>${rule.stageMeta}</small></div>
         <span class="tag green">已启用</span><button class="text-btn editRule">编辑</button>
       </div>`;
@@ -939,7 +945,7 @@
       if (view.sourceType === 'stage') return [`当前阶段 = ${view.sourceValue}`];
       if (view.sourceType === 'rules') {
         const signals = [...new Set(getLinkedRules(view).map(rule => rule.signal))];
-        return signals.length ? [`识别问题 = ${signals.join(' / ')}`] : ['尚未配置识别规则'];
+        return signals.length ? [`识别结果 = ${signals.join(' / ')}`] : ['尚未配置识别规则'];
       }
       return view.extra.length ? view.extra : ['尚未设置收录条件'];
     }
@@ -948,7 +954,7 @@
       if (view.sourceType === 'stage') return `当前阶段 = <b>${view.sourceValue}</b>`;
       if (view.sourceType === 'rules') {
         const signals = [...new Set(getLinkedRules(view).map(rule => rule.signal))];
-        return signals.length ? `识别问题 = <b>${signals.join(' / ')}</b>` : '<b>尚未配置识别规则</b>';
+        return signals.length ? `识别结果 = <b>${signals.join(' / ')}</b>` : '<b>尚未配置识别规则</b>';
       }
       return `<b>${view.extra.length}</b> 个团队筛选条件`;
     }
@@ -1078,7 +1084,7 @@
       document.getElementById('scopeStage').textContent = activeStage;
       document.getElementById('currentStageOutcome').textContent = activeStage;
       updateStageTargetOptions();
-      setExecutionMode('both');
+      setExecutionOutputs(['issue','stage','view']);
       if (preferredView) {
         issueSelect.value = '新建问题类型…';
         syncIssueMapping();
@@ -1110,10 +1116,11 @@
     function validateCurrentRule() {
       const handlesIssue = issueOutcomeEnabled.checked;
       const handlesStage = stageOutcomeEnabled.checked;
-      if (!handlesIssue && !handlesStage) return { type:'error', status:'需要补充', message:'至少选择一种命中结果：生成待处理任务或调整生命周期。' };
+      const handlesView = viewOutcomeEnabled.checked;
+      if (!handlesIssue && !handlesStage && !handlesView) return { type:'error', status:'需要补充', message:'至少选择一种命中结果：异常任务、生命周期流转或经营视图。' };
       const custom = issueSelect.value === '新建问题类型…';
       const signal = handlesIssue ? (custom ? document.getElementById('customIssueName').value.trim() : issueSelect.value) : '';
-      if (handlesIssue && !signal) return { type:'error', status:'需要补充', message:'问题名称为空，暂时无法生成待处理任务。' };
+      if (handlesIssue && !signal) return { type:'error', status:'需要补充', message:'识别结果为空，暂时无法生成待处理任务。' };
       const duplicate = ruleCreating && handlesIssue && (ruleData[activeStage] || []).some(rule => rule.signal === signal);
       if (duplicate) return { type:'warning', status:'发现相似规则', message:`“${signal}”已存在相似规则。字段与条件结构有效，请确认是否仍要启用。` };
       return { type:'success', status:'校验通过', message:'字段可用，条件无冲突，未发现重复规则或互斥的生命周期动作。' };
@@ -1143,16 +1150,34 @@
       }
       if (ruleCreating) {
         const handlesIssue = issueOutcomeEnabled.checked;
+        const handlesStage = stageOutcomeEnabled.checked;
+        const handlesView = viewOutcomeEnabled.checked;
         const custom = issueSelect.value === '新建问题类型…';
-        const signal = handlesIssue ? (custom ? document.getElementById('customIssueName').value.trim() : issueSelect.value) : `流转至${stageTargetSelect.value}`;
+        const signal = handlesIssue
+          ? (custom ? document.getElementById('customIssueName').value.trim() : issueSelect.value)
+          : handlesStage
+            ? `流转至${stageTargetSelect.value}`
+            : `${issueViewSelect.value}视图收录`;
         if (handlesIssue && !signal) { showToast('请填写问题名称'); return; }
-        const targetView = handlesIssue ? issueViewSelect.value : '';
-        ruleData[activeStage].unshift({ name:`${signal}规则`, meta:'持续检查 · 租户规则', conditions:['按当前结构化条件执行'], signal, signalClass:handlesIssue ? 'orange' : 'green', priority:handlesIssue ? deadlineSelect.value : '', result:handlesIssue ? '自动生成待处理任务' : '记录生命周期判断', resultMeta:handlesIssue ? 'AI 分析具体建议动作' : '不创建异常任务', stage:stageOutcomeEnabled.checked ? `建议进入${stageTargetSelect.value}` : '保持当前阶段', stageMeta:stageOutcomeEnabled.checked ? stageMethodSelect.value : '不执行生命周期处理', view:targetView || undefined });
+        const targetView = handlesView ? issueViewSelect.value : '';
+        ruleData[activeStage].unshift({
+          name:`${signal}规则`,
+          meta:'持续检查 · 租户规则',
+          conditions:['按当前结构化条件执行'],
+          signal,
+          signalClass:handlesIssue ? 'orange' : 'green',
+          priority:handlesIssue ? deadlineSelect.value : '',
+          result:handlesIssue ? '自动生成待处理任务' : '记录规则判断',
+          resultMeta:handlesIssue ? 'AI 分析具体建议动作' : '不创建异常任务',
+          stage:handlesStage ? `自动进入${stageTargetSelect.value}` : '保持当前阶段',
+          stageMeta:handlesStage ? '系统自动流转' : '不执行生命周期流转',
+          view:targetView || undefined
+        });
         renderRules();
         renderViews();
       }
       closeDrawers();
-      showToast('规则已启用，经营视图已更新识别来源');
+      showToast('规则已启用，命中结果已更新');
     });
     document.getElementById('ruleDrawer').addEventListener('input', resetRuleValidation);
     document.getElementById('ruleDrawer').addEventListener('change', resetRuleValidation);
@@ -1191,22 +1216,22 @@
     document.querySelectorAll('.logic-switch button').forEach(button => button.addEventListener('click', () => { document.querySelectorAll('.logic-switch button').forEach(item => item.classList.remove('active')); button.classList.add('active'); }));
     const issueOutcomeEnabled = document.getElementById('issueOutcomeEnabled');
     const stageOutcomeEnabled = document.getElementById('stageOutcomeEnabled');
+    const viewOutcomeEnabled = document.getElementById('viewOutcomeEnabled');
     const executionMode = document.getElementById('executionMode');
     const executionGrid = document.getElementById('executionGrid');
     const issueOutcomeCard = document.getElementById('issueOutcomeCard');
     const stageOutcomeCard = document.getElementById('stageOutcomeCard');
+    const viewOutcomeCard = document.getElementById('viewOutcomeCard');
     const issueSelect = document.getElementById('issueSelect');
     const issueViewSelect = document.getElementById('issueViewSelect');
     const customIssueFields = document.getElementById('customIssueFields');
     const deadlineSelect = document.getElementById('deadlineSelect');
     const stageTargetSelect = document.getElementById('stageTargetSelect');
-    const stageMethodSelect = document.getElementById('stageMethodSelect');
     function updateStageTargetOptions() {
       const currentValue = stageTargetSelect.value;
       const options = stageData.filter(stage => stage.name !== activeStage).map(stage => stage.name);
-      options.push('保持当前阶段');
       stageTargetSelect.innerHTML = options.map(name => `<option value="${escapeHTML(name)}">${escapeHTML(name)}</option>`).join('');
-      stageTargetSelect.value = options.includes(currentValue) ? currentValue : (options[0] || '保持当前阶段');
+      stageTargetSelect.value = options.includes(currentValue) ? currentValue : (options[0] || '');
     }
     function syncIssueMapping(fromAI = false) {
       const isCustom = issueSelect.value === '新建问题类型…';
@@ -1219,43 +1244,50 @@
         document.getElementById('viewMatchNote').textContent = fromAI ? 'AI 已自动匹配，可修改' : '已按问题类型自动匹配，可修改';
       }
     }
-    function setExecutionMode(mode) {
-      issueOutcomeEnabled.checked = mode !== 'stage';
-      stageOutcomeEnabled.checked = mode !== 'issue';
-      executionMode.querySelectorAll('[data-execution-mode]').forEach(button => button.classList.toggle('active', button.dataset.executionMode === mode));
+    function setExecutionOutputs(outputs) {
+      issueOutcomeEnabled.checked = outputs.includes('issue');
+      stageOutcomeEnabled.checked = outputs.includes('stage');
+      viewOutcomeEnabled.checked = outputs.includes('view');
+      executionMode.querySelectorAll('[data-output]').forEach(button => {
+        const active = outputs.includes(button.dataset.output);
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
       updateOutcomeSummary();
     }
     function updateOutcomeSummary() {
       const handlesIssue = issueOutcomeEnabled.checked;
       const handlesStage = stageOutcomeEnabled.checked;
-      const target = stageTargetSelect.value;
-      const keepsStage = target === '保持当前阶段';
-      const automaticOption = stageMethodSelect.options[1];
-      const isHighRiskStage = target === '清货' || target === '停售归档';
+      const handlesView = viewOutcomeEnabled.checked;
       issueSelect.disabled = !handlesIssue;
-      issueViewSelect.disabled = !handlesIssue;
+      issueViewSelect.disabled = !handlesView;
       document.getElementById('customIssueName').disabled = !handlesIssue;
       deadlineSelect.disabled = !handlesIssue;
       stageTargetSelect.disabled = !handlesStage;
-      stageMethodSelect.disabled = !handlesStage;
-      automaticOption.disabled = !handlesStage || isHighRiskStage;
-      if (isHighRiskStage && stageMethodSelect.value === '系统自动流转') stageMethodSelect.value = '负责人确认后流转';
-      issueOutcomeCard.hidden = !handlesIssue;
-      stageOutcomeCard.hidden = !handlesStage;
-      executionGrid.classList.toggle('single', handlesIssue !== handlesStage);
-      document.getElementById('viewOutcomeCard').hidden = !handlesIssue;
+      issueOutcomeCard.classList.toggle('inactive', !handlesIssue);
+      stageOutcomeCard.classList.toggle('inactive', !handlesStage);
+      viewOutcomeCard.classList.toggle('inactive', !handlesView);
       const taskTag = document.getElementById('taskOutcomeTag');
       taskTag.textContent = handlesIssue ? '异常任务' : '不执行';
       taskTag.className = `tag ${handlesIssue ? 'red' : ''}`;
-      document.getElementById('taskSystemAction').textContent = handlesIssue ? '自动生成待处理任务' : '不生成问题任务';
+      document.getElementById('taskSystemAction').textContent = handlesIssue ? '自动生成待处理任务' : '不生成异常任务';
       const stageTag = document.getElementById('stageOutcomeTag');
-      stageTag.textContent = handlesStage ? (keepsStage ? '阶段不变' : '阶段流转') : '不执行';
-      stageTag.className = `tag ${handlesStage && !keepsStage ? 'blue' : ''}`;
+      stageTag.textContent = handlesStage ? '生命周期流转' : '不执行';
+      stageTag.className = `tag ${handlesStage ? 'blue' : ''}`;
+      const viewTag = document.getElementById('viewOutcomeTag');
+      viewTag.textContent = handlesView ? '经营视图' : '不执行';
+      viewTag.className = `tag ${handlesView ? 'blue' : ''}`;
     }
-    executionMode.querySelectorAll('[data-execution-mode]').forEach(button => button.addEventListener('click', () => setExecutionMode(button.dataset.executionMode)));
+    executionMode.querySelectorAll('[data-output]').forEach(button => button.addEventListener('click', () => {
+      const current = [...executionMode.querySelectorAll('[data-output].active')].map(item => item.dataset.output);
+      const next = current.includes(button.dataset.output)
+        ? current.filter(output => output !== button.dataset.output)
+        : [...current, button.dataset.output];
+      setExecutionOutputs(next);
+    }));
     issueSelect.addEventListener('change', () => { syncIssueMapping(); updateOutcomeSummary(); });
     issueViewSelect.addEventListener('change', () => { document.getElementById('viewMatchNote').textContent = '已人工调整归属视图'; });
-    [deadlineSelect, stageTargetSelect, stageMethodSelect].forEach(field => field.addEventListener('change', updateOutcomeSummary));
+    [deadlineSelect, stageTargetSelect].forEach(field => field.addEventListener('change', updateOutcomeSummary));
     document.getElementById('addCondition').addEventListener('click', () => {
       const row = document.createElement('div');
       row.className = 'condition-edit';
@@ -1269,7 +1301,7 @@
     renderViews();
     updateStageTargetOptions();
     syncIssueMapping();
-    setExecutionMode('both');
+    setExecutionOutputs(['issue','stage','view']);
   </script>
 </body>
 </html>

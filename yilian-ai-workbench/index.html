@@ -6355,6 +6355,8 @@
     .kb-toolbar-actions .kb-search { width:250px; height:34px; border:1px solid #dce5f0; border-radius:8px; background:#fff; padding:0 11px; color:#344054; font:560 11px inherit; outline:0; }
     .kb-toolbar-actions .kb-search:focus { border-color:#84adff; box-shadow:0 0 0 3px rgba(21,94,239,.08); }
     .kb-toolbar-actions select { width:118px; height:34px; }
+    .kb-toolbar-primary { display:flex; align-items:center; gap:6px; }
+    .kb-toolbar-primary .btn { white-space:nowrap; }
     .kb-overview { display:grid; grid-template-columns:minmax(280px,1.2fr) repeat(4,minmax(125px,.5fr)); border:1px solid #e1e8f2; border-radius:10px; background:#fff; overflow:hidden; }
     .kb-overview-main { padding:17px 18px; background:#f7faff; border-right:1px solid #e1e8f2; }
     .kb-overview-main span { display:flex; align-items:center; gap:6px; color:#155eef; font-size:10.5px; font-weight:820; }
@@ -6367,6 +6369,13 @@
     .kb-stat span { display:block; color:#667085; font-size:10px; font-weight:700; }
     .kb-stat strong { display:block; margin-top:8px; color:#172033; font-size:22px; line-height:1; font-weight:900; }
     .kb-stat small { display:block; margin-top:6px; color:#8a96a8; font-size:9.5px; font-weight:560; }
+    .kb-tabs { min-height:46px; display:flex; align-items:center; gap:4px; border-bottom:1px solid #e5ebf3; padding:0 4px; }
+    .kb-tab { position:relative; height:45px; border:0; background:transparent; padding:0 13px; color:#667085; font:700 11px inherit; cursor:pointer; }
+    .kb-tab:hover { color:#344054; }
+    .kb-tab.active { color:#155eef; }
+    .kb-tab.active::after { content:""; position:absolute; left:12px; right:12px; bottom:-1px; height:2px; border-radius:2px 2px 0 0; background:#2f75f5; }
+    .kb-tab b { display:inline-grid; place-items:center; min-width:19px; height:18px; margin-left:5px; border-radius:9px; background:#eef2f7; color:#667085; padding:0 5px; font-size:9px; }
+    .kb-tab.active b { background:#eaf2ff; color:#155eef; }
     .kb-section { border:1px solid #e1e8f2; border-radius:10px; background:#fff; overflow:hidden; }
     .kb-section-head { min-height:52px; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:0 14px; border-bottom:1px solid #e8eef6; }
     .kb-section-head h2 { margin:0; color:#101828; font-size:13px; font-weight:860; }
@@ -6394,6 +6403,68 @@
     .kb-effect { display:flex; align-items:center; gap:5px; color:#087443; font-weight:760; }
     .kb-effect span { color:#667085; font-weight:560; }
     .kb-inline-actions { display:flex; align-items:center; gap:5px; }
+    .kb-empty { min-height:260px; display:grid; place-items:center; padding:32px; text-align:center; }
+    .kb-empty-icon { width:46px; height:46px; margin:0 auto; display:grid; place-items:center; border-radius:12px; background:#eef4ff; color:#155eef; }
+    .kb-empty-icon svg { width:21px; height:21px; }
+    .kb-empty h3 { margin:13px 0 0; color:#172033; font-size:14px; font-weight:850; }
+    .kb-empty p { max-width:410px; margin:7px auto 0; color:#667085; font-size:10.5px; line-height:1.55; }
+    .kb-empty .btn { margin-top:14px; }
+    .kb-import-summary { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border-bottom:1px solid #e8eef6; background:#fbfcfe; }
+    .kb-import-summary > div { min-height:74px; padding:14px 16px; border-right:1px solid #e8eef6; }
+    .kb-import-summary > div:last-child { border-right:0; }
+    .kb-import-summary span { display:block; color:#667085; font-size:9.5px; font-weight:650; }
+    .kb-import-summary strong { display:block; margin-top:7px; color:#172033; font-size:18px; font-weight:880; }
+    .kb-import-summary small { display:block; margin-top:4px; color:#8a96a8; font-size:9px; }
+    .kb-source-cell { display:flex; align-items:center; gap:9px; min-width:0; }
+    .kb-source-icon { width:31px; height:31px; flex:0 0 auto; display:grid; place-items:center; border-radius:8px; background:#eef4ff; color:#155eef; }
+    .kb-source-icon.online { background:#eefaf6; color:#0f9f6e; }
+    .kb-source-icon.review { background:#fff6e8; color:#c87500; }
+    .kb-source-icon svg { width:15px; height:15px; }
+    .kb-source-cell strong { display:block; color:#172033; font-size:11px; }
+    .kb-source-cell small { display:block; margin-top:3px; color:#7c8799; font-size:9px; }
+    .kb-import-result { display:flex; gap:8px; flex-wrap:wrap; }
+    .kb-import-result span { display:inline-flex; align-items:center; gap:4px; color:#667085; font-size:9.5px; }
+    .kb-import-result b { color:#344054; }
+    .kb-wizard { display:grid; gap:14px; min-width:660px; }
+    .kb-wizard-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:7px; }
+    .kb-wizard-step { display:flex; align-items:center; gap:7px; border-radius:8px; background:#f6f8fb; color:#8a96a8; padding:8px 9px; font-size:9.5px; font-weight:680; }
+    .kb-wizard-step i { width:18px; height:18px; display:grid; place-items:center; border-radius:50%; background:#e9eef5; color:#667085; font-style:normal; font-size:9px; }
+    .kb-wizard-step.active { background:#eef4ff; color:#155eef; }
+    .kb-wizard-step.active i { background:#2f75f5; color:#fff; }
+    .kb-wizard-step.done { color:#087443; background:#effaf5; }
+    .kb-wizard-step.done i { color:#fff; background:#12a36d; }
+    .kb-source-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .kb-source-card { min-height:155px; display:flex; flex-direction:column; align-items:flex-start; border:1px solid #dfe7f1; border-radius:10px; background:#fff; padding:14px; text-align:left; cursor:pointer; transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease; }
+    .kb-source-card:hover { border-color:#9dbdf8; box-shadow:0 8px 20px rgba(32,72,132,.08); transform:translateY(-1px); }
+    .kb-source-card .kb-source-icon { width:38px; height:38px; }
+    .kb-source-card h3 { margin:11px 0 0; color:#172033; font-size:12px; font-weight:840; }
+    .kb-source-card p { margin:6px 0 0; color:#667085; font-size:9.8px; line-height:1.5; }
+    .kb-source-card span { margin-top:auto; padding-top:12px; color:#155eef; font-size:9.5px; font-weight:720; }
+    .kb-upload-zone { min-height:142px; border:1px dashed #aac3ed; border-radius:10px; background:#f8fbff; display:grid; place-items:center; padding:20px; text-align:center; }
+    .kb-upload-zone svg { width:23px; height:23px; color:#2f75f5; }
+    .kb-upload-zone strong { display:block; margin-top:8px; color:#172033; font-size:11px; }
+    .kb-upload-zone p { margin:5px 0 0; color:#7c8799; font-size:9.5px; }
+    .kb-upload-zone input { margin-top:12px; max-width:310px; font-size:9.5px; color:#667085; }
+    .kb-online-form { display:grid; grid-template-columns:150px minmax(0,1fr); gap:10px; }
+    .kb-online-form label,.kb-import-field { display:grid; gap:5px; color:#667085; font-size:9.5px; font-weight:650; }
+    .kb-online-form input,.kb-online-form select,.kb-import-field input { width:100%; height:36px; border:1px solid #dce5f0; border-radius:8px; background:#fff; padding:0 10px; color:#344054; font:560 10.5px inherit; }
+    .kb-parse-overview { display:grid; grid-template-columns:repeat(4,1fr); border:1px solid #e1e8f2; border-radius:9px; overflow:hidden; }
+    .kb-parse-overview div { padding:12px; border-right:1px solid #e8eef6; }
+    .kb-parse-overview div:last-child { border-right:0; }
+    .kb-parse-overview span { display:block; color:#667085; font-size:9px; }
+    .kb-parse-overview strong { display:block; margin-top:6px; color:#172033; font-size:17px; }
+    .kb-parse-list { border:1px solid #e1e8f2; border-radius:9px; overflow:hidden; }
+    .kb-parse-row { min-height:46px; display:grid; grid-template-columns:minmax(0,1fr) 90px 100px; align-items:center; gap:10px; padding:0 12px; border-bottom:1px solid #edf2f7; color:#344054; font-size:10px; }
+    .kb-parse-row:last-child { border-bottom:0; }
+    .kb-parse-row small { color:#7c8799; }
+    .kb-review-preview { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+    .kb-review-item { position:relative; border:1px solid #dfe7f1; border-radius:9px; background:#fff; padding:12px 12px 12px 37px; }
+    .kb-review-item input { position:absolute; left:13px; top:14px; }
+    .kb-review-item strong { color:#172033; font-size:10.5px; }
+    .kb-review-item p { margin:5px 0 0; color:#667085; font-size:9.5px; line-height:1.45; }
+    .kb-review-item span { display:inline-block; margin-top:8px; border-radius:5px; background:#f2f5f9; padding:3px 6px; color:#667085; font-size:9px; }
+    .kb-wizard-note { display:flex; align-items:flex-start; gap:7px; border-radius:8px; background:#fff8eb; color:#8c5b12; padding:9px 10px; font-size:9.5px; line-height:1.45; }
+    .kb-wizard-note svg { width:14px; height:14px; flex:0 0 auto; margin-top:1px; }
     .kb-detail { display:grid; gap:12px; }
     .kb-detail-hero { border:1px solid #d8e6ff; border-radius:9px; background:#f7faff; padding:14px; }
     .kb-detail-hero { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
@@ -6413,10 +6484,138 @@
     .kb-form label { display:grid; gap:5px; color:#667085; font-size:10px; font-weight:650; }
     .kb-form input,.kb-form select,.kb-form textarea { width:100%; border:1px solid #dce5f0; border-radius:8px; background:#fff; color:#344054; padding:9px 10px; font:560 11px inherit; outline:0; }
     .kb-form textarea { min-height:78px; resize:vertical; }
+    .modal:has(.kb-revalidate) { width:min(940px,calc(100vw - 40px)); }
+    .kb-revalidate { display:grid; gap:13px; color:#344054; }
+    .kb-revalidate-hero { display:flex; align-items:flex-start; justify-content:space-between; gap:18px; border:1px solid #dce7f8; border-radius:10px; background:#f8fbff; padding:14px 15px; }
+    .kb-revalidate-hero h3 { margin:5px 0 0; color:#172033; font-size:14px; font-weight:850; }
+    .kb-revalidate-hero p { margin:5px 0 0; color:#667085; font-size:9.7px; line-height:1.5; }
+    .kb-revalidate-hero-meta { display:flex; align-items:center; justify-content:flex-end; gap:6px; flex-wrap:wrap; }
+    .kb-revalidate-metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid #e1e8f2; border-radius:9px; overflow:hidden; background:#fff; }
+    .kb-revalidate-metrics > div { min-height:66px; padding:11px 12px; border-right:1px solid #e8eef6; }
+    .kb-revalidate-metrics > div:last-child { border-right:0; }
+    .kb-revalidate-metrics span { display:block; color:#7c8799; font-size:9px; font-weight:650; }
+    .kb-revalidate-metrics strong { display:block; margin-top:5px; color:#172033; font-size:16px; font-weight:860; }
+    .kb-revalidate-metrics small { display:block; margin-top:3px; color:#8a96a8; font-size:8.7px; }
+    .kb-revalidate-section { border:1px solid #e1e8f2; border-radius:10px; background:#fff; overflow:hidden; }
+    .kb-revalidate-section-head { min-height:45px; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:0 13px; border-bottom:1px solid #e8eef6; }
+    .kb-revalidate-section-head h4 { margin:0; color:#172033; font-size:11px; font-weight:830; }
+    .kb-revalidate-section-head p { margin:3px 0 0; color:#7c8799; font-size:8.8px; }
+    .kb-revalidate-section-head > span { flex:0 0 auto; color:#667085; font-size:9px; font-weight:680; }
+    .kb-revalidate-samples { display:grid; }
+    .kb-revalidate-sample { display:grid; grid-template-columns:28px minmax(150px,.9fr) minmax(160px,1fr) minmax(190px,1.25fr) 76px; align-items:center; gap:10px; min-height:62px; padding:9px 13px; border-bottom:1px solid #edf2f7; }
+    .kb-revalidate-sample:last-child { border-bottom:0; }
+    .kb-revalidate-sample input { width:15px; height:15px; accent-color:#2f75f5; }
+    .kb-revalidate-sample strong { display:block; color:#344054; font-size:10px; line-height:1.35; }
+    .kb-revalidate-sample small { display:block; margin-top:3px; color:#8a96a8; font-size:8.7px; }
+    .kb-revalidate-sample p { margin:0; color:#667085; font-size:9.3px; line-height:1.45; }
+    .kb-revalidate-sample em { justify-self:end; border-radius:5px; padding:4px 7px; font-size:8.8px; font-style:normal; font-weight:750; }
+    .kb-revalidate-sample em.good { background:#eaf8f1; color:#087443; }
+    .kb-revalidate-sample em.warn { background:#fff4df; color:#a15c00; }
+    .kb-revalidate-review { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr); gap:12px; }
+    .kb-revalidate-decision { display:grid; gap:9px; padding:13px; }
+    .kb-revalidate-options { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+    .kb-revalidate-option { position:relative; display:block; cursor:pointer; }
+    .kb-revalidate-option input { position:absolute; opacity:0; pointer-events:none; }
+    .kb-revalidate-option span { min-height:70px; display:block; border:1px solid #dfe7f1; border-radius:8px; padding:10px; background:#fff; transition:border-color .15s ease,background .15s ease,box-shadow .15s ease; }
+    .kb-revalidate-option b { display:block; color:#344054; font-size:10px; }
+    .kb-revalidate-option small { display:block; margin-top:5px; color:#7c8799; font-size:8.7px; line-height:1.45; }
+    .kb-revalidate-option input:checked + span { border-color:#7cacf9; background:#f5f9ff; box-shadow:0 0 0 2px rgba(47,117,245,.08); }
+    .kb-revalidate-option input:checked + span b { color:#155eef; }
+    .kb-revalidate-fields { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+    .kb-revalidate-fields .full { grid-column:1 / -1; }
+    .kb-revalidate-fields label { display:grid; gap:5px; color:#667085; font-size:9px; font-weight:680; }
+    .kb-revalidate-fields input,.kb-revalidate-fields textarea { width:100%; border:1px solid #dce5f0; border-radius:8px; background:#fff; color:#344054; padding:8px 9px; font:560 10px inherit; outline:0; }
+    .kb-revalidate-fields textarea { min-height:66px; resize:vertical; }
+    .kb-revalidate-impact { display:grid; gap:8px; align-content:start; padding:13px; background:#fbfcfe; border-left:1px solid #e8eef6; }
+    .kb-revalidate-impact h4 { margin:0; color:#172033; font-size:11px; font-weight:830; }
+    .kb-revalidate-impact-row { display:grid; grid-template-columns:88px minmax(0,1fr); gap:8px; padding:8px 0; border-bottom:1px solid #e8eef6; }
+    .kb-revalidate-impact-row:last-of-type { border-bottom:0; }
+    .kb-revalidate-impact-row span { color:#7c8799; font-size:8.8px; }
+    .kb-revalidate-impact-row strong { color:#344054; font-size:9.5px; line-height:1.45; }
+    .kb-revalidate-note { display:flex; align-items:flex-start; gap:7px; border-radius:8px; background:#fff8eb; color:#8c5b12; padding:9px 10px; font-size:8.8px; line-height:1.45; }
+    .kb-revalidate-note svg { width:13px; height:13px; flex:0 0 auto; margin-top:1px; }
+    .kb-governance-summary { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border-bottom:1px solid #e8eef6; background:#fbfcfe; }
+    .kb-governance-summary > div { min-height:62px; padding:12px 16px; border-right:1px solid #e8eef6; }
+    .kb-governance-summary > div:last-child { border-right:0; }
+    .kb-governance-summary span { display:block; color:#667085; font-size:9.5px; font-weight:650; }
+    .kb-governance-summary strong { display:block; margin-top:5px; color:#172033; font-size:17px; font-weight:880; }
+    .kb-governance-grid { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(320px,.7fr); min-height:352px; }
+    .kb-governance-column { min-width:0; padding:0 12px 12px; }
+    .kb-governance-column + .kb-governance-column { border-left:1px solid #e8eef6; }
+    .kb-column-head { min-height:50px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .kb-column-head h3 { margin:0; color:#172033; font-size:12px; font-weight:850; }
+    .kb-column-head span { color:#7c8799; font-size:9.5px; font-weight:620; }
+    .kb-governance-grid .kb-candidates { display:grid; grid-template-columns:1fr; gap:8px; padding:0; }
+    .kb-governance-grid .kb-candidate { min-height:112px; }
+    .kb-conflict-list { display:grid; gap:8px; }
+    .kb-conflict { border:1px solid #f1d5a6; border-radius:9px; background:#fffdf8; padding:12px; }
+    .kb-conflict-head { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+    .kb-conflict-head strong { color:#172033; font-size:11px; line-height:1.4; }
+    .kb-conflict-head span { flex:0 0 auto; border-radius:5px; background:#fff1d6; color:#9b5f0b; padding:3px 6px; font-size:8.5px; font-weight:750; }
+    .kb-conflict p { margin:7px 0 0; color:#667085; font-size:9.5px; line-height:1.5; }
+    .kb-conflict-foot { margin-top:10px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .kb-conflict-foot small { color:#8a96a8; font-size:9px; }
+    .kb-source-list { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border-bottom:1px solid #e8eef6; }
+    .kb-source-entry { min-height:176px; border-right:1px solid #e8eef6; padding:15px; }
+    .kb-source-entry:last-child { border-right:0; }
+    .kb-source-entry-head { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+    .kb-source-entry-title { display:flex; align-items:center; gap:9px; min-width:0; }
+    .kb-source-entry-title .kb-source-icon { flex:0 0 auto; }
+    .kb-source-entry-title strong { display:block; color:#172033; font-size:11.5px; font-weight:830; }
+    .kb-source-entry-title small { display:block; margin-top:3px; color:#7c8799; font-size:9px; }
+    .kb-source-entry p { min-height:31px; margin:12px 0 0; color:#667085; font-size:9.5px; line-height:1.55; }
+    .kb-source-entry-meta { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:12px; }
+    .kb-source-entry-meta span { color:#7c8799; font-size:8.8px; }
+    .kb-source-entry-meta b { display:block; margin-top:2px; color:#344054; font-size:9.5px; }
+    .kb-source-entry-actions { display:flex; align-items:center; gap:6px; margin-top:12px; }
+    .kb-subsection-head { min-height:46px; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:0 14px; border-bottom:1px solid #e8eef6; }
+    .kb-subsection-head h3 { margin:0; color:#172033; font-size:11.5px; font-weight:840; }
+    .kb-subsection-head span { color:#7c8799; font-size:9.5px; }
+    .kb-validation-layout { display:grid; grid-template-columns:minmax(340px,.72fr) minmax(0,1.28fr); min-height:360px; }
+    .kb-test-panel { border-right:1px solid #e8eef6; padding:16px; background:#fbfcfe; }
+    .kb-test-panel > span { display:flex; align-items:center; gap:6px; color:#155eef; font-size:10px; font-weight:800; }
+    .kb-test-panel > span svg { width:14px; height:14px; }
+    .kb-test-panel h3 { margin:8px 0 0; color:#172033; font-size:14px; font-weight:860; }
+    .kb-test-panel > p { margin:5px 0 0; color:#667085; font-size:9.8px; line-height:1.5; }
+    .kb-test-input { margin-top:14px; border:1px solid #cbdcff; border-radius:9px; background:#fff; padding:10px; }
+    .kb-test-input textarea { width:100%; min-height:80px; border:0; resize:none; outline:0; color:#344054; font:560 10.5px/1.5 inherit; }
+    .kb-test-input-foot { display:flex; align-items:center; justify-content:space-between; gap:10px; border-top:1px solid #edf2f7; padding-top:8px; }
+    .kb-test-input-foot small { color:#8a96a8; font-size:8.8px; }
+    .kb-test-presets { display:flex; gap:5px; flex-wrap:wrap; margin-top:9px; }
+    .kb-test-presets button { border:1px solid #dfe7f1; border-radius:6px; background:#fff; color:#667085; padding:5px 7px; font:620 8.8px inherit; cursor:pointer; }
+    .kb-test-result { min-width:0; padding:16px; }
+    .kb-test-placeholder { min-height:250px; display:grid; place-items:center; color:#8a96a8; text-align:center; }
+    .kb-test-placeholder svg { width:28px; height:28px; color:#aeb9c8; }
+    .kb-test-placeholder strong { display:block; margin-top:9px; color:#667085; font-size:11px; }
+    .kb-test-placeholder p { max-width:360px; margin:5px auto 0; font-size:9.5px; line-height:1.5; }
+    .kb-test-result-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding-bottom:12px; border-bottom:1px solid #edf2f7; }
+    .kb-test-result-head span { color:#667085; font-size:9px; font-weight:680; }
+    .kb-test-result-head strong { display:block; margin-top:5px; color:#172033; font-size:13px; line-height:1.4; }
+    .kb-match-flow { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); margin-top:12px; border:1px solid #e1e8f2; border-radius:9px; overflow:hidden; }
+    .kb-match-flow > div { min-height:80px; padding:11px; border-right:1px solid #e8eef6; }
+    .kb-match-flow > div:last-child { border-right:0; }
+    .kb-match-flow small { color:#7c8799; font-size:8.8px; }
+    .kb-match-flow strong { display:block; margin-top:6px; color:#344054; font-size:10px; line-height:1.45; }
+    .kb-test-answer { margin-top:12px; border-radius:8px; background:#f7faff; padding:12px; }
+    .kb-test-answer small { color:#155eef; font-size:9px; font-weight:760; }
+    .kb-test-answer p { margin:6px 0 0; color:#344054; font-size:10.5px; line-height:1.55; font-weight:620; }
+    .kb-no-match { border-color:#f1d5a6; background:#fffaf0; }
+    .kb-no-match small { color:#9b5f0b; }
+    .kb-permission-grid { display:grid; gap:0; border:1px solid #e1e8f2; border-radius:9px; overflow:hidden; }
+    .kb-permission-row { display:grid; grid-template-columns:120px minmax(0,1fr) minmax(0,1fr); align-items:center; min-height:48px; border-bottom:1px solid #edf2f7; }
+    .kb-permission-row:last-child { border-bottom:0; }
+    .kb-permission-row > * { padding:8px 11px; color:#667085; font-size:9.5px; }
+    .kb-permission-row strong { color:#344054; font-size:10px; }
+    .kb-conflict-compare { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+    .kb-conflict-version { border:1px solid #e1e8f2; border-radius:8px; padding:11px; }
+    .kb-conflict-version span { color:#7c8799; font-size:9px; }
+    .kb-conflict-version strong { display:block; margin-top:6px; color:#172033; font-size:10.5px; line-height:1.45; }
     @media (max-width:1180px) {
       .kb-overview { grid-template-columns:repeat(4,1fr); }
       .kb-overview-main { grid-column:1 / -1; border-right:0; border-bottom:1px solid #e1e8f2; }
       .kb-candidates { grid-template-columns:1fr; }
+      .kb-governance-grid,.kb-validation-layout { grid-template-columns:1fr; }
+      .kb-governance-column + .kb-governance-column,.kb-test-panel { border-left:0; border-right:0; border-top:1px solid #e8eef6; }
     }
     @media (max-width:760px) {
       .kb-toolbar { align-items:flex-start; flex-direction:column; }
@@ -6427,6 +6626,26 @@
       .kb-candidate-actions { grid-column:2; }
       .kb-detail-grid,.kb-form-grid { grid-template-columns:1fr; }
       .kb-detail-card.full { grid-column:auto; }
+      .kb-source-grid,.kb-review-preview { grid-template-columns:1fr; }
+      .kb-wizard { min-width:0; }
+      .kb-wizard-steps { grid-template-columns:1fr 1fr; }
+      .kb-online-form { grid-template-columns:1fr; }
+      .kb-parse-overview { grid-template-columns:1fr 1fr; }
+      .kb-source-list { grid-template-columns:1fr; }
+      .kb-source-entry { border-right:0; border-bottom:1px solid #e8eef6; }
+      .kb-source-entry:last-child { border-bottom:0; }
+      .kb-match-flow,.kb-conflict-compare { grid-template-columns:1fr; }
+      .kb-match-flow > div { border-right:0; border-bottom:1px solid #e8eef6; }
+      .kb-match-flow > div:last-child { border-bottom:0; }
+      .kb-revalidate-hero { flex-direction:column; }
+      .kb-revalidate-hero-meta { justify-content:flex-start; }
+      .kb-revalidate-metrics { grid-template-columns:1fr 1fr; }
+      .kb-revalidate-metrics > div:nth-child(2) { border-right:0; }
+      .kb-revalidate-metrics > div:nth-child(-n+2) { border-bottom:1px solid #e8eef6; }
+      .kb-revalidate-sample { grid-template-columns:24px minmax(0,1fr) 70px; }
+      .kb-revalidate-sample > p { grid-column:2 / -1; }
+      .kb-revalidate-review,.kb-revalidate-options { grid-template-columns:1fr; }
+      .kb-revalidate-impact { border-left:0; border-top:1px solid #e8eef6; }
     }
     .np-pill {
       display: inline-flex;
@@ -18885,6 +19104,11 @@
       connectorSetupDraft: null,
       notificationTab: "plans",
       notificationPreviewChannel: "feishu",
+      knowledgeTab: "library",
+      knowledgeImportSource: "",
+      knowledgeImportStep: 1,
+      knowledgeTested: false,
+      knowledgeTestQuery: "D30 仍然 0 单且 FBA 有可售库存，应该怎么处理？",
       credits: 12480
     };
 
@@ -19149,6 +19373,74 @@
       { id:"KB-004", name:"儿童用品合规前置拦截", scene:"合规风控", lifecycle:"上线前", scope:"Amazon UK · 儿童用品", trigger:"认证资料缺失或材质表达存在风险", exclusion:"认证文件已经人工复核通过", action:"停止内容生成与刊登，要求补齐认证资料", review:"资料补齐后由合规负责人复核", source:"经营复盘 FLR-004", contributor:"产品开发", reviewer:"合规负责人", version:"V1.2", cases:9, effective:9, lastValidated:"2026-07-11", status:"已发布" },
       { id:"KB-005", name:"季节品首批库存控制", scene:"清货复盘", lifecycle:"新品测试期", scope:"Amazon UK · 季节类目", trigger:"季节销售窗口短于供应周期", exclusion:"已有稳定历史销量的复购商品", action:"下调首批测试库存并设置最晚清货时间", review:"D15 与季节窗口中点分别复查", source:"运营手工录入", contributor:"产品开发", reviewer:"--", version:"V0.9", cases:4, effective:2, lastValidated:"2026-07-08", status:"待修订" }
     ];
+
+    const knowledgeImports = [
+      { id:"IMP-003", name:"英国站运营知识库", source:"飞书知识库", sourceType:"online", owner:"知识管理员", docs:18, parsed:18, candidates:12, conflicts:2, failed:0, status:"已完成", updated:"2026-07-15 16:20", mode:"增量同步" },
+      { id:"IMP-002", name:"新品运营 SOP_v3.pdf", source:"PDF 文件", sourceType:"file", owner:"周屿", docs:1, parsed:1, candidates:6, conflicts:1, failed:0, status:"已完成", updated:"2026-07-14 11:08", mode:"单次导入" },
+      { id:"IMP-001", name:"清货与库存复盘手册.pdf", source:"PDF 文件", sourceType:"file", owner:"苏禾", docs:1, parsed:0, candidates:0, conflicts:0, failed:1, status:"部分失败", updated:"2026-07-13 18:42", mode:"单次导入" }
+    ];
+
+    const knowledgeMaintenanceMeta = {
+      "KB-001": { nextReview:"2026-08-14", usage:46, acceptance:"72%", visibility:"运营可看建议，主管可看全文", aiScope:"Amazon UK · 非季节类目" },
+      "KB-002": { nextReview:"2026-08-12", usage:31, acceptance:"68%", visibility:"运营可看建议，主管可看全文", aiScope:"Amazon UK · 常规商品" },
+      "KB-003": { nextReview:"2026-08-13", usage:58, acceptance:"76%", visibility:"广告人员可看建议，主管可看全文", aiScope:"Amazon UK · 已开启广告商品" },
+      "KB-004": { nextReview:"2026-10-11", usage:17, acceptance:"100%", visibility:"普通运营仅看拦截结论", aiScope:"Amazon UK · 儿童用品" },
+      "KB-005": { nextReview:"已到期", usage:8, acceptance:"38%", visibility:"主管与知识管理员", aiScope:"Amazon UK · 季节类目" }
+    };
+    knowledgeItems.forEach(item => Object.assign(item, {
+      nextReview:"2026-08-31",
+      usage:0,
+      acceptance:"--",
+      visibility:"运营可看建议，主管可看全文",
+      aiScope:item.scope
+    }, knowledgeMaintenanceMeta[item.id] || {}));
+    const legacyKnowledgeItem = { id:"KB-006", name:"旧版 D15 全量降价策略", scene:"新品测试", lifecycle:"新品测试期", scope:"Amazon UK · 全部新品", trigger:"D15 出单低于目标", exclusion:"未区分类目、价格带与广告启动情况", action:"统一降价 20%", review:"已停止使用", source:"历史 SOP 2025", contributor:"知识管理员", reviewer:"运营主管", version:"V1.0", cases:11, effective:3, lastValidated:"2026-05-21", nextReview:"--", usage:0, acceptance:"27%", visibility:"仅知识管理员", aiScope:"不再供 AI 引用", status:"已失效" };
+    if(!knowledgeItems.some(item => item.id === legacyKnowledgeItem.id)) knowledgeItems.push(legacyKnowledgeItem);
+
+    const knowledgeConflicts = [
+      { id:"KCF-001", title:"新品 D30 零单后的处置方式不一致", left:"新品 D30 零单止损策略 V2.1", right:"新品 D30 无单处置策略（导入候选）", type:"动作冲突", reason:"一条建议直接进入黑名单，一条要求先排查 Listing 与广告阻断。", suggestion:"保留排查前置条件，再按阻断结果分流。", scope:"新品测试 · D30", status:"待处理" },
+      { id:"KCF-002", title:"季节品首批库存口径存在差异", left:"季节品首批库存控制 V0.9", right:"清货与库存复盘手册", type:"适用范围冲突", reason:"历史经验按全部季节品执行，新资料区分强季节和弱季节类目。", suggestion:"按季节强度拆分适用范围，并将旧版转为失效。", scope:"季节类目 · 新品测试", status:"待处理" }
+    ];
+
+    const knowledgeSources = [
+      { id:"KBS-001", name:"英国站运营知识库", type:"飞书知识库", icon:"book-open", scope:"新品、广告、库存与清货目录", mode:"增量同步", docs:18, status:"正常", permission:"已授权", lastSync:"2026-07-15 16:20", nextSync:"今天 23:00", owner:"知识管理员" },
+      { id:"KBS-002", name:"历史 SOP 与复盘资料", type:"本地文件", icon:"files", scope:"PDF / Word / Excel，共 7 份", mode:"单次导入", docs:7, status:"正常", permission:"内部资料", lastSync:"2026-07-14 11:08", nextSync:"手动更新", owner:"运营主管" },
+      { id:"KBS-003", name:"清货与库存线上手册", type:"在线知识库", icon:"link", scope:"当前目录及子文档", mode:"增量同步", docs:9, status:"需处理", permission:"授权即将到期", lastSync:"2026-07-13 18:42", nextSync:"暂停同步", owner:"苏禾" }
+    ];
+
+    const knowledgeUsageLogs = [
+      { id:"KBU-001", query:"D30 仍 0 单且 FBA 有库存，应该怎么处理？", scene:"新品测试", matched:"KB-001 · V2.1", decision:"已引用", user:"运营", time:"2026-07-15 09:18", feedback:"已采纳" },
+      { id:"KBU-002", query:"TACoS 连续高于 25%，利润转负", scene:"广告健康", matched:"KB-003 · V1.8", decision:"已引用", user:"广告人员", time:"2026-07-15 08:43", feedback:"待复查" },
+      { id:"KBU-003", query:"法国站宠物饮水机需要哪些认证？", scene:"合规风控", matched:"未匹配企业经验", decision:"已降级", user:"产品开发", time:"2026-07-14 17:22", feedback:"主管确认" }
+    ];
+
+    const knowledgeRevalidationSamples = {
+      "KB-001": [
+        { id:"KBR-001", asin:"B0GYYNMMT6", product:"黑色 3D 立体睡眠眼罩", action:"暂停补货，停止低效广告", before:"30 日 0 单 · 库存 20 件", after:"7 日仍 0 单，已转清货候选", verdict:"有效" },
+        { id:"KBR-002", asin:"B0HOME033", product:"桌面线缆收纳盒", action:"先修复 Listing，再观察转化", before:"D30 弱动销 · Listing 异常", after:"恢复可售后新增 3 单，未进入黑名单", verdict:"有效" },
+        { id:"KBR-003", asin:"B0BEAU099", product:"便携化妆镜", action:"降价 25%，暂停广告", before:"30 日 0 单 · 库存 18 件", after:"仍无出单，季节性商品需补充例外条件", verdict:"需修订" }
+      ],
+      "KB-002": [
+        { id:"KBR-004", asin:"B0KITCH42", product:"可折叠硅胶沥水篮", action:"小批量补货 80 件", before:"覆盖 2.1 天 · 利润 £2.5", after:"供应链已确认，预计 8 天到货", verdict:"有效" },
+        { id:"KBR-005", asin:"B0OUT008", product:"户外折叠收纳包", action:"暂缓补货，先修复 Buy Box", before:"库存 20 件 · Listing 阻断", after:"避免错误补货，待恢复销售条件", verdict:"有效" },
+        { id:"KBR-006", asin:"B0ADS091", product:"家居收纳套装", action:"不补货并转经营复盘", before:"库存 18 天 · 利润为负", after:"正确排除负利润商品", verdict:"有效" }
+      ],
+      "KB-003": [
+        { id:"KBR-007", asin:"B0ADS091", product:"家居收纳套装", action:"暂停 12 个低转化词", before:"TACoS 28% · 利润 -£0.8", after:"TACoS 降至 22%，利润待复查", verdict:"有效" },
+        { id:"KBR-008", asin:"B0HOME033", product:"桌面线缆收纳盒", action:"收缩泛词并保留精准词", before:"ACOS 52% · 转化偏低", after:"广告消耗下降，订单尚未恢复", verdict:"需修订" },
+        { id:"KBR-009", asin:"B0KITCH42", product:"可折叠硅胶沥水篮", action:"保留新品冷启动广告", before:"开售 6 天 · TACoS 27%", after:"正确命中新品排除条件", verdict:"有效" }
+      ],
+      "KB-004": [
+        { id:"KBR-010", asin:"B0CHD006", product:"儿童防撞桌角贴", action:"阻断刊登并补认证", before:"儿童安全证明缺失", after:"未进入刊登，合规风险已拦截", verdict:"有效" },
+        { id:"KBR-011", asin:"B0BEAUT118", product:"珍珠发箍套装", action:"限制材质表达并人工复核", before:"天然珍珠表达风险", after:"Listing 已修正并通过复核", verdict:"有效" },
+        { id:"KBR-012", asin:"B0KITCH42", product:"可折叠硅胶沥水篮", action:"补充食品接触材质证明", before:"LFGB 证明待补", after:"证据补齐后恢复内容生成", verdict:"有效" }
+      ],
+      "KB-005": [
+        { id:"KBR-013", asin:"B0BEAU099", product:"便携化妆镜", action:"设置最晚清货时间", before:"季节窗口不足 30 天", after:"库存消化未达目标", verdict:"需修订" },
+        { id:"KBR-014", asin:"B0OUT008", product:"户外折叠收纳包", action:"首批库存下调至 20 件", before:"供应周期 18 天", after:"库存风险降低，仍待出单验证", verdict:"有效" },
+        { id:"KBR-015", asin:"B0BEAUT118", product:"珍珠发箍套装", action:"小批量测款并设置 D15 复查", before:"季节峰值前 45 天", after:"首批动销符合预期", verdict:"有效" }
+      ]
+    };
 
     const costRules = [
       { id:"COST-001", name:"采购成本口径", scope:"SKU / 批次", method:"按最新确认采购价", source:"ERP 采购单", owner:"财务", status:"启用", updated:"2026-07-08" },
@@ -24818,29 +25110,34 @@
 
     function renderKnowledgeBase() {
       const published = knowledgeItems.filter(item => item.status === "已发布").length;
-      const pending = knowledgeCandidates.filter(item => item.status === "待审核").length;
-      const revising = knowledgeItems.filter(item => item.status === "待修订").length;
-      const validatedCases = knowledgeItems.reduce((sum, item) => sum + Number(item.cases || 0), 0);
-      const statusClass = value => value === "已发布" ? "good" : value === "待修订" || value === "待补充" ? "warn" : "info";
+      const pending = knowledgeCandidates.length;
+      const unresolvedConflicts = knowledgeConflicts.filter(item => item.status === "待处理").length;
+      const dueReview = knowledgeItems.filter(item => item.status === "待修订" || item.nextReview === "已到期").length;
+      const aiUsage = knowledgeItems.reduce((sum, item) => sum + Number(item.usage || 0), 0);
+      const statusClass = value => value === "已发布" ? "good" : value === "待修订" || value === "待补充" ? "warn" : value === "已失效" ? "neutral" : "info";
+      const activeTab = ["library", "governance", "sources", "validation"].includes(state.knowledgeTab) ? state.knowledgeTab : "library";
+      const candidateList = knowledgeCandidates.length ? `<div class="kb-candidates">${knowledgeCandidates.map(item => `<article class="kb-candidate"><div class="kb-candidate-icon"><i data-lucide="sparkles"></i></div><div class="kb-candidate-main"><h3>${escapeHtml(item.name)}</h3><p>${escapeHtml(item.summary)}</p><div class="kb-candidate-meta"><span>${escapeHtml(item.scene)}</span><span>${escapeHtml(item.lifecycle)}</span><span>${escapeHtml(item.source)}</span><span>${escapeHtml(item.status)}</span></div></div><div class="kb-candidate-actions"><button class="btn small" data-action="openKnowledgeCandidate" data-id="${escapeHtml(item.id)}">查看</button><button class="btn small primary" data-action="reviewKnowledgeCandidate" data-id="${escapeHtml(item.id)}">审核</button></div></article>`).join("")}</div>` : `<div class="kb-empty"><div><span class="kb-empty-icon"><i data-lucide="badge-check"></i></span><h3>暂无待审核经验</h3><p>复盘或导入产生的候选经验会进入这里，发布前不会被 AI 引用。</p></div></div>`;
+      const libraryView = `<div style="overflow:auto"><table class="kb-table"><colgroup><col style="width:25%"><col style="width:17%"><col style="width:17%"><col style="width:13%"><col style="width:17%"><col style="width:11%"></colgroup><thead><tr><th>经验资产</th><th>场景 / 适用范围</th><th>验证结果</th><th>AI 使用</th><th>版本 / 维护状态</th><th>操作</th></tr></thead><tbody>${knowledgeItems.map(item => `<tr data-action="openKnowledgeDetail" data-id="${escapeHtml(item.id)}"><td><span class="kb-name-cell"><strong>${escapeHtml(item.name)}</strong><small>${escapeHtml(item.id)} · ${escapeHtml(item.source)}</small></span></td><td><strong>${escapeHtml(item.scene)}</strong><div class="np-muted">${escapeHtml(item.lifecycle)}</div><div class="np-muted">${escapeHtml(item.aiScope)}</div></td><td><span class="kb-effect">${escapeHtml(item.effective)}/${escapeHtml(item.cases)}<span>有效</span></span><div class="np-muted">最近验证 ${escapeHtml(item.lastValidated)}</div></td><td><strong>${item.usage} 次</strong><div class="np-muted">采纳率 ${escapeHtml(item.acceptance)}</div></td><td><strong>${escapeHtml(item.version)}</strong> <span class="np-pill ${statusClass(item.status)}">${escapeHtml(item.status)}</span>${item.maintenanceState ? ` <span class="np-pill warn">${escapeHtml(item.maintenanceState)}</span>` : ""}<div class="np-muted">下次复验 ${escapeHtml(item.nextReview)}</div></td><td><div class="kb-inline-actions"><button class="btn small" data-action="openKnowledgeDetail" data-id="${escapeHtml(item.id)}">详情</button>${item.status !== "已失效" ? `<button class="btn small" data-action="openKnowledgeRevalidate" data-id="${escapeHtml(item.id)}">复验</button>` : ""}</div></td></tr>`).join("")}</tbody></table></div>`;
+      const governanceView = `<div class="kb-governance-summary"><div><span>待审核候选</span><strong>${pending}</strong><small>确认范围后才可发布</small></div><div><span>待处理冲突</span><strong>${unresolvedConflicts}</strong><small>避免同一问题给出相反建议</small></div><div><span>待复验经验</span><strong>${dueReview}</strong><small>效果不足或复验到期</small></div></div><div class="kb-governance-grid"><section class="kb-governance-column"><div class="kb-column-head"><div><h3>候选经验</h3><p>来自经营复盘和批量导入</p></div><button class="btn small" data-action="openKnowledgeImport"><i data-lucide="upload"></i>导入</button></div>${candidateList}</section><section class="kb-governance-column"><div class="kb-column-head"><div><h3>重复与冲突</h3><p>人工决定合并、拆分范围或保留正式版本</p></div></div><div class="kb-conflict-list">${knowledgeConflicts.map(item => `<article class="kb-conflict ${item.status === "已处理" ? "resolved" : ""}"><div class="kb-conflict-head"><span class="np-pill ${item.status === "待处理" ? "warn" : "good"}">${escapeHtml(item.type)}</span><small>${escapeHtml(item.scope)}</small></div><h4>${escapeHtml(item.title)}</h4><p>${escapeHtml(item.reason)}</p><div class="kb-conflict-suggestion"><i data-lucide="git-merge"></i><span>${escapeHtml(item.suggestion)}</span></div><button class="btn small" data-action="openKnowledgeConflict" data-id="${escapeHtml(item.id)}">${item.status === "待处理" ? "处理冲突" : "查看结果"}</button></article>`).join("")}</div></section></div>`;
+      const sourcesView = `<div class="kb-subsection-head"><div><h3>已接入知识来源</h3><p>持续同步只更新来源内容，仍需经过提炼、审核和发布。</p></div><button class="btn small primary" data-action="openKnowledgeImport"><i data-lucide="plus"></i>接入来源</button></div><div class="kb-source-list">${knowledgeSources.map(item => `<article class="kb-source-entry"><span class="kb-source-entry-icon"><i data-lucide="${escapeHtml(item.icon)}"></i></span><div class="kb-source-entry-main"><div><h3>${escapeHtml(item.name)}</h3><span class="np-pill ${item.status === "正常" ? "good" : "warn"}">${escapeHtml(item.status)}</span></div><p>${escapeHtml(item.type)} · ${escapeHtml(item.scope)}</p><small>${escapeHtml(item.mode)} · ${escapeHtml(item.permission)} · 负责人 ${escapeHtml(item.owner)}</small></div><div class="kb-source-entry-sync"><span>最近同步</span><strong>${escapeHtml(item.lastSync)}</strong><small>下次：${escapeHtml(item.nextSync)}</small></div><div class="kb-inline-actions"><button class="btn small" data-action="openKnowledgeSource" data-id="${escapeHtml(item.id)}">详情</button><button class="btn small" data-action="syncKnowledgeSource" data-id="${escapeHtml(item.id)}">同步</button></div></article>`).join("")}</div><div class="kb-subsection-head"><div><h3>最近导入记录</h3><p>保留解析结果、候选数量、冲突和失败记录。</p></div></div><div style="overflow:auto"><table class="kb-table"><thead><tr><th>来源</th><th>导入方式</th><th>解析结果</th><th>候选 / 冲突</th><th>状态</th><th>更新时间</th><th>操作</th></tr></thead><tbody>${knowledgeImports.map(item => `<tr><td><strong>${escapeHtml(item.name)}</strong><div class="np-muted">${escapeHtml(item.source)} · ${escapeHtml(item.owner)}</div></td><td>${escapeHtml(item.mode)}</td><td>成功 ${item.parsed} · 失败 ${item.failed}</td><td>${item.candidates} / ${item.conflicts}</td><td><span class="np-pill ${item.status === "已完成" ? "good" : "warn"}">${escapeHtml(item.status)}</span></td><td>${escapeHtml(item.updated)}</td><td><button class="btn small" data-action="${item.failed ? "retryKnowledgeImport" : "openKnowledgeImportDetail"}" data-id="${escapeHtml(item.id)}">${item.failed ? "重试" : "详情"}</button></td></tr>`).join("")}</tbody></table></div>`;
+      const isNoMatch = /法国|饮水机|认证/.test(state.knowledgeTestQuery || "");
+      const validationResult = !state.knowledgeTested ? `<div class="kb-test-placeholder"><i data-lucide="scan-search"></i><h3>验证 AI 会使用哪条企业经验</h3><p>输入一个真实经营问题，检查命中范围、版本和无匹配时的降级方式。</p></div>` : isNoMatch ? `<div class="kb-test-result"><div class="kb-test-result-head"><span class="np-pill warn">未匹配企业经验</span><small>不输出确定性经营动作</small></div><h3>${escapeHtml(state.knowledgeTestQuery)}</h3><div class="kb-no-match"><i data-lucide="shield-alert"></i><div><strong>已降级为待人工确认</strong><p>当前知识库仅覆盖 Amazon UK，未找到法国站宠物饮水机认证经验。系统会说明数据边界，不引用通用模型答案冒充企业经验。</p></div></div></div>` : `<div class="kb-test-result"><div class="kb-test-result-head"><span class="np-pill good">已匹配 1 条正式经验</span><small>KB-001 · V2.1</small></div><h3>${escapeHtml(state.knowledgeTestQuery)}</h3><div class="kb-match-flow"><span>问题识别</span><i data-lucide="chevron-right"></i><span>适用范围校验</span><i data-lucide="chevron-right"></i><span>排除条件校验</span><i data-lucide="chevron-right"></i><span>生成建议</span></div><div class="kb-test-answer"><small>给运营的建议</small><strong>先确认 Listing 与广告无阻断；确认后暂停补货，进入去留评估，并在 7 天后复查销量、库存和广告消耗。</strong></div><p class="np-muted">日常页面只显示结论和动作，完整经验原文仅对主管与知识管理员开放。</p></div>`;
+      const validationView = `<div class="kb-validation-layout"><section class="kb-test-panel"><div class="kb-column-head"><div><h3>AI 引用测试</h3><p>发布或修订经验后，先验证实际问题能否正确命中。</p></div></div><textarea id="knowledgeTestQuery" class="kb-test-input" placeholder="输入真实经营问题">${escapeHtml(state.knowledgeTestQuery || "")}</textarea><div class="kb-test-presets"><button data-action="setKnowledgeTestPreset" data-query="D30 仍然 0 单且 FBA 有可售库存，应该怎么处理？">新品 D30 零单</button><button data-action="setKnowledgeTestPreset" data-query="TACoS 连续高于 25%，利润转负">广告亏损</button><button data-action="setKnowledgeTestPreset" data-query="法国站宠物饮水机需要哪些认证？">无匹配示例</button></div><button class="btn primary" data-action="runKnowledgeTest"><i data-lucide="sparkles"></i>开始验证</button></section><section class="kb-test-panel">${validationResult}</section></div><div class="kb-subsection-head"><div><h3>最近 AI 引用记录</h3><p>用于追踪命中了哪条经验、采用了哪个版本以及后续反馈。</p></div></div><div style="overflow:auto"><table class="kb-table"><thead><tr><th>经营问题</th><th>场景</th><th>命中经验</th><th>处理方式</th><th>反馈</th><th>时间</th><th>操作</th></tr></thead><tbody>${knowledgeUsageLogs.map(item => `<tr><td><strong>${escapeHtml(item.query)}</strong><div class="np-muted">${escapeHtml(item.user)}</div></td><td>${escapeHtml(item.scene)}</td><td>${escapeHtml(item.matched)}</td><td><span class="np-pill ${item.decision === "已引用" ? "good" : "warn"}">${escapeHtml(item.decision)}</span></td><td>${escapeHtml(item.feedback)}</td><td>${escapeHtml(item.time)}</td><td><button class="btn small" data-action="openKnowledgeUsageDetail" data-id="${escapeHtml(item.id)}">详情</button></td></tr>`).join("")}</tbody></table></div>`;
       return `<section class="np-page kb-page">
         <section class="kb-toolbar">
-          <div class="kb-toolbar-note"><i data-lucide="shield-check"></i><span>完整经验仅知识管理员与主管可见，日常页面只使用审核通过后的结论。</span></div>
-          <div class="kb-toolbar-actions"><input class="kb-search" placeholder="搜索经验名称 / 场景 / 版本"><select aria-label="场景筛选"><option>全部场景</option><option>新品测试</option><option>在售经营健康</option><option>广告健康</option><option>库存补货分析</option><option>清货复盘</option></select><select aria-label="状态筛选"><option>全部状态</option><option>已发布</option><option>待审核</option><option>待修订</option></select><button class="btn small primary" data-action="openKnowledgeCreate"><i data-lucide="plus"></i>新增经验</button></div>
+          <div class="kb-toolbar-note"><i data-lucide="shield-check"></i><span>AI 仅引用已发布、未失效且符合适用范围的企业经验。</span></div>
+          <div class="kb-toolbar-actions"><input class="kb-search" placeholder="搜索经验名称 / 场景 / 版本"><select aria-label="场景筛选"><option>全部场景</option><option>新品测试</option><option>在售经营健康</option><option>广告健康</option><option>库存补货分析</option><option>清货复盘</option></select><div class="kb-toolbar-primary"><button class="btn small" data-action="openKnowledgePermissions"><i data-lucide="shield"></i>权限说明</button><button class="btn small" data-action="openKnowledgeCreate"><i data-lucide="plus"></i>新增经验</button><button class="btn small primary" data-action="openKnowledgeImport"><i data-lucide="upload"></i>导入经验</button></div></div>
         </section>
         <section class="kb-overview">
-          <div class="kb-overview-main"><span><i data-lucide="brain-circuit"></i>企业经验资产</span><strong>让 AI 的经营建议优先使用公司验证过的方法</strong><p>经营复盘形成候选，主管审核后发布；历史版本和验证结果持续保留。</p></div>
+          <div class="kb-overview-main"><span><i data-lucide="brain-circuit"></i>企业经验资产</span><strong>让 AI 持续使用公司验证过的方法</strong><p>统一接入、审核、发布、引用、复验和失效，保留来源与历史版本。</p></div>
           <button class="kb-stat" data-action="filterKnowledge" data-filter="已发布"><span>已发布经验</span><strong>${published}</strong><small>可供 AI 建议引用</small></button>
-          <button class="kb-stat" data-action="filterKnowledge" data-filter="待审核"><span>待审核候选</span><strong>${pending}</strong><small>来自经营复盘</small></button>
-          <button class="kb-stat" data-action="filterKnowledge" data-filter="验证案例"><span>累计验证案例</span><strong>${validatedCases}</strong><small>用于评估适用性</small></button>
-          <button class="kb-stat" data-action="filterKnowledge" data-filter="待修订"><span>待修订经验</span><strong>${revising}</strong><small>效果不足或口径变化</small></button>
+          <button class="kb-stat" data-action="setKnowledgeTab" data-tab="governance"><span>待治理内容</span><strong>${pending + unresolvedConflicts}</strong><small>${pending} 条候选 · ${unresolvedConflicts} 条冲突</small></button>
+          <button class="kb-stat" data-action="filterKnowledge" data-filter="待复验"><span>待复验经验</span><strong>${dueReview}</strong><small>到期或效果不足</small></button>
+          <button class="kb-stat" data-action="setKnowledgeTab" data-tab="validation"><span>近 30 天 AI 调用</span><strong>${aiUsage}</strong><small>可追溯命中版本</small></button>
         </section>
         <section class="kb-section">
-          <div class="kb-section-head"><div><h2>待审核经验</h2><p>AI 从复盘结果中提炼，必须由人工确认适用范围和动作后才能发布。</p></div><span>${knowledgeCandidates.length} 条候选</span></div>
-          <div class="kb-candidates">${knowledgeCandidates.map(item => `<article class="kb-candidate"><div class="kb-candidate-icon"><i data-lucide="sparkles"></i></div><div class="kb-candidate-main"><h3>${escapeHtml(item.name)}</h3><p>${escapeHtml(item.summary)}</p><div class="kb-candidate-meta"><span>${escapeHtml(item.scene)}</span><span>${escapeHtml(item.lifecycle)}</span><span>${escapeHtml(item.source)}</span><span>${escapeHtml(item.status)}</span></div></div><div class="kb-candidate-actions"><button class="btn small" data-action="openKnowledgeCandidate" data-id="${escapeHtml(item.id)}">查看</button><button class="btn small primary" data-action="reviewKnowledgeCandidate" data-id="${escapeHtml(item.id)}">审核</button></div></article>`).join("")}</div>
-        </section>
-        <section class="kb-section">
-          <div class="kb-section-head"><div><h2>企业经验</h2><p>已发布经验可被 AI 经营建议引用；待修订经验不再用于新的判断。</p></div><span>${knowledgeItems.length} 条经验</span></div>
-          <div style="overflow:auto"><table class="kb-table"><colgroup><col style="width:22%"><col style="width:12%"><col style="width:16%"><col style="width:22%"><col style="width:9%"><col style="width:9%"><col style="width:10%"></colgroup><thead><tr><th>经验名称</th><th>场景 / 周期</th><th>适用范围</th><th>建议动作</th><th>验证效果</th><th>版本 / 状态</th><th>操作</th></tr></thead><tbody>${knowledgeItems.map(item => `<tr data-action="openKnowledgeDetail" data-id="${escapeHtml(item.id)}"><td><span class="kb-name-cell"><strong>${escapeHtml(item.name)}</strong><small>${escapeHtml(item.id)} · ${escapeHtml(item.source)}</small></span></td><td><strong>${escapeHtml(item.scene)}</strong><div class="np-muted">${escapeHtml(item.lifecycle)}</div></td><td>${escapeHtml(item.scope)}</td><td>${escapeHtml(item.action)}</td><td><span class="kb-effect">${escapeHtml(item.effective)}/${escapeHtml(item.cases)}<span>有效</span></span><div class="np-muted">${escapeHtml(item.lastValidated)}</div></td><td><strong>${escapeHtml(item.version)}</strong><div><span class="np-pill ${statusClass(item.status)}">${escapeHtml(item.status)}</span></div></td><td><div class="kb-inline-actions"><button class="btn small" data-action="openKnowledgeDetail" data-id="${escapeHtml(item.id)}">详情</button><button class="btn small" data-action="editKnowledge" data-id="${escapeHtml(item.id)}">编辑</button></div></td></tr>`).join("")}</tbody></table></div>
+          <div class="kb-tabs"><button class="kb-tab ${activeTab === "library" ? "active" : ""}" data-action="setKnowledgeTab" data-tab="library">经验资产<b>${knowledgeItems.length}</b></button><button class="kb-tab ${activeTab === "governance" ? "active" : ""}" data-action="setKnowledgeTab" data-tab="governance">审核治理<b>${pending + unresolvedConflicts}</b></button><button class="kb-tab ${activeTab === "sources" ? "active" : ""}" data-action="setKnowledgeTab" data-tab="sources">知识来源<b>${knowledgeSources.length}</b></button><button class="kb-tab ${activeTab === "validation" ? "active" : ""}" data-action="setKnowledgeTab" data-tab="validation">AI 使用验证<b>${knowledgeUsageLogs.length}</b></button></div>
+          ${activeTab === "library" ? libraryView : activeTab === "governance" ? governanceView : activeTab === "sources" ? sourcesView : validationView}
         </section>
       </section>`;
     }
@@ -28012,22 +28309,101 @@
         closeDrawer(); state.filter="经营复盘建议"; setView("rules");
         toast("规则建议已生成", "建议保持待确认；核对条件、适用范围和通知渠道后再启用。");
       },
+      setKnowledgeTab(el){
+        state.knowledgeTab = ["library", "governance", "sources", "validation"].includes(el.dataset.tab) ? el.dataset.tab : "library";
+        render();
+      },
+      openKnowledgeImport(){
+        state.knowledgeImportSource = "";
+        state.knowledgeImportStep = 1;
+        handlers.renderKnowledgeImportStep();
+      },
+      renderKnowledgeImportStep(){
+        const step = Math.max(1, Math.min(4, Number(state.knowledgeImportStep || 1)));
+        const source = state.knowledgeImportSource || "file";
+        const sourceLabel = source === "file" ? "本地文件" : source === "feishu" ? "飞书知识库" : "在线知识库";
+        const steps = ["选择来源", "解析检查", "AI 提炼", "提交审核"];
+        const stepHead = `<div class="kb-wizard-steps">${steps.map((label,index) => `<div class="kb-wizard-step ${index + 1 < step ? "done" : index + 1 === step ? "active" : ""}"><i>${index + 1 < step ? "✓" : index + 1}</i><span>${label}</span></div>`).join("")}</div>`;
+        let content = "";
+        let footer = "";
+        if(step === 1){
+          content = `<div class="kb-source-grid"><button class="kb-source-card" data-action="selectKnowledgeImportSource" data-source="file"><div class="kb-source-icon"><i data-lucide="files"></i></div><h3>上传本地文件</h3><p>批量导入 PDF、Word、Excel 或 Markdown 文档，适合已有 SOP 和复盘资料。</p><span>选择文件来源</span></button><button class="kb-source-card" data-action="selectKnowledgeImportSource" data-source="feishu"><div class="kb-source-icon online"><i data-lucide="book-open"></i></div><h3>飞书知识库</h3><p>按知识空间或文档链接读取内容，可选择单次导入或后续增量同步。</p><span>连接飞书内容</span></button><button class="kb-source-card" data-action="selectKnowledgeImportSource" data-source="online"><div class="kb-source-icon review"><i data-lucide="link"></i></div><h3>其他在线知识库</h3><p>通过可访问链接导入线上文档，保留来源地址和导入时间用于追溯。</p><span>填写知识库链接</span></button></div>`;
+          footer = `<button class="btn" data-action="closeModal">取消</button>`;
+        } else if(step === 2){
+          content = source === "file" ? `<div class="kb-upload-zone"><div><i data-lucide="upload-cloud"></i><strong>选择需要解析的经验资料</strong><p>支持 PDF、DOCX、XLSX、MD，单次最多 20 个文件</p><input id="knowledgeImportFiles" type="file" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.md,.txt"></div></div><div class="kb-wizard-note"><i data-lucide="info"></i><span>原始文件仅作为经验来源。系统会先解析并提炼候选内容，不会直接发布为企业经验。</span></div>` : `<div class="kb-online-form"><label>来源类型<select id="knowledgeImportPlatform"><option ${source === "feishu" ? "selected" : ""}>飞书知识库</option><option>Notion</option><option>网页文档</option><option>其他知识库</option></select></label><label>知识库或文档链接<input id="knowledgeImportUrl" placeholder="粘贴知识空间或文档链接" value="${source === "feishu" ? "https://company.feishu.cn/wiki/UK-operations" : ""}"></label><label>导入方式<select id="knowledgeImportMode"><option>单次导入</option><option>持续同步</option></select></label><label>导入范围<input id="knowledgeImportScope" placeholder="例如：当前目录及全部子文档" value="当前目录及子文档"></label></div><div class="kb-wizard-note"><i data-lucide="shield-check"></i><span>${source === "feishu" ? "将使用已授权的飞书连接器读取可访问内容；权限变化后将停止同步。" : "系统只读取当前账号有权限访问的内容，并保留原始链接用于审计。"}</span></div>`;
+          footer = `<button class="btn" data-action="knowledgeImportBack">上一步</button><button class="btn primary" data-action="parseKnowledgeImport"><i data-lucide="scan-text"></i>开始解析</button>`;
+        } else if(step === 3){
+          content = `<div class="kb-parse-overview"><div><span>识别文档</span><strong>${source === "file" ? 3 : 18}</strong></div><div><span>解析成功</span><strong>${source === "file" ? 3 : 18}</strong></div><div><span>重复内容</span><strong>${source === "file" ? 1 : 2}</strong></div><div><span>解析失败</span><strong>0</strong></div></div><div class="kb-parse-list"><div class="kb-parse-row"><strong>${source === "file" ? "新品运营 SOP_v3.pdf" : "新品测试与阶段判断"}</strong><small>${sourceLabel}</small><span class="np-pill good">解析成功</span></div><div class="kb-parse-row"><strong>${source === "file" ? "广告止损规则.pdf" : "广告优化操作手册"}</strong><small>${sourceLabel}</small><span class="np-pill good">解析成功</span></div><div class="kb-parse-row"><strong>${source === "file" ? "库存复盘记录.xlsx" : "库存补货经验库"}</strong><small>${sourceLabel}</small><span class="np-pill warn">发现重复</span></div></div><div class="kb-wizard-note"><i data-lucide="info"></i><span>重复内容不会直接覆盖现有经验。AI 提炼时会标记差异，交由审核人决定合并或保留。</span></div>`;
+          footer = `<button class="btn" data-action="knowledgeImportBack">上一步</button><button class="btn primary" data-action="extractKnowledgeImport"><i data-lucide="sparkles"></i>AI 提炼候选经验</button>`;
+        } else {
+          content = `<div class="kb-review-preview"><label class="kb-review-item"><input type="checkbox" checked><strong>新品 D30 零单止损策略</strong><p>连续 30 日无订单且仍有可售库存时，暂停补货并进入去留评估。</p><span>新品测试 · 新增候选</span></label><label class="kb-review-item"><input type="checkbox" checked><strong>新品弱转化七日复查</strong><p>先修正 Listing 与无效广告，再观察 7 天订单和转化变化。</p><span>新品测试 · 与现有经验相似</span></label><label class="kb-review-item"><input type="checkbox" checked><strong>高 TACoS 广告收缩策略</strong><p>高消耗低转化时优先停低效词，保留核心自然转化词。</p><span>广告健康 · 建议修订</span></label><label class="kb-review-item"><input type="checkbox" checked><strong>补货确认与到货复查</strong><p>补货提交后记录数量、供应链确认和预计到货时间，到期复查。</p><span>库存补货 · 新增候选</span></label></div><div class="kb-wizard-note"><i data-lucide="shield-alert"></i><span>提交后只会进入“待审核”。审核人确认适用范围、排除条件和建议动作后，经验才允许被 AI 引用。</span></div>`;
+          footer = `<button class="btn" data-action="knowledgeImportBack">上一步</button><button class="btn primary" data-action="submitKnowledgeImport"><i data-lucide="send"></i>提交 4 条候选经验</button>`;
+        }
+        openModal("导入企业经验", `<div class="kb-wizard">${stepHead}${content}</div>`, footer);
+      },
+      selectKnowledgeImportSource(el){
+        state.knowledgeImportSource = el.dataset.source || "file";
+        state.knowledgeImportStep = 2;
+        handlers.renderKnowledgeImportStep();
+      },
+      knowledgeImportBack(){
+        state.knowledgeImportStep = Math.max(1, Number(state.knowledgeImportStep || 1) - 1);
+        handlers.renderKnowledgeImportStep();
+      },
+      parseKnowledgeImport(){
+        state.knowledgeImportStep = 3;
+        handlers.renderKnowledgeImportStep();
+      },
+      extractKnowledgeImport(){
+        state.knowledgeImportStep = 4;
+        handlers.renderKnowledgeImportStep();
+      },
+      submitKnowledgeImport(){
+        const source = state.knowledgeImportSource || "file";
+        const sourceName = source === "file" ? "运营经验批量导入" : source === "feishu" ? "飞书运营知识库" : "在线运营知识库";
+        if(!knowledgeImports.some(item => item.id === "IMP-DEMO")) knowledgeImports.unshift({id:"IMP-DEMO",name:sourceName,source:source === "file" ? "本地文件" : source === "feishu" ? "飞书知识库" : "在线知识库",sourceType:source === "file" ? "file" : "online",owner:"当前用户",docs:source === "file" ? 3 : 18,parsed:source === "file" ? 3 : 18,candidates:4,conflicts:1,failed:0,status:"已完成",updated:"刚刚",mode:source === "file" ? "单次导入" : "增量同步"});
+        const importedCandidates = [
+          {id:"KBC-IMPORT-001",name:"高 TACoS 广告收缩策略（导入候选）",scene:"广告健康",lifecycle:"常规运营期 / 老品留存期",summary:"高消耗低转化时优先停低效词，保留核心自然转化词。",action:"收缩高耗低转广告，保留自然转化词",review:"7 天后复查 TACoS、自然订单和单件利润"},
+          {id:"KBC-IMPORT-002",name:"新品 D30 无单处置策略（导入候选）",scene:"新品测试",lifecycle:"新品测试期",summary:"D30 仍无单且存在可售库存时，先确认 Listing 与广告阻断，再决定暂停补货或进入清货观察。",action:"排查 Listing 与广告；确认无阻断后暂停补货",review:"7 天后复查销量、库存和广告消耗"},
+          {id:"KBC-IMPORT-003",name:"新品弱转化七日复查（待合并）",scene:"新品测试",lifecycle:"新品测试期",summary:"已有相似经验，建议人工确认差异后合并，避免产生重复建议。",action:"保留核心词并收缩低效流量",review:"7 天后复查转化率与单件利润"},
+          {id:"KBC-IMPORT-004",name:"库存覆盖不足的小批量补货策略（导入候选）",scene:"库存与补货",lifecycle:"增长期 / 稳定期",summary:"销量稳定但库存覆盖低于供应周期时，优先使用小批量补货降低断货风险。",action:"按供应周期生成小批量补货建议",review:"到货后复查断货天数与库存周转"}
+        ];
+        importedCandidates.slice().reverse().forEach(item => {
+          if(!knowledgeCandidates.some(row => row.id === item.id)) knowledgeCandidates.unshift({...item,source:sourceName,contributor:"AI 批量提炼",status:"待审核",created:"刚刚"});
+        });
+        state.knowledgeTab = "governance";
+        closeModal(); render(); toast("候选经验已提交审核", "共提炼 4 条候选经验；审核发布前不会被 AI 引用。");
+      },
+      openKnowledgeImportDetail(el){
+        const item = knowledgeImports.find(row => row.id === el.dataset.id); if(!item)return;
+        openDrawer("导入记录详情", `<div class="kb-detail"><section class="kb-detail-hero"><div><span class="np-focus-label"><i data-lucide="database"></i>${escapeHtml(item.source)}</span><h2>${escapeHtml(item.name)}</h2><p>${escapeHtml(item.mode)} · ${escapeHtml(item.updated)}</p></div><span class="np-pill ${item.status === "已完成" ? "good" : "warn"}">${escapeHtml(item.status)}</span></section><div class="kb-detail-grid"><section><small>识别文档</small><strong>${item.docs} 个</strong></section><section><small>解析成功</small><strong>${item.parsed} 个</strong></section><section><small>生成候选</small><strong>${item.candidates} 条</strong></section><section><small>冲突 / 失败</small><strong>${item.conflicts} / ${item.failed}</strong></section><section class="full"><small>处理说明</small><strong>${item.failed ? "存在无法读取的内容，可重新解析；已成功内容不会重复创建。" : "原文已保留来源，候选经验已进入人工审核，不会自动发布。"}</strong></section></div></div>`, `<button class="btn" data-action="closeDrawer">关闭</button>${item.failed ? `<button class="btn primary" data-action="retryKnowledgeImport" data-id="${escapeHtml(item.id)}">重新解析</button>` : `<button class="btn primary" data-action="openImportedCandidates">查看候选经验</button>`}`);
+      },
+      retryKnowledgeImport(el){
+        const item = knowledgeImports.find(row => row.id === el.dataset.id); if(!item)return;
+        item.parsed = item.docs; item.failed = 0; item.candidates = Math.max(item.candidates, 3); item.status = "已完成"; item.updated = "刚刚";
+        closeDrawer(); render(); toast("重新解析完成", "已成功解析全部内容，并生成 3 条待审核候选经验。");
+      },
+      openImportedCandidates(){
+        closeDrawer(); state.knowledgeTab = "governance"; render();
+      },
       openKnowledgeDetail(el){
         const item=knowledgeItems.find(row=>row.id===el.dataset.id); if(!item)return;
         openDrawer(`${item.name} · ${item.version}`, `
           <div class="kb-detail">
-            <section class="kb-detail-hero"><div><span class="np-focus-label"><i data-lucide="book-open-check"></i>企业经验</span><h2>${escapeHtml(item.name)}</h2><p>${escapeHtml(item.scene)} · ${escapeHtml(item.lifecycle)} · ${escapeHtml(item.scope)}</p></div><span class="np-pill ${item.status==="已发布"?"good":item.status==="待修订"?"warn":"info"}">${escapeHtml(item.status)}</span></section>
+            <section class="kb-detail-hero"><div><span class="np-focus-label"><i data-lucide="book-open-check"></i>企业经验</span><h2>${escapeHtml(item.name)}</h2><p>${escapeHtml(item.scene)} · ${escapeHtml(item.lifecycle)} · ${escapeHtml(item.aiScope)}</p></div><span class="np-pill ${item.status==="已发布"?"good":item.status==="待修订"?"warn":"info"}">${escapeHtml(item.status)}</span></section>
             <div class="kb-detail-grid">
               <section><small>触发条件</small><strong>${escapeHtml(item.trigger)}</strong></section>
               <section><small>不适用条件</small><strong>${escapeHtml(item.exclusion)}</strong></section>
               <section class="full"><small>建议动作</small><strong>${escapeHtml(item.action)}</strong></section>
               <section class="full"><small>复查方式</small><strong>${escapeHtml(item.review)}</strong></section>
               <section><small>验证结果</small><strong>${escapeHtml(item.effective)}/${escapeHtml(item.cases)} 次有效</strong></section>
-              <section><small>最近验证</small><strong>${escapeHtml(item.lastValidated)}</strong></section>
+              <section><small>AI 使用效果</small><strong>${item.usage} 次引用 · 采纳率 ${escapeHtml(item.acceptance)}</strong></section>
+              <section><small>最近 / 下次复验</small><strong>${escapeHtml(item.lastValidated)} / ${escapeHtml(item.nextReview)}</strong></section>
+              <section><small>可见范围</small><strong>${escapeHtml(item.visibility)}</strong></section>
               <section class="full"><small>经验来源</small><strong>${escapeHtml(item.source)}</strong></section>
             </div>
           </div>
-        `, `<button class="btn" data-action="editKnowledge" data-id="${item.id}">编辑</button>${item.status==="已发布"?`<button class="btn" data-action="pauseKnowledge" data-id="${item.id}">暂停引用</button>`:""}<button class="btn primary" data-action="closeDrawer">完成</button>`);
+        `, `<button class="btn" data-action="editKnowledge" data-id="${item.id}">编辑</button>${item.status==="已发布"?`<button class="btn" data-action="pauseKnowledge" data-id="${item.id}">暂停引用</button><button class="btn" data-action="openKnowledgeRevalidate" data-id="${item.id}">复验</button>`:""}<button class="btn primary" data-action="closeDrawer">完成</button>`);
       },
       editKnowledge(el){
         const item=knowledgeItems.find(row=>row.id===el.dataset.id); if(!item)return;
@@ -28041,6 +28417,9 @@
             <div class="form-row full"><label>建议动作</label><textarea class="textarea" id="knowledgeAction">${escapeHtml(item.action)}</textarea></div>
             <div class="form-row full"><label>不适用条件</label><input class="input" id="knowledgeExclusion" value="${escapeHtml(item.exclusion)}"></div>
             <div class="form-row full"><label>复查方式</label><input class="input" id="knowledgeReview" value="${escapeHtml(item.review)}"></div>
+            <div class="form-row"><label>AI 适用范围</label><input class="input" id="knowledgeAiScope" value="${escapeHtml(item.aiScope)}"></div>
+            <div class="form-row"><label>下次复验日期</label><input class="input" id="knowledgeNextReview" value="${escapeHtml(item.nextReview)}"></div>
+            <div class="form-row full"><label>可见范围</label><select class="input" id="knowledgeVisibility"><option ${item.visibility.includes("运营可看") ? "selected" : ""}>运营可看建议，主管可看全文</option><option ${item.visibility.includes("主管与") ? "selected" : ""}>主管与知识管理员</option><option ${item.visibility.includes("仅知识") ? "selected" : ""}>仅知识管理员</option></select></div>
           </div>
         `, `<button class="btn" data-action="closeModal">取消</button><button class="btn primary" data-action="saveKnowledgeEdit" data-id="${item.id}">保存修订</button>`);
       },
@@ -28048,7 +28427,7 @@
         const item=knowledgeItems.find(row=>row.id===el.dataset.id); if(!item)return;
         const name=qs("#knowledgeName")?.value.trim();
         if(!name){toast("请填写经验名称", "经验名称不能为空。");return;}
-        Object.assign(item,{name,scene:qs("#knowledgeScene")?.value.trim()||item.scene,lifecycle:qs("#knowledgeLifecycle")?.value.trim()||item.lifecycle,scope:qs("#knowledgeScope")?.value.trim()||item.scope,trigger:qs("#knowledgeTrigger")?.value.trim()||item.trigger,action:qs("#knowledgeAction")?.value.trim()||item.action,exclusion:qs("#knowledgeExclusion")?.value.trim()||item.exclusion,review:qs("#knowledgeReview")?.value.trim()||item.review,status:"待修订"});
+        Object.assign(item,{name,scene:qs("#knowledgeScene")?.value.trim()||item.scene,lifecycle:qs("#knowledgeLifecycle")?.value.trim()||item.lifecycle,scope:qs("#knowledgeScope")?.value.trim()||item.scope,trigger:qs("#knowledgeTrigger")?.value.trim()||item.trigger,action:qs("#knowledgeAction")?.value.trim()||item.action,exclusion:qs("#knowledgeExclusion")?.value.trim()||item.exclusion,review:qs("#knowledgeReview")?.value.trim()||item.review,aiScope:qs("#knowledgeAiScope")?.value.trim()||item.aiScope,nextReview:qs("#knowledgeNextReview")?.value.trim()||item.nextReview,visibility:qs("#knowledgeVisibility")?.value||item.visibility,status:"待修订"});
         const versionNumber=Number(String(item.version).replace(/^v/i,""))||1;
         item.version=`V${(versionNumber+0.1).toFixed(1)}`;
         closeModal(); closeDrawer(); render(); toast("修订已保存", "待重新确认后再用于新的 AI 建议，历史引用仍保留原版本。");
@@ -28078,6 +28457,9 @@
             <div class="form-row full"><label>建议动作</label><textarea class="textarea" id="candidateAction">${escapeHtml(item.action)}</textarea></div>
             <div class="form-row full"><label>不适用条件</label><input class="input" id="candidateExclusion" value="数据缺失、同步过期或存在 Listing 阻断时不直接采用"></div>
             <div class="form-row full"><label>复查方式</label><input class="input" id="candidateReview" value="${escapeHtml(item.review)}"></div>
+            <div class="form-row"><label>下次复验日期</label><input class="input" id="candidateNextReview" value="2026-08-31"></div>
+            <div class="form-row"><label>AI 适用范围</label><input class="input" id="candidateAiScope" value="Amazon UK · 当前类目"></div>
+            <div class="form-row full"><label>可见范围</label><select class="input" id="candidateVisibility"><option>运营可看建议，主管可看全文</option><option>主管与知识管理员</option><option>仅知识管理员</option></select></div>
           </div>
         `, `<button class="btn" data-action="returnKnowledgeCandidate" data-id="${item.id}">退回补充</button><button class="btn primary" data-action="publishKnowledgeCandidate" data-id="${item.id}">确认发布</button>`);
       },
@@ -28089,7 +28471,7 @@
         const index=knowledgeCandidates.findIndex(row=>row.id===el.dataset.id); if(index<0)return;
         const item=knowledgeCandidates[index];
         const name=qs("#candidateName")?.value.trim()||item.name;
-        knowledgeItems.unshift({id:`KB-${String(knowledgeItems.length+1).padStart(3,"0")}`,name,scene:qs("#candidateScene")?.value.trim()||item.scene,lifecycle:qs("#candidateLifecycle")?.value.trim()||item.lifecycle,scope:qs("#candidateScope")?.value.trim()||"Amazon UK · 当前类目",trigger:qs("#candidateTrigger")?.value.trim()||item.summary,exclusion:qs("#candidateExclusion")?.value.trim()||"数据不完整时不采用",action:qs("#candidateAction")?.value.trim()||item.action,review:qs("#candidateReview")?.value.trim()||item.review,source:item.source,cases:1,effective:1,lastValidated:"刚刚",version:"V1.0",status:"已发布"});
+        knowledgeItems.unshift({id:`KB-${String(knowledgeItems.length+1).padStart(3,"0")}`,name,scene:qs("#candidateScene")?.value.trim()||item.scene,lifecycle:qs("#candidateLifecycle")?.value.trim()||item.lifecycle,scope:qs("#candidateScope")?.value.trim()||"Amazon UK · 当前类目",trigger:qs("#candidateTrigger")?.value.trim()||item.summary,exclusion:qs("#candidateExclusion")?.value.trim()||"数据不完整时不采用",action:qs("#candidateAction")?.value.trim()||item.action,review:qs("#candidateReview")?.value.trim()||item.review,source:item.source,cases:1,effective:1,lastValidated:"刚刚",nextReview:qs("#candidateNextReview")?.value.trim()||"2026-08-31",usage:0,acceptance:"--",visibility:qs("#candidateVisibility")?.value||"运营可看建议，主管可看全文",aiScope:qs("#candidateAiScope")?.value.trim()||"Amazon UK · 当前类目",version:"V1.0",status:"已发布"});
         const review=failureReasons.find(row=>String(item.source).includes(row.id));
         if(review){review.knowledge=name;review.knowledgeVersion="V1.0";review.knowledgeStatus="已发布";}
         knowledgeCandidates.splice(index,1); closeModal(); closeDrawer(); render(); toast("企业经验已发布", "后续 AI 建议可引用该经验；历史复盘保留发布时版本。");
@@ -28103,21 +28485,213 @@
         const name=qs("#newKnowledgeName")?.value.trim(); const summary=qs("#newKnowledgeSummary")?.value.trim();
         if(!name||!summary){toast("请补充经验内容", "名称和经验说明不能为空。");return;}
         knowledgeCandidates.unshift({id:`KBC-${Date.now()}`,name,scene:qs("#newKnowledgeScene")?.value||"新品测试",lifecycle:qs("#newKnowledgeLifecycle")?.value||"新品测试期",summary,action:"待审核时确认结构化动作",review:"待审核时确认复查周期",source:"人工新增",contributor:"当前用户",status:"待审核"});
-        closeModal(); render(); toast("候选经验已保存", "审核发布前不会被 AI 引用。");
+        state.knowledgeTab="governance"; closeModal(); render(); toast("候选经验已保存", "审核发布前不会被 AI 引用。");
       },
       openReviewKnowledge(el){
         const review=failureReasons.find(row=>row.id===el.dataset.id); if(!review)return;
-        closeDrawer(); setView("knowledge");
+        closeDrawer(); state.knowledgeTab=review.knowledgeStatus==="已发布"?"library":"governance"; setView("knowledge");
         toast(review.knowledgeStatus==="已发布"?"已定位企业经验":"已定位候选经验", review.knowledge || "请在待审核经验中继续确认。");
       },
       createKnowledgeCandidateFromReview(el){
         const review=failureReasons.find(row=>row.id===el.dataset.id); if(!review)return;
-        if(knowledgeCandidates.some(item=>String(item.source).includes(review.id))){closeDrawer();setView("knowledge");return;}
+        if(knowledgeCandidates.some(item=>String(item.source).includes(review.id))){closeDrawer();state.knowledgeTab="governance";setView("knowledge");return;}
         const scene=/D\d+|新品/.test(review.stage)?"新品测试":/清货|季节/.test(review.stage)?"清货复盘":review.source||review.stage;
         knowledgeCandidates.unshift({id:`KBC-${Date.now()}`,name:`${review.stage} · ${review.root}`,scene,lifecycle:review.stage,summary:`当${review.reason}时，${review.root}；本次处理后${review.after}。`,action:review.action||review.rule,review:"按原复查周期验证相同口径",source:review.id,contributor:"经营复盘 AI 提炼",status:"待审核"});
-        review.knowledgeStatus="候选待审核"; closeDrawer(); setView("knowledge"); toast("已生成候选经验", "请由有权限的业务负责人确认适用范围、动作和不适用条件后发布。");
+        review.knowledgeStatus="候选待审核"; closeDrawer(); state.knowledgeTab="governance"; setView("knowledge"); toast("已生成候选经验", "请由有权限的业务负责人确认适用范围、动作和不适用条件后发布。");
       },
-      filterKnowledge(){ toast("筛选已应用", "原型已保留场景、状态和关键词筛选入口。"); },
+      openKnowledgePermissions(){
+        openDrawer("知识权限说明", `
+          <div class="kb-detail">
+            <section class="kb-detail-hero"><div><span class="np-focus-label"><i data-lucide="shield-check"></i>轻量权限</span><h2>经验原文与日常建议分开控制</h2><p>不复制 ERP 的复杂权限，只控制谁能看原文、谁能审核发布，以及 AI 可以引用什么。</p></div></section>
+            <div class="kb-permission-grid">
+              <div class="kb-permission-row"><strong>普通运营</strong><span>查看 AI 结论、建议动作和复查要求</span><em>不查看完整经验原文</em></div>
+              <div class="kb-permission-row"><strong>主管 / 负责人</strong><span>查看经验摘要、适用范围和验证结果</span><em>可提交复验反馈</em></div>
+              <div class="kb-permission-row"><strong>知识管理员</strong><span>查看来源、原文、历史版本和冲突记录</span><em>可审核、发布、修订和失效</em></div>
+              <div class="kb-permission-row"><strong>AI 引用范围</strong><span>仅使用已发布、未失效、符合站点与场景范围的版本</span><em>无匹配时降级为人工确认</em></div>
+            </div>
+          </div>
+        `, `<button class="btn primary" data-action="closeDrawer">知道了</button>`);
+      },
+      openKnowledgeConflict(el){
+        const item=knowledgeConflicts.find(row=>row.id===el.dataset.id); if(!item)return;
+        openModal(item.status === "待处理" ? "处理知识冲突" : "冲突处理结果", `
+          <div class="kb-conflict-compare">
+            <div class="kb-conflict-version"><small>正式经验</small><strong>${escapeHtml(item.left)}</strong><p>当前已发布版本，保留历史引用记录。</p></div>
+            <div class="kb-conflict-version"><small>新增内容</small><strong>${escapeHtml(item.right)}</strong><p>${escapeHtml(item.reason)}</p></div>
+          </div>
+          <div class="form-row"><label>处理方式</label><select class="input" id="knowledgeConflictDecision" ${item.status === "已处理" ? "disabled" : ""}><option>合并前置条件（推荐）</option><option>拆分适用范围</option><option>保留正式版本，拒绝候选</option></select></div>
+          <div class="form-row"><label>处理说明</label><textarea class="textarea" id="knowledgeConflictNote" ${item.status === "已处理" ? "disabled" : ""}>${escapeHtml(item.suggestion)}</textarea></div>
+        `, item.status === "待处理" ? `<button class="btn" data-action="closeModal">取消</button><button class="btn primary" data-action="resolveKnowledgeConflict" data-id="${escapeHtml(item.id)}">确认处理</button>` : `<button class="btn primary" data-action="closeModal">关闭</button>`);
+      },
+      resolveKnowledgeConflict(el){
+        const item=knowledgeConflicts.find(row=>row.id===el.dataset.id); if(!item)return;
+        item.status="已处理";
+        item.resolution=qs("#knowledgeConflictDecision")?.value||"合并前置条件";
+        item.suggestion=qs("#knowledgeConflictNote")?.value.trim()||item.suggestion;
+        closeModal(); render(); toast("冲突已处理", "正式经验保留历史版本，新口径将在审核发布后供 AI 使用。");
+      },
+      openKnowledgeRevalidate(el){
+        const item=knowledgeItems.find(row=>row.id===el.dataset.id); if(!item)return;
+        const samples=knowledgeRevalidationSamples[item.id] || [
+          { id:`${item.id}-R1`, asin:"待补充", product:"最近已执行案例", action:item.action, before:item.trigger, after:"等待负责人补充实际结果", verdict:"需修订" }
+        ];
+        const effectiveSamples=samples.filter(sample=>sample.verdict==="有效").length;
+        const historicalRate=item.cases ? Math.round(item.effective/item.cases*100) : 0;
+        const versionMatch=String(item.version||"V1.0").match(/V(\d+)\.(\d+)/);
+        const nextVersion=versionMatch ? `V${versionMatch[1]}.${Number(versionMatch[2])+1}` : "下一版本";
+        closeDrawer();
+        openModal("复验企业经验", `
+          <div class="kb-revalidate" data-knowledge-id="${escapeHtml(item.id)}">
+            <section class="kb-revalidate-hero">
+              <div>
+                <span class="np-focus-label"><i data-lucide="refresh-cw"></i>本轮效果复验</span>
+                <h3>${escapeHtml(item.name)}</h3>
+                <p>${escapeHtml(item.scene)} · ${escapeHtml(item.aiScope)} · 当前正式版本 ${escapeHtml(item.version)}</p>
+              </div>
+              <div class="kb-revalidate-hero-meta">
+                <span class="np-pill ${item.status === "已发布" ? "good" : item.status === "待修订" || item.status === "待补充" ? "warn" : item.status === "已失效" ? "neutral" : "info"}">${escapeHtml(item.status)}</span>
+                <span class="np-pill">上次复验 ${escapeHtml(item.lastValidated)}</span>
+              </div>
+            </section>
+
+            <div class="kb-revalidate-metrics">
+              <div><span>历史有效率</span><strong>${historicalRate}%</strong><small>${item.effective}/${item.cases} 个案例验证有效</small></div>
+              <div><span>AI 引用</span><strong>${item.usage} 次</strong><small>建议采纳率 ${escapeHtml(item.acceptance)}</small></div>
+              <div><span>本轮样本</span><strong>${samples.length} 个</strong><small>${effectiveSamples} 个结果有效</small></div>
+              <div><span>当前复验要求</span><strong>${escapeHtml(item.nextReview)}</strong><small>复验后重新安排周期</small></div>
+            </div>
+
+            <section class="kb-revalidate-section">
+              <div class="kb-revalidate-section-head">
+                <div><h4>真实执行样本</h4><p>只勾选已完成动作且已有复查结果的案例，纳入本轮结论。</p></div>
+                <span>${effectiveSamples}/${samples.length} 个结果有效</span>
+              </div>
+              <div class="kb-revalidate-samples">
+                ${samples.map(sample=>`
+                  <label class="kb-revalidate-sample">
+                    <input class="knowledge-revalidate-sample" type="checkbox" checked data-verdict="${escapeHtml(sample.verdict)}">
+                    <span><strong>${escapeHtml(sample.product)}</strong><small>${escapeHtml(sample.asin)}</small></span>
+                    <p><strong>${escapeHtml(sample.action)}</strong><small>执行动作</small></p>
+                    <p>${escapeHtml(sample.before)}<br><strong>${escapeHtml(sample.after)}</strong></p>
+                    <em class="${sample.verdict==="有效"?"good":"warn"}">${escapeHtml(sample.verdict)}</em>
+                  </label>
+                `).join("")}
+              </div>
+            </section>
+
+            <section class="kb-revalidate-section kb-revalidate-review">
+              <div class="kb-revalidate-decision">
+                <div class="kb-revalidate-section-head" style="padding:0;border-bottom:0;min-height:auto">
+                  <div><h4>维护决策</h4><p>复验决定经验是否继续供 AI 使用，以及是否生成修订版本。</p></div>
+                </div>
+                <div class="kb-revalidate-options">
+                  <label class="kb-revalidate-option"><input type="radio" name="knowledgeRevalidateResult" value="继续有效" checked><span><b>继续有效</b><small>${escapeHtml(item.version)} 保持发布，继续供 AI 引用</small></span></label>
+                  <label class="kb-revalidate-option"><input type="radio" name="knowledgeRevalidateResult" value="需要修订"><span><b>需要修订</b><small>生成 ${escapeHtml(nextVersion)} 草稿，当前版本暂时保留</small></span></label>
+                  <label class="kb-revalidate-option"><input type="radio" name="knowledgeRevalidateResult" value="判定失效"><span><b>判定失效</b><small>当前版本立即停止供 AI 引用</small></span></label>
+                </div>
+                <div class="kb-revalidate-fields">
+                  <label>下次复验日期<input type="date" id="knowledgeRevalidateNext" value="2026-09-30"></label>
+                  <label>复验负责人<input id="knowledgeRevalidateOwner" value="${escapeHtml(item.reviewer==="--"?"知识管理员":item.reviewer)}"></label>
+                  <label class="full">复验依据<textarea id="knowledgeRevalidateEvidence" placeholder="例如：抽查 3 个已执行案例，2 个改善、1 个因季节属性不适用"></textarea></label>
+                  <label class="full">需要修订或失效的内容<textarea id="knowledgeRevalidateChange" placeholder="继续有效可不填；如需修订，请说明要补充的条件、排除范围或动作"></textarea></label>
+                </div>
+              </div>
+              <aside class="kb-revalidate-impact">
+                <h4>提交后的系统处理</h4>
+                <div class="kb-revalidate-impact-row"><span>继续有效</span><strong>保留 ${escapeHtml(item.version)}，更新验证数据与下次复验日期</strong></div>
+                <div class="kb-revalidate-impact-row"><span>需要修订</span><strong>创建 ${escapeHtml(nextVersion)} 草稿；${escapeHtml(item.version)} 在新版本发布前继续生效</strong></div>
+                <div class="kb-revalidate-impact-row"><span>判定失效</span><strong>停止 AI 引用，但保留历史案例、引用和版本记录</strong></div>
+                <div class="kb-revalidate-note"><i data-lucide="shield-check"></i><span>复验不会改写历史 AI 建议；历史记录继续保留当时使用的经验版本。</span></div>
+              </aside>
+            </section>
+          </div>
+        `, `<button class="btn" data-action="closeModal">取消</button><button class="btn primary" data-action="submitKnowledgeRevalidation" data-id="${escapeHtml(item.id)}">提交复验</button>`);
+      },
+      submitKnowledgeRevalidation(el){
+        const item=knowledgeItems.find(row=>row.id===el.dataset.id); if(!item)return;
+        const result=qs('input[name="knowledgeRevalidateResult"]:checked')?.value||"继续有效";
+        const selectedSamples=[...document.querySelectorAll(".knowledge-revalidate-sample:checked")];
+        const evidence=qs("#knowledgeRevalidateEvidence")?.value.trim();
+        const change=qs("#knowledgeRevalidateChange")?.value.trim();
+        const owner=qs("#knowledgeRevalidateOwner")?.value.trim();
+        if(!selectedSamples.length){toast("请选择复验样本", "至少选择一个已有执行结果的案例。");return;}
+        if(!evidence){toast("请填写复验依据", "至少说明一个代表性案例或实际结果。");return;}
+        if(result!=="继续有效"&&!change){toast("请说明维护内容", "需要修订或失效时，必须说明条件、范围或动作如何调整。");return;}
+        if(!owner){toast("请填写复验负责人", "复验记录需要保留责任人。");return;}
+        const effectiveCount=selectedSamples.filter(sample=>sample.dataset.verdict==="有效").length;
+        const reviewedCount=selectedSamples.length;
+        const versionMatch=String(item.version||"V1.0").match(/V(\d+)\.(\d+)/);
+        const nextVersion=versionMatch ? `V${versionMatch[1]}.${Number(versionMatch[2])+1}` : "下一版本";
+        item.lastValidated="刚刚";
+        item.nextReview=result==="判定失效"?"--":qs("#knowledgeRevalidateNext")?.value||"2026-09-30";
+        item.cases+=reviewedCount;
+        item.effective+=effectiveCount;
+        item.reviewer=owner;
+        item.revalidationEvidence=evidence;
+        item.revalidationChange=change;
+        item.maintenanceState="";
+        if(result==="继续有效"){
+          item.status="已发布";
+          item.draftVersion="";
+        }else if(result==="需要修订"){
+          item.status="已发布";
+          item.maintenanceState="待修订";
+          item.draftVersion=nextVersion;
+        }else{
+          item.status="已失效";
+          item.draftVersion="";
+        }
+        closeModal(); render();
+        const message=result==="继续有效"
+          ? `${item.version} 继续供 AI 引用，下次复验已安排。`
+          : result==="需要修订"
+            ? `已创建 ${nextVersion} 修订任务，${item.version} 在新版本发布前继续生效。`
+            : `${item.version} 已停止供 AI 引用，历史记录已保留。`;
+        toast("复验结果已保存", message);
+      },
+      openKnowledgeSource(el){
+        const item=knowledgeSources.find(row=>row.id===el.dataset.id); if(!item)return;
+        openDrawer(item.name, `
+          <div class="kb-detail">
+            <section class="kb-detail-hero"><div><span class="np-focus-label"><i data-lucide="${escapeHtml(item.icon)}"></i>${escapeHtml(item.type)}</span><h2>${escapeHtml(item.name)}</h2><p>${escapeHtml(item.scope)}</p></div><span class="np-pill ${item.status==="正常"?"good":"warn"}">${escapeHtml(item.status)}</span></section>
+            <div class="kb-detail-grid">
+              <section><small>同步方式</small><strong>${escapeHtml(item.mode)}</strong></section>
+              <section><small>文档数量</small><strong>${item.docs} 份</strong></section>
+              <section><small>授权状态</small><strong>${escapeHtml(item.permission)}</strong></section>
+              <section><small>负责人</small><strong>${escapeHtml(item.owner)}</strong></section>
+              <section><small>最近同步</small><strong>${escapeHtml(item.lastSync)}</strong></section>
+              <section><small>下次同步</small><strong>${escapeHtml(item.nextSync)}</strong></section>
+              <section class="full"><small>维护原则</small><strong>来源内容更新后先生成候选和冲突记录，不自动覆盖已发布经验。</strong></section>
+            </div>
+          </div>
+        `, `<button class="btn" data-action="closeDrawer">关闭</button><button class="btn primary" data-action="syncKnowledgeSource" data-id="${escapeHtml(item.id)}">立即同步</button>`);
+      },
+      syncKnowledgeSource(el){
+        const item=knowledgeSources.find(row=>row.id===el.dataset.id); if(!item)return;
+        item.lastSync="刚刚"; item.status="正常"; item.permission="已授权"; item.nextSync="明天 23:00";
+        closeDrawer(); render(); toast("知识来源已同步", "新内容已进入解析检查；不会直接覆盖已发布经验。");
+      },
+      setKnowledgeTestPreset(el){
+        state.knowledgeTestQuery=el.dataset.query||"";
+        state.knowledgeTested=false;
+        render();
+      },
+      runKnowledgeTest(){
+        const query=qs("#knowledgeTestQuery")?.value.trim();
+        if(!query){toast("请输入经营问题", "建议使用一个真实业务问题验证经验命中结果。");return;}
+        state.knowledgeTestQuery=query; state.knowledgeTested=true; render();
+        toast(/法国|饮水机|认证/.test(query)?"未匹配企业经验":"已完成引用验证", /法国|饮水机|认证/.test(query)?"系统已降级为人工确认，不会生成确定性动作。":"已命中正式经验 KB-001 · V2.1。");
+      },
+      openKnowledgeUsageDetail(el){
+        const item=knowledgeUsageLogs.find(row=>row.id===el.dataset.id); if(!item)return;
+        openDrawer("AI 引用记录", `<div class="kb-detail"><div class="kb-detail-grid"><section class="full"><small>经营问题</small><strong>${escapeHtml(item.query)}</strong></section><section><small>业务场景</small><strong>${escapeHtml(item.scene)}</strong></section><section><small>使用人员</small><strong>${escapeHtml(item.user)}</strong></section><section><small>命中经验</small><strong>${escapeHtml(item.matched)}</strong></section><section><small>处理方式</small><strong>${escapeHtml(item.decision)}</strong></section><section><small>后续反馈</small><strong>${escapeHtml(item.feedback)}</strong></section><section><small>调用时间</small><strong>${escapeHtml(item.time)}</strong></section></div></div>`, `<button class="btn primary" data-action="closeDrawer">关闭</button>`);
+      },
+      filterKnowledge(el){
+        const filter=el?.dataset?.filter||"";
+        state.knowledgeTab=filter==="待复验"?"library":filter==="待审核"?"governance":"library";
+        render();
+        toast("已定位相关内容", filter?`当前查看：${filter}`:"已显示全部经验。");
+      },
       exportActionLogs(){ toast("处理日志已导出", "已模拟导出系统建议、处理说明、确认人、复查时间和复查状态。"); },
       setStrategyCenterTab(el){
         state.strategyCenterTab = ["lifecycle", "views", "rules"].includes(el.dataset.tab) ? el.dataset.tab : "lifecycle";
