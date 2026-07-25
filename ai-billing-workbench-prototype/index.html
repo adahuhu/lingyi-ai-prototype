@@ -1051,41 +1051,39 @@
       box-shadow: var(--shadow-soft);
       color: var(--text);
       min-height: 720px;
-      padding: 28px 44px 32px;
+      padding: 34px 44px 32px;
     }
     .pricing-hero {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 24px;
-      align-items: center;
-      margin-bottom: 22px;
+      align-items: start;
+      margin-bottom: 26px;
+    }
+    .pricing-hero h1 {
+      color: #101828;
+      font-size: 30px;
+      font-weight: 850;
+      letter-spacing: 0;
+    }
+    .pricing-hero p {
+      color: var(--muted);
+      line-height: 1.65;
+      margin: 12px 0 0;
     }
     .pricing-meta {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(180px, 220px));
-      gap: 10px;
-    }
-    .pricing-metric {
-      background: rgba(255, 255, 255, .72);
-      border: 1px solid var(--line);
-      border-radius: 8px;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      min-height: 52px;
-      padding: 10px 12px;
+      flex-wrap: wrap;
+      gap: 18px;
     }
-    .pricing-metric span {
+    .pricing-meta span {
       color: var(--muted);
       font-size: 12px;
       font-weight: 780;
     }
-    .pricing-metric strong {
+    .pricing-meta strong {
       color: #101828;
-      display: block;
-      font-size: 16px;
       font-weight: 850;
-      margin-top: 4px;
     }
     .pricing-actions {
       align-items: center;
@@ -2408,8 +2406,8 @@
             <section class="pricing-canvas">
               <div class="pricing-hero">
                 <div class="pricing-meta" aria-label="账户摘要">
-                  <div class="pricing-metric"><span>当前租户余额</span><strong>128,600 积分</strong></div>
-                  <div class="pricing-metric"><span>本月消耗</span><strong>26,340 积分</strong></div>
+                  <span>当前租户余额 <strong>128,600 积分</strong></span>
+                  <span>本月消耗 <strong>26,340 积分</strong></span>
                 </div>
                 <div class="pricing-actions">
                   <button class="pricing-link" data-page-target="orders">查看订单</button>
