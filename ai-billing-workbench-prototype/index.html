@@ -199,9 +199,9 @@
     }
 
     .content {
-      padding: 28px;
+      padding: 20px;
       width: 100%;
-      max-width: 1440px;
+      max-width: 1360px;
     }
     .page { display: none; }
     .page.active { display: block; }
@@ -231,7 +231,7 @@
       display: none;
     }
     body.embed .content {
-      padding: 0;
+      padding: 12px 14px 16px;
       max-width: none;
     }
     body.embed .main {
@@ -254,7 +254,7 @@
     }
     h2 {
       margin: 0;
-      font-size: 18px;
+      font-size: 16px;
       line-height: 1.35;
       font-weight: 800;
       color: #161c25;
@@ -266,11 +266,11 @@
       font-weight: 800;
       color: #1d2633;
     }
-    .subtext { margin: 8px 0 0; color: var(--muted); line-height: 1.7; max-width: 760px; }
+    .subtext { margin: 4px 0 0; color: var(--muted); line-height: 1.5; max-width: 760px; }
     .head-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
 
     .btn {
-      min-height: 34px;
+      min-height: 30px;
       border-radius: 8px;
       border: 1px solid var(--line-strong);
       background: #fff;
@@ -278,8 +278,8 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 7px;
-      padding: 0 12px;
+      gap: 6px;
+      padding: 0 10px;
       font-weight: 750;
       white-space: nowrap;
     }
@@ -301,8 +301,8 @@
       box-shadow: none;
     }
     .icon-btn {
-      width: 34px;
-      height: 34px;
+      width: 30px;
+      height: 30px;
       padding: 0;
       border-radius: 8px;
       border: 1px solid var(--line-strong);
@@ -313,7 +313,7 @@
     }
     .icon-btn:hover { border-color: var(--primary-border); color: var(--primary); }
 
-    .grid { display: grid; gap: 16px; }
+    .grid { display: grid; gap: 12px; }
     .grid > *, .panel, .card, .tab-panel, .table-wrap { min-width: 0; }
     .metric-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .two-col { grid-template-columns: minmax(0, 1.1fr) minmax(360px, .9fr); align-items: start; }
@@ -327,19 +327,19 @@
       box-shadow: 0 1px 1px rgba(15, 23, 42, .02);
     }
     .panel-head {
-      min-height: 54px;
-      padding: 14px 16px;
+      min-height: 44px;
+      padding: 10px 14px;
       border-bottom: 1px solid var(--line);
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
     }
-    .panel-body { padding: 16px; }
-    .card { padding: 16px; }
+    .panel-body { padding: 12px 14px; }
+    .card { padding: 12px 14px; }
     .metric .label { color: var(--muted); font-weight: 700; }
-    .metric .value { margin-top: 10px; font-size: 25px; font-weight: 900; color: #101828; }
-    .metric .hint { margin-top: 6px; color: var(--subtle); }
+    .metric .value { margin-top: 6px; font-size: 22px; font-weight: 900; color: #101828; }
+    .metric .hint { margin-top: 4px; color: var(--subtle); }
     .metric .delta { color: var(--green); font-weight: 800; }
     .metric.warn .delta { color: var(--amber); }
     .metric.danger .delta { color: var(--red); }
@@ -348,12 +348,12 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      min-height: 23px;
-      padding: 0 8px;
+      min-height: 20px;
+      padding: 0 7px;
       border-radius: 6px;
       background: var(--soft);
       color: #667085;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 760;
       white-space: nowrap;
     }
@@ -410,7 +410,7 @@
     .priority-board {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
+      gap: 10px;
     }
     .priority-col {
       border: 1px solid var(--line);
@@ -468,7 +468,7 @@
     .product-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
+      gap: 12px;
     }
     .suite-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .section-title {
@@ -561,58 +561,58 @@
     .pay-meta { color: var(--muted); line-height: 1.55; }
 
     .purchase-page {
-      max-width: 1260px;
+      max-width: 1180px;
     }
     .purchase-toolbar {
       display: grid;
       grid-template-columns: 1fr 1fr auto auto;
-      gap: 10px;
+      gap: 8px;
       align-items: center;
       background: #fff;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 10px;
-      margin-bottom: 12px;
+      padding: 8px;
+      margin-bottom: 10px;
     }
     .purchase-toolbar-item {
-      min-height: 50px;
+      min-height: 42px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--soft);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      padding: 0 14px;
+      gap: 8px;
+      padding: 0 12px;
     }
     .purchase-toolbar-item span { color: var(--muted); font-weight: 720; }
-    .purchase-toolbar-item strong { color: #101828; font-size: 18px; font-weight: 900; }
+    .purchase-toolbar-item strong { color: #101828; font-size: 16px; font-weight: 900; }
 
     .purchase-section {
       background: #fff;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 18px;
-      margin-top: 12px;
-      box-shadow: 0 16px 36px rgba(15, 23, 42, .04);
+      padding: 14px;
+      margin-top: 10px;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, .035);
     }
     .product-catalog-section {
       display: grid;
-      gap: 18px;
+      gap: 12px;
     }
     .product-group {
       display: grid;
-      gap: 12px;
+      gap: 8px;
     }
     .product-group + .product-group {
-      padding-top: 16px;
+      padding-top: 12px;
       border-top: 1px solid var(--line);
     }
     .purchase-section-head {
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
       margin-bottom: 0;
     }
     .purchase-section-head p {
@@ -629,7 +629,7 @@
     .annual-plans {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 12px;
+      gap: 10px;
     }
     .product-card-grid {
       display: grid;
@@ -644,7 +644,7 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #fff;
-      padding: 16px;
+      padding: 12px 14px;
       display: flex;
       flex-direction: column;
       min-height: 100%;
@@ -655,53 +655,54 @@
       box-shadow: 0 14px 30px rgba(22, 119, 255, .09);
       transform: translateY(-1px);
     }
-    .plan-card { min-height: 244px; }
+    .plan-card { min-height: 212px; }
     .buy-card-head {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 14px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 8px;
     }
-    .buy-card h3 { font-size: 18px; }
+    .buy-card h3 { font-size: 15px; }
     .buy-card .desc {
       color: var(--muted);
-      line-height: 1.6;
-      margin: 6px 0 0;
+      font-size: 12px;
+      line-height: 1.45;
+      margin: 4px 0 0;
     }
     .buy-price {
       color: var(--primary);
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 950;
       line-height: 1.1;
-      margin: 0 0 12px;
+      margin: 0 0 8px;
     }
     .buy-price small {
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 780;
     }
     .buy-meta-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
-      margin-bottom: 18px;
+      gap: 6px;
+      margin-bottom: 10px;
     }
     .buy-meta {
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #fff;
-      padding: 10px;
-      min-height: 62px;
+      padding: 8px;
+      min-height: 52px;
     }
     .buy-meta span { display: block; color: var(--muted); font-size: 12px; font-weight: 740; margin-bottom: 5px; }
     .buy-meta strong { display: block; color: #101828; font-weight: 900; }
     .buy-feature-list {
-      margin: 0 0 18px;
+      margin: 0 0 10px;
       padding: 0;
       list-style: none;
       display: grid;
-      gap: 10px;
+      gap: 6px;
     }
     .buy-feature-list li {
       display: flex;
@@ -721,23 +722,24 @@
       margin-top: auto;
       display: flex;
       justify-content: flex-end;
-      gap: 10px;
+      gap: 8px;
     }
-    .buy-actions .btn { flex: 0 0 132px; min-height: 36px; }
+    .buy-actions .btn { flex: 0 0 112px; min-height: 32px; }
     .plan-mini-list {
       display: grid;
-      gap: 8px;
-      margin: 0 0 12px;
+      gap: 6px;
+      margin: 0 0 8px;
       padding: 0;
       list-style: none;
       color: #344054;
-      line-height: 1.5;
+      font-size: 12px;
+      line-height: 1.42;
     }
     .plan-mini-list li {
       display: flex;
       justify-content: space-between;
-      gap: 10px;
-      padding-bottom: 7px;
+      gap: 8px;
+      padding-bottom: 5px;
       border-bottom: 1px solid var(--line);
     }
     .plan-mini-list li:last-child { border-bottom: 0; padding-bottom: 0; }
@@ -788,28 +790,28 @@
     .point-plan-row {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
+      gap: 10px;
     }
     .point-card {
-      min-height: 218px;
+      min-height: 174px;
     }
-    .point-card .buy-price { font-size: 28px; margin-top: 0; }
+    .point-card .buy-price { font-size: 24px; margin-top: 0; }
 
     .orders-page {
-      max-width: 1260px;
+      max-width: 1180px;
     }
     .order-summary-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      margin-bottom: 16px;
+      gap: 10px;
+      margin-bottom: 12px;
     }
     .order-summary {
-      min-height: 108px;
+      min-height: 78px;
       background: #fff;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 16px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -821,7 +823,7 @@
     .order-summary strong {
       display: block;
       color: #101828;
-      font-size: 26px;
+      font-size: 20px;
       font-weight: 940;
       line-height: 1.15;
     }
@@ -833,36 +835,36 @@
       background: #fff;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 14px;
+      padding: 10px 12px;
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      gap: 12px;
-      margin-bottom: 16px;
+      gap: 10px;
+      margin-bottom: 12px;
     }
     .order-search {
-      min-width: 280px;
+      min-width: 240px;
     }
     .date-range {
-      min-width: 220px;
+      min-width: 190px;
     }
     .order-list {
       display: grid;
-      gap: 12px;
+      gap: 8px;
     }
     .order-card {
       background: #fff;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 18px;
+      padding: 12px;
       display: grid;
-      grid-template-columns: minmax(260px, 1.25fr) repeat(4, minmax(118px, .7fr)) 168px;
-      gap: 14px;
+      grid-template-columns: minmax(220px, 1.28fr) repeat(4, minmax(96px, .62fr)) 132px;
+      gap: 10px;
       align-items: stretch;
       transition: border-color .18s ease, box-shadow .18s ease;
     }
     .order-card.no-action {
-      grid-template-columns: minmax(260px, 1.25fr) repeat(4, minmax(118px, .7fr));
+      grid-template-columns: minmax(220px, 1.28fr) repeat(4, minmax(96px, .62fr));
     }
     .order-card:hover {
       border-color: var(--primary-border);
@@ -875,7 +877,7 @@
     }
     .order-no {
       color: #101828;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 900;
     }
     .order-product {
@@ -915,12 +917,12 @@
       background: var(--soft);
       border: 1px solid #edf1f6;
       border-radius: 8px;
-      padding: 10px;
-      min-height: 62px;
+      padding: 8px 10px;
+      min-height: 48px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 5px;
+      gap: 4px;
     }
     .order-cell span {
       color: var(--muted);
@@ -955,14 +957,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      min-height: 50px;
+      min-height: 42px;
       border-radius: 8px;
       background: var(--primary-softer);
       border: 1px solid var(--primary-border);
-      padding: 0 14px;
+      padding: 0 12px;
       font-weight: 850;
     }
-    .calc-total strong { color: var(--primary-strong); font-size: 20px; }
+    .calc-total strong { color: var(--primary-strong); font-size: 18px; }
 
     .table-wrap {
       width: 100%;
@@ -971,11 +973,11 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 820px;
+      min-width: 760px;
     }
     th, td {
       text-align: left;
-      padding: 12px 14px;
+      padding: 9px 12px;
       border-bottom: 1px solid var(--line);
       vertical-align: middle;
       white-space: nowrap;
@@ -992,7 +994,7 @@
 
     .filters {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
       align-items: center;
     }
@@ -1006,12 +1008,12 @@
       border-radius: 8px;
       background: #fff;
       color: var(--text);
-      min-height: 34px;
+      min-height: 30px;
       padding: 0 10px;
       outline: none;
     }
     textarea {
-      min-height: 78px;
+      min-height: 68px;
       resize: vertical;
       padding: 9px 10px;
       line-height: 1.5;
@@ -1031,12 +1033,12 @@
       border-radius: inherit;
     }
 
-    .account-stack { display: grid; gap: 14px; }
+    .account-stack { display: grid; gap: 10px; }
     .account-row {
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 12px;
-      padding: 14px;
+      gap: 10px;
+      padding: 12px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--soft);
@@ -1048,26 +1050,26 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       box-shadow: var(--shadow-soft);
-      margin-bottom: 16px;
-      padding: 20px 24px 22px;
+      margin-bottom: 12px;
+      padding: 14px;
     }
     .account-ledger-head {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      gap: 18px;
+      gap: 12px;
       align-items: start;
-      margin-bottom: 22px;
+      margin-bottom: 12px;
     }
     .account-title-label {
       color: var(--muted);
       font-size: 13px;
       font-weight: 820;
-      margin-bottom: 6px;
+      margin-bottom: 3px;
     }
     .account-ledger-title h1 {
       margin: 0;
       color: #101828;
-      font-size: 30px;
+      font-size: 22px;
       line-height: 1.2;
       letter-spacing: 0;
     }
@@ -1075,22 +1077,22 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
     }
     .tenant-select {
-      min-width: 180px;
+      min-width: 172px;
       font-weight: 760;
     }
     .account-ledger-body {
       display: grid;
-      grid-template-columns: minmax(360px, .95fr) minmax(0, 1.45fr);
-      gap: 22px;
+      grid-template-columns: minmax(300px, .78fr) minmax(0, 1.52fr);
+      gap: 12px;
       align-items: end;
     }
     .account-balance-pane {
       display: grid;
-      gap: 12px;
+      gap: 8px;
       min-width: 0;
     }
     .account-balance-pane .tag {
@@ -1110,23 +1112,23 @@
       background: var(--soft);
       border: 1px solid #edf1f6;
       border-radius: 8px;
-      min-height: 96px;
-      padding: 13px 14px;
+      min-height: 72px;
+      padding: 10px 12px;
       display: flex;
       justify-content: space-between;
       flex-direction: column;
-      gap: 10px;
+      gap: 6px;
     }
     .account-balance-value {
       color: #101828;
-      font-size: 56px;
+      font-size: 38px;
       font-weight: 950;
       line-height: .95;
       letter-spacing: 0;
     }
     .account-balance-value small {
       color: var(--muted);
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 820;
       margin-left: 8px;
     }
@@ -1137,7 +1139,7 @@
     }
     .account-status-item strong {
       color: #101828;
-      font-size: 22px;
+      font-size: 18px;
       font-weight: 920;
     }
     .account-status-item small {
@@ -1148,7 +1150,7 @@
     .account-workspace {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      gap: 16px;
+      gap: 12px;
       align-items: start;
     }
     .account-workspace .panel {
@@ -1191,48 +1193,48 @@
     }
     .usage-page {
       display: grid;
-      gap: 16px;
+      gap: 12px;
     }
     .usage-head {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      gap: 16px;
+      gap: 12px;
       align-items: end;
     }
     .usage-head h1 {
       margin: 0;
       color: #101828;
-      font-size: 30px;
+      font-size: 22px;
       line-height: 1.2;
       letter-spacing: 0;
     }
     .usage-head .subtext {
-      margin-top: 6px;
+      margin-top: 4px;
     }
     .usage-summary-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
+      gap: 10px;
     }
     .usage-summary-card {
       background: #fff;
       border: 1px solid var(--line);
       border-radius: 8px;
       box-shadow: var(--shadow-soft);
-      min-height: 108px;
-      padding: 16px;
+      min-height: 78px;
+      padding: 12px;
       display: grid;
       align-content: space-between;
-      gap: 12px;
+      gap: 8px;
     }
     .usage-summary-card span {
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 820;
     }
     .usage-summary-card strong {
       color: #101828;
-      font-size: 28px;
+      font-size: 20px;
       font-weight: 940;
       line-height: 1;
     }
@@ -1245,8 +1247,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      padding: 14px 16px;
+      gap: 10px;
+      padding: 10px 12px;
       border-bottom: 1px solid var(--line);
     }
     .usage-filterbar .filters {
@@ -1255,17 +1257,17 @@
     }
     .usage-filterbar input,
     .usage-filterbar select {
-      min-width: 160px;
+      min-width: 142px;
     }
     .usage-filterbar input[aria-label="流水时间范围"] {
-      min-width: 220px;
+      min-width: 190px;
     }
     .usage-search {
-      min-width: 260px;
+      min-width: 220px;
     }
     .ledger-object {
       display: grid;
-      gap: 4px;
+      gap: 2px;
     }
     .ledger-object strong {
       color: #101828;
@@ -1296,38 +1298,38 @@
       background: #fff;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 8px;
+      padding: 6px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
     }
     .config-menu button {
       width: auto;
-      min-height: 38px;
+      min-height: 32px;
       border: 0;
       border-radius: 8px;
       background: transparent;
       color: #344054;
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 0 10px;
+      gap: 6px;
+      padding: 0 9px;
       text-align: left;
       font-weight: 760;
       white-space: nowrap;
     }
     .config-menu button.active { background: var(--primary-soft); color: var(--primary-strong); }
-    .config-menu svg { width: 16px; height: 16px; }
+    .config-menu svg { width: 14px; height: 14px; }
     .settings-tab-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      gap: 16px;
+      gap: 12px;
       align-items: start;
     }
     .settings-side {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
+      gap: 12px;
     }
     .settings-side .review-box {
       background: #fff;
@@ -1336,8 +1338,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      padding: 14px 16px;
+      gap: 10px;
+      padding: 10px 12px;
       border-bottom: 1px solid var(--line);
     }
     .settings-toolbar .filters {
@@ -1346,7 +1348,7 @@
     }
     .settings-toolbar input,
     .settings-toolbar select {
-      min-width: 160px;
+      min-width: 142px;
     }
     .rule-name {
       display: grid;
@@ -1364,24 +1366,24 @@
     }
     .rule-price {
       color: var(--primary-strong);
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 940;
       white-space: nowrap;
     }
     .settings-card-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      padding: 16px;
+      gap: 10px;
+      padding: 12px;
     }
     .settings-product-card {
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #fff;
-      min-height: 260px;
-      padding: 16px;
+      min-height: 212px;
+      padding: 12px;
       display: grid;
-      gap: 14px;
+      gap: 10px;
       align-content: start;
     }
     .settings-product-card header {
@@ -1391,24 +1393,24 @@
       align-items: flex-start;
     }
     .settings-product-card h3 {
-      font-size: 16px;
+      font-size: 15px;
     }
     .settings-product-card .price {
       color: var(--primary);
-      font-size: 26px;
+      font-size: 22px;
       line-height: 1;
       font-weight: 940;
     }
     .settings-product-meta {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
+      gap: 6px;
     }
     .settings-product-meta div {
       background: var(--soft);
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 10px;
+      padding: 8px;
       display: grid;
       gap: 4px;
     }
@@ -1424,17 +1426,17 @@
     .package-module-list {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 6px;
     }
     .mini-label {
       display: inline-flex;
       align-items: center;
-      min-height: 24px;
+      min-height: 22px;
       border-radius: 999px;
       background: var(--soft);
       border: 1px solid var(--line);
       color: #344054;
-      padding: 0 9px;
+      padding: 0 8px;
       font-size: 12px;
       font-weight: 790;
       white-space: nowrap;
@@ -1467,9 +1469,9 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      max-height: 82px;
+      max-height: 72px;
       overflow: auto;
-      padding: 9px;
+      padding: 8px;
     }
     .selected-member {
       align-items: center;
@@ -1478,10 +1480,10 @@
       border-radius: 999px;
       color: #101828;
       display: inline-flex;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 820;
-      gap: 6px;
-      min-height: 28px;
+      gap: 5px;
+      min-height: 24px;
       padding: 0 5px 0 10px;
     }
     .selected-member.company {
@@ -1503,10 +1505,10 @@
       color: #667085;
       cursor: pointer;
       display: inline-flex;
-      height: 20px;
+      height: 18px;
       justify-content: center;
       padding: 0;
-      width: 20px;
+      width: 18px;
     }
     .selected-member button:hover {
       background: #eef2f7;
@@ -1518,21 +1520,21 @@
     }
     .member-candidates {
       display: grid;
-      gap: 8px;
-      max-height: 156px;
+      gap: 6px;
+      max-height: 136px;
       overflow: auto;
       padding-right: 2px;
     }
     .member-candidate {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      gap: 10px;
+      gap: 8px;
       align-items: center;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #fff;
-      min-height: 46px;
-      padding: 10px 12px;
+      min-height: 40px;
+      padding: 8px 10px;
     }
     .member-candidate strong {
       display: block;
@@ -1577,9 +1579,9 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--soft);
-      padding: 14px;
+      padding: 12px;
       display: grid;
-      gap: 10px;
+      gap: 8px;
     }
     .review-line {
       display: flex;
@@ -1591,21 +1593,21 @@
 
     .status-list {
       display: grid;
-      gap: 10px;
+      gap: 8px;
     }
     .status-item {
       display: grid;
       grid-template-columns: 36px 1fr auto;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 12px;
+      padding: 10px;
       background: var(--soft);
     }
     .status-icon {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       border-radius: 8px;
       display: grid;
       place-items: center;
@@ -1623,8 +1625,8 @@
       background: #fff;
     }
     .matrix div {
-      min-height: 46px;
-      padding: 12px;
+      min-height: 40px;
+      padding: 10px;
       border-right: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
       display: flex;
@@ -1650,10 +1652,10 @@
       position: fixed;
       top: 0;
       right: 0;
-      width: min(520px, 100vw);
+      width: min(480px, 100vw);
       height: 100vh;
       background: #fff;
-      box-shadow: -18px 0 34px rgba(15, 23, 42, .18);
+      box-shadow: -14px 0 28px rgba(15, 23, 42, .16);
       transform: translateX(100%);
       transition: .22s ease;
       z-index: 45;
@@ -1663,22 +1665,22 @@
     .drawer.open { transform: translateX(0); }
     .drawer-mask.open { opacity: 1; pointer-events: auto; }
     .drawer header {
-      height: 58px;
+      height: 50px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 18px;
+      padding: 0 16px;
       border-bottom: 1px solid var(--line);
     }
     .drawer-body {
-      padding: 18px;
+      padding: 14px 16px;
       overflow: auto;
       display: grid;
-      gap: 14px;
+      gap: 10px;
     }
     .drawer footer {
       margin-top: auto;
-      padding: 14px 18px;
+      padding: 12px 16px;
       border-top: 1px solid var(--line);
       display: flex;
       justify-content: flex-end;
@@ -2730,7 +2732,7 @@
 
     function openPurchase(name, amount, points, validity, orderNo = 'ORD202607240018') {
       setDrawerContent({
-        title: '微信支付',
+        title: '购买预览',
         cancelText: '关闭',
         confirmText: '我已支付',
         body: `
@@ -2753,7 +2755,7 @@
 
     const drawerTemplates = {
       purchase: {
-        title: '微信支付',
+        title: '购买预览',
         confirmText: '我已支付',
         cancelText: '关闭',
         body: `
@@ -2814,8 +2816,7 @@
               </div>
               <div class="member-picker-summary"><span id="selectedMemberCount">已选 3 人</span><span id="selectedMemberNames">王运营、李设计、陈选品</span></div>
             </div>
-            <div class="field"><label>每人固定额度</label><input id="batchFixedAmount" value="5000" oninput="syncSelectedMembers()"></div>
-            <div class="field"><label>生效时间</label><input value="立即生效"></div>
+            <div class="field span-2"><label>每人固定额度</label><input id="batchFixedAmount" value="5000" oninput="syncSelectedMembers()"></div>
             <div class="field span-2"><label>备注</label><textarea>用于本月新品图片与 Listing 任务。</textarea></div>
           </div>
           <div class="review-box">
@@ -2833,7 +2834,6 @@
           <div class="form-grid">
             <div class="field"><label>成员</label><select><option>李设计</option><option>王运营</option><option>陈选品</option><option>赵广告</option></select></div>
             <div class="field"><label>固定额度</label><input value="17800"></div>
-            <div class="field"><label>生效时间</label><input value="立即生效"></div>
             <div class="field span-2"><label>备注</label><textarea>用于本月新品图片与 Listing 任务。</textarea></div>
           </div>
           <div class="review-box">

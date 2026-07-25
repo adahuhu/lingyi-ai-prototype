@@ -8379,7 +8379,7 @@
     .credit-prototype-frame {
       width: 100%;
       height: calc(100vh - 49px);
-      min-height: 760px;
+      min-height: 640px;
       border: 0;
       display: block;
       background: #f5f7fb;
@@ -25899,8 +25899,34 @@
       `;
     }
 
+    function resizeCreditPrototypeFrame(frame) {
+      try {
+        const doc = frame.contentDocument || frame.contentWindow?.document;
+        if (!doc) return;
+        const syncHeight = () => {
+          const height = Math.ceil(Math.max(
+            doc.documentElement?.scrollHeight || 0,
+            doc.body?.scrollHeight || 0,
+            640
+          ));
+          frame.style.height = `${height}px`;
+        };
+        doc.documentElement.style.overflow = "hidden";
+        doc.body.style.overflow = "hidden";
+        syncHeight();
+        frame._creditResizeObserver?.disconnect();
+        frame._creditResizeObserver = new ResizeObserver(syncHeight);
+        frame._creditResizeObserver.observe(doc.documentElement);
+        frame._creditResizeObserver.observe(doc.body);
+        setTimeout(syncHeight, 120);
+        setTimeout(syncHeight, 500);
+      } catch (error) {
+        frame.style.height = "calc(100vh - 49px)";
+      }
+    }
+
     function renderCreditPrototypeEmbed(pageId, title) {
-      return `<iframe class="credit-prototype-frame" title="${escapeHtml(title)}" src="../ai-billing-workbench-prototype/index.html?embed=1#${escapeHtml(pageId)}"></iframe>`;
+      return `<iframe class="credit-prototype-frame" title="${escapeHtml(title)}" src="../ai-billing-workbench-prototype/index.html?embed=1&v=20260725-compact#${escapeHtml(pageId)}" scrolling="no" onload="resizeCreditPrototypeFrame(this)"></iframe>`;
     }
 
     function renderCreditProducts() {
