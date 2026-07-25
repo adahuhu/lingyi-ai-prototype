@@ -237,6 +237,21 @@
     body.embed .main {
       min-height: 100vh;
     }
+    body.embed .purchase-page,
+    body.embed .orders-page,
+    body.embed .usage-page,
+    body.embed .config-shell,
+    body.embed .account-ledger-card,
+    body.embed .account-workspace {
+      width: 100%;
+      max-width: none;
+    }
+    body.embed .plan-layout {
+      grid-template-columns: minmax(460px, .72fr) minmax(0, 1.28fr);
+    }
+    body.embed .annual-plans .buy-card {
+      grid-template-columns: minmax(0, 1fr) 210px;
+    }
     h2 {
       margin: 0;
       font-size: 18px;
