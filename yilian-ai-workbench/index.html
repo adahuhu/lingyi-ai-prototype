@@ -8294,6 +8294,80 @@
     .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; }
     .grid-5 { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 10px; }
     .grid-6 { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 10px; }
+    .credit-center-stack { display: grid; gap: 16px; }
+    .credit-center-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    .credit-account-hero {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+    .credit-balance-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+      box-shadow: 0 8px 22px rgba(31,41,55,.04);
+    }
+    .credit-balance-card strong {
+      color: #101828;
+      font-size: 46px;
+      line-height: 1;
+      letter-spacing: 0;
+      font-weight: 920;
+    }
+    .credit-balance-card small,
+    .credit-muted {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      font-weight: 760;
+    }
+    .credit-chip-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .credit-chip {
+      min-height: 26px;
+      padding: 5px 8px;
+      border-radius: 8px;
+      border: 1px solid #dbe7f6;
+      background: #f7fbff;
+      color: #344054;
+      font-size: 12px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .credit-status-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .credit-status-strip .kv-item { background: #f8fafc; }
+    .credit-inline-link {
+      border: 0;
+      background: transparent;
+      color: var(--primary);
+      font-weight: 850;
+      padding: 0;
+      cursor: pointer;
+    }
+    .credit-inline-link:hover { text-decoration: underline; }
+    .credit-section-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 16px;
+      align-items: start;
+    }
+    .credit-form-preview {
+      border: 1px dashed #bcd0ea;
+      border-radius: 12px;
+      background: #fbfdff;
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+    }
 
     .metric {
       border: 1px solid var(--line);
@@ -19124,6 +19198,12 @@
       { title: "首页", items: [
         ["dashboard", "首页", "layout-dashboard"]
       ]},
+      { title: "积分中心", items: [
+        ["creditProducts", "套餐管理", "package"],
+        ["creditAccount", "积分账户", "wallet-cards"],
+        ["creditLedger", "积分明细", "list-filter"],
+        ["creditSettings", "计费设置", "settings-2"]
+      ]},
       { title: "产品开发", items: [
         ["opportunities", "AI 选品", "radar"],
         ["selectionPool", "选品池", "package-search"],
@@ -21025,6 +21105,10 @@
         quality: renderQuality,
         library: renderLibrary,
         credits: renderCredits,
+        creditProducts: renderCreditProducts,
+        creditAccount: renderCreditAccount,
+        creditLedger: renderCreditLedger,
+        creditSettings: renderCreditSettings,
         costRules: renderCostRules,
         connectors: renderConnectors,
         notifications: renderNotifications,
@@ -25536,6 +25620,269 @@
       ], `<button class="btn" data-action="reuseAsset"><i data-lucide="copy"></i>复用成果</button><button class="btn primary" data-action="exportAsset"><i data-lucide="file-down"></i>导出成果</button>`, libraryAnalytics());
     }
 
+    const creditProducts = [
+      { id:"PKG-EXP-99", name:"99 元开品体验包", type:"套餐", price:"¥99", credits:"990", validity:"30 天", modules:["AI 选品", "AI 图片处理"], tag:"主推", status:"上架中", note:"新客一次" },
+      { id:"PKG-AI-START", name:"AI 开品提效包", type:"套餐", price:"¥3,980", credits:"80,000", validity:"1 年", modules:["AI 选品", "AI Listing", "AI 图片处理"], tag:"入门", status:"上架中", note:"开品与内容提效" },
+      { id:"PKG-AI-GROWTH", name:"AI 经营增长包", type:"套餐", price:"¥12,800", credits:"260,000", validity:"1 年", modules:["AI Listing", "广告增长"], tag:"增长", status:"上架中", note:"运营与广告增长" },
+      { id:"PKG-AI-LIFECYCLE", name:"AI 全生命周期版", type:"套餐", price:"¥19,800", credits:"500,000", validity:"1 年", modules:["AI 选品", "AI Listing", "AI 图片处理", "广告增长"], tag:"推荐", status:"上架中", note:"开品到经营闭环" },
+      { id:"POINT-BASIC", name:"基础积分包", type:"积分包", price:"¥499", credits:"5,500", validity:"60 天", modules:["继承账户已开通模块"], tag:"轻量", status:"上架中", note:"补充 AI 积分额度" },
+      { id:"POINT-PRO", name:"专业积分包", type:"积分包", price:"¥1,999", credits:"23,000", validity:"180 天", modules:["继承账户已开通模块"], tag:"高频", status:"上架中", note:"高频运营使用" },
+      { id:"POINT-TEAM", name:"企业积分包", type:"积分包", price:"¥5,000", credits:"60,000", validity:"365 天", modules:["继承账户已开通模块"], tag:"团队", status:"上架中", note:"多人持续使用" }
+    ];
+
+    const creditMembers = [
+      { id:"MEM-001", member:"王运营", scope:"运营组", quota:"28,000", used:"7,820", available:"20,180", status:"正常" },
+      { id:"MEM-002", member:"李设计", scope:"设计组", quota:"12,800", used:"9,400", available:"3,400", status:"接近上限" },
+      { id:"MEM-003", member:"陈选品", scope:"选品组", quota:"31,600", used:"5,200", available:"26,400", status:"正常" },
+      { id:"MEM-004", member:"赵广告", scope:"广告组", quota:"0", used:"0", available:"0", status:"未分配" }
+    ];
+
+    const creditLedgerRows = [
+      { id:"CRD-1048", time:"2026-07-24 10:24", type:"任务扣费", scene:"AI 生图", desc:"商品图生成 4 张", member:"李设计", change:"-24", balance:"128,600", status:"已扣费" },
+      { id:"CRD-1047", time:"2026-07-24 10:02", type:"任务冻结", scene:"AI Listing", desc:"Listing 完整生成", member:"王运营", change:"-15", balance:"128,624", status:"冻结中" },
+      { id:"CRD-1046", time:"2026-07-24 09:58", type:"冻结释放", scene:"AI Listing", desc:"任务失败自动释放", member:"王运营", change:"+15", balance:"128,639", status:"已释放" },
+      { id:"CRD-1045", time:"2026-07-23 18:12", type:"入账", scene:"套餐购买", desc:"99 元开品体验包入账", member:"系统", change:"+990", balance:"128,624", status:"已入账" }
+    ];
+
+    const billingModules = [
+      { id:"MOD-SELECTION", name:"AI 选品", code:"AI_SELECTION", status:"启用", remark:"选品分析、选品任务相关能力" },
+      { id:"MOD-LISTING", name:"AI Listing", code:"AI_LISTING", status:"启用", remark:"标题、五点、描述、关键词生成" },
+      { id:"MOD-IMAGE", name:"AI 图片处理", code:"AI_IMAGE", status:"启用", remark:"商品图生成、精修和套图处理" },
+      { id:"MOD-ADS", name:"广告增长", code:"ADS_GROWTH", status:"启用", remark:"广告素材诊断和经营增长建议" }
+    ];
+
+    const billingChargeItems = [
+      { id:"BILL-SEL-ANALYSIS", module:"AI 选品", name:"AI 选品分析", code:"SELECTION_ANALYSIS", moment:"成功产出后", status:"启用", remark:"完成 1 次选品分析报告" },
+      { id:"BILL-LISTING-FULL", module:"AI Listing", name:"Listing 完整生成", code:"LISTING_FULL_GENERATE", moment:"成功产出后", status:"启用", remark:"标题、五点、描述、关键词" },
+      { id:"BILL-IMG-GENERATE", module:"AI 图片处理", name:"商品图生成", code:"IMAGE_GENERATE", moment:"成功产出后", status:"启用", remark:"按生成图片张数扣费" },
+      { id:"BILL-IMG-RETOUCH", module:"AI 图片处理", name:"商品图精修", code:"IMAGE_RETOUCH", moment:"成功产出后", status:"启用", remark:"按精修图片张数扣费" },
+      { id:"BILL-PATENT-CHECK", module:"AI 选品", name:"专利检测", code:"PATENT_CHECK", moment:"成功产出后", status:"启用", remark:"按检测任务次数扣费" }
+    ];
+
+    const billingPricingRules = [
+      { id:"RULE-SEL-120", item:"AI 选品分析", price:"120", unit:"积分 / 次", method:"按次", fail:"失败释放" },
+      { id:"RULE-LST-40", item:"Listing 完整生成", price:"40", unit:"积分 / 套", method:"按套", fail:"失败不扣费" },
+      { id:"RULE-IMG-8", item:"商品图生成", price:"8", unit:"积分 / 张", method:"按张", fail:"失败释放" },
+      { id:"RULE-IMG-15", item:"商品图精修", price:"15", unit:"积分 / 张", method:"按张", fail:"失败释放" },
+      { id:"RULE-PAT-80", item:"专利检测", price:"80", unit:"积分 / 次", method:"按次", fail:"失败不扣费" }
+    ];
+
+    const creditOrders = [
+      { id:"ORD202607240018", product:"99 元开品体验包", type:"套餐", amount:"¥99", pay:"微信支付", status:"已支付", time:"2026-07-24 18:12" },
+      { id:"ORD202607220009", product:"企业积分包", type:"积分包", amount:"¥5,000", pay:"微信支付", status:"待支付", time:"2026-07-22 11:30" },
+      { id:"ORD202607090042", product:"AI 经营增长包", type:"套餐", amount:"¥12,800", pay:"微信支付", status:"已支付", time:"2026-07-09 09:16" }
+    ];
+
+    function creditChips(items) {
+      return `<div class="credit-chip-list">${items.map(item => `<span class="credit-chip">${escapeHtml(item)}</span>`).join("")}</div>`;
+    }
+
+    function creditTable(columns, rows, options = {}) {
+      const action = options.rowAction;
+      const minWidth = Math.max(options.minWidth || 980, columns.length * 130 + (action ? 110 : 0));
+      return `<div class="table-wrap"><table style="min-width:${minWidth}px"><thead><tr>${columns.map(col => `<th>${escapeHtml(col.label)}</th>`).join("")}${action ? "<th>操作</th>" : ""}</tr></thead><tbody>
+        ${rows.map(row => `<tr>${columns.map(col => `<td>${creditCell(row, col)}</td>`).join("")}${action ? `<td><button class="btn small" data-action="${action}" data-id="${escapeHtml(row.id)}">${escapeHtml(options.actionLabel || "详情")}</button></td>` : ""}</tr>`).join("") || `<tr><td colspan="${columns.length + (action ? 1 : 0)}"><div class="empty">暂无数据</div></td></tr>`}
+      </tbody></table></div>`;
+    }
+
+    function creditCell(row, col) {
+      if (col.render) return col.render(row);
+      const value = row[col.key];
+      if (col.kind === "status") return status(value);
+      if (Array.isArray(value)) return creditChips(value);
+      return escapeHtml(value ?? "");
+    }
+
+    function creditConfigPanel(title, desc, rows, columns, actionLabel, actionName) {
+      return `
+        <section class="panel">
+          <div class="panel-head">
+            <div><h2>${escapeHtml(title)}</h2><div class="credit-muted">${escapeHtml(desc)}</div></div>
+            <button class="btn small" data-action="${actionName}"><i data-lucide="plus"></i>${escapeHtml(actionLabel)}</button>
+          </div>
+          <div class="panel-body tight">${creditTable(columns, rows, { rowAction: actionName, actionLabel:"编辑", minWidth: 760 })}</div>
+        </section>
+      `;
+    }
+
+    function creditEditorForm(fields) {
+      return `<div class="form-grid">${fields.map(field => `
+        <div class="form-row ${field.full ? "full" : ""}">
+          <label>${escapeHtml(field.label)}</label>
+          ${field.html}
+        </div>
+      `).join("")}</div>`;
+    }
+
+    function renderCreditProducts() {
+      const featured = creditProducts[0];
+      const packageRows = creditProducts.filter(item => item.type === "套餐");
+      const pointRows = creditProducts.filter(item => item.type === "积分包");
+      return `
+        ${pageShell("套餐管理", "选择套餐或积分包，购买后积分进入租户账户。", `
+          <button class="btn" data-action="openCreditOrders"><i data-lucide="receipt-text"></i>查看订单</button>
+        `)}
+        ${metrics([
+          { label:"当前积分余额", value:"128,600", note:"租户池可用余额", view:"creditAccount" },
+          { label:"可购买套餐", value:String(packageRows.length), note:"含开品体验包", view:"creditProducts" },
+          { label:"积分包", value:String(pointRows.length), note:"补充 AI 积分额度", view:"creditProducts" },
+          { label:"支付方式", value:"微信支付", note:"购买预览展示二维码", view:"creditProducts" }
+        ])}
+        <div class="credit-center-grid">
+          <section class="credit-balance-card">
+            <div class="card-top">
+              <div><strong style="font-size:22px">${escapeHtml(featured.name)}</strong><div class="meta">${escapeHtml(featured.note)}</div></div>
+              ${status(featured.tag)}
+            </div>
+            <strong>${escapeHtml(featured.price)}</strong>
+            <div class="credit-status-strip">
+              <div class="kv-item"><label>积分额度</label><strong>${escapeHtml(featured.credits)}</strong></div>
+              <div class="kv-item"><label>有效期</label><strong>${escapeHtml(featured.validity)}</strong></div>
+              <div class="kv-item"><label>购买限制</label><strong>新客一次</strong></div>
+            </div>
+            ${creditChips(featured.modules)}
+            <div class="actions" style="justify-content:flex-end">
+              <button class="btn primary" data-action="openCreditPurchase" data-id="${featured.id}"><i data-lucide="shopping-cart"></i>购买</button>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><div><h2>套餐</h2><div class="credit-muted">开品体验包与年度服务套餐</div></div></div>
+            <div class="panel-body tight">${creditTable([
+              { key:"name", label:"套餐名称", render: row => `<strong>${escapeHtml(row.name)}</strong><div class="meta">${escapeHtml(row.note)}</div>` },
+              { key:"price", label:"售价" },
+              { key:"credits", label:"积分" },
+              { key:"validity", label:"有效期" },
+              { key:"tag", label:"标签", kind:"status" }
+            ], packageRows.slice(1), { rowAction:"openCreditPurchase", actionLabel:"购买", minWidth: 780 })}</div>
+          </section>
+        </div>
+        <section class="panel">
+          <div class="panel-head"><div><h2>积分包</h2><div class="credit-muted">用于补充 AI 积分额度，适用模块以账户已开通范围为准。</div></div></div>
+          <div class="panel-body tight">${creditTable([
+            { key:"name", label:"积分包名称", render: row => `<strong>${escapeHtml(row.name)}</strong><div class="meta">${escapeHtml(row.note)}</div>` },
+            { key:"price", label:"售价" },
+            { key:"credits", label:"积分" },
+            { key:"validity", label:"有效期" },
+            { key:"tag", label:"标签", kind:"status" }
+          ], pointRows, { rowAction:"openCreditPurchase", actionLabel:"购买", minWidth: 780 })}</div>
+        </section>
+      `;
+    }
+
+    function renderCreditAccount() {
+      return `
+        ${pageShell("积分账户", "查看账户余额、成员额度和本月消耗。", `
+          <button class="btn" data-view="creditProducts"><i data-lucide="package"></i>购买套餐</button>
+          <button class="btn primary" data-action="openQuotaAssign"><i data-lucide="users"></i>分配额度</button>
+        `)}
+        <div class="credit-account-hero">
+          <section class="credit-balance-card">
+            <div class="card-top">
+              <div><span class="credit-muted">杭州某跨境科技 / 租户池</span><h2>账户总览</h2></div>
+              ${status("生效中")}
+            </div>
+            <strong>128,600</strong>
+            <small>积分</small>
+            <div class="credit-status-strip">
+              <div class="kv-item"><label>付费积分</label><strong>123,800</strong></div>
+              <div class="kv-item"><label>赠送 / 补偿</label><strong>4,800</strong></div>
+              <div class="kv-item"><label>冻结中</label><strong>1,240</strong></div>
+            </div>
+          </section>
+          ${metrics([
+            { label:"本月消耗", value:"26,340", note:"图片、Listing、选品任务", view:"creditLedger" },
+            { label:"待处理分配", value:"2", note:"普通成员申请", view:"creditAccount" },
+            { label:"最近到期", value:"4,800", note:"2026-07-31", view:"creditLedger" },
+            { label:"成员数", value:"4", note:"已配置成员额度", view:"creditAccount" }
+          ], "grid-2")}
+        </div>
+        <section class="panel">
+          <div class="panel-head">
+            <div><h2>成员额度</h2><div class="credit-muted">支持批量分配，也可在成员行内调整额度。</div></div>
+          </div>
+          <div class="panel-body tight">${creditTable([
+            { key:"member", label:"成员", render: row => `<strong>${escapeHtml(row.member)}</strong><div class="meta">${escapeHtml(row.scope)}</div>` },
+            { key:"quota", label:"可用额度" },
+            { key:"used", label:"本月已用", render: row => `<button class="credit-inline-link" data-action="openMemberLedger" data-member="${escapeHtml(row.member)}">${escapeHtml(row.used)}</button>` },
+            { key:"available", label:"剩余额度" },
+            { key:"status", label:"状态", kind:"status" },
+            { key:"id", label:"操作", render: row => `<button class="btn small" data-action="openQuotaAssign" data-member="${escapeHtml(row.member)}">分配</button>` }
+          ], creditMembers, { minWidth: 820 })}</div>
+        </section>
+      `;
+    }
+
+    function renderCreditLedger() {
+      return `
+        ${pageShell("积分明细", "按任务、订单、成员追溯每笔积分变动。")}
+        ${metrics([
+          { label:"当前余额", value:"128,600", note:"租户池口径", view:"creditAccount" },
+          { label:"本月入账", value:"260,990", note:"订单 + 人工发放", view:"creditLedger" },
+          { label:"本月扣费", value:"26,340", note:"成功任务扣费", view:"creditLedger" },
+          { label:"释放 / 返还", value:"2,180", note:"失败任务与人工补偿", view:"creditLedger" }
+        ])}
+        <section class="panel">
+          <div class="panel-head">
+            <div class="actions" style="justify-content:flex-start">
+              <input class="input" style="width:190px" value="2026-07-01 ~ 2026-07-24" aria-label="时间范围">
+              <select class="input" style="width:150px" aria-label="流水类型"><option>全部流水类型</option><option>入账</option><option>任务扣费</option><option>冻结释放</option></select>
+              <select class="input" style="width:150px" aria-label="AI 场景"><option>全部 AI 场景</option><option>AI 生图</option><option>AI Listing</option><option>套餐购买</option></select>
+              <input class="input" style="width:220px" placeholder="任务 ID / 订单号 / 成员">
+            </div>
+          </div>
+          <div class="panel-body tight">${creditTable([
+            { key:"time", label:"时间" },
+            { key:"type", label:"类型", kind:"status" },
+            { key:"scene", label:"场景" },
+            { key:"desc", label:"说明", render: row => `<strong>${escapeHtml(row.desc)}</strong><div class="meta">${escapeHtml(row.status)}</div>` },
+            { key:"member", label:"成员" },
+            { key:"change", label:"变动" },
+            { key:"balance", label:"余额" }
+          ], creditLedgerRows, { rowAction:"openCreditLedgerDetail", actionLabel:"详情", minWidth: 980 })}</div>
+        </section>
+      `;
+    }
+
+    function renderCreditSettings() {
+      return `
+        ${pageShell("计费设置", "维护功能模块、计费项、计价规则和套餐 / 积分包配置。", `
+          <button class="btn primary" data-action="publishCreditSettings"><i data-lucide="rocket"></i>发布配置</button>
+        `)}
+        ${metrics([
+          { label:"功能模块", value:String(billingModules.length), note:"用户购买套餐时开通的能力范围", view:"creditSettings" },
+          { label:"计费项", value:String(billingChargeItems.length), note:"用户实际使用时扣费的计费点", view:"creditSettings" },
+          { label:"计价规则", value:String(billingPricingRules.length), note:"按张、按次、按套等单位扣费", view:"creditSettings" },
+          { label:"商品配置", value:String(creditProducts.length), note:"套餐与积分包", view:"creditSettings" }
+        ])}
+        <div class="credit-section-grid">
+          ${creditConfigPanel("功能模块维护", "维护套餐可购买的功能模块。", billingModules, [
+            { key:"name", label:"模块名称" },
+            { key:"code", label:"模块编码" },
+            { key:"status", label:"状态", kind:"status" },
+            { key:"remark", label:"备注" }
+          ], "新增模块", "openBillingModuleEditor")}
+          ${creditConfigPanel("计费项维护", "维护功能模块下的实际扣费点。", billingChargeItems, [
+            { key:"name", label:"计费项" },
+            { key:"module", label:"所属模块" },
+            { key:"moment", label:"扣费时机" },
+            { key:"status", label:"状态", kind:"status" }
+          ], "新增计费项", "openBillingItemEditor")}
+          ${creditConfigPanel("计价规则", "维护不同计费点的计价单位和失败处理。", billingPricingRules, [
+            { key:"item", label:"计费项" },
+            { key:"price", label:"价格", render: row => `<strong>${escapeHtml(row.price)}</strong> ${escapeHtml(row.unit)}` },
+            { key:"method", label:"计价方式" },
+            { key:"fail", label:"失败处理" }
+          ], "新增规则", "openPricingRuleEditor")}
+          ${creditConfigPanel("套餐 / 积分包", "维护对外售卖商品及包含功能模块。", creditProducts, [
+            { key:"name", label:"商品名称" },
+            { key:"type", label:"商品类型", kind:"status" },
+            { key:"price", label:"售价" },
+            { key:"modules", label:"包含功能模块" }
+          ], "新增商品", "openCreditProductEditor")}
+        </div>
+      `;
+    }
+
     function renderCredits() {
       return moduleTable("积分与任务记录", "记录每次 AI 调用的任务、模块、消耗积分、成功失败、失败是否退回。", credits, [
         {key:"id",label:"记录编号"},{key:"task",label:"任务名称"},{key:"type",label:"任务类型",kind:"status"},{key:"module",label:"消耗模块"},{key:"credits",label:"消耗积分"},{key:"status",label:"状态",kind:"status"},{key:"refund",label:"失败是否退回",kind:"status"},{key:"time",label:"时间"}
@@ -29406,6 +29753,129 @@
 	          </div>
 	        `, `<button class="btn primary" data-action="closeDrawer">关闭</button>`);
       },
+      openCreditOrders(){
+        openDrawer("套餐订单", `
+          <div class="drawer-content">
+            ${creditTable([
+              { key:"id", label:"订单号" },
+              { key:"product", label:"商品" },
+              { key:"type", label:"类型", kind:"status" },
+              { key:"amount", label:"金额" },
+              { key:"pay", label:"支付方式" },
+              { key:"status", label:"状态", render: row => row.status === "待支付" ? `${status(row.status)} <button class="credit-inline-link" data-action="openCreditPurchase" data-id="${escapeHtml(row.id)}">继续支付</button>` : status(row.status) },
+              { key:"time", label:"创建时间" }
+            ], creditOrders, { minWidth: 940 })}
+          </div>
+        `, `<button class="btn primary" data-action="closeDrawer">关闭</button>`);
+      },
+      openCreditPurchase(el){
+        const id = el.dataset.id || "";
+        const product = creditProducts.find(item => item.id === id) || creditProducts[0];
+        openDrawer("购买预览", `
+          <div class="drawer-content">
+            <div class="credit-balance-card">
+              <div class="card-top">
+                <div><strong style="font-size:20px">${escapeHtml(product.name)}</strong><div class="meta">${escapeHtml(product.type)} · ${escapeHtml(product.validity)}</div></div>
+                ${status(product.tag || "购买")}
+              </div>
+              <div class="kv">
+                <div class="kv-item"><label>支付金额</label><strong>${escapeHtml(product.price)}</strong></div>
+                <div class="kv-item"><label>入账积分</label><strong>${escapeHtml(product.credits)}</strong></div>
+                <div class="kv-item"><label>商品类型</label><strong>${escapeHtml(product.type)}</strong></div>
+                <div class="kv-item"><label>支付方式</label><strong>微信支付</strong></div>
+              </div>
+              ${creditChips(product.modules)}
+            </div>
+            <div class="credit-form-preview">
+              <strong>微信支付二维码</strong>
+              <div style="width:168px;height:168px;border:1px solid #dbe7f6;border-radius:12px;background:
+                linear-gradient(90deg,#101828 8px,transparent 8px) 18px 18px/22px 22px,
+                linear-gradient(#101828 8px,transparent 8px) 18px 18px/22px 22px,
+                #fff;box-shadow:inset 0 0 0 14px #fff;"></div>
+            </div>
+          </div>
+        `, `<button class="btn" data-action="closeDrawer">取消</button><button class="btn primary" data-action="saveBillingPrototype">确认购买</button>`);
+      },
+      openQuotaAssign(el){
+        const member = el.dataset.member || "";
+        openDrawer("分配额度", `
+          ${creditEditorForm([
+            { label:"分配范围", html:`<select class="input"><option>全公司</option><option>运营组</option><option>设计组</option><option>选品组</option><option>广告组</option></select>` },
+            { label:"成员搜索", html:`<input class="input" value="${escapeHtml(member)}" placeholder="搜索成员姓名">` },
+            { label:"固定额度", html:`<input class="input" value="${member ? "5,000" : "10,000"}" placeholder="请输入积分额度">` },
+            { label:"已选成员", html:`<div class="credit-chip-list"><span class="credit-chip">${escapeHtml(member || "全公司")}</span></div>` },
+            { label:"备注", full:true, html:`<textarea class="textarea" placeholder="可填写本次分配原因"></textarea>` }
+          ])}
+        `, `<button class="btn" data-action="closeDrawer">取消</button><button class="btn primary" data-action="saveBillingPrototype">确认分配</button>`);
+      },
+      openMemberLedger(el){
+        const member = el.dataset.member || "成员";
+        closeDrawer();
+        setView("creditLedger");
+        setTimeout(() => toast("已切换到积分明细", `当前查看 ${member} 的本月消耗明细。`), 0);
+      },
+      openCreditLedgerDetail(el){
+        const row = creditLedgerRows.find(item => item.id === el.dataset.id);
+        if (!row) return;
+        openDrawer("积分流水详情", `
+          <div class="kv">
+            <div class="kv-item"><label>流水号</label><strong>${escapeHtml(row.id)}</strong></div>
+            <div class="kv-item"><label>类型</label><strong>${escapeHtml(row.type)}</strong></div>
+            <div class="kv-item"><label>场景</label><strong>${escapeHtml(row.scene)}</strong></div>
+            <div class="kv-item"><label>成员</label><strong>${escapeHtml(row.member)}</strong></div>
+            <div class="kv-item"><label>变动</label><strong>${escapeHtml(row.change)}</strong></div>
+            <div class="kv-item"><label>余额</label><strong>${escapeHtml(row.balance)}</strong></div>
+          </div>
+          <div class="card"><strong>${escapeHtml(row.desc)}</strong><div class="meta">${escapeHtml(row.time)} · ${escapeHtml(row.status)}</div></div>
+        `, `<button class="btn primary" data-action="closeDrawer">关闭</button>`);
+      },
+      openBillingModuleEditor(el){
+        const row = billingModules.find(item => item.id === el.dataset.id) || {};
+        openDrawer(row.id ? "编辑功能模块" : "新增功能模块", creditEditorForm([
+          { label:"模块名称", html:`<input class="input" value="${escapeHtml(row.name || "")}" placeholder="例如 AI 图片处理">` },
+          { label:"模块编码", html:`<input class="input" value="${escapeHtml(row.code || "")}" placeholder="例如 AI_IMAGE">` },
+          { label:"状态", html:`<select class="input"><option ${row.status === "启用" ? "selected" : ""}>启用</option><option>停用</option></select>` },
+          { label:"备注", full:true, html:`<textarea class="textarea" placeholder="填写模块备注">${escapeHtml(row.remark || "")}</textarea>` }
+        ]), `<button class="btn" data-action="closeDrawer">取消</button><button class="btn primary" data-action="saveBillingPrototype">保存</button>`);
+      },
+      openBillingItemEditor(el){
+        const row = billingChargeItems.find(item => item.id === el.dataset.id) || {};
+        openDrawer(row.id ? "编辑计费项" : "新增计费项", creditEditorForm([
+          { label:"计费项名称", html:`<input class="input" value="${escapeHtml(row.name || "")}" placeholder="例如 商品图生成">` },
+          { label:"所属功能模块", html:`<select class="input">${billingModules.map(module => `<option ${module.name === row.module ? "selected" : ""}>${escapeHtml(module.name)}</option>`).join("")}</select>` },
+          { label:"计费编码", html:`<input class="input" value="${escapeHtml(row.code || "")}" placeholder="例如 IMAGE_GENERATE">` },
+          { label:"扣费时机", html:`<select class="input"><option ${row.moment === "成功产出后" ? "selected" : ""}>成功产出后</option><option>任务提交时冻结</option></select>` },
+          { label:"状态", html:`<select class="input"><option ${row.status === "启用" ? "selected" : ""}>启用</option><option>停用</option></select>` },
+          { label:"备注", full:true, html:`<textarea class="textarea" placeholder="填写计费项备注">${escapeHtml(row.remark || "")}</textarea>` }
+        ]), `<button class="btn" data-action="closeDrawer">取消</button><button class="btn primary" data-action="saveBillingPrototype">保存</button>`);
+      },
+      openPricingRuleEditor(el){
+        const row = billingPricingRules.find(item => item.id === el.dataset.id) || {};
+        openDrawer(row.id ? "编辑计价规则" : "新增计价规则", creditEditorForm([
+          { label:"计费项", html:`<select class="input">${billingChargeItems.map(item => `<option ${item.name === row.item ? "selected" : ""}>${escapeHtml(item.name)}</option>`).join("")}</select>` },
+          { label:"计价方式", html:`<select class="input"><option ${row.method === "按张" ? "selected" : ""}>按张</option><option ${row.method === "按次" ? "selected" : ""}>按次</option><option ${row.method === "按套" ? "selected" : ""}>按套</option></select>` },
+          { label:"单价积分", html:`<input class="input" value="${escapeHtml(row.price || "")}" placeholder="请输入积分">` },
+          { label:"计价单位", html:`<input class="input" value="${escapeHtml(row.unit || "")}" placeholder="例如 积分 / 张">` },
+          { label:"失败处理", html:`<select class="input"><option ${row.fail === "失败释放" ? "selected" : ""}>失败释放</option><option ${row.fail === "失败不扣费" ? "selected" : ""}>失败不扣费</option></select>` }
+        ]), `<button class="btn" data-action="closeDrawer">取消</button><button class="btn primary" data-action="saveBillingPrototype">保存</button>`);
+      },
+      openCreditProductEditor(el){
+        const row = creditProducts.find(item => item.id === el.dataset.id) || {};
+        openDrawer(row.id ? "编辑套餐 / 积分包" : "新增套餐 / 积分包", `
+          ${creditEditorForm([
+            { label:"商品类型", html:`<select class="input"><option ${row.type === "套餐" ? "selected" : ""}>套餐</option><option ${row.type === "积分包" ? "selected" : ""}>积分包</option></select>` },
+            { label:"商品名称", html:`<input class="input" value="${escapeHtml(row.name || "")}" placeholder="请输入商品名称">` },
+            { label:"售价", html:`<input class="input" value="${escapeHtml(row.price || "")}" placeholder="例如 ¥3,980">` },
+            { label:"积分额度", html:`<input class="input" value="${escapeHtml(row.credits || "")}" placeholder="请输入积分额度">` },
+            { label:"有效期", html:`<input class="input" value="${escapeHtml(row.validity || "")}" placeholder="例如 1 年">` },
+            { label:"包含功能模块", html:`<select class="input">${billingModules.map(module => `<option>${escapeHtml(module.name)}</option>`).join("")}</select>` },
+            { label:"已选模块", full:true, html:creditChips(row.modules || ["AI 选品"]) },
+            { label:"备注", full:true, html:`<textarea class="textarea" placeholder="填写商品备注">${escapeHtml(row.note || "")}</textarea>` }
+          ])}
+        `, `<button class="btn" data-action="closeDrawer">取消</button><button class="btn primary" data-action="saveBillingPrototype">保存</button>`);
+      },
+      publishCreditSettings(){ toast("配置已发布", "功能模块、计费项、计价规则和套餐配置已同步到原型预览。"); },
+      saveBillingPrototype(){ closeDrawer(); toast("已保存", "当前为原型交互，已模拟完成操作。"); },
       creditRecharge(){ toast("充值记录", "管理员可查看积分充值、扣减、失败退回。"); },
       exportCredits(){ toast("积分明细已导出", "任务、模块、积分、状态与退回记录已导出。"); },
       testConnections(){ toast("连接测试完成", "ERP、广告、1688、平台 Listing、通知渠道均可用。"); },
