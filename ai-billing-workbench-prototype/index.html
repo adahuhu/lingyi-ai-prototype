@@ -797,6 +797,236 @@
     }
     .point-card .buy-price { font-size: 24px; margin-top: 0; }
 
+    .plan-choice-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 14px;
+      align-items: stretch;
+    }
+    .plan-list {
+      display: grid;
+      gap: 8px;
+    }
+    .plan-option {
+      appearance: none;
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 150px 104px;
+      gap: 14px;
+      align-items: center;
+      min-height: 78px;
+      padding: 12px 14px;
+      text-align: left;
+      transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .plan-option:hover,
+    .plan-option.active {
+      border-color: var(--primary-border);
+      background: linear-gradient(90deg, #f7fbff 0%, #fff 56%);
+      box-shadow: inset 3px 0 0 var(--primary);
+    }
+    .plan-option-main {
+      min-width: 0;
+    }
+    .plan-option-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    .plan-option-title h3 {
+      font-size: 15px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .plan-option p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      margin: 4px 0 0;
+    }
+    .plan-option-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .plan-pill {
+      align-items: center;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: #344054;
+      display: inline-flex;
+      font-size: 12px;
+      font-weight: 760;
+      min-height: 22px;
+      padding: 0 7px;
+      white-space: nowrap;
+    }
+    .plan-option-price {
+      color: var(--primary);
+      font-size: 22px;
+      font-weight: 950;
+      line-height: 1.05;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .plan-option-price small {
+      color: var(--muted);
+      display: block;
+      font-size: 12px;
+      font-weight: 780;
+      margin-top: 3px;
+    }
+    .plan-option .btn {
+      justify-self: end;
+      min-width: 96px;
+    }
+    .plan-preview {
+      background: linear-gradient(180deg, #fff 0%, #f8fbff 100%);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, .035);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 0;
+      padding: 14px;
+    }
+    .plan-preview-head {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .preview-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 820;
+    }
+    .plan-preview h3 {
+      font-size: 17px;
+    }
+    .plan-preview .desc {
+      color: var(--muted);
+      line-height: 1.5;
+      margin: -6px 0 0;
+    }
+    .preview-price {
+      color: var(--primary);
+      font-size: 30px;
+      font-weight: 950;
+      line-height: 1.05;
+    }
+    .preview-price small {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 780;
+    }
+    .preview-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .preview-metric {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      display: grid;
+      gap: 4px;
+      min-height: 58px;
+      padding: 9px;
+    }
+    .preview-metric span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+    }
+    .preview-metric strong {
+      color: #101828;
+      font-weight: 900;
+    }
+    .preview-modules {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-height: 24px;
+    }
+    .plan-preview .btn {
+      margin-top: auto;
+      min-height: 34px;
+      width: 100%;
+    }
+    .point-purchase-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .point-option {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 120px;
+      gap: 10px 12px;
+      min-height: 118px;
+      padding: 12px;
+    }
+    .point-option-head {
+      align-items: flex-start;
+      display: flex;
+      gap: 10px;
+      grid-column: 1 / -1;
+      justify-content: space-between;
+    }
+    .point-option h3 {
+      font-size: 15px;
+    }
+    .point-option .desc {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      margin: 4px 0 0;
+    }
+    .point-option-price {
+      align-self: end;
+      color: var(--primary);
+      font-size: 24px;
+      font-weight: 950;
+      line-height: 1.05;
+      white-space: nowrap;
+    }
+    .point-option-price small {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 780;
+    }
+    .point-option-meta {
+      align-self: end;
+      display: grid;
+      gap: 5px;
+      justify-items: end;
+    }
+    .point-option-meta span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+    }
+    .point-option-meta strong {
+      color: #101828;
+      font-weight: 900;
+    }
+    .point-option .btn {
+      grid-column: 2;
+      justify-self: stretch;
+    }
+
     .orders-page {
       max-width: 1180px;
     }
@@ -1917,78 +2147,66 @@
                   </div>
                 </div>
 
-                <div class="product-card-grid plan-card-grid">
-                  <article class="buy-card plan-card">
-                    <div class="buy-card-head">
-                      <div>
-                        <h3>99 元开品体验包</h3>
-                        <p class="desc">约 2 个产品标准开品体验。</p>
+                <div class="plan-choice-layout">
+                  <div class="plan-list" aria-label="套餐列表">
+                    <article class="plan-option active" tabindex="0" data-plan-name="99 元开品体验包" data-plan-desc="约 2 个产品标准开品体验。" data-plan-tag="主推" data-plan-tag-class="amber" data-plan-price="￥99.00" data-plan-amount="99.00" data-plan-cycle="30 天" data-plan-points="990" data-plan-benefits="AI 选品、Listing、图片" data-plan-validity="30 天" data-plan-limit="新客一次" onclick="selectPlanOption(this)" onkeydown="selectPlanOptionFromKey(event, this)">
+                      <div class="plan-option-main">
+                        <div class="plan-option-title"><h3>99 元开品体验包</h3><span class="tag amber">主推</span></div>
+                        <p>约 2 个产品标准开品体验。</p>
+                        <div class="plan-option-meta"><span class="plan-pill">990 积分</span><span class="plan-pill">30 天</span><span class="plan-pill">新客一次</span></div>
                       </div>
-                      <span class="tag amber">主推</span>
-                    </div>
-                    <div class="buy-price">￥99.00 <small>/ 30 天</small></div>
-                    <ul class="plan-mini-list">
-                      <li><span>积分</span><strong>990</strong></li>
-                      <li><span>权益</span><strong>AI 选品、Listing、图片</strong></li>
-                      <li><span>有效期</span><strong>30 天</strong></li>
-                      <li><span>购买限制</span><strong>新客一次</strong></li>
-                    </ul>
-                    <div class="buy-actions"><button class="btn primary" onclick="openPurchase('99 元开品体验包', '99.00', '990', '30 天')"><i data-lucide="shopping-cart"></i>购买</button></div>
-                  </article>
+                      <div class="plan-option-price">￥99.00<small>/ 30 天</small></div>
+                      <button class="btn primary" onclick="event.stopPropagation(); openPlanOptionPurchase(this.closest('.plan-option'))"><i data-lucide="shopping-cart"></i>购买</button>
+                    </article>
 
-                  <article class="buy-card plan-card">
-                    <div class="buy-card-head">
-                      <div>
-                        <h3>AI 开品提效包</h3>
-                        <p class="desc">开品与内容提效。</p>
+                    <article class="plan-option" tabindex="0" data-plan-name="AI 开品提效包" data-plan-desc="开品与内容提效。" data-plan-tag="入门" data-plan-tag-class="violet" data-plan-price="￥3,980.00" data-plan-amount="3980.00" data-plan-cycle="1 年" data-plan-points="80,000" data-plan-benefits="内容中心、开品中心" data-plan-validity="1 年" data-plan-limit="不限次数" onclick="selectPlanOption(this)" onkeydown="selectPlanOptionFromKey(event, this)">
+                      <div class="plan-option-main">
+                        <div class="plan-option-title"><h3>AI 开品提效包</h3><span class="tag violet">入门</span></div>
+                        <p>开品与内容提效。</p>
+                        <div class="plan-option-meta"><span class="plan-pill">80,000 积分</span><span class="plan-pill">1 年</span><span class="plan-pill">内容中心、开品中心</span></div>
                       </div>
-                      <span class="tag violet">入门</span>
-                    </div>
-                    <div class="buy-price">￥3,980.00 <small>/ 1 年</small></div>
-                    <ul class="plan-mini-list">
-                      <li><span>积分</span><strong>80,000</strong></li>
-                      <li><span>权益</span><strong>内容中心、开品中心</strong></li>
-                      <li><span>有效期</span><strong>1 年</strong></li>
-                      <li><span>购买限制</span><strong>不限次数</strong></li>
-                    </ul>
-                    <div class="buy-actions"><button class="btn primary" onclick="openPurchase('AI 开品提效包', '3980.00', '80,000', '1 年')"><i data-lucide="shopping-cart"></i>购买</button></div>
-                  </article>
+                      <div class="plan-option-price">￥3,980.00<small>/ 1 年</small></div>
+                      <button class="btn primary" onclick="event.stopPropagation(); openPlanOptionPurchase(this.closest('.plan-option'))"><i data-lucide="shopping-cart"></i>购买</button>
+                    </article>
 
-                  <article class="buy-card plan-card">
-                    <div class="buy-card-head">
-                      <div>
-                        <h3>AI 经营增长包</h3>
-                        <p class="desc">运营与广告增长。</p>
+                    <article class="plan-option" tabindex="0" data-plan-name="AI 经营增长包" data-plan-desc="运营与广告增长。" data-plan-tag="增长" data-plan-tag-class="violet" data-plan-price="￥12,800.00" data-plan-amount="12800.00" data-plan-cycle="1 年" data-plan-points="260,000" data-plan-benefits="内容、开品、经营、广告" data-plan-validity="1 年" data-plan-limit="不限次数" onclick="selectPlanOption(this)" onkeydown="selectPlanOptionFromKey(event, this)">
+                      <div class="plan-option-main">
+                        <div class="plan-option-title"><h3>AI 经营增长包</h3><span class="tag violet">增长</span></div>
+                        <p>运营与广告增长。</p>
+                        <div class="plan-option-meta"><span class="plan-pill">260,000 积分</span><span class="plan-pill">1 年</span><span class="plan-pill">内容、开品、经营、广告</span></div>
                       </div>
-                      <span class="tag violet">增长</span>
-                    </div>
-                    <div class="buy-price">￥12,800.00 <small>/ 1 年</small></div>
-                    <ul class="plan-mini-list">
-                      <li><span>积分</span><strong>260,000</strong></li>
-                      <li><span>权益</span><strong>内容、开品、经营、广告</strong></li>
-                      <li><span>有效期</span><strong>1 年</strong></li>
-                      <li><span>购买限制</span><strong>不限次数</strong></li>
-                    </ul>
-                    <div class="buy-actions"><button class="btn primary" onclick="openPurchase('AI 经营增长包', '12800.00', '260,000', '1 年')"><i data-lucide="shopping-cart"></i>购买</button></div>
-                  </article>
+                      <div class="plan-option-price">￥12,800.00<small>/ 1 年</small></div>
+                      <button class="btn primary" onclick="event.stopPropagation(); openPlanOptionPurchase(this.closest('.plan-option'))"><i data-lucide="shopping-cart"></i>购买</button>
+                    </article>
 
-                  <article class="buy-card plan-card">
-                    <div class="buy-card-head">
-                      <div>
-                        <h3>AI 全生命周期版</h3>
-                        <p class="desc">开品到经营闭环。</p>
+                    <article class="plan-option" tabindex="0" data-plan-name="AI 全生命周期版" data-plan-desc="开品到经营闭环。" data-plan-tag="推荐" data-plan-tag-class="amber" data-plan-price="￥19,800.00" data-plan-amount="19800.00" data-plan-cycle="1 年" data-plan-points="500,000" data-plan-benefits="全部标准模块" data-plan-validity="1 年" data-plan-limit="不限次数" onclick="selectPlanOption(this)" onkeydown="selectPlanOptionFromKey(event, this)">
+                      <div class="plan-option-main">
+                        <div class="plan-option-title"><h3>AI 全生命周期版</h3><span class="tag amber">推荐</span></div>
+                        <p>开品到经营闭环。</p>
+                        <div class="plan-option-meta"><span class="plan-pill">500,000 积分</span><span class="plan-pill">1 年</span><span class="plan-pill">全部标准模块</span></div>
                       </div>
-                      <span class="tag amber">推荐</span>
+                      <div class="plan-option-price">￥19,800.00<small>/ 1 年</small></div>
+                      <button class="btn primary" onclick="event.stopPropagation(); openPlanOptionPurchase(this.closest('.plan-option'))"><i data-lucide="shopping-cart"></i>购买</button>
+                    </article>
+                  </div>
+
+                  <aside class="plan-preview" id="planPreview" aria-label="套餐预览">
+                    <div class="plan-preview-head">
+                      <span class="preview-label">已选套餐</span>
+                      <span class="tag amber" data-preview-tag>主推</span>
                     </div>
-                    <div class="buy-price">￥19,800.00 <small>/ 1 年</small></div>
-                    <ul class="plan-mini-list">
-                      <li><span>积分</span><strong>500,000</strong></li>
-                      <li><span>权益</span><strong>全部标准模块</strong></li>
-                      <li><span>有效期</span><strong>1 年</strong></li>
-                      <li><span>购买限制</span><strong>不限次数</strong></li>
-                    </ul>
-                    <div class="buy-actions"><button class="btn primary" onclick="openPurchase('AI 全生命周期版', '19800.00', '500,000', '1 年')"><i data-lucide="shopping-cart"></i>购买</button></div>
-                  </article>
+                    <h3 data-preview-name>99 元开品体验包</h3>
+                    <p class="desc" data-preview-desc>约 2 个产品标准开品体验。</p>
+                    <div class="preview-price"><span data-preview-price>￥99.00</span> <small data-preview-cycle>/ 30 天</small></div>
+                    <div class="preview-metrics">
+                      <div class="preview-metric"><span>积分</span><strong data-preview-points>990</strong></div>
+                      <div class="preview-metric"><span>有效期</span><strong data-preview-validity>30 天</strong></div>
+                      <div class="preview-metric"><span>权益</span><strong data-preview-benefits-text>AI 选品、Listing、图片</strong></div>
+                      <div class="preview-metric"><span>购买限制</span><strong data-preview-limit>新客一次</strong></div>
+                    </div>
+                    <div class="preview-modules" data-preview-modules><span class="mini-label">AI 选品</span><span class="mini-label">Listing</span><span class="mini-label">图片</span></div>
+                    <button class="btn primary" data-selected-plan-buy onclick="openPurchase('99 元开品体验包', '99.00', '990', '30 天')"><i data-lucide="shopping-cart"></i>购买</button>
+                  </aside>
                 </div>
               </div>
 
@@ -2000,55 +2218,46 @@
                   </div>
                 </div>
 
-                <div class="product-card-grid point-card-grid">
-                  <article class="buy-card point-card">
-                  <div class="buy-card-head">
-                    <div>
-                      <h3>基础积分包</h3>
-                      <p class="desc">轻量补充额度。</p>
+                <div class="point-purchase-list">
+                  <article class="point-option">
+                    <div class="point-option-head">
+                      <div>
+                        <h3>基础积分包</h3>
+                        <p class="desc">轻量补充额度。</p>
+                      </div>
+                      <span class="tag blue">轻量</span>
                     </div>
-                    <span class="tag blue">轻量</span>
-                  </div>
-                  <div class="buy-price">￥499.00 <small>/ 60 天</small></div>
-                  <ul class="plan-mini-list">
-                    <li><span>积分</span><strong>5,500</strong></li>
-                    <li><span>有效期</span><strong>60 天</strong></li>
-                  </ul>
-                  <div class="buy-actions"><button class="btn primary" onclick="openPurchase('基础积分包', '499.00', '5,500', '60 天')"><i data-lucide="shopping-cart"></i>购买</button></div>
-                </article>
+                    <div class="point-option-price">￥499.00 <small>/ 60 天</small></div>
+                    <div class="point-option-meta"><span>积分</span><strong>5,500</strong></div>
+                    <button class="btn primary" onclick="openPurchase('基础积分包', '499.00', '5,500', '60 天')"><i data-lucide="shopping-cart"></i>购买</button>
+                  </article>
 
-                <article class="buy-card point-card">
-                  <div class="buy-card-head">
-                    <div>
-                      <h3>专业积分包</h3>
-                      <p class="desc">高频运营使用。</p>
+                  <article class="point-option">
+                    <div class="point-option-head">
+                      <div>
+                        <h3>专业积分包</h3>
+                        <p class="desc">高频运营使用。</p>
+                      </div>
+                      <span class="tag amber">高频</span>
                     </div>
-                    <span class="tag amber">高频</span>
-                  </div>
-                  <div class="buy-price">￥1,999.00 <small>/ 180 天</small></div>
-                  <ul class="plan-mini-list">
-                    <li><span>积分</span><strong>23,000</strong></li>
-                    <li><span>有效期</span><strong>180 天</strong></li>
-                  </ul>
-                  <div class="buy-actions"><button class="btn primary" onclick="openPurchase('专业积分包', '1999.00', '23,000', '180 天')"><i data-lucide="shopping-cart"></i>购买</button></div>
-                </article>
+                    <div class="point-option-price">￥1,999.00 <small>/ 180 天</small></div>
+                    <div class="point-option-meta"><span>积分</span><strong>23,000</strong></div>
+                    <button class="btn primary" onclick="openPurchase('专业积分包', '1999.00', '23,000', '180 天')"><i data-lucide="shopping-cart"></i>购买</button>
+                  </article>
 
-                <article class="buy-card point-card">
-                  <div class="buy-card-head">
-                    <div>
-                      <h3>企业积分包</h3>
-                      <p class="desc">多人持续使用。</p>
+                  <article class="point-option">
+                    <div class="point-option-head">
+                      <div>
+                        <h3>企业积分包</h3>
+                        <p class="desc">多人持续使用。</p>
+                      </div>
+                      <span class="tag violet">团队</span>
                     </div>
-                    <span class="tag violet">团队</span>
-                  </div>
-                  <div class="buy-price">￥5,000.00 <small>/ 365 天</small></div>
-                  <ul class="plan-mini-list">
-                    <li><span>积分</span><strong>60,000</strong></li>
-                    <li><span>有效期</span><strong>365 天</strong></li>
-                  </ul>
-                  <div class="buy-actions"><button class="btn primary" onclick="openPurchase('企业积分包', '5000.00', '60,000', '365 天')"><i data-lucide="shopping-cart"></i>购买</button></div>
-                </article>
-              </div>
+                    <div class="point-option-price">￥5,000.00 <small>/ 365 天</small></div>
+                    <div class="point-option-meta"><span>积分</span><strong>60,000</strong></div>
+                    <button class="btn primary" onclick="openPurchase('企业积分包', '5000.00', '60,000', '365 天')"><i data-lucide="shopping-cart"></i>购买</button>
+                  </article>
+                </div>
               </div>
             </section>
           </div>
@@ -2751,6 +2960,50 @@
           </div>
         `
       });
+    }
+
+    function openPlanOptionPurchase(plan) {
+      if (!plan) return;
+      openPurchase(plan.dataset.planName, plan.dataset.planAmount, plan.dataset.planPoints, plan.dataset.planValidity);
+    }
+
+    function selectPlanOptionFromKey(event, plan) {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      selectPlanOption(plan);
+    }
+
+    function selectPlanOption(plan) {
+      if (!plan) return;
+      const layout = plan.closest('.plan-choice-layout');
+      const preview = layout?.querySelector('.plan-preview');
+      if (!preview) return;
+      layout.querySelectorAll('.plan-option').forEach(item => item.classList.toggle('active', item === plan));
+
+      preview.querySelector('[data-preview-name]').textContent = plan.dataset.planName;
+      preview.querySelector('[data-preview-desc]').textContent = plan.dataset.planDesc;
+      preview.querySelector('[data-preview-price]').textContent = plan.dataset.planPrice;
+      preview.querySelector('[data-preview-cycle]').textContent = `/ ${plan.dataset.planCycle}`;
+      preview.querySelector('[data-preview-points]').textContent = plan.dataset.planPoints;
+      preview.querySelector('[data-preview-validity]').textContent = plan.dataset.planValidity;
+      preview.querySelector('[data-preview-benefits-text]').textContent = plan.dataset.planBenefits;
+      preview.querySelector('[data-preview-limit]').textContent = plan.dataset.planLimit;
+
+      const tag = preview.querySelector('[data-preview-tag]');
+      tag.textContent = plan.dataset.planTag;
+      tag.className = `tag ${plan.dataset.planTagClass || ''}`.trim();
+
+      const modules = preview.querySelector('[data-preview-modules]');
+      modules.replaceChildren(...plan.dataset.planBenefits.split('、').map(item => {
+        const label = document.createElement('span');
+        label.className = 'mini-label';
+        label.textContent = item;
+        return label;
+      }));
+
+      const buyButton = preview.querySelector('[data-selected-plan-buy]');
+      buyButton.onclick = () => openPlanOptionPurchase(plan);
+      refreshIcons();
     }
 
     const drawerTemplates = {
