@@ -8368,6 +8368,22 @@
       display: grid;
       gap: 10px;
     }
+    .main.view-creditProducts,
+    .main.view-creditAccount,
+    .main.view-creditLedger,
+    .main.view-creditSettings {
+      padding: 0;
+      gap: 0;
+      background: #f5f7fb;
+    }
+    .credit-prototype-frame {
+      width: 100%;
+      height: calc(100vh - 49px);
+      min-height: 760px;
+      border: 0;
+      display: block;
+      background: #f5f7fb;
+    }
 
     .metric {
       border: 1px solid var(--line);
@@ -25881,6 +25897,26 @@
           ], "新增商品", "openCreditProductEditor")}
         </div>
       `;
+    }
+
+    function renderCreditPrototypeEmbed(pageId, title) {
+      return `<iframe class="credit-prototype-frame" title="${escapeHtml(title)}" src="../ai-billing-workbench-prototype/index.html?embed=1#${escapeHtml(pageId)}"></iframe>`;
+    }
+
+    function renderCreditProducts() {
+      return renderCreditPrototypeEmbed("products", "套餐管理");
+    }
+
+    function renderCreditAccount() {
+      return renderCreditPrototypeEmbed("account", "积分账户");
+    }
+
+    function renderCreditLedger() {
+      return renderCreditPrototypeEmbed("usage", "积分明细");
+    }
+
+    function renderCreditSettings() {
+      return renderCreditPrototypeEmbed("catalog", "计费设置");
     }
 
     function renderCredits() {

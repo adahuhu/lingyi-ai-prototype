@@ -1,0 +1,2969 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 工作台计费模块优化原型</title>
+  <script src="../yilian-ai-workbench/vendor/lucide.js"></script>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #fff;
+      --soft: #f8fafc;
+      --soft-2: #eef4ff;
+      --line: #e7edf4;
+      --line-strong: #d8e2ee;
+      --text: #1f2937;
+      --muted: #6b778c;
+      --subtle: #98a2b3;
+      --primary: #1677ff;
+      --primary-hover: #4096ff;
+      --primary-strong: #0958d9;
+      --primary-soft: #e6f4ff;
+      --primary-softer: #f0f7ff;
+      --primary-border: #91caff;
+      --green: #13966a;
+      --green-soft: #eaf8f2;
+      --amber: #d97706;
+      --amber-soft: #fff7e8;
+      --red: #dc4c45;
+      --red-soft: #fff1f0;
+      --violet: #6b59b5;
+      --violet-soft: #f1eeff;
+      --shadow: 0 10px 30px rgba(31, 41, 55, .08);
+      --shadow-soft: 0 1px 2px rgba(15, 23, 42, .04);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 13px;
+      letter-spacing: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 228px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background: linear-gradient(180deg, rgba(252,253,255,.98), rgba(247,250,255,.95));
+      border-right: 1px solid var(--line);
+      padding: 20px 10px 18px;
+      display: flex;
+      flex-direction: column;
+      z-index: 20;
+      box-shadow: 10px 0 28px rgba(15, 23, 42, .04);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 10px 12px;
+    }
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, #003eb3 0%, var(--primary-strong) 56%, var(--primary) 100%);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      box-shadow: 0 14px 28px rgba(22, 119, 255, .22);
+    }
+    .brand strong { display: block; color: #101828; font-size: 16px; font-weight: 900; }
+    .brand span { display: block; margin-top: 1px; color: #667085; font-size: 12px; font-weight: 650; }
+
+    .nav {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      padding-right: 2px;
+      display: grid;
+      gap: 3px;
+      align-content: start;
+    }
+    .nav-group-title {
+      min-height: 30px;
+      margin: 6px 4px 1px;
+      border-radius: 9px;
+      color: #a2adbd;
+      font-size: 12px;
+      font-weight: 820;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+    }
+    .nav-btn {
+      width: 100%;
+      min-height: 35px;
+      border: 1px solid transparent;
+      border-radius: 9px;
+      background: transparent;
+      color: #303946;
+      padding: 0 9px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .nav-btn svg { width: 16px; height: 16px; color: #8a96a8; flex: 0 0 auto; }
+    .nav-btn:hover { background: rgba(22, 119, 255, .06); color: var(--primary-strong); }
+    .nav-btn.active {
+      color: var(--primary-strong);
+      background: var(--primary-soft);
+      border-color: var(--primary-border);
+      font-weight: 760;
+    }
+    .nav-btn.active svg { color: var(--primary); }
+
+    .main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 15;
+      height: 58px;
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+    .crumb { color: #667085; font-weight: 650; }
+    .top-actions { display: flex; align-items: center; gap: 10px; }
+    .role-switch {
+      display: inline-flex;
+      padding: 3px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      gap: 2px;
+    }
+    .role-switch button {
+      border: 0;
+      background: transparent;
+      border-radius: 6px;
+      color: #667085;
+      min-height: 28px;
+      padding: 0 10px;
+      font-weight: 720;
+    }
+    .role-switch button.active {
+      color: var(--primary-strong);
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, .08);
+    }
+    .credit-pill {
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 10px;
+      border-radius: 8px;
+      background: var(--primary-softer);
+      border: 1px solid var(--primary-border);
+      color: var(--primary-strong);
+      font-weight: 820;
+    }
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: #101828;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+    }
+
+    .content {
+      padding: 28px;
+      width: 100%;
+      max-width: 1440px;
+    }
+    .page { display: none; }
+    .page.active { display: block; }
+    .page-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.2;
+      font-weight: 850;
+      color: #161c25;
+    }
+    body.embed {
+      background: transparent;
+    }
+    body.embed .app {
+      min-height: 100vh;
+      grid-template-columns: minmax(0, 1fr);
+    }
+    body.embed .sidebar,
+    body.embed .topbar {
+      display: none;
+    }
+    body.embed .content {
+      padding: 0;
+      max-width: none;
+    }
+    body.embed .main {
+      min-height: 100vh;
+    }
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.35;
+      font-weight: 800;
+      color: #161c25;
+    }
+    h3 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.35;
+      font-weight: 800;
+      color: #1d2633;
+    }
+    .subtext { margin: 8px 0 0; color: var(--muted); line-height: 1.7; max-width: 760px; }
+    .head-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+
+    .btn {
+      min-height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      color: #344054;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 0 12px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+    .btn svg { width: 15px; height: 15px; }
+    .btn:hover { border-color: var(--primary-border); color: var(--primary-strong); }
+    .btn.primary {
+      color: #fff;
+      border-color: var(--primary);
+      background: var(--primary);
+      box-shadow: 0 8px 18px rgba(22, 119, 255, .17);
+    }
+    .btn.primary:hover { background: var(--primary-hover); color: #fff; }
+    .btn.ghost { background: transparent; }
+    .btn.disabled, .btn:disabled {
+      color: #b3bac6;
+      background: #f6f7f9;
+      border-color: #e3e6eb;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .icon-btn {
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      border-radius: 8px;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      display: inline-grid;
+      place-items: center;
+      color: #667085;
+    }
+    .icon-btn:hover { border-color: var(--primary-border); color: var(--primary); }
+
+    .grid { display: grid; gap: 16px; }
+    .grid > *, .panel, .card, .tab-panel, .table-wrap { min-width: 0; }
+    .metric-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .two-col { grid-template-columns: minmax(0, 1.1fr) minmax(360px, .9fr); align-items: start; }
+    .three-col { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .four-col { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .panel, .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 1px 1px rgba(15, 23, 42, .02);
+    }
+    .panel-head {
+      min-height: 54px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .panel-body { padding: 16px; }
+    .card { padding: 16px; }
+    .metric .label { color: var(--muted); font-weight: 700; }
+    .metric .value { margin-top: 10px; font-size: 25px; font-weight: 900; color: #101828; }
+    .metric .hint { margin-top: 6px; color: var(--subtle); }
+    .metric .delta { color: var(--green); font-weight: 800; }
+    .metric.warn .delta { color: var(--amber); }
+    .metric.danger .delta { color: var(--red); }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 23px;
+      padding: 0 8px;
+      border-radius: 6px;
+      background: var(--soft);
+      color: #667085;
+      font-size: 12px;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+    .tag.blue { color: var(--primary-strong); background: var(--primary-soft); }
+    .tag.green { color: var(--green); background: var(--green-soft); }
+    .tag.amber { color: var(--amber); background: var(--amber-soft); }
+    .tag.red { color: var(--red); background: var(--red-soft); }
+    .tag.violet { color: var(--violet); background: var(--violet-soft); }
+
+    .notice {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border: 1px solid var(--primary-border);
+      background: var(--primary-softer);
+      color: #1d4f91;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+    .notice svg { width: 18px; height: 18px; margin-top: 1px; flex: 0 0 auto; }
+    .notice.warn {
+      border-color: #fed7aa;
+      background: var(--amber-soft);
+      color: #8a4b0c;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .flow-step {
+      min-height: 94px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      position: relative;
+    }
+    .flow-step strong { display: block; font-size: 14px; margin-bottom: 6px; }
+    .flow-step span { color: var(--muted); line-height: 1.5; }
+    .flow-step::after {
+      content: "";
+      position: absolute;
+      right: -9px;
+      top: 42px;
+      width: 8px;
+      height: 1px;
+      background: var(--line-strong);
+    }
+    .flow-step:last-child::after { display: none; }
+
+    .priority-board {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .priority-col {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+      overflow: hidden;
+    }
+    .priority-col header {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      font-weight: 850;
+    }
+    .task-list { display: grid; gap: 10px; padding: 10px; }
+    .task-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .task-card strong { display: block; margin-bottom: 6px; }
+    .task-card p { margin: 0; color: var(--muted); line-height: 1.55; }
+
+    .segment {
+      display: inline-flex;
+      gap: 2px;
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--soft);
+      flex-wrap: wrap;
+    }
+    .segment button {
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #667085;
+      min-height: 30px;
+      padding: 0 12px;
+      font-weight: 760;
+    }
+    .segment button.active {
+      background: #fff;
+      color: var(--primary-strong);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, .08);
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .suite-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 18px 0 12px;
+    }
+    .section-title p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .product-card {
+      min-height: 372px;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      overflow: hidden;
+    }
+    .product-card.compact { min-height: 326px; }
+    .product-card header {
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--line);
+    }
+    .product-card .body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+    }
+    .price {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      color: var(--primary);
+      font-size: 30px;
+      font-weight: 900;
+    }
+    .price small { color: var(--muted); font-size: 13px; font-weight: 740; }
+    .feature-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+    .feature-list li { display: flex; gap: 8px; align-items: flex-start; color: #3f4a5a; line-height: 1.5; }
+    .feature-list svg { width: 16px; height: 16px; color: #344054; margin-top: 1px; flex: 0 0 auto; }
+    .product-actions { margin-top: auto; display: flex; gap: 10px; }
+    .product-actions .btn { flex: 1; }
+    .pay-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+      padding: 16px;
+      display: grid;
+      place-items: center;
+      gap: 12px;
+      text-align: center;
+    }
+    .wechat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 28px;
+      border-radius: 999px;
+      padding: 0 10px;
+      background: var(--green-soft);
+      color: var(--green);
+      font-weight: 850;
+    }
+    .qr-matrix {
+      width: 178px;
+      height: 178px;
+      display: grid;
+      grid-template-columns: repeat(21, 1fr);
+      grid-template-rows: repeat(21, 1fr);
+      gap: 2px;
+      padding: 10px;
+      background: #fff;
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, .07);
+    }
+    .qr-matrix span { border-radius: 1px; background: transparent; }
+    .qr-matrix span.dark { background: #101828; }
+    .pay-amount { font-size: 26px; font-weight: 900; color: #101828; }
+    .pay-meta { color: var(--muted); line-height: 1.55; }
+
+    .purchase-page {
+      max-width: 1260px;
+    }
+    .purchase-toolbar {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto auto;
+      gap: 12px;
+      align-items: center;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 18px;
+    }
+    .purchase-toolbar-item {
+      min-height: 58px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 14px;
+    }
+    .purchase-toolbar-item span { color: var(--muted); font-weight: 720; }
+    .purchase-toolbar-item strong { color: #101828; font-size: 18px; font-weight: 900; }
+
+    .purchase-section {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 24px;
+      margin-top: 18px;
+      box-shadow: 0 16px 36px rgba(15, 23, 42, .04);
+    }
+    .purchase-section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .purchase-section-head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .plan-layout {
+      display: grid;
+      grid-template-columns: 1.08fr 1.92fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    .annual-plans {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .buy-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+    }
+    .buy-card:hover {
+      border-color: var(--primary-border);
+      box-shadow: 0 14px 30px rgba(22, 119, 255, .09);
+      transform: translateY(-1px);
+    }
+    .buy-card.featured {
+      padding: 24px;
+      background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+      border-color: var(--primary-border);
+      box-shadow: 0 18px 40px rgba(22, 119, 255, .10);
+    }
+    .buy-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .buy-card h3 { font-size: 18px; }
+    .buy-card.featured h3 { font-size: 23px; }
+    .buy-card .desc {
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 8px 0 0;
+    }
+    .buy-price {
+      color: var(--primary);
+      font-size: 31px;
+      font-weight: 950;
+      line-height: 1.1;
+      margin: 2px 0 16px;
+    }
+    .buy-card.featured .buy-price { font-size: 40px; }
+    .buy-price small {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 780;
+    }
+    .buy-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .buy-meta {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px;
+      min-height: 62px;
+    }
+    .buy-meta span { display: block; color: var(--muted); font-size: 12px; font-weight: 740; margin-bottom: 5px; }
+    .buy-meta strong { display: block; color: #101828; font-weight: 900; }
+    .buy-feature-list {
+      margin: 0 0 18px;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+    .buy-feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      color: #344054;
+      line-height: 1.5;
+    }
+    .buy-feature-list svg {
+      width: 16px;
+      height: 16px;
+      color: var(--green);
+      flex: 0 0 auto;
+      margin-top: 1px;
+    }
+    .buy-actions {
+      margin-top: auto;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .buy-actions .btn { flex: 0 0 154px; min-height: 38px; }
+    .plan-mini-list {
+      display: grid;
+      gap: 10px;
+      margin: 0 0 18px;
+      padding: 0;
+      list-style: none;
+      color: #344054;
+      line-height: 1.5;
+    }
+    .plan-mini-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding-bottom: 9px;
+      border-bottom: 1px solid var(--line);
+    }
+    .plan-mini-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+    .plan-mini-list span { color: var(--muted); }
+    .annual-plans .buy-card {
+      min-height: auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 168px;
+      grid-template-rows: auto 1fr auto;
+      gap: 12px 18px;
+      padding: 18px 20px;
+    }
+    .annual-plans .buy-card-head {
+      margin: 0;
+      align-items: flex-start;
+    }
+    .annual-plans .buy-card h3 { font-size: 17px; }
+    .annual-plans .buy-card .desc { margin-top: 5px; }
+    .annual-plans .buy-price {
+      margin: 0;
+      text-align: right;
+      font-size: 27px;
+    }
+    .annual-plans .plan-mini-list {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      display: grid;
+      gap: 8px;
+      margin: 0;
+    }
+    .annual-plans .plan-mini-list li {
+      display: grid;
+      gap: 4px;
+      border-bottom: 0;
+      padding: 10px;
+      border-radius: 8px;
+      background: var(--soft);
+    }
+    .annual-plans .buy-actions {
+      grid-column: 2;
+      grid-row: 3;
+      align-self: end;
+      justify-self: end;
+      margin: 0;
+    }
+    .annual-plans .buy-actions .btn { min-height: 36px; }
+    .point-plan-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .point-card {
+      min-height: 230px;
+    }
+    .point-card .buy-price { font-size: 33px; margin-top: 8px; }
+
+    .orders-page {
+      max-width: 1260px;
+    }
+    .order-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .order-summary {
+      min-height: 108px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .order-summary span {
+      color: var(--muted);
+      font-weight: 740;
+    }
+    .order-summary strong {
+      display: block;
+      color: #101828;
+      font-size: 26px;
+      font-weight: 940;
+      line-height: 1.15;
+    }
+    .order-summary small {
+      color: var(--subtle);
+      font-weight: 720;
+    }
+    .order-filterbar {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .order-search {
+      min-width: 280px;
+    }
+    .date-range {
+      min-width: 220px;
+    }
+    .order-list {
+      display: grid;
+      gap: 12px;
+    }
+    .order-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: minmax(260px, 1.25fr) repeat(4, minmax(118px, .7fr)) 168px;
+      gap: 14px;
+      align-items: stretch;
+      transition: border-color .18s ease, box-shadow .18s ease;
+    }
+    .order-card.no-action {
+      grid-template-columns: minmax(260px, 1.25fr) repeat(4, minmax(118px, .7fr));
+    }
+    .order-card:hover {
+      border-color: var(--primary-border);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, .06);
+    }
+    .order-main {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .order-no {
+      color: #101828;
+      font-size: 16px;
+      font-weight: 900;
+    }
+    .order-product {
+      color: #344054;
+      font-weight: 820;
+    }
+    .order-time {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .order-status-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .order-status-line .tag {
+      flex: 0 0 auto;
+    }
+    .order-text-action {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--primary);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 860;
+      line-height: 1;
+      padding: 0;
+      white-space: nowrap;
+    }
+    .order-text-action:hover {
+      color: var(--primary-strong);
+      text-decoration: underline;
+    }
+    .order-cell {
+      background: var(--soft);
+      border: 1px solid #edf1f6;
+      border-radius: 8px;
+      padding: 10px;
+      min-height: 62px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+    }
+    .order-cell span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 740;
+    }
+    .order-cell strong {
+      color: #101828;
+      font-weight: 900;
+    }
+
+    .calculator {
+      display: grid;
+      gap: 12px;
+    }
+    .calc-row {
+      display: grid;
+      grid-template-columns: 1fr 100px 90px;
+      gap: 10px;
+      align-items: center;
+    }
+    .calc-row input {
+      width: 100%;
+      height: 34px;
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      padding: 0 10px;
+      color: var(--text);
+      background: #fff;
+    }
+    .calc-total {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 50px;
+      border-radius: 8px;
+      background: var(--primary-softer);
+      border: 1px solid var(--primary-border);
+      padding: 0 14px;
+      font-weight: 850;
+    }
+    .calc-total strong { color: var(--primary-strong); font-size: 20px; }
+
+    .table-wrap {
+      width: 100%;
+      overflow: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 820px;
+    }
+    th, td {
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    th {
+      color: #667085;
+      background: var(--soft);
+      font-size: 12px;
+      font-weight: 820;
+    }
+    td { color: #344054; }
+    td strong { color: #1f2937; }
+    .right { text-align: right; }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+    .field label { color: #667085; font-weight: 740; }
+    input, select, textarea {
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      min-height: 34px;
+      padding: 0 10px;
+      outline: none;
+    }
+    textarea {
+      min-height: 78px;
+      resize: vertical;
+      padding: 9px 10px;
+      line-height: 1.5;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--primary-border); box-shadow: 0 0 0 3px rgba(22, 119, 255, .08); }
+
+    .progress {
+      height: 8px;
+      border-radius: 999px;
+      background: #eef2f7;
+      overflow: hidden;
+    }
+    .progress span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #53c2ff);
+      border-radius: inherit;
+    }
+
+    .account-stack { display: grid; gap: 14px; }
+    .account-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+    }
+    .account-row strong { display: block; margin-bottom: 5px; }
+    .account-row p { margin: 0; color: var(--muted); line-height: 1.55; }
+    .account-ledger-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 16px;
+      padding: 20px 24px 22px;
+    }
+    .account-ledger-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: start;
+      margin-bottom: 22px;
+    }
+    .account-title-label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 820;
+      margin-bottom: 6px;
+    }
+    .account-ledger-title h1 {
+      margin: 0;
+      color: #101828;
+      font-size: 30px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+    .account-ledger-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .tenant-select {
+      min-width: 180px;
+      font-weight: 760;
+    }
+    .account-ledger-body {
+      display: grid;
+      grid-template-columns: minmax(360px, .95fr) minmax(0, 1.45fr);
+      gap: 22px;
+      align-items: end;
+    }
+    .account-balance-pane {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+    .account-balance-pane .tag {
+      justify-self: start;
+    }
+    .account-balance-label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 820;
+    }
+    .account-status-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .account-status-item {
+      background: var(--soft);
+      border: 1px solid #edf1f6;
+      border-radius: 8px;
+      min-height: 96px;
+      padding: 13px 14px;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .account-balance-value {
+      color: #101828;
+      font-size: 56px;
+      font-weight: 950;
+      line-height: .95;
+      letter-spacing: 0;
+    }
+    .account-balance-value small {
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 820;
+      margin-left: 8px;
+    }
+    .account-status-item span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 820;
+    }
+    .account-status-item strong {
+      color: #101828;
+      font-size: 22px;
+      font-weight: 920;
+    }
+    .account-status-item small {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 720;
+    }
+    .account-workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+    .account-workspace .panel {
+      min-width: 0;
+    }
+    .panel-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .mini-progress {
+      width: 100%;
+      height: 5px;
+      background: #edf1f6;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .mini-progress span {
+      display: block;
+      height: 100%;
+      background: var(--primary);
+      border-radius: inherit;
+    }
+    .table-link {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--primary);
+      cursor: pointer;
+      font-weight: 860;
+      padding: 0;
+      white-space: nowrap;
+    }
+    .table-link:hover {
+      color: var(--primary-strong);
+      text-decoration: underline;
+    }
+    .usage-page {
+      display: grid;
+      gap: 16px;
+    }
+    .usage-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: end;
+    }
+    .usage-head h1 {
+      margin: 0;
+      color: #101828;
+      font-size: 30px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+    .usage-head .subtext {
+      margin-top: 6px;
+    }
+    .usage-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .usage-summary-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow-soft);
+      min-height: 108px;
+      padding: 16px;
+      display: grid;
+      align-content: space-between;
+      gap: 12px;
+    }
+    .usage-summary-card span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 820;
+    }
+    .usage-summary-card strong {
+      color: #101828;
+      font-size: 28px;
+      font-weight: 940;
+      line-height: 1;
+    }
+    .usage-summary-card small {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 720;
+    }
+    .usage-filterbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+    .usage-filterbar .filters {
+      flex: 1;
+      min-width: 0;
+    }
+    .usage-filterbar input,
+    .usage-filterbar select {
+      min-width: 160px;
+    }
+    .usage-filterbar input[aria-label="流水时间范围"] {
+      min-width: 220px;
+    }
+    .usage-search {
+      min-width: 260px;
+    }
+    .ledger-object {
+      display: grid;
+      gap: 4px;
+    }
+    .ledger-object strong {
+      color: #101828;
+      font-weight: 880;
+    }
+    .ledger-ref {
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .ledger-change {
+      font-weight: 920;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .ledger-change.negative { color: var(--red); }
+    .ledger-change.positive { color: var(--green); }
+    .ledger-change.frozen { color: var(--amber); }
+
+    .config-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+    .config-menu {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .config-menu button {
+      width: auto;
+      min-height: 38px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: #344054;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px;
+      text-align: left;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+    .config-menu button.active { background: var(--primary-soft); color: var(--primary-strong); }
+    .config-menu svg { width: 16px; height: 16px; }
+    .settings-tab-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+    .settings-side {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .settings-side .review-box {
+      background: #fff;
+    }
+    .settings-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+    .settings-toolbar .filters {
+      flex: 1;
+      min-width: 0;
+    }
+    .settings-toolbar input,
+    .settings-toolbar select {
+      min-width: 160px;
+    }
+    .rule-name {
+      display: grid;
+      gap: 4px;
+    }
+    .rule-name strong {
+      color: #101828;
+      font-weight: 880;
+    }
+    .rule-name small {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 720;
+      line-height: 1.5;
+    }
+    .rule-price {
+      color: var(--primary-strong);
+      font-size: 18px;
+      font-weight: 940;
+      white-space: nowrap;
+    }
+    .settings-card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      padding: 16px;
+    }
+    .settings-product-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      min-height: 260px;
+      padding: 16px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+    .settings-product-card header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .settings-product-card h3 {
+      font-size: 16px;
+    }
+    .settings-product-card .price {
+      color: var(--primary);
+      font-size: 26px;
+      line-height: 1;
+      font-weight: 940;
+    }
+    .settings-product-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .settings-product-meta div {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      display: grid;
+      gap: 4px;
+    }
+    .settings-product-meta span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+    }
+    .settings-product-meta strong {
+      color: #101828;
+      font-weight: 900;
+    }
+    .package-module-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .mini-label {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border-radius: 999px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      color: #344054;
+      padding: 0 9px;
+      font-size: 12px;
+      font-weight: 790;
+      white-space: nowrap;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .form-grid .span-2 { grid-column: 1 / -1; }
+    .member-picker {
+      display: grid;
+      gap: 10px;
+    }
+    .member-picker > label {
+      color: #667085;
+      font-weight: 740;
+    }
+    .member-picker-toolbar {
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      gap: 10px;
+    }
+    .selected-members {
+      align-content: start;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-height: 82px;
+      overflow: auto;
+      padding: 9px;
+    }
+    .selected-member {
+      align-items: center;
+      background: #fff;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      color: #101828;
+      display: inline-flex;
+      font-size: 13px;
+      font-weight: 820;
+      gap: 6px;
+      min-height: 28px;
+      padding: 0 5px 0 10px;
+    }
+    .selected-member.company {
+      background: var(--primary-soft);
+      border-color: var(--primary-border);
+      color: var(--primary-strong);
+    }
+    .selected-member.department {
+      background: #eefbf6;
+      border-color: #abefc6;
+      color: var(--green);
+    }
+    .selected-member button {
+      appearance: none;
+      align-items: center;
+      background: transparent;
+      border: 0;
+      border-radius: 999px;
+      color: #667085;
+      cursor: pointer;
+      display: inline-flex;
+      height: 20px;
+      justify-content: center;
+      padding: 0;
+      width: 20px;
+    }
+    .selected-member button:hover {
+      background: #eef2f7;
+      color: #101828;
+    }
+    .selected-member svg {
+      height: 13px;
+      width: 13px;
+    }
+    .member-candidates {
+      display: grid;
+      gap: 8px;
+      max-height: 156px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+    .member-candidate {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      min-height: 46px;
+      padding: 10px 12px;
+    }
+    .member-candidate strong {
+      display: block;
+      color: #101828;
+      font-weight: 880;
+      margin-bottom: 2px;
+    }
+    .member-candidate small {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 720;
+    }
+    .member-add {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--primary);
+      cursor: pointer;
+      font-weight: 860;
+      padding: 0;
+      white-space: nowrap;
+    }
+    .member-add:hover {
+      color: var(--primary-strong);
+      text-decoration: underline;
+    }
+    .member-add:disabled {
+      color: #98a2b3;
+      cursor: default;
+      text-decoration: none;
+    }
+    .member-picker-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+    }
+    .review-box {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+    }
+    .review-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: #344054;
+    }
+    .review-line span:first-child { color: var(--muted); }
+
+    .status-list {
+      display: grid;
+      gap: 10px;
+    }
+    .status-item {
+      display: grid;
+      grid-template-columns: 36px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: var(--soft);
+    }
+    .status-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--primary);
+    }
+
+    .matrix {
+      display: grid;
+      grid-template-columns: 1.2fr repeat(3, .8fr);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .matrix div {
+      min-height: 46px;
+      padding: 12px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .matrix div:nth-child(4n) { border-right: 0; }
+    .matrix .head { background: var(--soft); color: #667085; font-weight: 850; }
+    .matrix .ok { color: var(--green); font-weight: 850; }
+    .matrix .no { color: #98a2b3; }
+    .matrix .warn-text { color: var(--amber); font-weight: 850; }
+
+    .drawer-mask {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, .24);
+      opacity: 0;
+      pointer-events: none;
+      transition: .18s ease;
+      z-index: 40;
+    }
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(520px, 100vw);
+      height: 100vh;
+      background: #fff;
+      box-shadow: -18px 0 34px rgba(15, 23, 42, .18);
+      transform: translateX(100%);
+      transition: .22s ease;
+      z-index: 45;
+      display: flex;
+      flex-direction: column;
+    }
+    .drawer.open { transform: translateX(0); }
+    .drawer-mask.open { opacity: 1; pointer-events: auto; }
+    .drawer header {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .drawer-body {
+      padding: 18px;
+      overflow: auto;
+      display: grid;
+      gap: 14px;
+    }
+    .drawer footer {
+      margin-top: auto;
+      padding: 14px 18px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      background: #fff;
+    }
+
+    @media (max-width: 1180px) {
+      .metric-grid, .four-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .product-grid, .three-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .flow-step::after { display: none; }
+      .two-col { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 920px) {
+      .app { display: block; }
+      .sidebar {
+        position: static;
+        height: auto;
+        padding: 12px;
+      }
+      .brand { padding: 0 4px 8px; }
+      .nav {
+        display: flex;
+        overflow-x: auto;
+        gap: 6px;
+        padding-bottom: 2px;
+      }
+      .nav-group-title { display: none; }
+      .nav-btn {
+        width: auto;
+        flex: 0 0 auto;
+        padding: 0 11px;
+      }
+      .topbar {
+        position: static;
+        height: auto;
+        min-height: 56px;
+        align-items: flex-start;
+        padding: 12px 16px;
+        gap: 12px;
+      }
+      .top-actions { justify-content: flex-end; flex-wrap: wrap; }
+      .content { padding: 18px 14px 28px; }
+      .page-head { display: grid; }
+      h1 { font-size: 24px; }
+      .metric-grid, .four-col, .product-grid, .three-col, .priority-board, .form-grid, .flow, .config-shell { grid-template-columns: 1fr; }
+      .config-menu { position: static; display: flex; overflow: auto; }
+      .config-menu button { width: auto; flex: 0 0 auto; }
+      .calc-row { grid-template-columns: 1fr 76px 70px; }
+      .matrix { grid-template-columns: 1.2fr repeat(3, .72fr); font-size: 12px; }
+      .matrix div { padding: 9px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">Yi</div>
+        <div>
+          <strong>羿链</strong>
+          <span>AI 工作台</span>
+        </div>
+      </div>
+      <nav class="nav" aria-label="计费原型导航">
+        <div class="nav-group-title">计费评审</div>
+        <button class="nav-btn active" data-page-target="overview"><i data-lucide="layout-dashboard"></i><span>计费总览</span></button>
+        <div class="nav-group-title">AI 积分中心</div>
+        <button class="nav-btn" data-page-target="products"><i data-lucide="package"></i><span>套餐管理</span></button>
+        <button class="nav-btn" data-page-target="account"><i data-lucide="wallet-cards"></i><span>积分账户</span></button>
+        <button class="nav-btn" data-page-target="usage"><i data-lucide="list-filter"></i><span>积分明细</span></button>
+        <div class="nav-group-title">系统运维</div>
+        <button class="nav-btn" data-page-target="catalog"><i data-lucide="settings-2"></i><span>计费设置</span></button>
+        <button class="nav-btn" data-page-target="manual"><i data-lucide="hand-coins"></i><span>人工发放</span></button>
+        <button class="nav-btn" data-page-target="payments"><i data-lucide="credit-card"></i><span>支付管理</span></button>
+        <button class="nav-btn" data-page-target="roles"><i data-lucide="shield-check"></i><span>角色权限</span></button>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="crumb" id="crumb">计费评审 / 计费总览</div>
+        <div class="top-actions">
+          <div class="role-switch" aria-label="角色切换">
+            <button class="active" data-role="platform">平台管理员</button>
+            <button data-role="tenant">租户管理员</button>
+            <button data-role="member">普通成员</button>
+          </div>
+          <div class="credit-pill"><i data-lucide="coins"></i><span>积分 128,600</span></div>
+          <div class="avatar">管</div>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="page active" id="overview" data-title="计费评审 / 计费总览">
+          <div class="page-head">
+            <div>
+              <h1>计费总览</h1>
+              <p class="subtext">把客户购买、后台发放、租户积分池、任务扣费、流水追溯和计费配置放到同一条闭环里评审。建议先落账户账本，再逐步补齐购买和支付。</p>
+            </div>
+            <div class="head-actions">
+              <button class="btn" data-page-target="account"><i data-lucide="wallet"></i>从账户开始</button>
+              <button class="btn primary" data-page-target="catalog"><i data-lucide="settings-2"></i>看配置闭环</button>
+            </div>
+          </div>
+
+          <div class="grid metric-grid">
+            <div class="card metric">
+              <div class="label">租户积分池余额</div>
+              <div class="value">128,600</div>
+              <div class="hint"><span class="delta">+99,000</span> 来自年度套餐入账</div>
+            </div>
+            <div class="card metric">
+              <div class="label">成员可用合计</div>
+              <div class="value">72,400</div>
+              <div class="hint">3 个团队、18 位成员</div>
+            </div>
+            <div class="card metric warn">
+              <div class="label">任务冻结中</div>
+              <div class="value">1,240</div>
+              <div class="hint"><span class="delta">12 笔</span> 等待任务完成</div>
+            </div>
+            <div class="card metric danger">
+              <div class="label">7 天内到期</div>
+              <div class="value">4,800</div>
+              <div class="hint"><span class="delta">体验包批次</span> 需提醒</div>
+            </div>
+          </div>
+
+          <div style="height:16px"></div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h2>推荐计费闭环</h2>
+              <span class="tag blue">账户为主账本</span>
+            </div>
+            <div class="panel-body">
+              <div class="flow">
+                <div class="flow-step"><strong>商品 / 发放</strong><span>套餐购买或后台发放生成积分批次</span></div>
+                <div class="flow-step"><strong>租户积分池</strong><span>统一承接付费、赠送和补偿额度</span></div>
+                <div class="flow-step"><strong>成员分配</strong><span>租户管理员设置个人可用额度和上限</span></div>
+                <div class="flow-step"><strong>任务预占</strong><span>提交 AI 任务时先冻结预计积分</span></div>
+                <div class="flow-step"><strong>成功扣费</strong><span>产出成功按当前启用规则扣费</span></div>
+                <div class="flow-step"><strong>流水追溯</strong><span>每笔变动关联任务、订单和操作人</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="height:16px"></div>
+
+          <div class="grid two-col">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>上线优先级</h2>
+                <span class="tag amber">先修 P0</span>
+              </div>
+              <div class="panel-body">
+                <div class="priority-board">
+                  <section class="priority-col">
+                    <header>P0 <span class="tag red">上线前</span></header>
+                    <div class="task-list">
+                      <div class="task-card"><strong>统一体验包口径</strong><p>99 元 990 积分与免费 1200 积分不能同时作为主体验包。</p></div>
+                      <div class="task-card"><strong>修正角色入口</strong><p>平台管理员不应进入租户订单后才看到权限错误。</p></div>
+                      <div class="task-card"><strong>账户页成账本</strong><p>补齐租户池、个人额度、冻结、到期批次。</p></div>
+                    </div>
+                  </section>
+                  <section class="priority-col">
+                    <header>P1 <span class="tag blue">增强</span></header>
+                    <div class="task-list">
+                      <div class="task-card"><strong>计费发布预览</strong><p>改价前展示影响范围、模拟扣费和版本审计。</p></div>
+                      <div class="task-card"><strong>支付状态页</strong><p>未接入时展示接入状态，不暴露 Not Found。</p></div>
+                    </div>
+                  </section>
+                  <section class="priority-col">
+                    <header>P2 <span class="tag green">体验</span></header>
+                    <div class="task-list">
+                      <div class="task-card"><strong>移动端导航</strong><p>小屏用抽屉或横向快捷入口，避免侧栏挤压内容。</p></div>
+                      <div class="task-card"><strong>流水追溯</strong><p>每笔流水关联任务、订单和成员。</p></div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <h2>当前口径冲突</h2>
+                <button class="btn" data-page-target="products"><i data-lucide="package-search"></i>查看商品方案</button>
+              </div>
+              <div class="panel-body">
+                <div class="notice warn">
+                  <i data-lucide="triangle-alert"></i>
+                  <div>本地计费方案建议“99 元开品体验包，990 积分，约 2 个产品标准开品流程，30 天有效”。当前线上页面为“免费体验积分包，1200 积分，15 天有效”。上线前需要确认唯一主口径。</div>
+                </div>
+                <div style="height:12px"></div>
+                <div class="table-wrap">
+                  <table style="min-width:520px">
+                    <thead><tr><th>项目</th><th>当前页面</th><th>建议口径</th></tr></thead>
+                    <tbody>
+                      <tr><td><strong>体验包</strong></td><td>免费 1200 积分 / 15 天</td><td>99 元 990 积分 / 30 天</td></tr>
+                      <tr><td><strong>服务套餐</strong></td><td>只说明含积分和模块</td><td>拆清“模块权益”和“积分额度”</td></tr>
+                      <tr><td><strong>积分加购</strong></td><td>基础、专业、企业积分包</td><td>明确不改变模块权限，仅增加额度</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="products" data-title="AI 积分中心 / 套餐管理">
+          <div class="purchase-page">
+            <div class="purchase-toolbar">
+              <div class="purchase-toolbar-item">
+                <span>当前租户余额</span>
+                <strong>128,600 积分</strong>
+              </div>
+              <div class="purchase-toolbar-item">
+                <span>本月消耗</span>
+                <strong>26,340 积分</strong>
+              </div>
+              <button class="btn" data-page-target="orders"><i data-lucide="file-text"></i>查看订单</button>
+              <button class="btn primary" data-page-target="account"><i data-lucide="wallet"></i>查看账户</button>
+            </div>
+
+            <section class="purchase-section">
+              <div class="purchase-section-head">
+                <div>
+                  <h2>套餐</h2>
+                  <p>开品体验包与年度服务套餐</p>
+                </div>
+              </div>
+
+              <div class="plan-layout">
+                <article class="buy-card featured">
+                  <div class="buy-card-head">
+                    <div>
+                      <h3>99 元开品体验包</h3>
+                      <p class="desc">约 2 个产品标准开品体验。</p>
+                    </div>
+                    <span class="tag amber">主推</span>
+                  </div>
+                  <div class="buy-price">￥99.00 <small>/ 30 天</small></div>
+                  <div class="buy-meta-grid">
+                    <div class="buy-meta"><span>积分额度</span><strong>990</strong></div>
+                    <div class="buy-meta"><span>有效期</span><strong>30 天</strong></div>
+                    <div class="buy-meta"><span>购买限制</span><strong>新客一次</strong></div>
+                  </div>
+                  <ul class="buy-feature-list">
+                    <li><i data-lucide="check-circle-2"></i><span>AI 选品分析</span></li>
+                    <li><i data-lucide="check-circle-2"></i><span>Listing 生成</span></li>
+                    <li><i data-lucide="check-circle-2"></i><span>基础商品图与基础优化</span></li>
+                  </ul>
+                  <div class="buy-actions">
+                    <button class="btn primary" onclick="openPurchase('99 元开品体验包', '99.00', '990', '30 天')"><i data-lucide="shopping-cart"></i>购买</button>
+                  </div>
+                </article>
+
+                <div class="annual-plans">
+                  <article class="buy-card">
+                    <div class="buy-card-head">
+                      <div>
+                        <h3>AI 开品提效包</h3>
+                        <p class="desc">开品与内容提效。</p>
+                      </div>
+                      <span class="tag violet">入门</span>
+                    </div>
+                    <div class="buy-price">￥3,980.00 <small>/ 1 年</small></div>
+                    <ul class="plan-mini-list">
+                      <li><span>积分</span><strong>80,000</strong></li>
+                      <li><span>权益</span><strong>内容中心、开品中心</strong></li>
+                      <li><span>有效期</span><strong>1 年</strong></li>
+                    </ul>
+                    <div class="buy-actions"><button class="btn primary" onclick="openPurchase('AI 开品提效包', '3980.00', '80,000', '1 年')"><i data-lucide="shopping-cart"></i>购买</button></div>
+                  </article>
+
+                  <article class="buy-card">
+                    <div class="buy-card-head">
+                      <div>
+                        <h3>AI 经营增长包</h3>
+                        <p class="desc">运营与广告增长。</p>
+                      </div>
+                      <span class="tag violet">增长</span>
+                    </div>
+                    <div class="buy-price">￥12,800.00 <small>/ 1 年</small></div>
+                    <ul class="plan-mini-list">
+                      <li><span>积分</span><strong>260,000</strong></li>
+                      <li><span>权益</span><strong>内容、开品、经营、广告</strong></li>
+                      <li><span>有效期</span><strong>1 年</strong></li>
+                    </ul>
+                    <div class="buy-actions"><button class="btn primary" onclick="openPurchase('AI 经营增长包', '12800.00', '260,000', '1 年')"><i data-lucide="shopping-cart"></i>购买</button></div>
+                  </article>
+
+                  <article class="buy-card">
+                    <div class="buy-card-head">
+                      <div>
+                        <h3>AI 全生命周期版</h3>
+                        <p class="desc">开品到经营闭环。</p>
+                      </div>
+                      <span class="tag amber">推荐</span>
+                    </div>
+                    <div class="buy-price">￥19,800.00 <small>/ 1 年</small></div>
+                    <ul class="plan-mini-list">
+                      <li><span>积分</span><strong>500,000</strong></li>
+                      <li><span>权益</span><strong>全部标准模块</strong></li>
+                      <li><span>有效期</span><strong>1 年</strong></li>
+                    </ul>
+                    <div class="buy-actions"><button class="btn primary" onclick="openPurchase('AI 全生命周期版', '19800.00', '500,000', '1 年')"><i data-lucide="shopping-cart"></i>购买</button></div>
+                  </article>
+                </div>
+              </div>
+            </section>
+
+            <section class="purchase-section">
+              <div class="purchase-section-head">
+                <div>
+                  <h2>积分包</h2>
+                  <p>用于补充 AI 积分额度</p>
+                </div>
+              </div>
+
+              <div class="point-plan-row">
+                <article class="buy-card point-card">
+                  <div class="buy-card-head">
+                    <div>
+                      <h3>基础积分包</h3>
+                      <p class="desc">轻量补充额度。</p>
+                    </div>
+                    <span class="tag blue">轻量</span>
+                  </div>
+                  <div class="buy-price">￥499.00 <small>/ 60 天</small></div>
+                  <ul class="plan-mini-list">
+                    <li><span>积分</span><strong>5,500</strong></li>
+                    <li><span>有效期</span><strong>60 天</strong></li>
+                  </ul>
+                  <div class="buy-actions"><button class="btn primary" onclick="openPurchase('基础积分包', '499.00', '5,500', '60 天')"><i data-lucide="shopping-cart"></i>购买</button></div>
+                </article>
+
+                <article class="buy-card point-card">
+                  <div class="buy-card-head">
+                    <div>
+                      <h3>专业积分包</h3>
+                      <p class="desc">高频运营使用。</p>
+                    </div>
+                    <span class="tag amber">高频</span>
+                  </div>
+                  <div class="buy-price">￥1,999.00 <small>/ 180 天</small></div>
+                  <ul class="plan-mini-list">
+                    <li><span>积分</span><strong>23,000</strong></li>
+                    <li><span>有效期</span><strong>180 天</strong></li>
+                  </ul>
+                  <div class="buy-actions"><button class="btn primary" onclick="openPurchase('专业积分包', '1999.00', '23,000', '180 天')"><i data-lucide="shopping-cart"></i>购买</button></div>
+                </article>
+
+                <article class="buy-card point-card">
+                  <div class="buy-card-head">
+                    <div>
+                      <h3>企业积分包</h3>
+                      <p class="desc">多人持续使用。</p>
+                    </div>
+                    <span class="tag violet">团队</span>
+                  </div>
+                  <div class="buy-price">￥5,000.00 <small>/ 365 天</small></div>
+                  <ul class="plan-mini-list">
+                    <li><span>积分</span><strong>60,000</strong></li>
+                    <li><span>有效期</span><strong>365 天</strong></li>
+                  </ul>
+                  <div class="buy-actions"><button class="btn primary" onclick="openPurchase('企业积分包', '5000.00', '60,000', '365 天')"><i data-lucide="shopping-cart"></i>购买</button></div>
+                </article>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" id="orders" data-title="AI 积分中心 / 套餐管理 / 查看订单">
+          <div class="orders-page">
+            <div class="order-summary-grid">
+              <div class="order-summary"><span>全部订单</span><strong>18</strong><small>近 90 天</small></div>
+              <div class="order-summary"><span>待支付</span><strong>2</strong><small>30 分钟内有效</small></div>
+              <div class="order-summary"><span>已入账积分</span><strong>284,990</strong><small>本月累计</small></div>
+              <div class="order-summary"><span>支付金额</span><strong>￥14,898</strong><small>微信支付</small></div>
+            </div>
+
+            <div class="order-filterbar">
+              <div class="filters">
+                <input class="date-range" value="2026-07-01 ~ 2026-07-24" aria-label="订单时间范围">
+                <input class="order-search" placeholder="订单号 / 商品名称" aria-label="搜索订单">
+              </div>
+            </div>
+
+            <div class="order-list">
+              <article class="order-card no-action" data-order-status="已入账">
+                <div class="order-main">
+                  <div class="order-no">ORD202607240018</div>
+                  <div class="order-product">99 元开品体验包</div>
+                  <div class="order-time">2026-07-24 10:18 创建</div>
+                  <span class="tag green">已入账</span>
+                </div>
+                <div class="order-cell"><span>金额</span><strong>￥99.00</strong></div>
+                <div class="order-cell"><span>积分</span><strong>990</strong></div>
+                <div class="order-cell"><span>支付</span><strong>微信支付</strong></div>
+                <div class="order-cell"><span>入账</span><strong>已到账</strong></div>
+              </article>
+
+              <article class="order-card no-action" data-order-status="待支付">
+                <div class="order-main">
+                  <div class="order-no">ORD202607240021</div>
+                  <div class="order-product">专业积分包</div>
+                  <div class="order-time">2026-07-24 09:42 创建</div>
+                  <div class="order-status-line">
+                    <span class="tag amber">待支付</span>
+                    <button class="order-text-action" onclick="openPurchase('专业积分包', '1999.00', '23,000', '180 天', 'ORD202607240021')">继续支付</button>
+                  </div>
+                </div>
+                <div class="order-cell"><span>金额</span><strong>￥1,999.00</strong></div>
+                <div class="order-cell"><span>积分</span><strong>23,000</strong></div>
+                <div class="order-cell"><span>支付</span><strong>微信支付</strong></div>
+                <div class="order-cell"><span>入账</span><strong>未入账</strong></div>
+              </article>
+
+              <article class="order-card no-action" data-order-status="已入账">
+                <div class="order-main">
+                  <div class="order-no">ORD202607230009</div>
+                  <div class="order-product">AI 开品提效包</div>
+                  <div class="order-time">2026-07-23 16:05 创建</div>
+                  <span class="tag green">已入账</span>
+                </div>
+                <div class="order-cell"><span>金额</span><strong>￥3,980.00</strong></div>
+                <div class="order-cell"><span>积分</span><strong>80,000</strong></div>
+                <div class="order-cell"><span>支付</span><strong>微信支付</strong></div>
+                <div class="order-cell"><span>入账</span><strong>已到账</strong></div>
+              </article>
+
+              <article class="order-card no-action" data-order-status="已取消">
+                <div class="order-main">
+                  <div class="order-no">ORD202607220006</div>
+                  <div class="order-product">基础积分包</div>
+                  <div class="order-time">2026-07-22 20:31 创建</div>
+                  <span class="tag red">已取消</span>
+                </div>
+                <div class="order-cell"><span>金额</span><strong>￥499.00</strong></div>
+                <div class="order-cell"><span>积分</span><strong>5,500</strong></div>
+                <div class="order-cell"><span>支付</span><strong>微信支付</strong></div>
+                <div class="order-cell"><span>入账</span><strong>未入账</strong></div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="account" data-title="AI 积分中心 / 积分账户">
+          <section class="account-ledger-card">
+            <div class="account-ledger-head">
+              <div class="account-ledger-title">
+                <div class="account-title-label">积分账户</div>
+                <h1>杭州某跨境科技</h1>
+              </div>
+              <div class="account-ledger-actions">
+                <select class="tenant-select" aria-label="选择租户"><option>杭州某跨境科技</option><option>义乌某家居贸易</option><option>深圳某消费电子</option></select>
+                <button class="btn" data-page-target="products"><i data-lucide="package-plus"></i>购买套餐</button>
+                <button class="btn" data-page-target="usage"><i data-lucide="list"></i>查看流水</button>
+              </div>
+            </div>
+
+            <div class="account-ledger-body">
+              <div class="account-balance-pane">
+                <span class="tag green">生效中</span>
+                <div class="account-balance-label">租户池可用总积分</div>
+                <div class="account-balance-value">128,600<small>积分</small></div>
+                <div class="mini-progress"><span style="width:64%"></span></div>
+              </div>
+
+              <div class="account-status-grid">
+                <div class="account-status-item">
+                  <span>最近到期</span>
+                  <strong>4,800</strong>
+                  <small>2026-07-31 / 7 天内</small>
+                </div>
+                <div class="account-status-item">
+                  <span>本月消耗</span>
+                  <strong>26,340</strong>
+                  <small>图片、Listing、选品</small>
+                </div>
+                <div class="account-status-item">
+                  <span>冻结中</span>
+                  <strong>1,240</strong>
+                  <small>12 笔处理中</small>
+                </div>
+                <div class="account-status-item">
+                  <span>待处理分配</span>
+                  <strong>2</strong>
+                  <small>普通成员申请</small>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="account-workspace">
+            <section class="panel">
+              <div class="panel-head">
+                <h2>成员额度</h2>
+                <div class="panel-actions">
+                  <button class="btn" onclick="openDrawer('batchAllocation')"><i data-lucide="users"></i>批量分配</button>
+                </div>
+              </div>
+              <div class="table-wrap">
+                <table style="min-width:720px">
+                  <thead><tr><th>成员</th><th>可用</th><th>本月已用</th><th>状态</th><th>操作</th></tr></thead>
+                  <tbody>
+                    <tr><td><strong>王运营</strong></td><td>28,000</td><td><button class="table-link" data-page-target="usage">7,820</button></td><td><span class="tag green">正常</span></td><td><button class="table-link" onclick="openDrawer('memberAllocation')">调整</button></td></tr>
+                    <tr><td><strong>李设计</strong></td><td>12,800</td><td><button class="table-link" data-page-target="usage">9,400</button></td><td><span class="tag amber">可用偏低</span></td><td><button class="table-link" onclick="openDrawer('memberAllocation')">调整</button></td></tr>
+                    <tr><td><strong>陈选品</strong></td><td>31,600</td><td><button class="table-link" data-page-target="usage">5,200</button></td><td><span class="tag green">正常</span></td><td><button class="table-link" onclick="openDrawer('memberAllocation')">调整</button></td></tr>
+                    <tr><td><strong>赵广告</strong></td><td>0</td><td><button class="table-link" data-page-target="usage">0</button></td><td><span class="tag red">未分配</span></td><td><button class="table-link" onclick="openDrawer('memberAllocation')">分配</button></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+            </div>
+        </section>
+
+        <section class="page" id="usage" data-title="AI 积分中心 / 积分明细">
+          <div class="usage-page">
+            <div class="usage-summary-grid">
+              <div class="usage-summary-card"><span>当前余额</span><strong>128,600</strong><small>租户池可用积分</small></div>
+              <div class="usage-summary-card"><span>本月入账</span><strong>260,990</strong><small>订单、发放、补偿</small></div>
+              <div class="usage-summary-card"><span>本月消耗</span><strong>26,340</strong><small>已完成任务扣费</small></div>
+              <div class="usage-summary-card"><span>冻结中</span><strong>1,240</strong><small>12 笔任务处理中</small></div>
+            </div>
+
+            <div class="panel">
+              <div class="usage-filterbar">
+              <div class="filters">
+                <input value="2026-07-01 ~ 2026-07-24" aria-label="流水时间范围">
+                <select aria-label="流水类型"><option>全部类型</option><option>入账</option><option>任务扣费</option><option>任务冻结</option><option>冻结释放</option><option>额度分配</option></select>
+                <select aria-label="成员"><option>全部成员</option><option>王运营</option><option>李设计</option><option>陈选品</option><option>系统</option></select>
+                <select aria-label="AI 场景"><option>全部场景</option><option>AI 选品</option><option>AI Listing</option><option>AI 生图</option><option>套餐购买</option></select>
+                <input class="usage-search" placeholder="任务 ID / 订单号 / 成员" aria-label="流水关键字">
+              </div>
+              </div>
+              <div class="table-wrap">
+                <table style="min-width:1040px">
+                <thead><tr><th>时间</th><th>类型</th><th>场景</th><th>关联对象</th><th>成员</th><th class="right">变动</th><th class="right">余额</th><th>操作</th></tr></thead>
+                <tbody>
+                  <tr data-ledger-row><td>2026-07-24 10:24</td><td><span class="tag red">任务扣费</span></td><td>AI 生图</td><td><div class="ledger-object"><strong>商品图生成 4 张</strong><span class="ledger-ref">TASK-IMG-202607241024</span></div></td><td>李设计</td><td class="ledger-change negative">-24</td><td class="right">128,600</td><td><button class="btn" onclick="openDrawer('ledger')"><i data-lucide="panel-right"></i>详情</button></td></tr>
+                  <tr data-ledger-row><td>2026-07-24 10:02</td><td><span class="tag amber">任务冻结</span></td><td>AI Listing</td><td><div class="ledger-object"><strong>Listing 完整生成</strong><span class="ledger-ref">TASK-LST-202607241002</span></div></td><td>王运营</td><td class="ledger-change frozen">-15</td><td class="right">128,624</td><td><button class="btn" onclick="openDrawer('ledger')"><i data-lucide="panel-right"></i>详情</button></td></tr>
+                  <tr data-ledger-row><td>2026-07-24 09:58</td><td><span class="tag green">冻结释放</span></td><td>AI Listing</td><td><div class="ledger-object"><strong>Listing 任务失败</strong><span class="ledger-ref">TASK-LST-202607240958</span></div></td><td>王运营</td><td class="ledger-change positive">+15</td><td class="right">128,639</td><td><button class="btn" onclick="openDrawer('ledger')"><i data-lucide="panel-right"></i>详情</button></td></tr>
+                  <tr data-ledger-row><td>2026-07-23 18:12</td><td><span class="tag green">入账</span></td><td>套餐购买</td><td><div class="ledger-object"><strong>99 元开品体验包</strong><span class="ledger-ref">ORD202607240018</span></div></td><td>系统</td><td class="ledger-change positive">+990</td><td class="right">128,624</td><td><button class="btn" onclick="openDrawer('ledger')"><i data-lucide="panel-right"></i>详情</button></td></tr>
+                  <tr data-ledger-row><td>2026-07-22 15:36</td><td><span class="tag blue">额度分配</span></td><td>成员额度</td><td><div class="ledger-object"><strong>分配给赵广告</strong><span class="ledger-ref">ALLOC-202607220036</span></div></td><td>管理员</td><td class="ledger-change negative">-5,000</td><td class="right">127,634</td><td><button class="btn" onclick="openDrawer('ledger')"><i data-lucide="panel-right"></i>详情</button></td></tr>
+                </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="catalog" data-title="系统运维 / 计费设置">
+          <div class="config-shell">
+            <div class="config-menu" data-tab-group="catalog">
+              <button class="active" data-tab-target="cat-modules"><i data-lucide="boxes"></i>功能模块维护</button>
+              <button data-tab-target="cat-items"><i data-lucide="ruler"></i>计费项维护</button>
+              <button data-tab-target="cat-rules"><i data-lucide="badge-dollar-sign"></i>计价规则</button>
+              <button data-tab-target="cat-products"><i data-lucide="package-check"></i>套餐 / 积分包</button>
+            </div>
+
+            <div class="tab-panel active" id="cat-modules">
+              <div class="panel">
+                <div class="panel-head">
+                  <h2>功能模块维护</h2>
+                  <button class="btn primary" onclick="openDrawer('module')"><i data-lucide="plus"></i>新增模块</button>
+                </div>
+                <div class="table-wrap">
+                  <table style="min-width:880px">
+                    <thead><tr><th>功能模块</th><th>模块编码</th><th>购买后开通能力</th><th>状态</th><th>操作</th></tr></thead>
+                    <tbody>
+                      <tr><td><strong>AI 选品</strong></td><td>SELECTION</td><td>选品分析、专利检测</td><td><span class="tag green">启用</span></td><td><button class="btn" onclick="openDrawer('module')"><i data-lucide="edit-3"></i>编辑</button></td></tr>
+                      <tr><td><strong>AI Listing</strong></td><td>CONTENT</td><td>Listing 生成、Listing 优化</td><td><span class="tag green">启用</span></td><td><button class="btn" onclick="openDrawer('module')"><i data-lucide="edit-3"></i>编辑</button></td></tr>
+                      <tr><td><strong>AI 图片处理</strong></td><td>IMAGE</td><td>生图、精修、批量扩图</td><td><span class="tag green">启用</span></td><td><button class="btn" onclick="openDrawer('module')"><i data-lucide="edit-3"></i>编辑</button></td></tr>
+                      <tr><td><strong>广告增长</strong></td><td>ADS_GROWTH</td><td>素材诊断、增长建议</td><td><span class="tag amber">草稿</span></td><td><button class="btn" onclick="openDrawer('module')"><i data-lucide="edit-3"></i>编辑</button></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-panel" id="cat-items">
+              <div class="panel">
+                <div class="panel-head">
+                  <h2>计费项维护</h2>
+                  <button class="btn primary" onclick="openDrawer('chargeItem')"><i data-lucide="plus"></i>新增计费项</button>
+                </div>
+                <div class="settings-toolbar">
+                  <div class="filters">
+                    <select aria-label="功能模块"><option>全部功能模块</option><option>AI 选品</option><option>AI Listing</option><option>AI 图片处理</option><option>广告增长</option></select>
+                    <select aria-label="计费项状态"><option>全部状态</option><option>启用</option><option>草稿</option><option>停用</option></select>
+                    <input placeholder="搜索计费项 / 编码" aria-label="搜索计费项">
+                  </div>
+                </div>
+                <div class="table-wrap">
+                  <table style="min-width:880px">
+                    <thead><tr><th>计费项</th><th>归属功能模块</th><th>计量单位</th><th>扣费时机</th><th>失败处理</th><th>状态</th><th>操作</th></tr></thead>
+                    <tbody>
+                      <tr><td><div class="rule-name"><strong>图片生成</strong><small>IMAGE_GENERATE</small></div></td><td>AI 图片处理</td><td>张</td><td>成功产出后</td><td>失败不扣费</td><td><span class="tag green">启用</span></td><td><button class="btn" onclick="openDrawer('chargeItem')"><i data-lucide="edit-3"></i>编辑</button></td></tr>
+                      <tr><td><div class="rule-name"><strong>图片精修</strong><small>IMAGE_RETOUCH</small></div></td><td>AI 图片处理</td><td>张</td><td>成功产出后</td><td>失败不扣费</td><td><span class="tag green">启用</span></td><td><button class="btn" onclick="openDrawer('chargeItem')"><i data-lucide="edit-3"></i>编辑</button></td></tr>
+                      <tr><td><div class="rule-name"><strong>选品分析</strong><small>SELECTION_ANALYSIS</small></div></td><td>AI 选品</td><td>次</td><td>报告完成后</td><td>失败释放冻结</td><td><span class="tag green">启用</span></td><td><button class="btn" onclick="openDrawer('chargeItem')"><i data-lucide="edit-3"></i>编辑</button></td></tr>
+                      <tr><td><div class="rule-name"><strong>专利检测</strong><small>PATENT_CHECK</small></div></td><td>AI 选品</td><td>次</td><td>报告完成后</td><td>失败返还</td><td><span class="tag green">启用</span></td><td><button class="btn" onclick="openDrawer('chargeItem')"><i data-lucide="edit-3"></i>编辑</button></td></tr>
+                      <tr><td><div class="rule-name"><strong>Listing 完整生成</strong><small>LISTING_FULL_GENERATE</small></div></td><td>AI Listing</td><td>套</td><td>成功产出后</td><td>失败不扣费</td><td><span class="tag green">启用</span></td><td><button class="btn" onclick="openDrawer('chargeItem')"><i data-lucide="edit-3"></i>编辑</button></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-panel" id="cat-rules">
+              <div class="panel">
+                <div class="panel-head">
+                  <h2>计价规则</h2>
+                  <button class="btn primary" onclick="openDrawer('priceRule')"><i data-lucide="plus"></i>新增规则</button>
+                </div>
+                <div class="settings-toolbar">
+                  <div class="filters">
+                    <select aria-label="规则模块"><option>全部功能模块</option><option>AI 图片处理</option><option>AI 选品</option><option>AI Listing</option></select>
+                    <select aria-label="规则版本"><option>当前生效</option><option>草稿</option><option>历史版本</option></select>
+                    <input placeholder="搜索计费项 / 版本" aria-label="搜索计价规则">
+                  </div>
+                </div>
+                <div class="table-wrap">
+                  <table style="min-width:880px">
+                    <thead><tr><th>计费项</th><th>功能模块</th><th>计价规则</th><th>版本</th><th>生效时间</th><th>状态</th><th>操作</th></tr></thead>
+                    <tbody>
+                      <tr><td><div class="rule-name"><strong>图片生成</strong><small>IMAGE_GENERATE</small></div></td><td>AI 图片处理</td><td><span class="rule-price">8</span> 积分 / 张</td><td>V4</td><td>2026-07-20 00:00</td><td><span class="tag green">已发布</span></td><td><button class="btn" onclick="openDrawer('priceRule')"><i data-lucide="edit-3"></i>编辑</button></td></tr>
+                      <tr><td><div class="rule-name"><strong>图片精修</strong><small>IMAGE_RETOUCH</small></div></td><td>AI 图片处理</td><td><span class="rule-price">15</span> 积分 / 张</td><td>V2</td><td>2026-07-20 00:00</td><td><span class="tag green">已发布</span></td><td><button class="btn" onclick="openDrawer('priceRule')"><i data-lucide="edit-3"></i>编辑</button></td></tr>
+                      <tr><td><div class="rule-name"><strong>选品分析</strong><small>SELECTION_ANALYSIS</small></div></td><td>AI 选品</td><td><span class="rule-price">120</span> 积分 / 次</td><td>V3</td><td>2026-07-20 00:00</td><td><span class="tag green">已发布</span></td><td><button class="btn" onclick="openDrawer('priceRule')"><i data-lucide="edit-3"></i>编辑</button></td></tr>
+                      <tr><td><div class="rule-name"><strong>专利检测</strong><small>PATENT_CHECK</small></div></td><td>AI 选品</td><td><span class="rule-price">80</span> 积分 / 次</td><td>V1</td><td>2026-07-25 00:00</td><td><span class="tag amber">草稿</span></td><td><button class="btn" onclick="openDrawer('publish')"><i data-lucide="scan-eye"></i>预览</button></td></tr>
+                      <tr><td><div class="rule-name"><strong>Listing 完整生成</strong><small>LISTING_FULL_GENERATE</small></div></td><td>AI Listing</td><td><span class="rule-price">40</span> 积分 / 套</td><td>V2</td><td>2026-07-20 00:00</td><td><span class="tag green">已发布</span></td><td><button class="btn" onclick="openDrawer('priceRule')"><i data-lucide="edit-3"></i>编辑</button></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-panel" id="cat-products">
+              <div class="panel">
+                <div class="panel-head">
+                  <h2>套餐 / 积分包配置</h2>
+                  <button class="btn primary" onclick="openDrawer('productConfig')"><i data-lucide="plus"></i>新增商品</button>
+                </div>
+                <div class="settings-card-grid">
+                  <article class="settings-product-card">
+                    <header><div><h3>99 元开品体验包</h3><p class="subtext" style="margin-top:4px">套餐</p></div><span class="tag amber">待确认</span></header>
+                    <div class="price">￥99</div>
+                    <div class="settings-product-meta">
+                      <div><span>积分额度</span><strong>990</strong></div>
+                      <div><span>有效期</span><strong>30 天</strong></div>
+                      <div><span>购买限制</span><strong>新客一次</strong></div>
+                      <div><span>前台标签</span><strong>主推</strong></div>
+                    </div>
+                    <div class="package-module-list"><span class="mini-label">AI 选品</span><span class="mini-label">AI 图片处理</span></div>
+                    <button class="btn" onclick="openDrawer('productConfig')"><i data-lucide="edit-3"></i>配置商品</button>
+                  </article>
+                  <article class="settings-product-card">
+                    <header><div><h3>AI 开品提效包</h3><p class="subtext" style="margin-top:4px">套餐</p></div><span class="tag green">已发布</span></header>
+                    <div class="price">￥3,980</div>
+                    <div class="settings-product-meta">
+                      <div><span>积分额度</span><strong>80,000</strong></div>
+                      <div><span>有效期</span><strong>1 年</strong></div>
+                      <div><span>购买限制</span><strong>不限次数</strong></div>
+                      <div><span>前台标签</span><strong>入门</strong></div>
+                    </div>
+                    <div class="package-module-list"><span class="mini-label">AI 选品</span><span class="mini-label">AI Listing</span><span class="mini-label">AI 图片处理</span></div>
+                    <button class="btn" onclick="openDrawer('productConfig')"><i data-lucide="edit-3"></i>配置商品</button>
+                  </article>
+                  <article class="settings-product-card">
+                    <header><div><h3>企业积分包</h3><p class="subtext" style="margin-top:4px">积分包</p></div><span class="tag green">已发布</span></header>
+                    <div class="price">￥5,000</div>
+                    <div class="settings-product-meta">
+                      <div><span>积分额度</span><strong>60,000</strong></div>
+                      <div><span>有效期</span><strong>365 天</strong></div>
+                      <div><span>开通模块</span><strong>继承账户</strong></div>
+                      <div><span>前台标签</span><strong>团队</strong></div>
+                    </div>
+                    <div class="package-module-list"><span class="mini-label">不额外开通功能模块</span></div>
+                    <button class="btn" onclick="openDrawer('productConfig')"><i data-lucide="edit-3"></i>配置商品</button>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="manual" data-title="系统运维 / 人工发放">
+          <div class="page-head">
+            <div>
+              <h1>人工发放</h1>
+              <p class="subtext">人工发放要从普通表单升级成带预览和审计的高风险操作。金额面向运营展示“元”，系统内部再转换为分。</p>
+            </div>
+            <div class="head-actions">
+              <button class="btn"><i data-lucide="history"></i>发放记录</button>
+              <button class="btn primary" onclick="openDrawer('grantConfirm')"><i data-lucide="send"></i>提交发放</button>
+            </div>
+          </div>
+
+          <div class="grid two-col">
+            <div class="panel">
+              <div class="panel-head"><h2>发放信息</h2><span class="tag red">高风险动作</span></div>
+              <div class="panel-body">
+                <div class="form-grid">
+                  <div class="field"><label>发放对象</label><select><option>租户：杭州某跨境科技</option><option>成员：李设计</option></select></div>
+                  <div class="field"><label>发放类型</label><select><option>合同套餐</option><option>售前体验</option><option>售后补偿</option><option>运营活动</option><option>测试</option></select></div>
+                  <div class="field"><label>商品 / 批次口径</label><select><option>AI 经营增长包</option><option>99 元开品体验包</option><option>售后补偿积分</option></select></div>
+                  <div class="field"><label>发放积分</label><input value="260000"></div>
+                  <div class="field"><label>实收金额（元）</label><input value="12800"></div>
+                  <div class="field"><label>有效期</label><input value="2026-07-24 ~ 2027-07-23"></div>
+                  <div class="field span-2"><label>发放原因</label><textarea>合同已回款，对应 AI 经营增长包年度权益。</textarea></div>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>发放预览</h2><span class="tag amber">需二次确认</span></div>
+              <div class="panel-body account-stack">
+                <div class="review-box">
+                  <div class="review-line"><span>影响账户</span><strong>杭州某跨境科技 / 租户池</strong></div>
+                  <div class="review-line"><span>新增积分批次</span><strong>260,000 积分</strong></div>
+                  <div class="review-line"><span>生成流水</span><strong>入账 +260,000</strong></div>
+                  <div class="review-line"><span>订单关联</span><strong>后台发放单 GRANT202607240012</strong></div>
+                </div>
+                <div class="notice warn"><i data-lucide="triangle-alert"></i><div>超过 100,000 积分或有效期超过 365 天时，建议自动进入审批或要求双人复核。</div></div>
+                <button class="btn primary" onclick="openDrawer('grantConfirm')"><i data-lucide="shield-check"></i>打开确认抽屉</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="payments" data-title="系统运维 / 支付管理">
+          <div class="page-head">
+            <div>
+              <h1>支付管理</h1>
+              <p class="subtext">支付链路未完全接入时，页面应展示接入状态和异常处理入口，避免把接口 404 直接暴露给运营。</p>
+            </div>
+            <div class="head-actions">
+              <button class="btn"><i data-lucide="refresh-cw"></i>同步状态</button>
+              <button class="btn primary"><i data-lucide="download"></i>下载对账单</button>
+            </div>
+          </div>
+
+          <div class="grid three-col">
+            <div class="card metric"><div class="label">今日支付成功</div><div class="value">￥2,098</div><div class="hint">2 笔在线支付</div></div>
+            <div class="card metric warn"><div class="label">待认款转账</div><div class="value">￥12,800</div><div class="hint">1 笔对公转账</div></div>
+            <div class="card metric danger"><div class="label">异常订单</div><div class="value">1</div><div class="hint">支付成功未入账</div></div>
+          </div>
+
+          <div style="height:16px"></div>
+
+          <div class="grid two-col">
+            <div class="panel">
+              <div class="panel-head"><h2>渠道接入状态</h2><span class="tag blue">运营可读</span></div>
+              <div class="panel-body status-list">
+                <div class="status-item"><div class="status-icon"><i data-lucide="check"></i></div><div><strong>微信支付</strong><p class="subtext" style="margin:2px 0 0">回调正常，支持自动入账。</p></div><span class="tag green">已接入</span></div>
+                <div class="status-item"><div class="status-icon"><i data-lucide="check"></i></div><div><strong>支付宝</strong><p class="subtext" style="margin:2px 0 0">回调正常，支持自动入账。</p></div><span class="tag green">已接入</span></div>
+                <div class="status-item"><div class="status-icon"><i data-lucide="clock"></i></div><div><strong>对公转账</strong><p class="subtext" style="margin:2px 0 0">需要人工认款和发放。</p></div><span class="tag amber">人工处理</span></div>
+                <div class="status-item"><div class="status-icon"><i data-lucide="plug-zap"></i></div><div><strong>发票能力</strong><p class="subtext" style="margin:2px 0 0">待接入，不影响当前积分入账。</p></div><span class="tag red">未接入</span></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>异常处理</h2><button class="btn"><i data-lucide="plus"></i>新建工单</button></div>
+              <div class="table-wrap">
+                <table style="min-width:560px">
+                  <thead><tr><th>问题</th><th>订单</th><th>状态</th><th>操作</th></tr></thead>
+                  <tbody>
+                    <tr><td><strong>支付成功未入账</strong></td><td>ORD202607240019</td><td><span class="tag red">待处理</span></td><td><button class="btn" onclick="openDrawer('paymentIssue')"><i data-lucide="wrench"></i>处理</button></td></tr>
+                    <tr><td><strong>对公转账待认款</strong></td><td>ORD202607220043</td><td><span class="tag amber">待确认</span></td><td><button class="btn" onclick="openDrawer('paymentIssue')"><i data-lucide="panel-right-open"></i>详情</button></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="roles" data-title="计费评审 / 角色权限">
+          <div class="page-head">
+            <div>
+              <h1>角色权限</h1>
+              <p class="subtext">当前问题不是单个按钮，而是菜单可见性、接口权限和页面空态没有统一。建议按角色先收口，再补充跨租户查询能力。</p>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><h2>推荐权限矩阵</h2><span class="tag blue">导航与接口一致</span></div>
+            <div class="panel-body">
+              <div class="matrix">
+                <div class="head">功能</div><div class="head">平台管理员</div><div class="head">租户管理员</div><div class="head">普通成员</div>
+                <div>计费设置</div><div class="ok">可管理</div><div class="no">不可见</div><div class="no">不可见</div>
+                <div>人工发放</div><div class="ok">可操作</div><div class="no">不可见</div><div class="no">不可见</div>
+                <div>支付管理</div><div class="ok">全局管理</div><div class="warn-text">本租户只读</div><div class="no">不可见</div>
+                <div>套餐管理</div><div class="warn-text">代客查看</div><div class="ok">购买 / 查看订单</div><div class="warn-text">申请购买</div>
+                <div>积分账户</div><div class="ok">按租户查询</div><div class="ok">管理租户池</div><div class="warn-text">个人只读</div>
+                <div>积分明细</div><div class="ok">全局查询</div><div class="ok">本租户查询</div><div class="warn-text">个人查询</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="height:16px"></div>
+
+          <div class="grid two-col">
+            <div class="panel">
+              <div class="panel-head"><h2>需要调整的交互</h2></div>
+              <div class="panel-body account-stack">
+                <div class="account-row"><div><strong>菜单隐藏优先于页面报错</strong><p>无权限页面不应通过入口暴露，必要时用“无权限但可申请”的空态。</p></div><span class="tag red">P0</span></div>
+                <div class="account-row"><div><strong>平台管理员增加租户筛选</strong><p>查看客户侧页面时必须明确当前代看的租户，避免误操作。</p></div><span class="tag red">P0</span></div>
+                <div class="account-row"><div><strong>普通成员 CTA 改成申请</strong><p>购买、发票、合同等动作交给租户管理员，成员侧保留申请入口。</p></div><span class="tag blue">P1</span></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>推荐导航命名</h2></div>
+              <div class="panel-body">
+                <div class="table-wrap">
+                  <table style="min-width:540px">
+                    <thead><tr><th>当前</th><th>建议</th><th>原因</th></tr></thead>
+                    <tbody>
+                      <tr><td>AI 积分中心</td><td><strong>计费与积分</strong></td><td>覆盖套餐、订单、账户、明细，不只是积分</td></tr>
+                      <tr><td>积分账户</td><td><strong>积分账户</strong></td><td>面向客户侧余额、成员额度和流水入口</td></tr>
+                      <tr><td>计费配置</td><td><strong>计费设置</strong></td><td>更贴近后台运营语言</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="drawer-mask" id="drawerMask" onclick="closeDrawer()"></div>
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <header>
+      <h2 id="drawerTitle">详情</h2>
+      <button class="icon-btn" onclick="closeDrawer()" title="关闭"><i data-lucide="x"></i></button>
+    </header>
+    <div class="drawer-body" id="drawerBody"></div>
+    <footer>
+      <button class="btn" id="drawerCancel" onclick="closeDrawer()">取消</button>
+      <button class="btn primary" id="drawerConfirm" onclick="closeDrawer()"><i data-lucide="check"></i><span id="drawerConfirmText">确认</span></button>
+    </footer>
+  </aside>
+
+  <script>
+    const isEmbedMode = new URLSearchParams(window.location.search).get('embed') === '1';
+    if (isEmbedMode) document.body.classList.add('embed');
+
+    const pageTitles = {};
+    document.querySelectorAll('.page').forEach(page => {
+      pageTitles[page.id] = page.dataset.title || page.id;
+    });
+
+    function activatePage(pageId, options = {}) {
+      if (!document.getElementById(pageId)) return;
+      document.querySelectorAll('.page').forEach(page => page.classList.toggle('active', page.id === pageId));
+      document.querySelectorAll('[data-page-target]').forEach(btn => btn.classList.toggle('active', btn.dataset.pageTarget === pageId));
+      document.getElementById('crumb').textContent = pageTitles[pageId];
+      if (!options.skipHash && window.location.hash.replace(/^#/, '') !== pageId) {
+        history.replaceState(null, '', `${window.location.pathname}${window.location.search}#${pageId}`);
+      }
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      refreshIcons();
+    }
+
+    document.querySelectorAll('[data-page-target]').forEach(btn => {
+      btn.addEventListener('click', () => activatePage(btn.dataset.pageTarget));
+    });
+
+    document.querySelectorAll('[data-tab-target]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const group = btn.closest('[data-tab-group]')?.dataset.tabGroup;
+        if (!group) return;
+        document.querySelectorAll(`[data-tab-group="${group}"] [data-tab-target]`).forEach(item => item.classList.toggle('active', item === btn));
+        const panelId = btn.dataset.tabTarget;
+        const panel = document.getElementById(panelId);
+        const scope = panel?.parentElement;
+        if (scope) {
+          scope.querySelectorAll('.tab-panel').forEach(item => item.classList.toggle('active', item.id === panelId));
+        }
+        refreshIcons();
+      });
+    });
+
+    document.querySelectorAll('[data-role]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-role]').forEach(item => item.classList.toggle('active', item === btn));
+        const role = btn.dataset.role;
+        const text = role === 'platform' ? '平台管理员：代客查看，不直接购买' : role === 'tenant' ? '租户管理员：可购买、分配、看本租户订单' : '普通成员：只看个人额度，可申请购买';
+        openDrawer('role', text);
+      });
+    });
+
+    const orderSearchInput = document.querySelector('#orders .order-search');
+    if (orderSearchInput) {
+      orderSearchInput.addEventListener('input', () => {
+        const keyword = orderSearchInput.value.trim().toLowerCase();
+        document.querySelectorAll('#orders .order-card').forEach(card => {
+          card.style.display = card.innerText.toLowerCase().includes(keyword) ? '' : 'none';
+        });
+      });
+    }
+
+    const usageSearchInput = document.querySelector('#usage .usage-search');
+    if (usageSearchInput) {
+      usageSearchInput.addEventListener('input', () => {
+        const keyword = usageSearchInput.value.trim().toLowerCase();
+        document.querySelectorAll('#usage [data-ledger-row]').forEach(row => {
+          row.style.display = row.innerText.toLowerCase().includes(keyword) ? '' : 'none';
+        });
+      });
+    }
+
+    function getSelectedMemberItems() {
+      return Array.from(document.querySelectorAll('#selectedMembers .selected-member')).map(item => ({
+        name: item.dataset.member,
+        count: Number(item.dataset.count || '1') || 1
+      }));
+    }
+
+    function getSelectedMemberNames() {
+      return getSelectedMemberItems().map(item => item.name);
+    }
+
+    function syncSelectedMembers() {
+      const items = getSelectedMemberItems();
+      const names = items.map(item => item.name);
+      const memberCount = items.reduce((sum, item) => sum + item.count, 0);
+      const amount = Number((document.getElementById('batchFixedAmount')?.value || '0').replace(/,/g, '')) || 0;
+      const total = memberCount * amount;
+      const balanceAfter = Math.max(128600 - total, 0);
+      const countText = `已选 ${memberCount} 人`;
+      const nameText = names.length ? names.join('、') : '未选择成员';
+
+      const selectedMemberCount = document.getElementById('selectedMemberCount');
+      const selectedMemberNames = document.getElementById('selectedMemberNames');
+      const coveredMemberCount = document.getElementById('coveredMemberCount');
+      const batchAllocationTotal = document.getElementById('batchAllocationTotal');
+      const batchBalanceAfter = document.getElementById('batchBalanceAfter');
+
+      if (selectedMemberCount) selectedMemberCount.textContent = countText;
+      if (selectedMemberNames) selectedMemberNames.textContent = nameText;
+      if (coveredMemberCount) coveredMemberCount.textContent = `${memberCount} 人`;
+      if (batchAllocationTotal) batchAllocationTotal.textContent = total.toLocaleString('zh-CN');
+      if (batchBalanceAfter) batchBalanceAfter.textContent = balanceAfter.toLocaleString('zh-CN');
+    }
+
+    function setMemberAddButtons(disabled, text) {
+      document.querySelectorAll('.member-add').forEach(addButton => {
+        addButton.disabled = disabled;
+        addButton.textContent = text;
+      });
+    }
+
+    function resetScopeControls() {
+      const memberScopeSelect = document.getElementById('memberScopeSelect');
+      if (memberScopeSelect) memberScopeSelect.value = '';
+      setMemberAddButtons(false, '添加');
+    }
+
+    function addAudienceChip(name, count = 1, type = '') {
+      const selectedMembers = document.getElementById('selectedMembers');
+      if (!selectedMembers) return;
+
+      const chip = document.createElement('span');
+      chip.className = `selected-member${type ? ` ${type}` : ''}`;
+      chip.dataset.member = name;
+      chip.dataset.count = String(count);
+      chip.append(document.createTextNode(name));
+
+      const removeButton = document.createElement('button');
+      removeButton.type = 'button';
+      removeButton.setAttribute('aria-label', `移除${name}`);
+      removeButton.onclick = () => removeSelectedMember(removeButton);
+      const icon = document.createElement('i');
+      icon.setAttribute('data-lucide', 'x');
+      removeButton.appendChild(icon);
+      chip.appendChild(removeButton);
+      selectedMembers.appendChild(chip);
+    }
+
+    function setAggregateAudience(name, count, type) {
+      const selectedMembers = document.getElementById('selectedMembers');
+      if (!selectedMembers) return;
+      selectedMembers.innerHTML = '';
+      addAudienceChip(name, count, type);
+      setMemberAddButtons(true, type === 'company' ? '已包含' : '按范围');
+      syncSelectedMembers();
+      refreshIcons();
+    }
+
+    function removeSelectedMember(button) {
+      const chip = button.closest('.selected-member');
+      const member = chip?.dataset.member;
+      chip?.remove();
+      document.querySelectorAll('.member-add').forEach(addButton => {
+        if (addButton.dataset.member === member) {
+          addButton.disabled = false;
+          addButton.textContent = '添加';
+        }
+      });
+      if (chip?.classList.contains('company') || chip?.classList.contains('department')) {
+        resetScopeControls();
+      }
+      syncSelectedMembers();
+    }
+
+    function addSelectedMember(name) {
+      const selectedMembers = document.getElementById('selectedMembers');
+      if (!selectedMembers || getSelectedMemberNames().includes(name)) return;
+      if (selectedMembers.querySelector('.selected-member.company, .selected-member.department')) {
+        selectedMembers.innerHTML = '';
+      }
+      resetScopeControls();
+      addAudienceChip(name);
+
+      document.querySelectorAll('.member-add').forEach(addButton => {
+        if (addButton.dataset.member === name) {
+          addButton.disabled = true;
+          addButton.textContent = '已添加';
+        }
+      });
+      syncSelectedMembers();
+      refreshIcons();
+    }
+
+    function selectMemberScope(select) {
+      if (!select.value) return;
+      const option = select.selectedOptions[0];
+      const count = Number(option.dataset.count || '1') || 1;
+      const type = option.dataset.type || 'department';
+      setAggregateAudience(option.textContent, count, type);
+    }
+
+    function renderQrMatrix(seedText) {
+      const seed = Array.from(seedText).reduce((sum, char) => sum + char.charCodeAt(0), 0);
+      const cells = [];
+      for (let y = 0; y < 21; y += 1) {
+        for (let x = 0; x < 21; x += 1) {
+          const finder =
+            (x < 7 && y < 7 && (x === 0 || x === 6 || y === 0 || y === 6 || (x >= 2 && x <= 4 && y >= 2 && y <= 4))) ||
+            (x > 13 && y < 7 && (x === 14 || x === 20 || y === 0 || y === 6 || (x >= 16 && x <= 18 && y >= 2 && y <= 4))) ||
+            (x < 7 && y > 13 && (x === 0 || x === 6 || y === 14 || y === 20 || (x >= 2 && x <= 4 && y >= 16 && y <= 18)));
+          const data = ((x * 11 + y * 7 + seed) % 5 === 0) || ((x + y + seed) % 9 === 0);
+          cells.push(`<span class="${finder || data ? 'dark' : ''}"></span>`);
+        }
+      }
+      return cells.join('');
+    }
+
+    function openPurchase(name, amount, points, validity, orderNo = 'ORD202607240018') {
+      setDrawerContent({
+        title: '微信支付',
+        cancelText: '关闭',
+        confirmText: '我已支付',
+        body: `
+          <div class="review-box">
+            <div class="review-line"><span>商品</span><strong>${name}</strong></div>
+            <div class="review-line"><span>售价</span><strong>￥${amount}</strong></div>
+            <div class="review-line"><span>积分</span><strong>${points} 积分</strong></div>
+            <div class="review-line"><span>有效期</span><strong>${validity}</strong></div>
+            <div class="review-line"><span>支付方式</span><strong>微信支付</strong></div>
+          </div>
+          <div class="pay-card">
+            <div class="wechat-badge"><i data-lucide="scan-line"></i>微信支付</div>
+            <div class="qr-matrix" aria-label="微信支付二维码">${renderQrMatrix(name + amount)}</div>
+            <div class="pay-amount">￥${amount}</div>
+            <div class="pay-meta">订单号 ${orderNo}</div>
+          </div>
+        `
+      });
+    }
+
+    const drawerTemplates = {
+      purchase: {
+        title: '微信支付',
+        confirmText: '我已支付',
+        cancelText: '关闭',
+        body: `
+          <div class="review-box">
+            <div class="review-line"><span>商品</span><strong>99 元开品体验包</strong></div>
+            <div class="review-line"><span>售价</span><strong>￥99.00</strong></div>
+            <div class="review-line"><span>积分</span><strong>990 积分</strong></div>
+            <div class="review-line"><span>有效期</span><strong>30 天</strong></div>
+            <div class="review-line"><span>入账账户</span><strong>杭州某跨境科技 / 租户池</strong></div>
+          </div>
+          <div class="pay-card">
+            <div class="wechat-badge"><i data-lucide="scan-line"></i>微信支付</div>
+            <div class="qr-matrix" aria-label="微信支付二维码">${renderQrMatrix('99 元开品体验包')}</div>
+            <div class="pay-amount">￥99.00</div>
+            <div class="pay-meta">订单号 ORD202607240018</div>
+          </div>
+        `
+      },
+      packageDetail: {
+        title: '权益明细',
+        body: `
+          <div class="review-box">
+            <div class="review-line"><span>标准开品</span><strong>2 个产品</strong></div>
+            <div class="review-line"><span>AI 选品分析</span><strong>2 次</strong></div>
+            <div class="review-line"><span>Listing 生成</span><strong>2 套</strong></div>
+            <div class="review-line"><span>基础商品图</span><strong>2 套</strong></div>
+            <div class="review-line"><span>基础优化</span><strong>2 次</strong></div>
+          </div>
+          <div class="notice warn"><i data-lucide="shield-alert"></i><div>专利检测、高风险图和多轮精修不打包承诺，按实际扣费项目消耗积分。</div></div>
+        `
+      },
+      batchAllocation: {
+        title: '批量分配额度',
+        confirmText: '确认分配',
+        body: `
+          <div class="form-grid">
+            <div class="member-picker span-2">
+              <label>选择范围或成员</label>
+              <div class="member-picker-toolbar">
+                <select id="memberScopeSelect" aria-label="选择范围" onchange="selectMemberScope(this)">
+                  <option value="">选择范围</option>
+                  <option value="company" data-type="company" data-count="24">全公司（24人）</option>
+                  <option value="ops" data-type="department" data-count="8">运营部（8人）</option>
+                  <option value="design" data-type="department" data-count="5">设计部（5人）</option>
+                  <option value="selection" data-type="department" data-count="6">选品部（6人）</option>
+                  <option value="ads" data-type="department" data-count="5">广告部（5人）</option>
+                </select>
+                <input placeholder="搜索成员姓名，添加单个成员" aria-label="搜索成员">
+              </div>
+              <div class="selected-members" id="selectedMembers">
+                <span class="selected-member" data-member="王运营">王运营<button type="button" aria-label="移除王运营" onclick="removeSelectedMember(this)"><i data-lucide="x"></i></button></span>
+                <span class="selected-member" data-member="李设计">李设计<button type="button" aria-label="移除李设计" onclick="removeSelectedMember(this)"><i data-lucide="x"></i></button></span>
+                <span class="selected-member" data-member="陈选品">陈选品<button type="button" aria-label="移除陈选品" onclick="removeSelectedMember(this)"><i data-lucide="x"></i></button></span>
+              </div>
+              <div class="member-candidates">
+                <div class="member-candidate"><span><strong>赵广告</strong><small>部门：广告组 · 当前可用：0</small></span><button class="member-add" type="button" data-member="赵广告" onclick="addSelectedMember('赵广告')">添加</button></div>
+                <div class="member-candidate"><span><strong>钱客服</strong><small>部门：客服组 · 当前可用：6,000</small></span><button class="member-add" type="button" data-member="钱客服" onclick="addSelectedMember('钱客服')">添加</button></div>
+              </div>
+              <div class="member-picker-summary"><span id="selectedMemberCount">已选 3 人</span><span id="selectedMemberNames">王运营、李设计、陈选品</span></div>
+            </div>
+            <div class="field"><label>每人固定额度</label><input id="batchFixedAmount" value="5000" oninput="syncSelectedMembers()"></div>
+            <div class="field"><label>生效时间</label><input value="立即生效"></div>
+            <div class="field span-2"><label>备注</label><textarea>用于本月新品图片与 Listing 任务。</textarea></div>
+          </div>
+          <div class="review-box">
+            <div class="review-line"><span>租户池余额</span><strong>128,600</strong></div>
+            <div class="review-line"><span>覆盖成员</span><strong id="coveredMemberCount">3 人</strong></div>
+            <div class="review-line"><span>本次分配</span><strong id="batchAllocationTotal">15,000</strong></div>
+            <div class="review-line"><span>分配后余额</span><strong id="batchBalanceAfter">113,600</strong></div>
+          </div>
+        `
+      },
+      memberAllocation: {
+        title: '单个成员调整',
+        confirmText: '确认调整',
+        body: `
+          <div class="form-grid">
+            <div class="field"><label>成员</label><select><option>李设计</option><option>王运营</option><option>陈选品</option><option>赵广告</option></select></div>
+            <div class="field"><label>固定额度</label><input value="17800"></div>
+            <div class="field"><label>生效时间</label><input value="立即生效"></div>
+            <div class="field span-2"><label>备注</label><textarea>用于本月新品图片与 Listing 任务。</textarea></div>
+          </div>
+          <div class="review-box">
+            <div class="review-line"><span>当前可用</span><strong>12,800</strong></div>
+            <div class="review-line"><span>设置额度</span><strong>17,800</strong></div>
+            <div class="review-line"><span>生效后可用</span><strong>17,800</strong></div>
+          </div>
+        `
+      },
+      ledger: {
+        title: '流水明细',
+        body: `
+          <div class="review-box">
+            <div class="review-line"><span>时间</span><strong>2026-07-24 10:24</strong></div>
+            <div class="review-line"><span>类型</span><strong>任务扣费</strong></div>
+            <div class="review-line"><span>关联对象</span><strong>TASK-IMG-202607241024</strong></div>
+            <div class="review-line"><span>成员</span><strong>李设计</strong></div>
+            <div class="review-line"><span>变动</span><strong>-24 积分</strong></div>
+            <div class="review-line"><span>余额</span><strong>128,600</strong></div>
+          </div>
+        `
+      },
+      module: {
+        title: '功能模块维护',
+        body: `
+          <div class="form-grid">
+            <div class="field"><label>模块名称</label><input value="AI 图片处理"></div>
+            <div class="field"><label>模块编码</label><input value="IMAGE"></div>
+            <div class="field"><label>状态</label><select><option>启用</option><option>草稿</option><option>停用</option></select></div>
+            <div class="field span-2"><label>备注</label><textarea>用于维护购买套餐后可开通的功能模块。</textarea></div>
+          </div>
+        `
+      },
+      chargeItem: {
+        title: '计费项维护',
+        body: `
+          <div class="form-grid">
+            <div class="field"><label>计费项名称</label><input value="图片精修"></div>
+            <div class="field"><label>计费项编码</label><input value="IMAGE_RETOUCH"></div>
+            <div class="field"><label>归属功能模块</label><select><option>AI 图片处理</option><option>AI 选品</option><option>AI Listing</option><option>广告增长</option></select></div>
+            <div class="field"><label>计量单位</label><input value="张"></div>
+            <div class="field"><label>扣费时机</label><select><option>成功产出后</option><option>提交时冻结</option><option>报告完成后</option></select></div>
+            <div class="field"><label>失败处理</label><select><option>失败不扣费</option><option>失败释放冻结</option><option>失败返还</option></select></div>
+            <div class="field span-2"><label>备注</label><textarea>用于记录该计费项的配置说明。</textarea></div>
+          </div>
+        `
+      },
+      priceRule: {
+        title: '计价规则',
+        body: `
+          <div class="form-grid">
+            <div class="field"><label>计费项</label><select><option>图片生成</option><option>图片精修</option><option>选品分析</option><option>专利检测</option><option>Listing 完整生成</option></select></div>
+            <div class="field"><label>功能模块</label><input value="AI 图片处理" disabled></div>
+            <div class="field"><label>积分单价</label><input value="8"></div>
+            <div class="field"><label>计价单位</label><input value="张"></div>
+            <div class="field"><label>生效时间</label><input value="2026-07-25 00:00"></div>
+            <div class="field"><label>版本</label><input value="V4" disabled></div>
+            <div class="field span-2"><label>变更原因</label><textarea>图片生成模型成本更新。</textarea></div>
+          </div>
+        `
+      },
+      productConfig: {
+        title: '套餐 / 积分包配置',
+        body: `
+          <div class="form-grid">
+            <div class="field"><label>商品名称</label><input value="99 元开品体验包"></div>
+            <div class="field"><label>商品类型</label><select><option>套餐</option><option>积分包</option></select></div>
+            <div class="field"><label>售价</label><input value="99"></div>
+            <div class="field"><label>积分额度</label><input value="990"></div>
+            <div class="field"><label>有效期</label><input value="30 天"></div>
+            <div class="field"><label>购买限制</label><input value="新客一次"></div>
+            <div class="field span-2"><label>包含功能模块</label><select><option>AI 选品</option><option>AI Listing</option><option>AI 图片处理</option><option>广告增长</option></select></div>
+            <div class="field span-2"><label>权益说明</label><textarea>开通选品分析和图片处理能力，使用时按计费项消耗积分。</textarea></div>
+          </div>
+        `
+      },
+      publish: {
+        title: '发布预览确认',
+        body: `
+          <div class="review-box">
+            <div class="review-line"><span>发布内容</span><strong>2 个草稿</strong></div>
+            <div class="review-line"><span>生效时间</span><strong>2026-07-25 00:00</strong></div>
+            <div class="review-line"><span>影响对象</span><strong>新订单、新任务</strong></div>
+            <div class="review-line"><span>回滚方式</span><strong>复制历史版本重新发布</strong></div>
+          </div>
+          <div class="notice warn"><i data-lucide="circle-alert"></i><div>体验包发布前需确认免费体验包下线策略，否则客户会看到两个冲突的新客入口。</div></div>
+        `
+      },
+      grantConfirm: {
+        title: '发放确认',
+        body: `
+          <div class="review-box">
+            <div class="review-line"><span>对象</span><strong>杭州某跨境科技</strong></div>
+            <div class="review-line"><span>发放</span><strong>260,000 积分</strong></div>
+            <div class="review-line"><span>金额</span><strong>￥12,800.00</strong></div>
+            <div class="review-line"><span>有效期</span><strong>365 天</strong></div>
+          </div>
+          <div class="notice warn"><i data-lucide="shield-alert"></i><div>大额发放建议要求输入“确认发放”或走审批，防止误发。</div></div>
+        `
+      },
+      paymentIssue: {
+        title: '支付异常处理',
+        body: `
+          <div class="review-box">
+            <div class="review-line"><span>异常类型</span><strong>支付成功未入账</strong></div>
+            <div class="review-line"><span>支付单号</span><strong>PAY202607240019</strong></div>
+            <div class="review-line"><span>渠道状态</span><strong>SUCCESS</strong></div>
+            <div class="review-line"><span>建议动作</span><strong>补偿入账并记录原因</strong></div>
+          </div>
+          <div class="notice"><i data-lucide="wrench"></i><div>异常处理完成后应自动关联补偿流水、操作人和处理备注。</div></div>
+        `
+      },
+      role: {
+        title: '当前角色说明',
+        body: ''
+      }
+    };
+
+    function setDrawerContent(template) {
+      document.getElementById('drawerTitle').textContent = template.title;
+      document.getElementById('drawerBody').innerHTML = template.body;
+      document.getElementById('drawerCancel').textContent = template.cancelText || '取消';
+      document.getElementById('drawerConfirmText').textContent = template.confirmText || '确认';
+      document.getElementById('drawerMask').classList.add('open');
+      document.getElementById('drawer').classList.add('open');
+      document.getElementById('drawer').setAttribute('aria-hidden', 'false');
+      refreshIcons();
+    }
+
+    function openDrawer(kind, customText) {
+      const template = drawerTemplates[kind] || drawerTemplates.purchase;
+      setDrawerContent({
+        ...template,
+        body: customText
+          ? `<div class="notice"><i data-lucide="user-check"></i><div>${customText}</div></div>`
+          : template.body
+      });
+    }
+
+    function closeDrawer() {
+      document.getElementById('drawerMask').classList.remove('open');
+      document.getElementById('drawer').classList.remove('open');
+      document.getElementById('drawer').setAttribute('aria-hidden', 'true');
+    }
+
+    function refreshIcons() {
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    window.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeDrawer();
+    });
+
+    const initialPage = window.location.hash.replace(/^#/, '') || new URLSearchParams(window.location.search).get('page') || 'overview';
+    activatePage(initialPage, { skipHash: true });
+    refreshIcons();
+  </script>
+</body>
+</html>
