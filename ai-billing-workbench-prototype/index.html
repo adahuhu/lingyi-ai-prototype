@@ -566,16 +566,16 @@
     .purchase-toolbar {
       display: grid;
       grid-template-columns: 1fr 1fr auto auto;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
       background: #fff;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 14px;
-      margin-bottom: 18px;
+      padding: 10px;
+      margin-bottom: 12px;
     }
     .purchase-toolbar-item {
-      min-height: 58px;
+      min-height: 50px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--soft);
@@ -592,16 +592,28 @@
       background: #fff;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 24px;
-      margin-top: 18px;
+      padding: 18px;
+      margin-top: 12px;
       box-shadow: 0 16px 36px rgba(15, 23, 42, .04);
+    }
+    .product-catalog-section {
+      display: grid;
+      gap: 18px;
+    }
+    .product-group {
+      display: grid;
+      gap: 12px;
+    }
+    .product-group + .product-group {
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
     }
     .purchase-section-head {
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
       gap: 16px;
-      margin-bottom: 18px;
+      margin-bottom: 0;
     }
     .purchase-section-head p {
       margin: 6px 0 0;
@@ -619,11 +631,20 @@
       grid-template-columns: 1fr;
       gap: 12px;
     }
+    .product-card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      align-items: stretch;
+    }
+    .point-card-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
     .buy-card {
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #fff;
-      padding: 18px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
       min-height: 100%;
@@ -634,34 +655,27 @@
       box-shadow: 0 14px 30px rgba(22, 119, 255, .09);
       transform: translateY(-1px);
     }
-    .buy-card.featured {
-      padding: 24px;
-      background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
-      border-color: var(--primary-border);
-      box-shadow: 0 18px 40px rgba(22, 119, 255, .10);
-    }
+    .plan-card { min-height: 244px; }
     .buy-card-head {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
       gap: 14px;
-      margin-bottom: 18px;
+      margin-bottom: 12px;
     }
     .buy-card h3 { font-size: 18px; }
-    .buy-card.featured h3 { font-size: 23px; }
     .buy-card .desc {
       color: var(--muted);
       line-height: 1.6;
-      margin: 8px 0 0;
+      margin: 6px 0 0;
     }
     .buy-price {
       color: var(--primary);
-      font-size: 31px;
+      font-size: 28px;
       font-weight: 950;
       line-height: 1.1;
-      margin: 2px 0 16px;
+      margin: 0 0 12px;
     }
-    .buy-card.featured .buy-price { font-size: 40px; }
     .buy-price small {
       color: var(--muted);
       font-size: 13px;
@@ -709,11 +723,11 @@
       justify-content: flex-end;
       gap: 10px;
     }
-    .buy-actions .btn { flex: 0 0 154px; min-height: 38px; }
+    .buy-actions .btn { flex: 0 0 132px; min-height: 36px; }
     .plan-mini-list {
       display: grid;
-      gap: 10px;
-      margin: 0 0 18px;
+      gap: 8px;
+      margin: 0 0 12px;
       padding: 0;
       list-style: none;
       color: #344054;
@@ -723,7 +737,7 @@
       display: flex;
       justify-content: space-between;
       gap: 10px;
-      padding-bottom: 9px;
+      padding-bottom: 7px;
       border-bottom: 1px solid var(--line);
     }
     .plan-mini-list li:last-child { border-bottom: 0; padding-bottom: 0; }
@@ -777,9 +791,9 @@
       gap: 14px;
     }
     .point-card {
-      min-height: 230px;
+      min-height: 218px;
     }
-    .point-card .buy-price { font-size: 33px; margin-top: 8px; }
+    .point-card .buy-price { font-size: 28px; margin-top: 0; }
 
     .orders-page {
       max-width: 1260px;
@@ -1892,41 +1906,35 @@
               <button class="btn primary" data-page-target="account"><i data-lucide="wallet"></i>查看账户</button>
             </div>
 
-            <section class="purchase-section">
-              <div class="purchase-section-head">
-                <div>
-                  <h2>套餐</h2>
-                  <p>开品体验包与年度服务套餐</p>
+            <section class="purchase-section product-catalog-section">
+              <div class="product-group">
+                <div class="purchase-section-head">
+                  <div>
+                    <h2>套餐</h2>
+                    <p>开品体验包与年度服务套餐</p>
+                  </div>
                 </div>
-              </div>
 
-              <div class="plan-layout">
-                <article class="buy-card featured">
-                  <div class="buy-card-head">
-                    <div>
-                      <h3>99 元开品体验包</h3>
-                      <p class="desc">约 2 个产品标准开品体验。</p>
+                <div class="product-card-grid plan-card-grid">
+                  <article class="buy-card plan-card">
+                    <div class="buy-card-head">
+                      <div>
+                        <h3>99 元开品体验包</h3>
+                        <p class="desc">约 2 个产品标准开品体验。</p>
+                      </div>
+                      <span class="tag amber">主推</span>
                     </div>
-                    <span class="tag amber">主推</span>
-                  </div>
-                  <div class="buy-price">￥99.00 <small>/ 30 天</small></div>
-                  <div class="buy-meta-grid">
-                    <div class="buy-meta"><span>积分额度</span><strong>990</strong></div>
-                    <div class="buy-meta"><span>有效期</span><strong>30 天</strong></div>
-                    <div class="buy-meta"><span>购买限制</span><strong>新客一次</strong></div>
-                  </div>
-                  <ul class="buy-feature-list">
-                    <li><i data-lucide="check-circle-2"></i><span>AI 选品分析</span></li>
-                    <li><i data-lucide="check-circle-2"></i><span>Listing 生成</span></li>
-                    <li><i data-lucide="check-circle-2"></i><span>基础商品图与基础优化</span></li>
-                  </ul>
-                  <div class="buy-actions">
-                    <button class="btn primary" onclick="openPurchase('99 元开品体验包', '99.00', '990', '30 天')"><i data-lucide="shopping-cart"></i>购买</button>
-                  </div>
-                </article>
+                    <div class="buy-price">￥99.00 <small>/ 30 天</small></div>
+                    <ul class="plan-mini-list">
+                      <li><span>积分</span><strong>990</strong></li>
+                      <li><span>权益</span><strong>AI 选品、Listing、图片</strong></li>
+                      <li><span>有效期</span><strong>30 天</strong></li>
+                      <li><span>购买限制</span><strong>新客一次</strong></li>
+                    </ul>
+                    <div class="buy-actions"><button class="btn primary" onclick="openPurchase('99 元开品体验包', '99.00', '990', '30 天')"><i data-lucide="shopping-cart"></i>购买</button></div>
+                  </article>
 
-                <div class="annual-plans">
-                  <article class="buy-card">
+                  <article class="buy-card plan-card">
                     <div class="buy-card-head">
                       <div>
                         <h3>AI 开品提效包</h3>
@@ -1939,11 +1947,12 @@
                       <li><span>积分</span><strong>80,000</strong></li>
                       <li><span>权益</span><strong>内容中心、开品中心</strong></li>
                       <li><span>有效期</span><strong>1 年</strong></li>
+                      <li><span>购买限制</span><strong>不限次数</strong></li>
                     </ul>
                     <div class="buy-actions"><button class="btn primary" onclick="openPurchase('AI 开品提效包', '3980.00', '80,000', '1 年')"><i data-lucide="shopping-cart"></i>购买</button></div>
                   </article>
 
-                  <article class="buy-card">
+                  <article class="buy-card plan-card">
                     <div class="buy-card-head">
                       <div>
                         <h3>AI 经营增长包</h3>
@@ -1956,11 +1965,12 @@
                       <li><span>积分</span><strong>260,000</strong></li>
                       <li><span>权益</span><strong>内容、开品、经营、广告</strong></li>
                       <li><span>有效期</span><strong>1 年</strong></li>
+                      <li><span>购买限制</span><strong>不限次数</strong></li>
                     </ul>
                     <div class="buy-actions"><button class="btn primary" onclick="openPurchase('AI 经营增长包', '12800.00', '260,000', '1 年')"><i data-lucide="shopping-cart"></i>购买</button></div>
                   </article>
 
-                  <article class="buy-card">
+                  <article class="buy-card plan-card">
                     <div class="buy-card-head">
                       <div>
                         <h3>AI 全生命周期版</h3>
@@ -1973,23 +1983,23 @@
                       <li><span>积分</span><strong>500,000</strong></li>
                       <li><span>权益</span><strong>全部标准模块</strong></li>
                       <li><span>有效期</span><strong>1 年</strong></li>
+                      <li><span>购买限制</span><strong>不限次数</strong></li>
                     </ul>
                     <div class="buy-actions"><button class="btn primary" onclick="openPurchase('AI 全生命周期版', '19800.00', '500,000', '1 年')"><i data-lucide="shopping-cart"></i>购买</button></div>
                   </article>
                 </div>
               </div>
-            </section>
 
-            <section class="purchase-section">
-              <div class="purchase-section-head">
-                <div>
-                  <h2>积分包</h2>
-                  <p>用于补充 AI 积分额度</p>
+              <div class="product-group">
+                <div class="purchase-section-head">
+                  <div>
+                    <h2>积分包</h2>
+                    <p>用于补充 AI 积分额度</p>
+                  </div>
                 </div>
-              </div>
 
-              <div class="point-plan-row">
-                <article class="buy-card point-card">
+                <div class="product-card-grid point-card-grid">
+                  <article class="buy-card point-card">
                   <div class="buy-card-head">
                     <div>
                       <h3>基础积分包</h3>
@@ -2036,6 +2046,7 @@
                   </ul>
                   <div class="buy-actions"><button class="btn primary" onclick="openPurchase('企业积分包', '5000.00', '60,000', '365 天')"><i data-lucide="shopping-cart"></i>购买</button></div>
                 </article>
+              </div>
               </div>
             </section>
           </div>
