@@ -1045,10 +1045,11 @@
     .point-buy-link:hover { color: var(--primary-strong); text-decoration: underline; }
 
     .pricing-canvas {
-      background: #050605;
-      border: 1px solid #151714;
+      background: linear-gradient(180deg, #f8fbff 0%, #f3f7fd 100%);
+      border: 1px solid var(--line);
       border-radius: 10px;
-      color: #f4f4ef;
+      box-shadow: var(--shadow-soft);
+      color: var(--text);
       min-height: 720px;
       padding: 34px 44px 32px;
     }
@@ -1060,13 +1061,13 @@
       margin-bottom: 26px;
     }
     .pricing-hero h1 {
-      color: #f4f4ef;
+      color: #101828;
       font-size: 30px;
       font-weight: 850;
       letter-spacing: 0;
     }
     .pricing-hero p {
-      color: #898b86;
+      color: var(--muted);
       line-height: 1.65;
       margin: 12px 0 0;
     }
@@ -1077,12 +1078,12 @@
       margin-top: 12px;
     }
     .pricing-meta span {
-      color: #73766f;
+      color: var(--muted);
       font-size: 12px;
       font-weight: 780;
     }
     .pricing-meta strong {
-      color: #d6d8d0;
+      color: #101828;
       font-weight: 850;
     }
     .pricing-actions {
@@ -1093,18 +1094,21 @@
     }
     .pricing-link {
       align-items: center;
-      background: transparent;
-      border: 0;
-      color: #cfd2c9;
+      background: var(--surface);
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      color: #344054;
       cursor: pointer;
       display: inline-flex;
       gap: 6px;
       font-weight: 820;
-      padding: 0;
+      min-height: 30px;
+      padding: 0 10px;
       white-space: nowrap;
     }
     .pricing-link:hover {
-      color: #fff;
+      border-color: var(--primary-border);
+      color: var(--primary-strong);
     }
     .pricing-plans {
       display: grid;
@@ -1113,17 +1117,18 @@
       margin-bottom: 28px;
     }
     .pricing-card {
-      background: #181917;
-      border: 1px solid #2a2c27;
+      background: var(--surface);
+      border: 1px solid var(--line);
       border-radius: 8px;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, .045);
       display: flex;
       flex-direction: column;
       min-height: 292px;
       padding: 20px 22px;
     }
     .pricing-card.recommended {
-      border-color: #3d4f38;
-      box-shadow: inset 0 0 0 1px rgba(99, 204, 99, .12);
+      border-color: var(--primary-border);
+      box-shadow: inset 0 0 0 1px rgba(22, 119, 255, .14), 0 16px 36px rgba(22, 119, 255, .08);
     }
     .pricing-card-head {
       align-items: center;
@@ -1132,33 +1137,33 @@
       justify-content: space-between;
     }
     .pricing-card h3 {
-      color: #f2f2ee;
+      color: #101828;
       font-size: 18px;
       font-weight: 850;
     }
     .pricing-card .pricing-tag {
-      background: rgba(93, 196, 99, .14);
+      background: var(--primary-soft);
       border-radius: 4px;
-      color: #66d46d;
+      color: var(--primary-strong);
       font-size: 11px;
       font-weight: 850;
       padding: 3px 7px;
       white-space: nowrap;
     }
     .pricing-value {
-      color: #f7f7f2;
+      color: var(--primary);
       font-size: 32px;
       font-weight: 850;
       line-height: 1.05;
       margin-top: 14px;
     }
     .pricing-value small {
-      color: #8b8d86;
+      color: var(--muted);
       font-size: 14px;
       font-weight: 760;
     }
     .pricing-card .desc {
-      color: #8d9088;
+      color: var(--muted);
       line-height: 1.55;
       margin: 14px 0 7px;
     }
@@ -1170,24 +1175,24 @@
       padding: 0;
     }
     .pricing-card li {
-      color: #c8cbc2;
+      color: #475467;
       display: grid;
       grid-template-columns: 18px minmax(0, 1fr);
       gap: 8px;
       line-height: 1.45;
     }
     .pricing-card li::before {
-      color: #6dde78;
+      color: var(--primary);
       content: "✓";
       font-weight: 900;
     }
     .pricing-card-action {
       appearance: none;
       align-items: center;
-      background: #3a3b37;
-      border: 0;
+      background: var(--primary-softer);
+      border: 1px solid var(--primary-border);
       border-radius: 999px;
-      color: #e8e9e3;
+      color: var(--primary-strong);
       cursor: pointer;
       display: inline-flex;
       font-weight: 850;
@@ -1198,19 +1203,21 @@
       width: 100%;
     }
     .pricing-card-action:hover {
-      background: #474943;
-      color: #fff;
+      background: var(--primary-soft);
+      border-color: var(--primary);
+      color: var(--primary-strong);
     }
     .resource-section h2 {
-      color: #f4f4ef;
+      color: #101828;
       font-size: 18px;
       font-weight: 850;
       margin: 0 0 10px;
     }
     .resource-panel {
-      background: #181917;
-      border: 1px solid #2a2c27;
+      background: var(--surface);
+      border: 1px solid var(--line);
       border-radius: 8px;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, .045);
       max-width: 720px;
       padding: 18px 24px;
     }
@@ -1222,18 +1229,18 @@
       margin-bottom: 14px;
     }
     .resource-panel h3 {
-      color: #f4f4ef;
+      color: #101828;
       font-size: 18px;
     }
     .resource-panel p {
-      color: #8d9088;
+      color: var(--muted);
       line-height: 1.55;
       margin: 4px 0 0;
     }
     .resource-scope {
-      background: rgba(93, 196, 99, .14);
+      background: var(--green-soft);
       border-radius: 4px;
-      color: #66d46d;
+      color: var(--green);
       font-size: 12px;
       font-weight: 850;
       padding: 5px 10px;
@@ -1242,28 +1249,28 @@
     .resource-list {
       display: grid;
       gap: 0;
-      border-top: 1px solid #2b2d28;
+      border-top: 1px solid var(--line);
     }
     .resource-row {
       align-items: center;
-      border-bottom: 1px solid #2b2d28;
+      border-bottom: 1px solid var(--line);
       display: grid;
       grid-template-columns: minmax(0, 1fr) 130px 92px;
       gap: 18px;
       min-height: 54px;
     }
     .resource-row strong {
-      color: #eeeeea;
+      color: #101828;
       display: block;
       font-size: 15px;
     }
     .resource-row span {
-      color: #8d9088;
+      color: var(--muted);
       display: block;
       margin-top: 3px;
     }
     .resource-price {
-      color: #f4f4ef;
+      color: #101828;
       font-size: 18px;
       font-weight: 850;
       text-align: right;
@@ -1273,14 +1280,14 @@
       appearance: none;
       background: transparent;
       border: 0;
-      color: #d8dbd2;
+      color: var(--primary-strong);
       cursor: pointer;
       font-weight: 850;
       justify-self: end;
       padding: 0;
     }
     .resource-action:hover {
-      color: #fff;
+      color: var(--primary);
       text-decoration: underline;
     }
 
