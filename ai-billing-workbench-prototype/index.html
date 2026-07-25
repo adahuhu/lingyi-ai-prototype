@@ -1063,14 +1063,6 @@
       align-items: start;
       padding: 42px 0 34px;
     }
-    .pricing-eyebrow {
-      color: var(--primary-strong);
-      display: inline-flex;
-      font-size: 12px;
-      font-weight: 850;
-      letter-spacing: 0;
-      margin-bottom: 12px;
-    }
     .pricing-hero h1 {
       color: #101828;
       font-size: 34px;
@@ -1146,7 +1138,7 @@
       box-shadow: 0 20px 42px rgba(15, 23, 42, .045);
       display: flex;
       flex-direction: column;
-      min-height: 318px;
+      min-height: 330px;
       padding: 24px 24px 22px;
     }
     .pricing-card.recommended {
@@ -1264,39 +1256,12 @@
       border: 1px solid rgba(216, 226, 238, .95);
       border-radius: 10px;
       box-shadow: 0 20px 42px rgba(15, 23, 42, .045);
-      padding: 22px 24px;
-    }
-    .resource-panel-head {
-      align-items: center;
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 14px;
-    }
-    .resource-panel h3 {
-      color: #101828;
-      font-size: 18px;
-    }
-    .resource-panel p {
-      color: var(--muted);
-      line-height: 1.55;
-      margin: 4px 0 0;
-    }
-    .resource-scope {
-      background: #edf7f2;
-      border-radius: 4px;
-      color: #32765e;
-      font-size: 12px;
-      font-weight: 850;
-      padding: 5px 10px;
-      white-space: nowrap;
+      padding: 24px;
     }
     .resource-list {
       display: grid;
       gap: 12px;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      border-top: 1px solid var(--line);
-      padding-top: 16px;
     }
     .resource-row {
       background: #f8fafc;
@@ -1305,8 +1270,8 @@
       display: grid;
       gap: 14px;
       grid-template-columns: minmax(0, 1fr) auto;
-      min-height: 130px;
-      padding: 16px;
+      min-height: 148px;
+      padding: 18px;
     }
     .resource-row strong {
       color: #101828;
@@ -1330,7 +1295,7 @@
       appearance: none;
       background: transparent;
       border: 0;
-      color: #344054;
+      color: var(--primary-strong);
       cursor: pointer;
       font-weight: 850;
       grid-column: 2;
@@ -2443,7 +2408,6 @@
             <section class="pricing-canvas">
               <div class="pricing-hero">
                 <div>
-                  <span class="pricing-eyebrow">AI 积分中心</span>
                   <h1>AI 积分方案</h1>
                   <div class="pricing-meta">
                     <span>当前租户余额 <strong>128,600 积分</strong></span>
@@ -2458,7 +2422,6 @@
 
               <div class="pricing-section-head">
                 <h2>套餐</h2>
-                <span>开品体验包与年度服务套餐</span>
               </div>
               <div class="pricing-plans">
                 <article class="pricing-card recommended">
@@ -2520,13 +2483,6 @@
                   <span>补充可用积分，不改变已开通功能模块</span>
                 </div>
                 <div class="resource-panel">
-                  <div class="resource-panel-head">
-                    <div>
-                      <h3>补充 AI 积分额度</h3>
-                      <p>按团队消耗节奏补充积分额度。</p>
-                    </div>
-                    <span class="resource-scope">适用于已开通账户</span>
-                  </div>
                   <div class="resource-list">
                     <div class="resource-row">
                       <div><strong>基础积分包</strong><span>5,500 积分 / 60 天</span></div>
