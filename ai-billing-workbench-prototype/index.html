@@ -2994,7 +2994,7 @@
         <button class="nav-btn" data-page-target="usage"><i data-lucide="list-filter"></i><span>积分明细</span></button>
         <div class="nav-group-title">系统运维</div>
         <button class="nav-btn" data-page-target="catalog"><i data-lucide="settings-2"></i><span>计费设置</span></button>
-        <button class="nav-btn" data-page-target="manual"><i data-lucide="hand-coins"></i><span>人工发放</span></button>
+        <button class="nav-btn" data-page-target="manual"><i data-lucide="hand-coins"></i><span>权益开通</span></button>
         <button class="nav-btn" data-page-target="payments"><i data-lucide="credit-card"></i><span>支付管理</span></button>
         <button class="nav-btn" data-page-target="roles"><i data-lucide="shield-check"></i><span>角色权限</span></button>
       </nav>
@@ -3636,30 +3636,30 @@
           </div>
         </section>
 
-        <section class="page" id="manual" data-title="系统运维 / 人工发放">
+        <section class="page" id="manual" data-title="系统运维 / 权益开通">
           <div class="manual-page">
             <section class="manual-hero">
               <div>
                 <div class="manual-kicker"><i data-lucide="hand-coins"></i>系统运维</div>
-                <h1>人工发放</h1>
-                <p class="subtext">为租户手动发放线下套餐或充值积分，保留付款信息、发放原因和操作记录。</p>
+                <h1>权益开通</h1>
+                <p class="subtext">为租户开通线下套餐权益或补充积分，保留付款信息、开通原因和操作记录。</p>
               </div>
               <div class="manual-hero-actions">
-                <button class="btn" onclick="openManualGrant('package')"><i data-lucide="package-plus"></i>发放套餐</button>
-                <button class="btn primary" onclick="openManualGrant('points')"><i data-lucide="coins"></i>充值积分</button>
+                <button class="btn" onclick="openManualGrant('package')"><i data-lucide="package-plus"></i>开通套餐</button>
+                <button class="btn primary" onclick="openManualGrant('points')"><i data-lucide="coins"></i>补充积分</button>
               </div>
             </section>
 
             <div class="manual-summary-grid">
-              <div class="manual-summary-card"><span>本月发放积分</span><strong>262,300</strong><small>套餐发放 + 积分充值</small></div>
-              <div class="manual-summary-card"><span>本月发放单</span><strong>12</strong><small>已履约 11 · 待生效 1</small></div>
+              <div class="manual-summary-card"><span>本月新增积分</span><strong>262,300</strong><small>套餐开通 + 积分补充</small></div>
+              <div class="manual-summary-card"><span>本月开通单</span><strong>12</strong><small>已履约 11 · 待生效 1</small></div>
               <div class="manual-summary-card"><span>线下套餐</span><strong>5</strong><small>合同回款后人工开通</small></div>
-              <div class="manual-summary-card"><span>人工充值</span><strong>7</strong><small>售后补偿与活动充值</small></div>
+              <div class="manual-summary-card"><span>积分补充</span><strong>7</strong><small>售后补偿与活动赠送</small></div>
             </div>
 
             <section class="panel manual-record-panel">
               <div class="panel-head">
-                <h2>发放记录</h2>
+                <h2>开通记录</h2>
                 <span class="tag blue">按创建时间倒序</span>
               </div>
               <div class="manual-toolbar">
@@ -3670,11 +3670,11 @@
                     <option>义乌某家居贸易</option>
                     <option>深圳某消费电子</option>
                   </select>
-                  <select aria-label="发放类型">
+                  <select aria-label="权益类型">
                     <option>全部类型</option>
-                    <option>套餐发放</option>
+                    <option>套餐开通</option>
                     <option>套餐升级</option>
-                    <option>积分充值</option>
+                    <option>积分补充</option>
                   </select>
                   <select aria-label="发放状态">
                     <option>全部状态</option>
@@ -3683,14 +3683,14 @@
                     <option>已撤销</option>
                   </select>
                   <input value="2026-07-01 ~ 2026-07-24" aria-label="创建时间">
-                  <input placeholder="发放单号 / 租户 / 商品" aria-label="搜索发放记录">
+                  <input placeholder="开通单号 / 租户 / 商品" aria-label="搜索开通记录">
                 </div>
               </div>
               <div class="table-wrap">
                 <table style="min-width:1180px">
                   <thead>
                     <tr>
-                      <th>发放单号</th>
+                      <th>开通单号</th>
                       <th>类型</th>
                       <th>目标租户</th>
                       <th>商品 / 积分</th>
@@ -3715,7 +3715,7 @@
                     </tr>
                     <tr>
                       <td><span class="manual-id">MGRTRCb81e8c003b95469c800f6e059fb48955</span></td>
-                      <td><span class="manual-type-cell"><span class="manual-type-dot"></span>套餐发放</span></td>
+                      <td><span class="manual-type-cell"><span class="manual-type-dot"></span>套餐开通</span></td>
                       <td>杭州某跨境科技</td>
                       <td><div class="manual-object"><strong>AI 经营增长包</strong><small>260,000 积分 / 1 年</small></div></td>
                       <td>2026-07-24 17:29</td>
@@ -3726,7 +3726,7 @@
                     </tr>
                     <tr>
                       <td><span class="manual-id">MGRTRCfab2bb93fe6e4c1fb634976fded370b9</span></td>
-                      <td><span class="manual-type-cell"><span class="manual-type-dot green"></span>积分充值</span></td>
+                      <td><span class="manual-type-cell"><span class="manual-type-dot green"></span>积分补充</span></td>
                       <td>义乌某家居贸易</td>
                       <td><div class="manual-object"><strong>1,000 积分</strong><small>售后补偿</small></div></td>
                       <td>2026-07-24 17:12</td>
@@ -3737,7 +3737,7 @@
                     </tr>
                     <tr>
                       <td><span class="manual-id">MGRTRC16a77362363e44989b00fb1cc9f7b7fc</span></td>
-                      <td><span class="manual-type-cell"><span class="manual-type-dot green"></span>积分充值</span></td>
+                      <td><span class="manual-type-cell"><span class="manual-type-dot green"></span>积分补充</span></td>
                       <td>深圳某消费电子</td>
                       <td><div class="manual-object"><strong>200 积分</strong><small>活动赠送</small></div></td>
                       <td>2026-07-24 17:08</td>
@@ -3748,7 +3748,7 @@
                     </tr>
                     <tr>
                       <td><span class="manual-id">MGRTRC7fbc409ad7c04fa7b1041a58a89ebb1b</span></td>
-                      <td><span class="manual-type-cell"><span class="manual-type-dot"></span>套餐发放</span></td>
+                      <td><span class="manual-type-cell"><span class="manual-type-dot"></span>套餐开通</span></td>
                       <td>杭州某跨境科技</td>
                       <td><div class="manual-object"><strong>AI 开品提效包</strong><small>80,000 积分 / 1 年</small></div></td>
                       <td>2026-07-24 16:57</td>
@@ -3823,7 +3823,7 @@
               <div class="matrix">
                 <div class="head">功能</div><div class="head">平台管理员</div><div class="head">租户管理员</div><div class="head">普通成员</div>
                 <div>计费设置</div><div class="ok">可管理</div><div class="no">不可见</div><div class="no">不可见</div>
-                <div>人工发放</div><div class="ok">可操作</div><div class="no">不可见</div><div class="no">不可见</div>
+                <div>权益开通</div><div class="ok">可操作</div><div class="no">不可见</div><div class="no">不可见</div>
                 <div>支付管理</div><div class="ok">全局管理</div><div class="warn-text">本租户只读</div><div class="no">不可见</div>
                 <div>套餐管理</div><div class="warn-text">代客查看</div><div class="ok">购买 / 查看订单</div><div class="warn-text">申请购买</div>
                 <div>积分账户</div><div class="ok">按租户查询</div><div class="ok">管理租户池</div><div class="warn-text">个人只读</div>
@@ -4331,8 +4331,8 @@
         `
       },
       manualPackageGrant: {
-        title: '发放线下套餐',
-        confirmText: '确认发放',
+        title: '开通线下套餐',
+        confirmText: '确认开通',
         body: `
           <div class="form-grid">
             <div class="field span-2"><label>目标租户</label><select><option>杭州某跨境科技</option><option>义乌某家居贸易</option><option>深圳某消费电子</option></select></div>
@@ -4340,11 +4340,11 @@
             <div class="field"><label>付款方名称</label><input placeholder="请输入付款方名称" value="杭州某跨境科技有限公司"></div>
             <div class="field"><label>实收金额（元）</label><input placeholder="请输入实收金额，单位：元" value="12800"></div>
             <div class="field span-2"><label>银行流水号</label><input placeholder="请输入银行流水号（可选）" value="BK202607240018"></div>
-            <div class="field span-2"><label>发放原因</label><textarea placeholder="请说明本次发放原因">合同已回款，对应 AI 经营增长包年度权益。</textarea></div>
+            <div class="field span-2"><label>开通原因</label><textarea placeholder="请说明本次开通原因">合同已回款，对应 AI 经营增长包年度权益。</textarea></div>
             <div class="field span-2"><label>备注</label><textarea placeholder="请输入备注（可选）"></textarea></div>
           </div>
           <div class="manual-drawer-preview">
-            <div class="manual-confirm-title"><span>发放预览</span><span class="tag amber">线下套餐</span></div>
+            <div class="manual-confirm-title"><span>开通预览</span><span class="tag amber">线下套餐</span></div>
             <div class="review-box">
               <div class="review-line"><span>目标账户</span><strong>杭州某跨境科技 / 租户池</strong></div>
               <div class="review-line"><span>开通套餐</span><strong>AI 经营增长包</strong></div>
@@ -4355,24 +4355,24 @@
         `
       },
       manualPointRecharge: {
-        title: '人工充值积分',
-        confirmText: '确认充值',
+        title: '补充积分',
+        confirmText: '确认补充',
         body: `
           <div class="form-grid">
             <div class="field"><label>目标租户</label><select><option>杭州某跨境科技</option><option>义乌某家居贸易</option><option>深圳某消费电子</option></select></div>
-            <div class="field"><label>充值积分</label><input placeholder="请输入充值积分" value="1000"></div>
+            <div class="field"><label>补充积分</label><input placeholder="请输入补充积分" value="1000"></div>
             <div class="field"><label>失效时间</label><input placeholder="请选择积分失效时间" value="2026-10-28 00:00"></div>
             <div class="field"><label>实收金额（元）</label><input placeholder="请输入实收金额，单位：元" value="0"></div>
             <div class="field"><label>付款方名称</label><input placeholder="请输入付款方名称（可选）"></div>
             <div class="field"><label>银行流水号</label><input placeholder="请输入银行流水号（可选）"></div>
-            <div class="field span-2"><label>发放原因</label><textarea placeholder="请说明本次发放原因">售后补偿积分。</textarea></div>
+            <div class="field span-2"><label>补充原因</label><textarea placeholder="请说明本次补充原因">售后补偿积分。</textarea></div>
             <div class="field span-2"><label>备注</label><textarea placeholder="请输入备注（可选）"></textarea></div>
           </div>
           <div class="manual-drawer-preview">
-            <div class="manual-confirm-title"><span>充值预览</span><span class="tag green">积分充值</span></div>
+            <div class="manual-confirm-title"><span>补充预览</span><span class="tag green">积分补充</span></div>
             <div class="review-box">
               <div class="review-line"><span>目标账户</span><strong>杭州某跨境科技 / 租户池</strong></div>
-              <div class="review-line"><span>充值积分</span><strong>1,000 积分</strong></div>
+              <div class="review-line"><span>补充积分</span><strong>1,000 积分</strong></div>
               <div class="review-line"><span>失效时间</span><strong>2026-10-28 00:00</strong></div>
               <div class="review-line"><span>生成流水</span><strong>入账 +1,000</strong></div>
             </div>
@@ -4380,13 +4380,13 @@
         `
       },
       manualGrantDetail: {
-        title: '发放详情',
+        title: '开通详情',
         confirmText: '关闭',
         hideCancel: true,
         body: `
           <div class="review-box">
-            <div class="review-line"><span>发放单号</span><strong>MGRTRCb81e8c003b95469c800f6e059fb48955</strong></div>
-            <div class="review-line"><span>类型</span><strong>套餐发放</strong></div>
+            <div class="review-line"><span>开通单号</span><strong>MGRTRCb81e8c003b95469c800f6e059fb48955</strong></div>
+            <div class="review-line"><span>类型</span><strong>套餐开通</strong></div>
             <div class="review-line"><span>目标租户</span><strong>杭州某跨境科技</strong></div>
             <div class="review-line"><span>商品 / 积分</span><strong>AI 经营增长包 · 260,000 积分</strong></div>
             <div class="review-line"><span>实收金额</span><strong>￥12,800.00</strong></div>
@@ -4399,7 +4399,7 @@
             <div class="review-line"><span>创建人</span><strong>平台管理员</strong></div>
             <div class="review-line"><span>创建时间</span><strong>2026-07-24 17:29</strong></div>
           </div>
-          <div class="notice"><i data-lucide="clipboard-check"></i><div>发放原因：合同已回款，对应 AI 经营增长包年度权益。</div></div>
+          <div class="notice"><i data-lucide="clipboard-check"></i><div>开通原因：合同已回款，对应 AI 经营增长包年度权益。</div></div>
         `
       },
       publish: {
@@ -4415,7 +4415,7 @@
         `
       },
       grantConfirm: {
-        title: '发放确认',
+        title: '开通确认',
         body: `
           <div class="review-box">
             <div class="review-line"><span>对象</span><strong>杭州某跨境科技</strong></div>
@@ -4423,7 +4423,7 @@
             <div class="review-line"><span>金额</span><strong>￥12,800.00</strong></div>
             <div class="review-line"><span>有效期</span><strong>365 天</strong></div>
           </div>
-          <div class="notice warn"><i data-lucide="shield-alert"></i><div>大额发放建议要求输入“确认发放”或走审批，防止误发。</div></div>
+          <div class="notice warn"><i data-lucide="shield-alert"></i><div>大额开通建议要求输入“确认开通”或走审批，防止误操作。</div></div>
         `
       },
       paymentIssue: {
