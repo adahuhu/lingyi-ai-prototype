@@ -2097,6 +2097,60 @@
       gap: 6px;
     }
     .field label { color: #667085; font-weight: 740; }
+    .credit-attachment-upload {
+      position: relative;
+      min-height: 58px;
+      padding: 10px 12px;
+      border: 1px dashed #c7d7ee;
+      border-radius: 8px;
+      background: #f8fbff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: border-color .16s ease, background .16s ease, box-shadow .16s ease;
+    }
+    .credit-attachment-upload:hover {
+      border-color: var(--primary);
+      background: var(--primary-softer);
+      box-shadow: 0 0 0 3px rgba(22, 119, 255, .08);
+    }
+    .credit-attachment-upload input {
+      display: none;
+    }
+    .credit-attachment-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+    .credit-attachment-copy {
+      min-width: 0;
+      display: grid;
+      gap: 2px;
+      flex: 1;
+    }
+    .credit-attachment-copy strong {
+      color: #1f2937;
+      font-size: 13px;
+      font-weight: 850;
+    }
+    .credit-attachment-copy small {
+      color: var(--subtle);
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .credit-attachment-action {
+      color: var(--primary-strong);
+      font-size: 12px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
     input, select, textarea {
       border: 1px solid var(--line-strong);
       border-radius: 8px;
@@ -4254,6 +4308,7 @@
             <div class="field"><label>付款方名称</label><input placeholder="请输入付款方名称" value="杭州某跨境科技有限公司"></div>
             <div class="field"><label>实收金额（元）</label><input placeholder="请输入实收金额，单位：元" value="12800"></div>
             <div class="field span-2"><label>银行流水号</label><input placeholder="请输入银行流水号（可选）" value="BK202607240018"></div>
+            <div class="field span-2"><label>附件上传</label><label class="credit-attachment-upload"><span class="credit-attachment-icon"><i data-lucide="paperclip"></i></span><span class="credit-attachment-copy"><strong>上传合同或银行水单</strong><small>支持 PDF、JPG、PNG，最多 5 个文件</small></span><span class="credit-attachment-action">选择文件</span><input type="file" multiple accept=".pdf,.jpg,.jpeg,.png"></label></div>
             <div class="field span-2"><label>开通原因</label><textarea placeholder="请说明本次开通原因">合同已回款，对应 AI 经营增长包年度权益。</textarea></div>
             <div class="field span-2"><label>备注</label><textarea placeholder="请输入备注（可选）"></textarea></div>
           </div>
@@ -4279,6 +4334,7 @@
             <div class="field"><label>实收金额（元）</label><input placeholder="请输入实收金额，单位：元" value="0"></div>
             <div class="field"><label>付款方名称</label><input placeholder="请输入付款方名称（可选）"></div>
             <div class="field"><label>银行流水号</label><input placeholder="请输入银行流水号（可选）"></div>
+            <div class="field span-2"><label>附件上传</label><label class="credit-attachment-upload"><span class="credit-attachment-icon"><i data-lucide="paperclip"></i></span><span class="credit-attachment-copy"><strong>上传合同或银行水单</strong><small>支持 PDF、JPG、PNG，最多 5 个文件</small></span><span class="credit-attachment-action">选择文件</span><input type="file" multiple accept=".pdf,.jpg,.jpeg,.png"></label></div>
             <div class="field span-2"><label>补充原因</label><textarea placeholder="请说明本次补充原因">售后补偿积分。</textarea></div>
             <div class="field span-2"><label>备注</label><textarea placeholder="请输入备注（可选）"></textarea></div>
           </div>
