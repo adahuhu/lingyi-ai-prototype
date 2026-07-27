@@ -2132,76 +2132,6 @@
       gap: 14px;
       max-width: 1540px;
     }
-    .manual-hero {
-      min-height: 128px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background:
-        radial-gradient(circle at 86% 22%, rgba(22, 119, 255, .10), transparent 32%),
-        linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,251,255,.96));
-      box-shadow: 0 18px 46px rgba(15, 23, 42, .05);
-      padding: 24px 26px;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 20px;
-      align-items: center;
-    }
-    .manual-hero h1 {
-      font-size: 28px;
-      letter-spacing: 0;
-    }
-    .manual-kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      min-height: 24px;
-      padding: 0 9px;
-      margin-bottom: 8px;
-      border-radius: 999px;
-      background: var(--primary-softer);
-      color: var(--primary-strong);
-      font-size: 12px;
-      font-weight: 850;
-    }
-    .manual-hero-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-    .manual-hero-actions .btn {
-      min-height: 36px;
-      padding: 0 14px;
-    }
-    .manual-summary-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .manual-summary-card {
-      min-height: 88px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: #fff;
-      box-shadow: 0 1px 1px rgba(15, 23, 42, .02);
-      padding: 14px 16px;
-      display: grid;
-      gap: 6px;
-    }
-    .manual-summary-card span {
-      color: var(--muted);
-      font-weight: 760;
-    }
-    .manual-summary-card strong {
-      color: #101828;
-      font-size: 24px;
-      line-height: 1;
-      font-weight: 920;
-      letter-spacing: 0;
-    }
-    .manual-summary-card small {
-      color: var(--subtle);
-      font-weight: 680;
-    }
     .manual-record-panel {
       overflow: hidden;
     }
@@ -3638,29 +3568,13 @@
 
         <section class="page" id="manual" data-title="系统运维 / 权益开通">
           <div class="manual-page">
-            <section class="manual-hero">
-              <div>
-                <div class="manual-kicker"><i data-lucide="hand-coins"></i>系统运维</div>
-                <h1>权益开通</h1>
-                <p class="subtext">为租户开通线下套餐权益或补充积分，保留付款信息、开通原因和操作记录。</p>
-              </div>
-              <div class="manual-hero-actions">
-                <button class="btn" onclick="openManualGrant('package')"><i data-lucide="package-plus"></i>开通套餐</button>
-                <button class="btn primary" onclick="openManualGrant('points')"><i data-lucide="coins"></i>补充积分</button>
-              </div>
-            </section>
-
-            <div class="manual-summary-grid">
-              <div class="manual-summary-card"><span>本月新增积分</span><strong>262,300</strong><small>套餐开通 + 积分补充</small></div>
-              <div class="manual-summary-card"><span>本月开通单</span><strong>12</strong><small>已履约 11 · 待生效 1</small></div>
-              <div class="manual-summary-card"><span>线下套餐</span><strong>5</strong><small>合同回款后人工开通</small></div>
-              <div class="manual-summary-card"><span>积分补充</span><strong>7</strong><small>售后补偿与活动赠送</small></div>
-            </div>
-
             <section class="panel manual-record-panel">
               <div class="panel-head">
                 <h2>开通记录</h2>
-                <span class="tag blue">按创建时间倒序</span>
+                <div class="panel-actions">
+                  <button class="btn" onclick="openManualGrant('package')"><i data-lucide="package-plus"></i>开通套餐</button>
+                  <button class="btn primary" onclick="openManualGrant('points')"><i data-lucide="coins"></i>补充积分</button>
+                </div>
               </div>
               <div class="manual-toolbar">
                 <div class="filters">
