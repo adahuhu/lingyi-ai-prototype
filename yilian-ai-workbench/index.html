@@ -19214,12 +19214,6 @@
       { title: "首页", items: [
         ["dashboard", "首页", "layout-dashboard"]
       ]},
-      { title: "积分中心", items: [
-        ["creditProducts", "套餐管理", "package"],
-        ["creditAccount", "积分账户", "wallet-cards"],
-        ["creditLedger", "积分明细", "list-filter"],
-        ["creditSettings", "计费设置", "settings-2"]
-      ]},
       { title: "产品开发", items: [
         ["opportunities", "AI 选品", "radar"],
         ["selectionPool", "选品池", "package-search"],
@@ -19258,6 +19252,14 @@
       { title: "系统底座", items: [
         ["connectors", "连接器", "plug-zap"],
         ["notifications", "消息推送", "send"]
+      ]},
+      { title: "AI 积分中心", items: [
+        ["creditProducts", "套餐管理", "package"],
+        ["creditAccount", "积分账户", "wallet-cards"],
+        ["creditLedger", "积分明细", "list-filter"]
+      ]},
+      { title: "系统运维", items: [
+        ["creditSettings", "计费设置", "settings-2"]
       ]}
     ];
     const routeTitleFallbacks = {
@@ -25926,7 +25928,7 @@
     }
 
     function renderCreditPrototypeEmbed(pageId, title) {
-      return `<iframe class="credit-prototype-frame" title="${escapeHtml(title)}" src="../ai-billing-workbench-prototype/index.html?embed=1&v=20260727-card-buttons#${escapeHtml(pageId)}" scrolling="no" onload="resizeCreditPrototypeFrame(this)"></iframe>`;
+      return `<iframe class="credit-prototype-frame" title="${escapeHtml(title)}" src="../ai-billing-workbench-prototype/index.html?embed=1&v=20260727-menu-ops#${escapeHtml(pageId)}" scrolling="no" onload="resizeCreditPrototypeFrame(this)"></iframe>`;
     }
 
     function renderCreditProducts() {
