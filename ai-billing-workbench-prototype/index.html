@@ -242,7 +242,8 @@
     body.embed .usage-page,
     body.embed .config-shell,
     body.embed .account-ledger-card,
-    body.embed .account-workspace {
+    body.embed .account-workspace,
+    body.embed .manual-page {
       width: 100%;
       max-width: none;
     }
@@ -2184,6 +2185,7 @@
     .manual-page {
       display: grid;
       gap: 14px;
+      width: 100%;
       max-width: 1540px;
     }
     .manual-record-panel {
@@ -2196,7 +2198,7 @@
     }
     .manual-toolbar .filters {
       display: grid;
-      grid-template-columns: 180px 150px 150px 190px minmax(240px, 1fr);
+      grid-template-columns: minmax(160px, .9fr) minmax(140px, .72fr) minmax(140px, .72fr) minmax(180px, .92fr) minmax(260px, 2fr);
       gap: 8px;
     }
     .manual-toolbar input,
@@ -2916,6 +2918,8 @@
       .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .flow-step::after { display: none; }
       .two-col { grid-template-columns: 1fr; }
+      .manual-toolbar .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .manual-toolbar .filters input:last-child { grid-column: 1 / -1; }
     }
 
     @media (max-width: 920px) {
@@ -2951,6 +2955,8 @@
       .page-head { display: grid; }
       h1 { font-size: 24px; }
       .metric-grid, .four-col, .product-grid, .three-col, .priority-board, .form-grid, .flow, .config-shell { grid-template-columns: 1fr; }
+      .manual-toolbar .filters,
+      .manual-toolbar .filters input:last-child { grid-template-columns: 1fr; grid-column: auto; }
       .config-menu { position: static; display: flex; overflow: auto; }
       .config-menu button { width: auto; flex: 0 0 auto; }
       .calc-row { grid-template-columns: 1fr 76px 70px; }
