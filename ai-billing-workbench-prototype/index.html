@@ -1345,6 +1345,549 @@
       color: var(--primary);
       text-decoration: underline;
     }
+
+    .credit-plan-page {
+      --brand-50: #eef4ff;
+      --brand-100: #d9e6ff;
+      --brand-200: #b7cdff;
+      --brand-300: #8aacff;
+      --brand-500: #3b66f4;
+      --brand-600: #2a4ee0;
+      --brand-700: #1f3cb6;
+      --brand-800: #1a308a;
+      --accent-600: #7c3aed;
+      --accent-700: #6d28d9;
+      --ink-900: #0b1020;
+      --ink-800: #111935;
+      --ink-700: #1d2649;
+      --ink-600: #3a4566;
+      --ink-500: #5a6589;
+      --ink-200: #d9dde8;
+      --ink-100: #eef0f6;
+      --ink-50: #f6f7fb;
+      --line: rgba(15, 23, 42, .06);
+      --gold-600: #d97706;
+      --green-500: #10b981;
+      --green-600: #059669;
+      --shadow-md: 0 8px 24px -8px rgba(15, 23, 42, .12), 0 2px 6px rgba(15, 23, 42, .04);
+      --shadow-brand: 0 24px 48px -16px rgba(59, 102, 244, .45), 0 4px 12px rgba(59, 102, 244, .18);
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px 26px 52px;
+      color: var(--ink-900);
+    }
+    .credit-plan-page .page-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+    .credit-plan-page .page-title {
+      margin: 0 0 6px;
+      color: var(--ink-900);
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 0;
+      line-height: 1.08;
+    }
+    .credit-plan-page .page-subtitle {
+      color: var(--ink-500);
+      font-size: 14px;
+    }
+    .credit-plan-page .header-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .credit-plan-page .header-actions .btn {
+      min-height: 36px;
+      border-radius: 10px;
+      border-color: var(--line);
+      color: var(--ink-700);
+      font-weight: 760;
+    }
+    .credit-plan-page .header-actions .btn:hover {
+      border-color: var(--brand-200);
+      background: var(--brand-50);
+      color: var(--brand-700);
+    }
+    .credit-plan-page .summary-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .credit-plan-page .summary-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 122px;
+      padding: 20px 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: #fff;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, .035);
+    }
+    .credit-plan-page .summary-card.highlight {
+      border: 0;
+      background: linear-gradient(135deg, var(--ink-900) 0%, var(--brand-800) 60%, var(--brand-700) 100%);
+      color: #fff;
+    }
+    .credit-plan-page .summary-card.highlight::before {
+      content: "";
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, .12) 0%, transparent 70%);
+    }
+    .credit-plan-page .summary-card.highlight::after {
+      content: "";
+      position: absolute;
+      left: -60px;
+      bottom: -60px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(139, 92, 246, .4) 0%, transparent 70%);
+    }
+    .credit-plan-page .summary-card > * {
+      position: relative;
+      z-index: 1;
+    }
+    .credit-plan-page .summary-label {
+      color: var(--ink-500);
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+    .credit-plan-page .summary-card.highlight .summary-label {
+      color: rgba(255, 255, 255, .7);
+    }
+    .credit-plan-page .summary-value {
+      margin-top: 8px;
+      color: var(--ink-900);
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: 0;
+      line-height: 1.12;
+    }
+    .credit-plan-page .summary-card.highlight .summary-value {
+      color: #fff;
+    }
+    .credit-plan-page .summary-value .unit {
+      margin-left: 6px;
+      color: var(--ink-500);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .credit-plan-page .summary-card.highlight .summary-value .unit {
+      color: rgba(255, 255, 255, .7);
+    }
+    .credit-plan-page .summary-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      color: var(--ink-500);
+      font-size: 12px;
+    }
+    .credit-plan-page .summary-card.highlight .summary-meta {
+      color: rgba(255, 255, 255, .7);
+    }
+    .credit-plan-page .summary-meta .up {
+      color: var(--green-600);
+      font-weight: 800;
+    }
+    .credit-plan-page .summary-card.highlight .summary-meta .up {
+      color: #6ee7b7;
+    }
+    .credit-plan-page .ring-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .credit-plan-page .ring {
+      width: 56px;
+      height: 56px;
+      flex: 0 0 auto;
+    }
+    .credit-plan-page .ring-bg {
+      stroke: rgba(255, 255, 255, .15);
+    }
+    .credit-plan-page .ring-fg {
+      stroke: #fff;
+    }
+    .credit-plan-page .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 36px 0 16px;
+    }
+    .credit-plan-page .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+      color: var(--ink-900);
+      font-size: 18px;
+      font-weight: 850;
+      line-height: 1.3;
+    }
+    .credit-plan-page .section-title::before {
+      content: "";
+      width: 4px;
+      height: 16px;
+      border-radius: 2px;
+      background: var(--brand-500);
+    }
+    .credit-plan-page .section-meta {
+      color: var(--ink-500);
+      font-size: 13px;
+      font-weight: 620;
+    }
+    .credit-plan-page .plans {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .credit-plan-page .plan {
+      position: relative;
+      display: flex;
+      min-height: 390px;
+      flex-direction: column;
+      padding: 24px 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: #fff;
+      box-shadow: 0 16px 34px rgba(15, 23, 42, .04);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .credit-plan-page .plan:hover {
+      transform: translateY(-2px);
+      border-color: var(--brand-200);
+      box-shadow: var(--shadow-md);
+    }
+    .credit-plan-page .plan-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    .credit-plan-page .plan-name {
+      color: var(--ink-600);
+      font-size: 13px;
+      font-weight: 760;
+    }
+    .credit-plan-page .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 780;
+      letter-spacing: .02em;
+      white-space: nowrap;
+    }
+    .credit-plan-page .badge-soft {
+      background: var(--brand-50);
+      color: var(--brand-700);
+    }
+    .credit-plan-page .badge-gold,
+    .credit-plan-page .pack-discount {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      color: var(--gold-600);
+    }
+    .credit-plan-page .badge-purple {
+      background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+      color: var(--accent-700);
+    }
+    .credit-plan-page .plan-product {
+      margin: 6px 0 14px;
+      color: var(--ink-900);
+      font-size: 18px;
+      font-weight: 850;
+      letter-spacing: 0;
+    }
+    .credit-plan-page .plan-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .credit-plan-page .plan-price-currency {
+      color: var(--ink-900);
+      font-size: 18px;
+      font-weight: 760;
+    }
+    .credit-plan-page .plan-price {
+      color: var(--ink-900);
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: 0;
+      line-height: 1;
+    }
+    .credit-plan-page .plan-period {
+      margin-left: 2px;
+      color: var(--ink-500);
+      font-size: 12px;
+      font-weight: 620;
+    }
+    .credit-plan-page .plan-savings {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      align-self: flex-start;
+      margin-top: 6px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: #ecfdf5;
+      color: var(--green-600);
+      font-size: 12px;
+      font-weight: 780;
+    }
+    .credit-plan-page .plan-savings::before {
+      content: "↓";
+      font-weight: 900;
+    }
+    .credit-plan-page .plan-features {
+      display: grid;
+      flex: 1;
+      gap: 0;
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .credit-plan-page .plan-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 6px 0;
+      color: var(--ink-700);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .credit-plan-page .check {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      flex: 0 0 auto;
+      margin-top: 1px;
+      border-radius: 50%;
+      background: var(--brand-50);
+      color: var(--brand-600);
+    }
+    .credit-plan-page .check svg {
+      width: 10px;
+      height: 10px;
+    }
+    .credit-plan-page .feature-extra {
+      margin-left: 4px;
+      color: var(--ink-500);
+      font-size: 12px;
+    }
+    .credit-plan-page .plan-cta {
+      width: 100%;
+      min-height: 42px;
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink-700);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 780;
+      transition: border-color .15s ease, color .15s ease, background .15s ease, transform .15s ease;
+    }
+    .credit-plan-page .plan-cta:hover {
+      border-color: var(--brand-500);
+      background: var(--brand-50);
+      color: var(--brand-600);
+      transform: translateY(-1px);
+    }
+    .credit-plan-page .plan-hero {
+      border: 0;
+      background: linear-gradient(160deg, #0b1020 0%, #1a308a 60%, #2a4ee0 100%);
+      color: #fff;
+      box-shadow: var(--shadow-brand);
+      transform: translateY(-8px);
+    }
+    .credit-plan-page .plan-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .4) 0%, transparent 50%),
+        radial-gradient(circle at 0% 100%, rgba(94, 211, 251, .18) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .credit-plan-page .plan-hero > * {
+      position: relative;
+      z-index: 1;
+    }
+    .credit-plan-page .plan-hero:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 32px 64px -16px rgba(59, 102, 244, .55);
+    }
+    .credit-plan-page .plan-hero .plan-name,
+    .credit-plan-page .plan-hero .plan-period {
+      color: rgba(255, 255, 255, .68);
+    }
+    .credit-plan-page .plan-hero .plan-product,
+    .credit-plan-page .plan-hero .plan-price-currency,
+    .credit-plan-page .plan-hero .plan-price {
+      color: #fff;
+    }
+    .credit-plan-page .plan-hero .check {
+      background: rgba(255, 255, 255, .15);
+      color: #fff;
+    }
+    .credit-plan-page .plan-hero .plan-features li {
+      color: rgba(255, 255, 255, .92);
+    }
+    .credit-plan-page .plan-hero .plan-cta {
+      border-color: #fff;
+      background: #fff;
+      color: var(--brand-700);
+    }
+    .credit-plan-page .plan-hero .plan-cta:hover {
+      background: var(--brand-50);
+    }
+    .credit-plan-page .hero-ribbon {
+      position: absolute;
+      top: -1px;
+      right: 20px;
+      padding: 5px 12px;
+      border-radius: 0 0 8px 8px;
+      background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+      color: #78350f;
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: .04em;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, .4);
+    }
+    .credit-plan-page .packs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .credit-plan-page .pack {
+      position: relative;
+      display: flex;
+      min-height: 214px;
+      flex-direction: column;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: #fff;
+      box-shadow: 0 16px 34px rgba(15, 23, 42, .035);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .credit-plan-page .pack:hover {
+      transform: translateY(-2px);
+      border-color: var(--brand-200);
+      box-shadow: var(--shadow-md);
+    }
+    .credit-plan-page .pack-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 14px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--brand-50) 0%, #f3eaff 100%);
+      color: var(--brand-600);
+    }
+    .credit-plan-page .pack-name {
+      margin-bottom: 4px;
+      color: var(--ink-900);
+      font-size: 15px;
+      font-weight: 850;
+    }
+    .credit-plan-page .pack-meta {
+      margin-bottom: 16px;
+      color: var(--ink-500);
+      font-size: 12px;
+    }
+    .credit-plan-page .pack-amount {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      color: var(--ink-900);
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+    .credit-plan-page .pack-amount .unit {
+      color: var(--ink-500);
+      font-size: 13px;
+      font-weight: 620;
+    }
+    .credit-plan-page .pack-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+    }
+    .credit-plan-page .pack-price {
+      color: var(--ink-900);
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+    .credit-plan-page .pack-buy {
+      min-height: 34px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--brand-50);
+      color: var(--brand-700);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 780;
+      transition: background .15s ease, color .15s ease, transform .15s ease;
+    }
+    .credit-plan-page .pack-buy:hover {
+      background: var(--brand-500);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .credit-plan-page .pack.popular {
+      border-color: var(--brand-500);
+    }
+    .credit-plan-page .pack.popular .pack-icon {
+      background: linear-gradient(135deg, var(--brand-500) 0%, var(--accent-600) 100%);
+      color: #fff;
+      box-shadow: 0 8px 20px -8px rgba(59, 102, 244, .5);
+    }
+    .credit-plan-page .pack-discount {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 850;
+    }
+    @media (max-width: 1100px) {
+      .credit-plan-page .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .credit-plan-page .summary-grid { grid-template-columns: 1fr; }
+      .credit-plan-page .packs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
     .orders-page {
       max-width: 1180px;
     }
@@ -2442,114 +2985,194 @@
         </section>
 
         <section class="page" id="products" data-title="AI 积分中心 / 套餐管理">
-          <div class="purchase-page">
-            <section class="pricing-canvas">
-              <div class="pricing-hero">
-                <div>
-                  <h1>AI 积分方案</h1>
-                  <div class="pricing-meta">
-                    <span>当前租户余额 <strong>128,600 积分</strong></span>
-                    <span>本月消耗 <strong>26,340 积分</strong></span>
-                  </div>
-                </div>
-                <div class="pricing-actions">
-                  <button class="pricing-link" data-page-target="orders">查看订单</button>
-                  <button class="pricing-link" data-page-target="account">查看账户</button>
-                </div>
+          <div class="purchase-page credit-plan-page">
+            <div class="page-header">
+              <div>
+                <h1 class="page-title">AI 积分方案</h1>
+                <div class="page-subtitle">选择适合您业务规模的套餐，AI 全程为跨境生意提效</div>
               </div>
-
-              <div class="pricing-section-head">
-                <h2>选择套餐</h2>
+              <div class="header-actions">
+                <button class="btn btn-ghost" data-page-target="orders">
+                  <i data-lucide="file-text"></i>
+                  查看订单
+                </button>
+                <button class="btn" data-page-target="account">
+                  <i data-lucide="user-round"></i>
+                  查看账户
+                </button>
               </div>
-              <div class="pricing-plans">
-                <article class="pricing-card recommended">
-                  <div class="pricing-card-head">
-                    <div><span class="plan-stage">首次体验</span><h3>99 元开品体验包</h3></div>
-                    <span class="pricing-tag">主推</span>
-                  </div>
-                  <div class="pricing-value">￥99.00 <small>/ 30 天</small></div>
-                  <ul>
-                    <li>990 积分</li>
-                    <li>AI 选品、Listing、图片</li>
-                    <li>30 天有效</li>
-                    <li>新客一次</li>
-                  </ul>
-                  <button class="pricing-card-action" onclick="openPurchase('99 元开品体验包', '99.00', '990', '30 天')">购买</button>
-                </article>
+            </div>
 
-                <article class="pricing-card">
-                  <div class="pricing-card-head">
-                    <div><span class="plan-stage">内容生产</span><h3>AI 开品提效包</h3></div>
-                    <span class="pricing-tag">入门</span>
-                  </div>
-                  <div class="pricing-value">￥3,980.00 <small>/ 1 年</small></div>
-                  <ul>
-                    <li>80,000 积分</li>
-                    <li>内容中心、开品中心</li>
-                    <li>1 年有效</li>
-                    <li>不限次数购买</li>
-                  </ul>
-                  <button class="pricing-card-action" onclick="openPurchase('AI 开品提效包', '3980.00', '80,000', '1 年')">购买</button>
-                </article>
-
-                <article class="pricing-card">
-                  <div class="pricing-card-head">
-                    <div><span class="plan-stage">运营增长</span><h3>AI 经营增长包</h3></div>
-                    <span class="pricing-tag">增长</span>
-                  </div>
-                  <div class="pricing-value">￥12,800.00 <small>/ 1 年</small></div>
-                  <ul>
-                    <li>260,000 积分</li>
-                    <li>内容、开品、经营、广告</li>
-                    <li>1 年有效</li>
-                    <li>不限次数购买</li>
-                  </ul>
-                  <button class="pricing-card-action" onclick="openPurchase('AI 经营增长包', '12800.00', '260,000', '1 年')">购买</button>
-                </article>
-
-                <article class="pricing-card">
-                  <div class="pricing-card-head">
-                    <div><span class="plan-stage">全链路经营</span><h3>AI 全生命周期版</h3></div>
-                    <span class="pricing-tag">推荐</span>
-                  </div>
-                  <div class="pricing-value">￥19,800.00 <small>/ 1 年</small></div>
-                  <ul>
-                    <li>500,000 积分</li>
-                    <li>全部标准模块</li>
-                    <li>1 年有效</li>
-                    <li>不限次数购买</li>
-                  </ul>
-                  <button class="pricing-card-action" onclick="openPurchase('AI 全生命周期版', '19800.00', '500,000', '1 年')">购买</button>
-                </article>
-              </div>
-
-              <section class="resource-section">
-                <div class="pricing-section-head">
-                  <h2>积分包</h2>
-                  <span>补充可用积分，不改变已开通功能模块</span>
-                </div>
-                <div class="resource-panel">
-                  <div class="resource-list">
-                    <div class="resource-row">
-                      <div><strong>基础积分包</strong><span>5,500 积分 / 60 天</span></div>
-                      <div class="resource-price">￥499.00</div>
-                      <button class="resource-action" onclick="openPurchase('基础积分包', '499.00', '5,500', '60 天')">购买</button>
+            <div class="summary-grid">
+              <div class="summary-card highlight">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+                  <div>
+                    <div class="summary-label">当前账户余额</div>
+                    <div class="summary-value">128,600<span class="unit">积分</span></div>
+                    <div class="summary-meta">
+                      <span>预计可使用 <span class="up">42 天</span> · 按近 30 天消耗</span>
                     </div>
-                    <div class="resource-row">
-                      <div><strong>专业积分包</strong><span>23,000 积分 / 180 天</span></div>
-                      <div class="resource-price">￥1,999.00</div>
-                      <button class="resource-action" onclick="openPurchase('专业积分包', '1999.00', '23,000', '180 天')">购买</button>
-                    </div>
-                    <div class="resource-row">
-                      <div><strong>企业积分包</strong><span>60,000 积分 / 365 天</span></div>
-                      <div class="resource-price">￥5,000.00</div>
-                      <button class="resource-action" onclick="openPurchase('企业积分包', '5000.00', '60,000', '365 天')">购买</button>
+                  </div>
+                  <div class="ring-wrap">
+                    <svg class="ring" viewBox="0 0 36 36">
+                      <circle class="ring-bg" cx="18" cy="18" r="15.9" fill="none" stroke-width="3"/>
+                      <circle class="ring-fg" cx="18" cy="18" r="15.9" fill="none" stroke-width="3" stroke-dasharray="74 100" stroke-linecap="round" transform="rotate(-90 18 18)"/>
+                    </svg>
+                    <div>
+                      <div style="font-size:20px; font-weight:900;">74%</div>
+                      <div style="font-size:11px; opacity:.7;">使用健康</div>
                     </div>
                   </div>
                 </div>
-              </section>
+              </div>
 
-            </section>
+              <div class="summary-card">
+                <div class="summary-label">本月消耗</div>
+                <div class="summary-value">26,340<span class="unit">积分</span></div>
+                <div class="summary-meta">
+                  <span class="up">↑ 12.4%</span> 较上月
+                </div>
+              </div>
+            </div>
+
+            <div class="section-head">
+              <h2 class="section-title">选择套餐</h2>
+            </div>
+
+            <div class="plans">
+              <article class="plan plan-hero">
+                <div class="hero-ribbon">新客专享 · 限购 1 次</div>
+                <div class="plan-head">
+                  <div class="plan-name">首次体验</div>
+                  <span class="badge badge-gold">体验</span>
+                </div>
+                <div class="plan-product">99 元开品体验包</div>
+                <div class="plan-price-row">
+                  <span class="plan-price-currency">¥</span>
+                  <span class="plan-price">99</span>
+                  <span class="plan-period">/ 30 天</span>
+                </div>
+                <ul class="plan-features">
+                  <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>990 积分</li>
+                  <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>AI 选品、Listing、图片</li>
+                  <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>30 天有效</li>
+                  <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>新客限购 1 次</li>
+                </ul>
+                <button class="plan-cta" onclick="openPurchase('99 元开品体验包', '99.00', '990', '30 天')">购买</button>
+              </article>
+
+              <article class="plan">
+                <div class="plan-head">
+                  <div class="plan-name">内容生产</div>
+                  <span class="badge badge-soft">入门</span>
+                </div>
+                <div class="plan-product">AI 开品提效包</div>
+                <div class="plan-price-row">
+                  <span class="plan-price-currency">¥</span>
+                  <span class="plan-price">3,980</span>
+                  <span class="plan-period">/ 1 年</span>
+                </div>
+                <div class="plan-savings">省 ¥ 1,560</div>
+                <ul class="plan-features">
+                  <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>80,000 积分</li>
+                  <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>内容中心、开品中心</li>
+                  <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>1 年有效</li>
+                  <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>不限次数购买</li>
+                </ul>
+                <button class="plan-cta" onclick="openPurchase('AI 开品提效包', '3980.00', '80,000', '1 年')">购买</button>
+              </article>
+
+              <article class="plan">
+                <div class="plan-head">
+                  <div class="plan-name">运营增长</div>
+                  <span class="badge badge-purple">推荐</span>
+                </div>
+                <div class="plan-product">AI 经营增长包</div>
+                <div class="plan-price-row">
+                  <span class="plan-price-currency">¥</span>
+                  <span class="plan-price">12,800</span>
+                  <span class="plan-period">/ 1 年</span>
+                </div>
+                <div class="plan-savings">省 ¥ 4,200</div>
+                <ul class="plan-features">
+                  <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>260,000 积分</li>
+                  <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>内容、开品、经营、广告</li>
+                  <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>1 年有效</li>
+                  <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>不限次数购买</li>
+                  <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>专属客户经理 <span class="feature-extra">· 1v1</span></li>
+                </ul>
+                <button class="plan-cta" onclick="openPurchase('AI 经营增长包', '12800.00', '260,000', '1 年')">购买</button>
+              </article>
+
+              <article class="plan">
+                <div class="plan-head">
+                  <div class="plan-name">全链路经营</div>
+                  <span class="badge badge-purple">推荐</span>
+                </div>
+                <div class="plan-product">AI 全生命周期版</div>
+                <div class="plan-price-row">
+                  <span class="plan-price-currency">¥</span>
+                  <span class="plan-price">19,800</span>
+                  <span class="plan-period">/ 1 年</span>
+                </div>
+                <div class="plan-savings">省 ¥ 7,200</div>
+                <ul class="plan-features">
+                  <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>500,000 积分</li>
+                  <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>全部标准模块</li>
+                  <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>1 年有效</li>
+                  <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>不限次数购买</li>
+                </ul>
+                <button class="plan-cta" onclick="openPurchase('AI 全生命周期版', '19800.00', '500,000', '1 年')">购买</button>
+              </article>
+            </div>
+
+            <div class="section-head">
+              <h2 class="section-title">积分包</h2>
+              <div class="section-meta">补充可用积分，不改变已开通功能模块</div>
+            </div>
+
+            <div class="packs">
+              <article class="pack">
+                <div class="pack-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+                </div>
+                <div class="pack-name">基础积分包</div>
+                <div class="pack-meta">适合轻量尝鲜 · 60 天有效</div>
+                <div class="pack-amount">5,500<span class="unit">积分</span></div>
+                <div class="pack-foot">
+                  <div class="pack-price">¥ 499</div>
+                  <button class="pack-buy" onclick="openPurchase('基础积分包', '499.00', '5,500', '60 天')">购买</button>
+                </div>
+              </article>
+
+              <article class="pack popular">
+                <div class="pack-discount">省 14%</div>
+                <div class="pack-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </div>
+                <div class="pack-name">专业积分包</div>
+                <div class="pack-meta">高性价比首选 · 180 天有效</div>
+                <div class="pack-amount">23,000<span class="unit">积分</span></div>
+                <div class="pack-foot">
+                  <div class="pack-price">¥ 1,999</div>
+                  <button class="pack-buy" onclick="openPurchase('专业积分包', '1999.00', '23,000', '180 天')">购买</button>
+                </div>
+              </article>
+
+              <article class="pack">
+                <div class="pack-discount">省 18%</div>
+                <div class="pack-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-3V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v3H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M9 4h6v3H9z"/></svg>
+                </div>
+                <div class="pack-name">企业积分包</div>
+                <div class="pack-meta">团队规模化使用 · 365 天有效</div>
+                <div class="pack-amount">60,000<span class="unit">积分</span></div>
+                <div class="pack-foot">
+                  <div class="pack-price">¥ 5,000</div>
+                  <button class="pack-buy" onclick="openPurchase('企业积分包', '5000.00', '60,000', '365 天')">购买</button>
+                </div>
+              </article>
+            </div>
           </div>
         </section>
 
