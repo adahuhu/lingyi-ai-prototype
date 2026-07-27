@@ -3853,6 +3853,14 @@
     }
 
     function openPurchase(name, amount, points, validity, orderNo = 'ORD202607240018') {
+      const payload = { name, amount, points, validity, orderNo };
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({
+          type: 'lingyi-credit-purchase-preview',
+          payload
+        }, '*');
+        return;
+      }
       setDrawerContent({
         title: '购买预览',
         cancelText: '关闭',

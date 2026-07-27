@@ -11266,6 +11266,91 @@
     .drawer-body .detail-section h2 {
       font-size: 16px;
     }
+    .credit-purchase-preview {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+    .credit-purchase-card {
+      border: 1px solid #e1e8f2;
+      border-radius: 10px;
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 1px 2px rgba(15,23,42,.025);
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+    .credit-purchase-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      min-height: 28px;
+      color: #667085;
+      font-size: 12px;
+      font-weight: 720;
+    }
+    .credit-purchase-line strong {
+      color: #111827;
+      font-size: 13px;
+      font-weight: 850;
+      text-align: right;
+    }
+    .credit-pay-card {
+      border: 1px solid #dbe5f1;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #fff 0%, #f8fbff 100%);
+      box-shadow: 0 18px 38px rgba(15,23,42,.07);
+      padding: 18px 16px;
+      display: grid;
+      justify-items: center;
+      gap: 14px;
+      text-align: center;
+    }
+    .credit-pay-badge {
+      min-height: 26px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      background: #eaf8f2;
+      color: #13966a;
+      padding: 0 10px;
+      font-size: 12px;
+      font-weight: 850;
+    }
+    .credit-qr-matrix {
+      width: 178px;
+      height: 178px;
+      display: grid;
+      grid-template-columns: repeat(21, 1fr);
+      grid-template-rows: repeat(21, 1fr);
+      gap: 2px;
+      padding: 10px;
+      border: 1px solid #d8e2ee;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 8px 22px rgba(15,23,42,.07);
+    }
+    .credit-qr-matrix span {
+      border-radius: 1px;
+      background: transparent;
+    }
+    .credit-qr-matrix span.dark {
+      background: #101828;
+    }
+    .credit-pay-amount {
+      color: #101828;
+      font-size: 28px;
+      line-height: 1.05;
+      font-weight: 920;
+      letter-spacing: 0;
+    }
+    .credit-pay-meta {
+      color: #667085;
+      font-size: 13px;
+      font-weight: 720;
+    }
     .drawer-body .meta,
     .drawer-body .muted,
     .drawer-body p,
@@ -25928,7 +26013,7 @@
     }
 
     function renderCreditPrototypeEmbed(pageId, title) {
-      return `<iframe class="credit-prototype-frame" title="${escapeHtml(title)}" src="../ai-billing-workbench-prototype/index.html?embed=1&v=20260727-plan-clone#${escapeHtml(pageId)}" scrolling="no" onload="resizeCreditPrototypeFrame(this)"></iframe>`;
+      return `<iframe class="credit-prototype-frame" title="${escapeHtml(title)}" src="../ai-billing-workbench-prototype/index.html?embed=1&v=20260727-parent-drawer#${escapeHtml(pageId)}" scrolling="no" onload="resizeCreditPrototypeFrame(this)"></iframe>`;
     }
 
     function renderCreditProducts() {
@@ -26916,6 +27001,58 @@
       qs("#drawerMask").classList.remove("open");
       qs("#drawer").classList.remove("open", "wide");
     }
+
+    function renderCreditPurchaseQrMatrix(seedText) {
+      const seed = Array.from(String(seedText || "")).reduce((sum, char) => sum + char.charCodeAt(0), 0);
+      const cells = [];
+      for (let y = 0; y < 21; y += 1) {
+        for (let x = 0; x < 21; x += 1) {
+          const finder =
+            (x < 7 && y < 7 && (x === 0 || x === 6 || y === 0 || y === 6 || (x >= 2 && x <= 4 && y >= 2 && y <= 4))) ||
+            (x > 13 && y < 7 && (x === 14 || x === 20 || y === 0 || y === 6 || (x >= 16 && x <= 18 && y >= 2 && y <= 4))) ||
+            (x < 7 && y > 13 && (x === 0 || x === 6 || y === 14 || y === 20 || (x >= 2 && x <= 4 && y >= 16 && y <= 18)));
+          const data = ((x * 11 + y * 7 + seed) % 5 === 0) || ((x + y + seed) % 9 === 0);
+          cells.push(`<span class="${finder || data ? "dark" : ""}"></span>`);
+        }
+      }
+      return cells.join("");
+    }
+
+    function openCreditPurchasePreview(payload = {}) {
+      const name = payload.name || "套餐商品";
+      const amount = payload.amount || "0.00";
+      const points = payload.points || "--";
+      const validity = payload.validity || "--";
+      const orderNo = payload.orderNo || "ORD202607240018";
+      openDrawer("购买预览", `
+        <div class="credit-purchase-preview">
+          <section class="credit-purchase-card">
+            <div class="credit-purchase-line"><span>商品</span><strong>${escapeHtml(name)}</strong></div>
+            <div class="credit-purchase-line"><span>售价</span><strong>￥${escapeHtml(amount)}</strong></div>
+            <div class="credit-purchase-line"><span>积分</span><strong>${escapeHtml(points)} 积分</strong></div>
+            <div class="credit-purchase-line"><span>有效期</span><strong>${escapeHtml(validity)}</strong></div>
+            <div class="credit-purchase-line"><span>支付方式</span><strong>微信支付</strong></div>
+          </section>
+          <section class="credit-pay-card">
+            <div class="credit-pay-badge"><i data-lucide="scan-line"></i>微信支付</div>
+            <div class="credit-qr-matrix" aria-label="微信支付二维码">${renderCreditPurchaseQrMatrix(name + amount)}</div>
+            <div class="credit-pay-amount">￥${escapeHtml(amount)}</div>
+            <div class="credit-pay-meta">订单号 ${escapeHtml(orderNo)}</div>
+          </section>
+        </div>
+      `, `<button class="btn" data-action="closeDrawer">关闭</button><button class="btn primary" data-action="closeDrawer"><i data-lucide="check"></i>我已支付</button>`);
+    }
+
+    function isCreditPrototypeMessageSource(source) {
+      return [...document.querySelectorAll("iframe.credit-prototype-frame")].some(frame => frame.contentWindow === source);
+    }
+
+    window.addEventListener("message", event => {
+      const data = event.data || {};
+      if (data.type !== "lingyi-credit-purchase-preview") return;
+      if (!isCreditPrototypeMessageSource(event.source)) return;
+      openCreditPurchasePreview(data.payload || {});
+    });
 
     function toast(title, msg) {
       const node = document.createElement("div");
