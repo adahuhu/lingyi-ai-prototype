@@ -8733,6 +8733,24 @@
     .grid-5 { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 10px; }
     .grid-6 { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 10px; }
 
+    .main.view-creditProducts,
+    .main.view-creditAccount,
+    .main.view-creditLedger,
+    .main.view-creditSettings,
+    .main.view-creditManual {
+      padding: 0;
+      gap: 0;
+      background: #f5f7fb;
+    }
+    .credit-prototype-frame {
+      width: 100%;
+      height: calc(100vh - 49px);
+      min-height: 640px;
+      border: 0;
+      display: block;
+      background: #f5f7fb;
+    }
+
     .metric {
       border: 1px solid var(--line);
       border-radius: 12px;
@@ -11672,6 +11690,145 @@
     }
     .drawer-body .detail-section h2 {
       font-size: 16px;
+    }
+    .credit-purchase-preview {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+    .credit-purchase-card {
+      border: 1px solid #e1e8f2;
+      border-radius: 10px;
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 1px 2px rgba(15,23,42,.025);
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+    .credit-purchase-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      min-height: 28px;
+      color: #667085;
+      font-size: 12px;
+      font-weight: 720;
+    }
+    .credit-purchase-line strong {
+      color: #111827;
+      font-size: 13px;
+      font-weight: 850;
+      text-align: right;
+    }
+    .credit-attachment-upload {
+      position: relative;
+      min-height: 58px;
+      padding: 10px 12px;
+      border: 1px dashed #c7d7ee;
+      border-radius: 8px;
+      background: #f8fbff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: border-color .16s ease, background .16s ease, box-shadow .16s ease;
+    }
+    .credit-attachment-upload:hover {
+      border-color: var(--primary);
+      background: var(--primary-softer);
+      box-shadow: 0 0 0 3px rgba(22, 119, 255, .08);
+    }
+    .credit-attachment-upload input {
+      display: none;
+    }
+    .credit-attachment-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+    .credit-attachment-copy {
+      min-width: 0;
+      display: grid;
+      gap: 2px;
+      flex: 1;
+    }
+    .credit-attachment-copy strong {
+      color: #1f2937;
+      font-size: 13px;
+      font-weight: 850;
+    }
+    .credit-attachment-copy small {
+      color: var(--subtle);
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .credit-attachment-action {
+      color: var(--primary-strong);
+      font-size: 12px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+    .credit-pay-card {
+      border: 1px solid #dbe5f1;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #fff 0%, #f8fbff 100%);
+      box-shadow: 0 18px 38px rgba(15,23,42,.07);
+      padding: 18px 16px;
+      display: grid;
+      justify-items: center;
+      gap: 14px;
+      text-align: center;
+    }
+    .credit-pay-badge {
+      min-height: 26px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      background: #eaf8f2;
+      color: #13966a;
+      padding: 0 10px;
+      font-size: 12px;
+      font-weight: 850;
+    }
+    .credit-qr-matrix {
+      width: 178px;
+      height: 178px;
+      display: grid;
+      grid-template-columns: repeat(21, 1fr);
+      grid-template-rows: repeat(21, 1fr);
+      gap: 2px;
+      padding: 10px;
+      border: 1px solid #d8e2ee;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 8px 22px rgba(15,23,42,.07);
+    }
+    .credit-qr-matrix span {
+      border-radius: 1px;
+      background: transparent;
+    }
+    .credit-qr-matrix span.dark {
+      background: #101828;
+    }
+    .credit-pay-amount {
+      color: #101828;
+      font-size: 28px;
+      line-height: 1.05;
+      font-weight: 920;
+      letter-spacing: 0;
+    }
+    .credit-pay-meta {
+      color: #667085;
+      font-size: 13px;
+      font-weight: 720;
     }
     .drawer-body .meta,
     .drawer-body .muted,
@@ -20496,6 +20653,15 @@
       { title: "系统底座", items: [
         ["connectors", "连接器", "plug-zap"],
         ["notifications", "消息推送", "send"]
+      ]},
+      { title: "AI 积分中心", items: [
+        ["creditProducts", "套餐管理", "package"],
+        ["creditAccount", "积分账户", "wallet-cards"],
+        ["creditLedger", "积分明细", "list-filter"]
+      ]},
+      { title: "系统运维", items: [
+        ["creditSettings", "计费设置", "settings-2"],
+        ["creditManual", "权益开通", "hand-coins"]
       ]}
     ];
     const routeTitleFallbacks = {
@@ -22521,6 +22687,11 @@
         quality: renderQuality,
         library: renderLibrary,
         credits: renderCredits,
+        creditProducts: renderCreditProducts,
+        creditAccount: renderCreditAccount,
+        creditLedger: renderCreditLedger,
+        creditSettings: renderCreditSettings,
+        creditManual: renderCreditManual,
         costRules: renderCostRules,
         connectors: renderConnectors,
         notifications: renderNotifications,
@@ -27504,6 +27675,56 @@
       ], `<button class="btn" data-action="reuseAsset"><i data-lucide="copy"></i>复用成果</button><button class="btn primary" data-action="exportAsset"><i data-lucide="file-down"></i>导出成果</button>`, libraryAnalytics());
     }
 
+    function resizeCreditPrototypeFrame(frame) {
+      try {
+        const doc = frame.contentDocument || frame.contentWindow?.document;
+        if (!doc) return;
+        const syncHeight = () => {
+          const height = Math.ceil(Math.max(
+            doc.documentElement?.scrollHeight || 0,
+            doc.body?.scrollHeight || 0,
+            640
+          ));
+          frame.style.height = `${height}px`;
+        };
+        doc.documentElement.style.overflow = "hidden";
+        doc.body.style.overflow = "hidden";
+        syncHeight();
+        frame._creditResizeObserver?.disconnect();
+        frame._creditResizeObserver = new ResizeObserver(syncHeight);
+        frame._creditResizeObserver.observe(doc.documentElement);
+        frame._creditResizeObserver.observe(doc.body);
+        setTimeout(syncHeight, 120);
+        setTimeout(syncHeight, 500);
+      } catch (error) {
+        frame.style.height = "calc(100vh - 49px)";
+      }
+    }
+
+    function renderCreditPrototypeEmbed(pageId, title) {
+      return `<iframe class="credit-prototype-frame" title="${escapeHtml(title)}" src="../ai-billing-workbench-prototype/index.html?embed=1&v=20260727-entitlement-fluid#${escapeHtml(pageId)}" scrolling="no" onload="resizeCreditPrototypeFrame(this)"></iframe>`;
+    }
+
+    function renderCreditProducts() {
+      return renderCreditPrototypeEmbed("products", "套餐管理");
+    }
+
+    function renderCreditAccount() {
+      return renderCreditPrototypeEmbed("account", "积分账户");
+    }
+
+    function renderCreditLedger() {
+      return renderCreditPrototypeEmbed("usage", "积分明细");
+    }
+
+    function renderCreditSettings() {
+      return renderCreditPrototypeEmbed("catalog", "计费设置");
+    }
+
+    function renderCreditManual() {
+      return renderCreditPrototypeEmbed("manual", "权益开通");
+    }
+
     function renderCredits() {
       return moduleTable("积分与任务记录", "记录每次 AI 调用的任务、模块、消耗积分、成功失败、失败是否退回。", credits, [
         {key:"id",label:"记录编号"},{key:"task",label:"任务名称"},{key:"type",label:"任务类型",kind:"status"},{key:"module",label:"消耗模块"},{key:"credits",label:"消耗积分"},{key:"status",label:"状态",kind:"status"},{key:"refund",label:"失败是否退回",kind:"status"},{key:"time",label:"时间"}
@@ -28429,6 +28650,109 @@
       qs("#drawerMask").classList.remove("open");
       qs("#drawer").classList.remove("open", "wide");
     }
+
+    function renderCreditPurchaseQrMatrix(seedText) {
+      const seed = Array.from(String(seedText || "")).reduce((sum, char) => sum + char.charCodeAt(0), 0);
+      const cells = [];
+      for (let y = 0; y < 21; y += 1) {
+        for (let x = 0; x < 21; x += 1) {
+          const finder =
+            (x < 7 && y < 7 && (x === 0 || x === 6 || y === 0 || y === 6 || (x >= 2 && x <= 4 && y >= 2 && y <= 4))) ||
+            (x > 13 && y < 7 && (x === 14 || x === 20 || y === 0 || y === 6 || (x >= 16 && x <= 18 && y >= 2 && y <= 4))) ||
+            (x < 7 && y > 13 && (x === 0 || x === 6 || y === 14 || y === 20 || (x >= 2 && x <= 4 && y >= 16 && y <= 18)));
+          const data = ((x * 11 + y * 7 + seed) % 5 === 0) || ((x + y + seed) % 9 === 0);
+          cells.push(`<span class="${finder || data ? "dark" : ""}"></span>`);
+        }
+      }
+      return cells.join("");
+    }
+
+    function openCreditPurchasePreview(payload = {}) {
+      const name = payload.name || "套餐商品";
+      const amount = payload.amount || "0.00";
+      const points = payload.points || "--";
+      const validity = payload.validity || "--";
+      const orderNo = payload.orderNo || "ORD202607240018";
+      openDrawer("购买预览", `
+        <div class="credit-purchase-preview">
+          <section class="credit-purchase-card">
+            <div class="credit-purchase-line"><span>商品</span><strong>${escapeHtml(name)}</strong></div>
+            <div class="credit-purchase-line"><span>售价</span><strong>￥${escapeHtml(amount)}</strong></div>
+            <div class="credit-purchase-line"><span>积分</span><strong>${escapeHtml(points)} 积分</strong></div>
+            <div class="credit-purchase-line"><span>有效期</span><strong>${escapeHtml(validity)}</strong></div>
+            <div class="credit-purchase-line"><span>支付方式</span><strong>微信支付</strong></div>
+          </section>
+          <section class="credit-pay-card">
+            <div class="credit-pay-badge"><i data-lucide="scan-line"></i>微信支付</div>
+            <div class="credit-qr-matrix" aria-label="微信支付二维码">${renderCreditPurchaseQrMatrix(name + amount)}</div>
+            <div class="credit-pay-amount">￥${escapeHtml(amount)}</div>
+            <div class="credit-pay-meta">订单号 ${escapeHtml(orderNo)}</div>
+          </section>
+        </div>
+      `, `<button class="btn" data-action="closeDrawer">关闭</button><button class="btn primary" data-action="closeDrawer"><i data-lucide="check"></i>我已支付</button>`);
+    }
+
+
+
+    function openCreditManualDrawer(payload = {}) {
+      const kind = payload.kind || "package";
+      if (kind === "detail") {
+        openDrawer("开通详情", `
+          <section class="credit-purchase-card">
+            <div class="credit-purchase-line"><span>开通单号</span><strong>MGRTRCb81e8c003b95469c800f6e059fb48955</strong></div>
+            <div class="credit-purchase-line"><span>类型</span><strong>套餐开通</strong></div>
+            <div class="credit-purchase-line"><span>目标租户</span><strong>杭州某跨境科技</strong></div>
+            <div class="credit-purchase-line"><span>商品 / 积分</span><strong>AI 经营增长包 · 260,000 积分</strong></div>
+            <div class="credit-purchase-line"><span>实收金额</span><strong>￥12,800.00</strong></div>
+            <div class="credit-purchase-line"><span>银行流水号</span><strong>BK202607240018</strong></div>
+            <div class="credit-purchase-line"><span>状态</span><strong>已履约</strong></div>
+            <div class="credit-purchase-line"><span>创建人</span><strong>平台管理员</strong></div>
+          </section>
+          <section class="credit-purchase-card">
+            <div class="credit-purchase-line"><span>生效时间</span><strong>2026-07-24 17:29</strong></div>
+            <div class="credit-purchase-line"><span>失效时间</span><strong>2027-07-24 17:29</strong></div>
+            <div class="credit-purchase-line"><span>开通原因</span><strong>合同已回款</strong></div>
+          </section>
+        `, `<button class="btn primary" data-action="closeDrawer">关闭</button>`);
+        return;
+      }
+      const isPoints = kind === "points";
+      openDrawer(isPoints ? "补充积分" : "开通线下套餐", `
+        <div class="form-grid">
+          <div class="form-row ${isPoints ? "" : "full"}"><label>目标租户</label><select class="select"><option>杭州某跨境科技</option><option>义乌某家居贸易</option><option>深圳某消费电子</option></select></div>
+          ${isPoints ? `<div class="form-row"><label>补充积分</label><input class="input" value="1000" placeholder="请输入补充积分"></div>` : `<div class="form-row full"><label>线下服务套餐</label><select class="select"><option>AI 经营增长包</option><option>AI 开品提效包</option><option>AI 全生命周期版</option><option>99 元开品体验包</option></select></div>`}
+          ${isPoints ? `<div class="form-row"><label>失效时间</label><input class="input" value="2026-10-28 00:00" placeholder="请选择积分失效时间"></div>` : ""}
+          <div class="form-row"><label>付款方名称</label><input class="input" value="${isPoints ? "" : "杭州某跨境科技有限公司"}" placeholder="请输入付款方名称${isPoints ? "（可选）" : ""}"></div>
+          <div class="form-row"><label>实收金额（元）</label><input class="input" value="${isPoints ? "0" : "12800"}" placeholder="请输入实收金额，单位：元"></div>
+          <div class="form-row full"><label>银行流水号</label><input class="input" value="${isPoints ? "" : "BK202607240018"}" placeholder="请输入银行流水号（可选）"></div>
+          <div class="form-row full"><label>附件上传</label><label class="credit-attachment-upload"><span class="credit-attachment-icon"><i data-lucide="paperclip"></i></span><span class="credit-attachment-copy"><strong>上传合同或银行水单</strong><small>支持 PDF、JPG、PNG，最多 5 个文件</small></span><span class="credit-attachment-action">选择文件</span><input type="file" multiple accept=".pdf,.jpg,.jpeg,.png"></label></div>
+          <div class="form-row full"><label>${isPoints ? "补充原因" : "开通原因"}</label><textarea class="textarea" placeholder="${isPoints ? "请说明本次补充原因" : "请说明本次开通原因"}">${isPoints ? "售后补偿积分。" : "合同已回款，对应 AI 经营增长包年度权益。"}</textarea></div>
+          <div class="form-row full"><label>备注</label><textarea class="textarea" placeholder="请输入备注（可选）"></textarea></div>
+        </div>
+        <section class="credit-purchase-card">
+          <div class="credit-purchase-line"><span>目标账户</span><strong>杭州某跨境科技 / 租户池</strong></div>
+          <div class="credit-purchase-line"><span>${isPoints ? "补充积分" : "开通套餐"}</span><strong>${isPoints ? "1,000 积分" : "AI 经营增长包"}</strong></div>
+          <div class="credit-purchase-line"><span>入账积分</span><strong>${isPoints ? "1,000" : "260,000"} 积分</strong></div>
+          <div class="credit-purchase-line"><span>${isPoints ? "失效时间" : "有效期"}</span><strong>${isPoints ? "2026-10-28 00:00" : "1 年"}</strong></div>
+        </section>
+      `, `<button class="btn" data-action="closeDrawer">取消</button><button class="btn primary" data-action="closeDrawer"><i data-lucide="check"></i>${isPoints ? "确认补充" : "确认开通"}</button>`);
+    }
+
+    function isCreditPrototypeMessageSource(source) {
+      return [...document.querySelectorAll("iframe.credit-prototype-frame")].some(frame => frame.contentWindow === source);
+    }
+
+    window.addEventListener("message", event => {
+      const data = event.data || {};
+      if (!isCreditPrototypeMessageSource(event.source)) return;
+      if (data.type === "lingyi-credit-purchase-preview") {
+        openCreditPurchasePreview(data.payload || {});
+        return;
+      }
+      if (data.type === "lingyi-credit-manual-drawer") {
+        openCreditManualDrawer(data.payload || {});
+      }
+    });
 
     function toast(title, msg) {
       const node = document.createElement("div");
