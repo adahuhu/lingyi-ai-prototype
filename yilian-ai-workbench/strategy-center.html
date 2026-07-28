@@ -582,7 +582,7 @@
           <article class="outcome-card task" id="issueOutcomeCard">
             <div class="outcome-head"><div class="outcome-title"><input type="checkbox" id="issueOutcomeEnabled" checked hidden><i class="outcome-icon">!</i>异常处理</div><span class="tag red" id="taskOutcomeTag">异常任务</span></div>
             <div class="outcome-fields">
-              <label class="outcome-field"><span>识别为</span><select class="inline-field" id="issueSelect"><option>D30 零单</option><option>D15 弱动销</option><option>连续零单</option><option>有花费无订单</option><option>ACOS 过高</option><option>TACoS 过高</option><option>库存覆盖不足</option><option>补货候选</option><option>清货消化慢</option><option>差评集中出现</option><option>新建问题类型…</option></select><small class="match-note"><span>AI 已自动匹配，可修改</span></small></label>
+              <label class="outcome-field"><span>识别为</span><select class="inline-field" id="issueSelect"><option>D30 零单</option><option>D15 弱动销</option><option>测试通过</option><option>基础条件阻断</option><option>数据待补齐</option><option>连续零单</option><option>有花费无订单</option><option>ACOS 过高</option><option>TACoS 过高</option><option>库存覆盖不足</option><option>补货候选</option><option>清货消化慢</option><option>差评集中出现</option><option>新建问题类型…</option></select><small class="match-note"><span>AI 已自动匹配，可修改</span></small></label>
               <label class="outcome-field"><span>处理时效</span><select class="inline-field" id="deadlineSelect"><option>今天处理</option><option>48 小时内处理</option><option>7 天内处理</option></select></label>
               <div class="custom-issue" id="customIssueFields"><input class="field" id="customIssueName" placeholder="输入新的问题名称"></div>
             </div>
@@ -619,8 +619,11 @@
     <div class="drawer-body">
       <div class="library-toolbar"><input class="field" placeholder="搜索规则、指标或识别结果"><select class="field"><option>全部生命周期</option><option>新品测试</option><option>正常经营</option><option>清货</option></select><select class="field"><option>全部识别结果</option><option>销售</option><option>广告</option><option>库存</option><option>Listing</option></select><button class="btn">重置</button></div>
       <div class="card" style="margin-top:8px;overflow:hidden"><table><thead><tr><th>规则</th><th>适用范围</th><th>条件摘要</th><th>识别结果</th><th>执行结果</th><th>阶段建议/流转</th><th>版本/状态</th><th></th></tr></thead><tbody>
+        <tr><td><strong>新品有效测试前置条件</strong><small>系统模板</small></td><td>新品测试 · 持续检查</td><td>Listing、Buy Box、广告或库存不满足</td><td><span class="tag red">基础条件阻断 · 今天处理</span></td><td><span class="tag orange">异常任务</span> <span class="tag blue">经营视图</span></td><td>保持当前阶段<br><small>暂停有效测试计时</small></td><td><span class="tag green">V1 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
+        <tr><td><strong>D15 弱动销观察</strong><small>系统模板</small></td><td>新品测试 · D15</td><td>D15销量低于目标且接近止损线</td><td><span class="tag orange">D15 弱动销 · 48小时</span></td><td><span class="tag orange">异常任务</span> <span class="tag blue">经营视图</span></td><td>保持当前阶段<br><small>7天后复查</small></td><td><span class="tag green">V2 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
         <tr><td><strong>D30 仍未出单</strong><small>系统模板</small></td><td>新品测试 · D30</td><td>30日销量=0 且库存&gt;0</td><td><span class="tag red">D30 零单 · 今天处理</span></td><td><span class="tag orange">异常任务</span> <span class="tag blue">经营视图</span></td><td>保持当前阶段<br><small>建议进入清货 · 负责人确认</small></td><td><span class="tag green">V3 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
         <tr><td><strong>D30 测试达标</strong><small>系统模板</small></td><td>新品测试 · D30</td><td>30日销量≥60 且利润为正</td><td><span class="tag green">测试通过</span></td><td><span class="tag green">生命周期流转</span></td><td>自动进入正常经营</td><td><span class="tag green">V2 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
+        <tr><td><strong>新品关键数据完整性</strong><small>系统模板</small></td><td>新品测试 · 节点判断前</td><td>当前节点必需经营字段缺失</td><td><span class="tag orange">数据待补齐 · 48小时</span></td><td><span class="tag orange">异常任务</span> <span class="tag blue">经营视图</span></td><td>保持当前阶段<br><small>补齐后重新计算</small></td><td><span class="tag green">V1 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
         <tr><td><strong>广告有花费无订单</strong><small>租户规则</small></td><td>新品测试、正常经营</td><td>7日花费&gt;0 且广告订单=0</td><td><span class="tag orange">有花费无订单 · 48小时</span></td><td><span class="tag orange">异常任务</span></td><td>保持当前阶段</td><td><span class="tag green">V4 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
         <tr><td><strong>库存覆盖不足</strong><small>租户规则</small></td><td>正常经营</td><td>覆盖天数&lt;采购+物流周期</td><td><span class="tag blue">补货候选 · 48小时</span></td><td><span class="tag orange">异常任务</span></td><td>保持当前阶段</td><td><span class="tag">V1 · 草稿</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
       </tbody></table></div>
@@ -679,7 +682,7 @@
   <script>
     let stageData = [
       { id:'prelaunch', name: '待开售', subtitle: '等待识别开售日期', count: 1, standard:true },
-      { id:'testing', name: '新品测试', subtitle: 'D7 · D15 · D30', count: 3, standard:true },
+      { id:'testing', name: '新品测试', subtitle: 'D7 · D15 · D30', count: 6, standard:true },
       { id:'operating', name: '正常经营', subtitle: '持续经营', count: 3, standard:true },
       { id:'clearance', name: '清货', subtitle: '执行 · 监控', count: 3, standard:true },
       { id:'archive', name: '停售归档', subtitle: '停止日常巡检', count: 0, standard:true }
@@ -689,8 +692,11 @@
         { name:'识别有效开售日期', meta:'系统生命周期规则', conditions:['有效开售日期 已识别'], signal:'已开售', signalClass:'green', priority:'', result:'记录生命周期判断', resultMeta:'不创建异常任务', stage:'自动进入新品测试', stageMeta:'系统自动流转', view:'新品测试' }
       ],
       '新品测试': [
+        { name:'新品有效测试前置条件', meta:'持续检查 · 系统模板', conditions:['Listing = 可售','Buy Box = 正常','基础广告 = 已开启','FBA 可售库存 > 0'], signal:'基础条件阻断', signalClass:'red', priority:'今天处理', result:'自动生成待处理任务', resultMeta:'先修复可售条件，恢复后重新累计有效测试天数', stage:'保持当前阶段', stageMeta:'暂停有效测试计时', view:'新品测试' },
+        { name:'D15 弱动销观察', meta:'D15 · 系统模板', conditions:['有效测试天数 ≥ 15','D15 销量 < 当前测试目标','广告接近止损线'], signal:'D15 弱动销', signalClass:'orange', priority:'48小时处理', result:'自动生成待处理任务', resultMeta:'收缩低效广告并调整价格，7天后复查', stage:'保持当前阶段', stageMeta:'继续测试观察', view:'新品测试' },
         { name:'D30 仍未出单', meta:'D30 · 系统模板', conditions:['近30日 销量 = 0','库存 > 0','Listing = 可售'], signal:'D30 零单', signalClass:'red', priority:'今天处理', result:'自动生成待处理任务', resultMeta:'暂停补货并评估清货方案', stage:'保持当前阶段', stageMeta:'建议进入清货 · 负责人确认后流转', view:'不动销处置' },
-        { name:'D30 测试达标', meta:'D30 · 系统模板', conditions:['近30日 销量 ≥ 60','平均利润/单 > 0'], signal:'测试通过', signalClass:'green', priority:'', result:'记录生命周期判断', resultMeta:'不创建异常任务', stage:'自动进入正常经营', stageMeta:'系统自动流转' },
+        { name:'D30 测试达标', meta:'D30 · 系统模板', conditions:['近30日 销量 ≥ 60','平均利润/单 > 0'], signal:'测试通过', signalClass:'green', priority:'', result:'记录生命周期判断', resultMeta:'不创建异常任务', stage:'自动进入正常经营', stageMeta:'系统自动流转', view:'新品测试' },
+        { name:'新品关键数据完整性', meta:'节点判断前 · 系统模板', conditions:['当前节点必需字段 缺失'], signal:'数据待补齐', signalClass:'orange', priority:'48小时处理', result:'自动生成待处理任务', resultMeta:'补齐广告订单和利润数据后重新计算', stage:'保持当前阶段', stageMeta:'暂停输出测试结论', view:'新品测试' },
         { name:'广告有花费无订单', meta:'持续检查 · 租户规则', conditions:['近7日 广告花费 > 0','近7日 广告订单 = 0','库存 > 0'], signal:'有花费无订单', signalClass:'orange', priority:'48小时处理', result:'自动合并到处理任务', resultMeta:'AI 分析具体建议动作', stage:'保持当前阶段', stageMeta:'显示到广告健康', view:'广告健康' }
       ],
       '正常经营': [
