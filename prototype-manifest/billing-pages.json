@@ -1,0 +1,32 @@
+{
+  "entryFile": "yilian-ai-workbench/index.html",
+  "prototypeFile": "ai-billing-workbench-prototype/index.html",
+  "iframeBase": "../ai-billing-workbench-prototype/index.html",
+  "groups": [
+    {
+      "title": "AI 积分中心",
+      "items": [
+        { "view": "creditProducts", "label": "套餐管理", "icon": "package", "pageId": "products", "pageTitle": "AI 积分中心 / 套餐管理", "renderer": "renderCreditProducts" },
+        { "view": "creditAccount", "label": "积分账户", "icon": "wallet-cards", "pageId": "account", "pageTitle": "AI 积分中心 / 积分账户", "renderer": "renderCreditAccount" },
+        { "view": "creditLedger", "label": "积分明细", "icon": "list-filter", "pageId": "usage", "pageTitle": "AI 积分中心 / 积分明细", "renderer": "renderCreditLedger" }
+      ]
+    },
+    {
+      "title": "系统运维",
+      "items": [
+        { "view": "creditSettings", "label": "计费设置", "icon": "settings-2", "pageId": "catalog", "pageTitle": "系统运维 / 计费设置", "renderer": "renderCreditSettings" },
+        { "view": "creditManual", "label": "权益开通", "icon": "hand-coins", "pageId": "manual", "pageTitle": "系统运维 / 权益开通", "renderer": "renderCreditManual" }
+      ]
+    }
+  ],
+  "entryCapabilities": [
+    "credit-prototype-frame",
+    "resizeCreditPrototypeFrame",
+    "renderCreditPrototypeEmbed",
+    "openCreditPurchasePreview",
+    "openCreditManualDrawer",
+    "lingyi-credit-purchase-preview",
+    "lingyi-credit-manual-drawer",
+    "credit-attachment-upload"
+  ]
+}
