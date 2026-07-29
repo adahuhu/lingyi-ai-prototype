@@ -9640,21 +9640,22 @@
       align-items: flex-start;
       justify-content: space-between;
       gap: 16px;
-      padding: 16px 18px;
+      padding: 13px 16px;
       border-bottom: 1px solid #edf0f4;
       background: linear-gradient(135deg, #f5f9ff, #fff 64%);
     }
-    .asin360-diagnosis-head h2 { margin: 5px 0 0; color: #172033; font-size: 18px; font-weight: 860; }
+    .asin360-diagnosis-head h2 { margin: 4px 0 0; color: #172033; font-size: 17px; font-weight: 860; }
     .asin360-diagnosis-head p { margin: 4px 0 0; color: #7a8798; font-size: 11px; line-height: 1.45; }
     .asin360-diagnosis-state { min-height: 28px; display: inline-flex; align-items: center; padding: 0 10px; border-radius: 999px; font-size: 11px; font-weight: 850; white-space: nowrap; }
     .asin360-diagnosis-state.attention { color: #b54708; background: #fff4e5; }
     .asin360-diagnosis-state.ok { color: #087443; background: #eaf8f0; }
-    .asin360-diagnosis-body { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(320px,.8fr); }
-    .asin360-diagnosis-summary { padding: 18px; display: grid; gap: 10px; align-content: start; }
-    .asin360-diagnosis-summary h3 { margin: 0; color: #172033; font-size: 18px; line-height: 1.45; font-weight: 860; }
+    .asin360-diagnosis-body { display: grid; grid-template-columns: minmax(0,1.3fr) minmax(300px,.7fr); }
+    .asin360-diagnosis-summary { padding: 16px; display: grid; gap: 8px; align-content: start; }
+    .asin360-flow-label { display:block; color:#2878ff; font-size:10px; font-weight:850; line-height:1.3; }
+    .asin360-diagnosis-summary h3 { margin: 0; color: #172033; font-size: 17px; line-height: 1.4; font-weight: 860; }
     .asin360-diagnosis-summary > p { margin: 0; color: #667085; font-size: 12px; line-height: 1.65; }
     .asin360-action-list { display: grid; gap: 8px; }
-    .asin360-action-item { position: relative; display: grid; gap: 5px; min-height: 82px; padding: 11px 108px 11px 12px; border: 1px solid #e7edf5; border-radius: 10px; background: #fbfdff; }
+    .asin360-action-item { position: relative; display: grid; gap: 4px; min-height: 72px; padding: 10px 104px 10px 11px; border: 1px solid #dfe8f4; border-radius: 9px; background: #fbfdff; }
     .asin360-action-item-head { display: flex; align-items: center; gap: 8px; min-width: 0; }
     .asin360-action-item-head strong { color: #172033; font-size: 12px; font-weight: 830; }
     .asin360-action-item p { margin: 0; color: #667085; font-size: 11px; line-height: 1.5; }
@@ -9662,8 +9663,9 @@
     .asin360-action-item > button { position: absolute; top: 50%; right: 12px; transform: translateY(-50%); }
     .asin360-no-action { display: flex; align-items: center; gap: 8px; min-height: 50px; padding: 12px; border: 1px dashed #bfe8d2; border-radius: 10px; color: #087443; background: #f5fcf7; font-size: 12px; font-weight: 750; }
     .asin360-no-action svg { width: 17px; height: 17px; }
-    .asin360-key-evidence { padding: 18px; border-left: 1px solid #edf0f4; background: #fcfdff; }
+    .asin360-key-evidence { padding: 16px; border-left: 1px solid #edf0f4; background: #fcfdff; }
     .asin360-key-evidence-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+    .asin360-key-evidence-head > div { display:grid; gap:3px; }
     .asin360-key-evidence-head strong { color: #172033; font-size: 13px; font-weight: 840; }
     .asin360-key-evidence-head span { color: #98a2b3; font-size: 10px; line-height: 1.4; text-align: right; }
     .asin360-evidence-time { display: block; margin-top: 10px; color: #98a2b3; font-size: 10px; }
@@ -25267,6 +25269,460 @@
       .kb-candidate-grid { grid-template-columns: 1fr; }
       .review-compact-summary { grid-template-columns: repeat(3,minmax(0,1fr)); }
     }
+
+    /* Unified operations and management design language. */
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) {
+      --workspace-canvas: #f4f6f8;
+      --workspace-surface: #ffffff;
+      --workspace-surface-subtle: #f8fafc;
+      --workspace-surface-muted: #f2f5f8;
+      --workspace-line: #e2e7ee;
+      --workspace-line-strong: #d4dce7;
+      --workspace-text: #182230;
+      --workspace-text-secondary: #475467;
+      --workspace-text-muted: #667085;
+      --workspace-text-subtle: #8a96a8;
+      --workspace-radius: 8px;
+      --workspace-shadow: 0 1px 2px rgba(16, 24, 40, .035);
+      --workspace-type-body: 14px;
+      --workspace-type-control: 13.5px;
+      --workspace-type-caption: 12px;
+      --workspace-type-chip: 12px;
+      background: var(--workspace-canvas);
+      color: var(--workspace-text);
+    }
+
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .app {
+      grid-template-columns: 228px minmax(0, 1fr);
+      background: var(--workspace-canvas);
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .sidebar {
+      padding: 16px 10px 14px;
+      gap: 8px;
+      border-right-color: var(--workspace-line);
+      background: #fbfcfd;
+      box-shadow: none;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .brand {
+      padding: 0 10px 12px;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .brand-mark {
+      border-radius: 8px;
+      background: #1769e0;
+      box-shadow: none;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .brand strong {
+      color: var(--workspace-text);
+      font-size: 16px;
+      font-weight: 800;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .brand span {
+      color: var(--workspace-text-muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .nav {
+      gap: 2px;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .nav-group-title {
+      min-height: 30px;
+      margin: 7px 4px 2px;
+      border-radius: 6px;
+      color: #98a2b3;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .nav-section.active .nav-group-title {
+      color: #526174;
+      background: #f0f3f7;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .nav-btn {
+      min-height: 38px;
+      border-radius: 7px;
+      color: #344054;
+      font-size: 13.5px;
+      font-weight: 650;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .nav-btn:hover {
+      color: #175cd3;
+      background: #f2f6fc;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .nav-btn.active {
+      color: #175cd3;
+      border-color: #cbdcf4;
+      background: #eaf2fd;
+      box-shadow: none;
+    }
+
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .topbar {
+      min-height: 52px;
+      padding: 0 20px;
+      border-bottom-color: var(--workspace-line);
+      background: rgba(255, 255, 255, .96);
+      backdrop-filter: blur(8px);
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .topbar-title {
+      color: var(--workspace-text-muted);
+      border-color: var(--workspace-line-strong);
+      border-radius: 7px;
+      box-shadow: none;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .topbar-title strong,
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .top-left > strong {
+      color: var(--workspace-text);
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .main,
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .main:is(
+      .view-newProducts,
+      .view-health,
+      .view-ads,
+      .view-inventory,
+      .view-clearance,
+      .view-inactive,
+      .view-exceptions,
+      .view-logs,
+      .view-rules,
+      .view-asinOverview,
+      .view-aiCockpit
+    ) {
+      padding: 18px 20px 32px;
+      gap: 16px;
+      background: var(--workspace-canvas);
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .main > :is(
+      .np-page,
+      .new-product-ops-page,
+      .inactive-ops-page,
+      .kb-compact-page,
+      .review-compact-page,
+      .asin360-v2,
+      .ai-cockpit
+    ) {
+      width: 100%;
+      min-width: 0;
+    }
+    body[data-ui-section="operations"] .main.view-asinOverview,
+    body[data-ui-section="operations"] .main.view-asinOverview > .np-page {
+      overflow: hidden;
+    }
+    body[data-ui-section="operations"] .asin-overview-panel {
+      min-width: 0;
+      overflow: hidden;
+    }
+    body[data-ui-section="operations"] .asin-overview-panel .np-detail-table-wrap {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) :is(
+      .np-page,
+      .new-product-ops-page,
+      .inactive-ops-page,
+      .kb-compact-page,
+      .review-compact-page
+    ) {
+      gap: 16px;
+    }
+
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) :is(
+      .panel,
+      .np-detail-panel,
+      .new-product-dimension-card,
+      .new-product-ops-list,
+      .inactive-ops-list,
+      .action-log-shell,
+      .kb-compact-toolbar,
+      .kb-compact-content,
+      .review-compact-toolbar,
+      .review-compact-summary,
+      .review-compact-section,
+      .kb-impact-overview,
+      .np-focus
+    ) {
+      border-color: var(--workspace-line);
+      border-radius: var(--workspace-radius);
+      background: var(--workspace-surface);
+      box-shadow: var(--workspace-shadow);
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) :is(
+      .panel-head,
+      .np-detail-head,
+      .review-compact-head,
+      .kb-section-head
+    ) {
+      min-height: 56px;
+      padding: 12px 16px;
+      border-bottom-color: var(--workspace-line);
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) :is(
+      .panel-head h2,
+      .np-detail-head h2,
+      .review-compact-head h2,
+      .kb-section-head h2
+    ) {
+      color: var(--workspace-text);
+      font-size: 15px;
+      font-weight: 750;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) :is(
+      .panel-head p,
+      .np-detail-head p,
+      .review-compact-head p,
+      .kb-section-head p
+    ) {
+      color: var(--workspace-text-muted);
+      font-weight: 500;
+    }
+
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) :is(
+      .btn,
+      .icon-btn,
+      .select,
+      .input,
+      .smart-select-trigger,
+      .search,
+      input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
+      select,
+      textarea
+    ) {
+      border-color: var(--workspace-line-strong);
+      border-radius: 7px;
+      box-shadow: none;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .btn {
+      min-height: 36px;
+      color: #344054;
+      font-weight: 650;
+      background: #fff;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .btn:hover {
+      color: #175cd3;
+      border-color: #b8cbe5;
+      background: #f8fbff;
+      box-shadow: none;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .btn.primary {
+      color: #fff;
+      border-color: #1769e0;
+      background: #1769e0;
+      box-shadow: none;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .btn.primary:hover {
+      color: #fff;
+      border-color: #155cc5;
+      background: #155cc5;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) :is(.btn.small, .np-detail-tab, .strategy-text-btn) {
+      min-height: 34px;
+      padding-inline: 11px;
+      font-weight: 650;
+    }
+
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .main table {
+      color: var(--workspace-text-secondary);
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .main table th {
+      height: 42px;
+      padding-top: 9px;
+      padding-bottom: 9px;
+      color: var(--workspace-text-muted);
+      border-color: var(--workspace-line);
+      background: #f7f9fb;
+      font-weight: 650;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .main table td {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      color: var(--workspace-text-secondary);
+      border-color: #e9edf2;
+      font-weight: 500;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .main table td strong {
+      color: #243247;
+      font-weight: 700;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .main table td small,
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .main table td .meta {
+      color: var(--workspace-text-subtle);
+      font-weight: 500;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .main table tbody tr:hover td {
+      background: #fafcff;
+    }
+
+    body[data-ui-section="operations"] .new-product-card-grid {
+      gap: 14px;
+    }
+    body[data-ui-section="operations"] .new-product-dimension-card > header {
+      min-height: 58px;
+      padding: 11px 14px;
+      border-bottom-color: var(--workspace-line);
+      background: #fff;
+    }
+    body[data-ui-section="operations"] .new-product-dimension-card.required > header {
+      background: #f8fbff;
+    }
+    body[data-ui-section="operations"] .new-product-dimension-list {
+      padding: 8px 10px 10px;
+      gap: 3px;
+    }
+    body[data-ui-section="operations"] .new-product-dimension-list > button {
+      min-height: 31px;
+      border-radius: 6px;
+    }
+    body[data-ui-section="operations"] :is(.new-product-ops-summary, .inactive-ops-summary) {
+      gap: 12px;
+    }
+    body[data-ui-section="operations"] :is(.new-product-ops-summary, .inactive-ops-summary) article {
+      min-height: 82px;
+      border-color: var(--workspace-line);
+      border-radius: var(--workspace-radius);
+      background: #fff;
+      box-shadow: var(--workspace-shadow);
+    }
+    body[data-ui-section="operations"] :is(.new-product-ops-ai, .inactive-ops-ai) {
+      border-color: #d9e4f2;
+      border-radius: var(--workspace-radius);
+      background: #f8fbff;
+      box-shadow: none;
+    }
+    body[data-ui-section="operations"] :is(.new-product-ops-ai, .inactive-ops-ai) > header {
+      background: #f6f9fd;
+      border-color: #dfe7f1;
+    }
+    body[data-ui-section="operations"] :is(.new-product-ops-table, .inactive-ops-table) thead tr:first-child th {
+      color: #526174;
+      background: #f1f5f9;
+      font-weight: 700;
+    }
+    body[data-ui-section="operations"] :is(.new-product-ops-table, .inactive-ops-table) thead tr:nth-child(2) th {
+      background: #f8fafc;
+    }
+    body[data-ui-section="operations"] :is(.new-product-ops-main, .inactive-ops-main) td {
+      min-height: 86px;
+    }
+    body[data-ui-section="operations"] :is(.new-product-ops-main, .inactive-ops-main) td:first-child,
+    body[data-ui-section="operations"] :is(.new-product-ops-main, .inactive-ops-main) td:last-child {
+      background: #fff;
+    }
+
+    body[data-ui-section="management"] :is(.kb-compact-toolbar, .review-compact-toolbar) {
+      min-height: 60px;
+      padding: 10px 14px;
+    }
+    body[data-ui-section="management"] .kb-compact-tabs button {
+      min-height: 36px;
+      border-radius: 6px;
+      color: var(--workspace-text-muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+    body[data-ui-section="management"] .kb-compact-tabs button.active {
+      color: #175cd3;
+      background: #edf4fd;
+    }
+    body[data-ui-section="management"] .kb-compact-notice {
+      min-height: 42px;
+      border-color: #dce6f2;
+      border-radius: var(--workspace-radius);
+      background: #f8fbff;
+    }
+    body[data-ui-section="management"] .review-compact-summary > div {
+      min-height: 96px;
+      padding: 16px 18px;
+      border-right-color: var(--workspace-line);
+    }
+    body[data-ui-section="management"] .review-compact-summary strong {
+      color: var(--workspace-text);
+      font-size: 24px;
+      font-weight: 750;
+    }
+    body[data-ui-section="management"] .kb-impact-lead {
+      background: #f8fbff;
+    }
+    body[data-ui-section="management"] .kb-impact-stat {
+      background: #fff;
+      border-left-color: var(--workspace-line);
+    }
+    body[data-ui-section="management"] :is(.action-log-tabs, .action-log-toolbar) {
+      border-bottom-color: var(--workspace-line);
+    }
+    body[data-ui-section="management"] .action-log-tabs {
+      min-height: 52px;
+      gap: 24px;
+      padding: 0 16px;
+    }
+    body[data-ui-section="management"] .action-log-toolbar {
+      min-height: 60px;
+      padding: 11px 16px;
+    }
+    body[data-ui-section="management"] .action-log-boundary {
+      min-height: 44px;
+      color: var(--workspace-text-muted);
+      border-top-color: var(--workspace-line);
+      background: #f8fafc;
+    }
+
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) :is(.drawer, .modal) {
+      color: var(--workspace-text-secondary);
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) :is(.drawer-head, .modal-head) {
+      min-height: 60px;
+      padding-inline: 20px;
+      border-bottom-color: var(--workspace-line);
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) :is(.drawer-body, .modal-body) {
+      padding: 20px;
+    }
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) :is(.drawer-foot, .modal-foot) {
+      min-height: 64px;
+      padding-inline: 20px;
+      border-top-color: var(--workspace-line);
+    }
+
+    @media (min-width: 1920px) {
+      body:is([data-ui-section="operations"], [data-ui-section="management"]) .main,
+      body:is([data-ui-section="operations"], [data-ui-section="management"]) .main:is(
+        .view-newProducts,
+        .view-health,
+        .view-ads,
+        .view-inventory,
+        .view-clearance,
+        .view-inactive,
+        .view-exceptions,
+        .view-logs,
+        .view-rules,
+        .view-asinOverview,
+        .view-aiCockpit
+      ) {
+        padding: 22px 28px 38px;
+        gap: 18px;
+      }
+    }
+
+    @media (max-width: 1360px) {
+      body:is([data-ui-section="operations"], [data-ui-section="management"]) .main,
+      body:is([data-ui-section="operations"], [data-ui-section="management"]) .main:is(
+        .view-newProducts,
+        .view-health,
+        .view-ads,
+        .view-inventory,
+        .view-clearance,
+        .view-inactive,
+        .view-exceptions,
+        .view-logs,
+        .view-rules,
+        .view-asinOverview,
+        .view-aiCockpit
+      ) {
+        padding: 16px 16px 28px;
+        gap: 14px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -30033,25 +30489,23 @@
               <div>
                 <span class="asin360-ai-label"><i data-lucide="sparkles"></i>AI 经营诊断</span>
                 <h2>${escapeHtml(diagnosisCopy.title)}</h2>
-                <p>先看结论和动作，右侧证据可直接定位到对应经营分析。</p>
               </div>
               <span class="asin360-diagnosis-state ${diagnosisCopy.cls}">${escapeHtml(diagnosisCopy.state)}</span>
             </div>
             <div class="asin360-diagnosis-body">
               <div class="asin360-diagnosis-summary">
+                <span class="asin360-flow-label">经营结论</span>
                 <h3>${escapeHtml(m.conclusion)}</h3>
                 <p>${escapeHtml(m.why)}</p>
                 <div class="asin360-action-list">
                   ${m.diagnosisMode === "task" ? m.activeTaskIssues.slice(0, 3).map(row => `<div class="asin360-action-item"><div class="asin360-action-item-head"><strong>${escapeHtml(row.type)}</strong>${status(row.priority)}</div><p>${escapeHtml(row.desc)}</p><small>${escapeHtml(asin360TaskMeta(row))}</small><button class="btn small primary" data-action="openException" data-id="${escapeHtml(row.id)}">去处理</button></div>`).join("") : m.diagnosisMode === "missing" ? `<div class="asin360-no-action"><i data-lucide="database-zap"></i><span>该问题记录在系统运行日志，不进入待处理中心。</span></div>` : m.diagnosisMode === "recovered" ? `<div class="asin360-no-action"><i data-lucide="badge-check"></i><span>最近异常已关闭，可在动作与复盘中查看记录。</span></div>` : `<div class="asin360-no-action"><i data-lucide="check-circle-2"></i><span>当前没有需要立即处理的事项，可继续观察。</span></div>`}
                 </div>
-                <div class="actions">
-                  ${m.diagnosisMode === "task" ? `<button class="btn primary" data-action="openException" data-id="${escapeHtml(m.activeIssue.id)}">去处理</button>` : m.diagnosisMode === "missing" ? `<button class="btn primary" data-view="connectors">检查数据连接</button>` : m.diagnosisMode === "recovered" ? `<button class="btn primary" data-action="setAsin360Tab" data-tab="history">查看动作记录</button>` : `<button class="btn primary" data-action="addLogFor" data-id="${escapeHtml(selected.id)}">记录运营动作</button>`}
-                </div>
+                ${m.diagnosisMode === "task" ? "" : `<div class="actions">${m.diagnosisMode === "missing" ? `<button class="btn primary" data-view="connectors">检查数据连接</button>` : m.diagnosisMode === "recovered" ? `<button class="btn primary" data-action="setAsin360Tab" data-tab="history">查看动作记录</button>` : `<button class="btn primary" data-action="addLogFor" data-id="${escapeHtml(selected.id)}">记录运营动作</button>`}</div>`}
               </div>
               <div class="asin360-key-evidence">
-                <div class="asin360-key-evidence-head"><strong>关键证据</strong><span>来源：ERP / 广告 / 库存 / 利润计算器</span></div>
+                <div class="asin360-key-evidence-head"><div><span class="asin360-flow-label">结论依据</span><strong>支撑当前结论</strong></div><span>ERP / 广告 / 库存 / 利润</span></div>
                 <div class="asin360-evidence-list">${m.evidence.map(([label,value,target]) => `<button type="button" data-action="focusProduct360Evidence" data-target="${escapeHtml(target)}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong><i data-lucide="arrow-down-right"></i></button>`).join("")}</div>
-                <div class="asin360-rule-trace"><span>判断链摘要</span><b>${escapeHtml(m.ruleTrace.name)}</b><i>→</i><b>${escapeHtml(m.ruleTrace.result)}</b><small>${escapeHtml(m.ruleTrace.source)} · ${escapeHtml(m.ruleTrace.lifecycle)}</small></div>
+                <div class="asin360-rule-trace"><span>规则判断</span><b>${escapeHtml(m.ruleTrace.name)}</b><i>→</i><b>${escapeHtml(m.ruleTrace.result)}</b><small>${escapeHtml(m.ruleTrace.lifecycle)}</small></div>
                 <small class="asin360-evidence-time">数据更新时间：${escapeHtml(state.lifecycleDataTime)}</small>
               </div>
             </div>
