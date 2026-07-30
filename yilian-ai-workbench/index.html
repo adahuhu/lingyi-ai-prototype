@@ -20047,10 +20047,6 @@
       width: 14px;
       height: 14px;
     }
-    .cockpit-date-field {
-      width: 132px;
-      padding: 0 10px;
-    }
     .cockpit-sync {
       display: inline-flex;
       align-items: center;
@@ -28892,11 +28888,9 @@
           <section class="cockpit-toolbar">
             <div class="cockpit-toolbar-left">
               <div class="cockpit-filter-set">
-                <input class="input cockpit-date-field" type="date" value="${escapeHtml(state.cockpitFilters["统计日期"])}" aria-label="统计日期" data-cockpit-filter="统计日期">
                 <select class="select" aria-label="统计周期" data-cockpit-filter="统计周期"><option ${state.cockpitFilters["统计周期"] === "最近 24 小时" ? "selected" : ""}>最近 24 小时</option><option ${state.cockpitFilters["统计周期"] === "近 7 天" ? "selected" : ""}>近 7 天</option><option ${state.cockpitFilters["统计周期"] === "近 30 天" ? "selected" : ""}>近 30 天</option></select>
                 <select class="select" aria-label="站点" data-cockpit-filter="站点"><option ${state.cockpitFilters["站点"] === "全部站点" ? "selected" : ""}>全部站点</option><option ${state.cockpitFilters["站点"] === "UK" ? "selected" : ""}>UK</option><option ${state.cockpitFilters["站点"] === "DE" ? "selected" : ""}>DE</option><option ${state.cockpitFilters["站点"] === "US" ? "selected" : ""}>US</option></select>
                 <select class="select" aria-label="店铺" data-cockpit-filter="店铺"><option ${state.cockpitFilters["店铺"] === "全部店铺" ? "selected" : ""}>全部店铺</option><option ${state.cockpitFilters["店铺"] === "青屿 · UK" ? "selected" : ""}>青屿 · UK</option><option ${state.cockpitFilters["店铺"] === "岚桥 · DE" ? "selected" : ""}>岚桥 · DE</option></select>
-                <select class="select" aria-label="币种" data-cockpit-filter="币种"><option ${state.cockpitFilters["币种"] === "GBP" ? "selected" : ""}>GBP</option><option ${state.cockpitFilters["币种"] === "USD" ? "selected" : ""}>USD</option><option ${state.cockpitFilters["币种"] === "EUR" ? "selected" : ""}>EUR</option></select>
               </div>
               <span class="cockpit-sync"><i data-lucide="clock-3"></i>更新于 2026-07-15 23:05</span>
             </div>
