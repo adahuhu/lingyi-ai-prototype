@@ -19261,6 +19261,1250 @@
         grid-template-columns: 1fr;
       }
     }
+    .wb-launch.wb-launch-v4 {
+      display: block;
+      min-height: 0;
+      padding: 0;
+      border-color: rgba(18, 24, 31, .09);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(49, 87, 255, .055), transparent 30%),
+        linear-gradient(135deg, rgba(255,255,255,.99) 0%, rgba(250,252,255,.96) 55%, rgba(246,249,255,.92) 100%);
+      box-shadow: 0 34px 95px rgba(18,24,31,.08);
+    }
+    .wb-launch.wb-launch-v4::before {
+      background-image:
+        linear-gradient(rgba(28, 36, 52, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(28, 36, 52, .035) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: linear-gradient(180deg, #000 0%, #000 72%, transparent 100%);
+      opacity: .5;
+    }
+    .wb-start-shell {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 0;
+    }
+    .wb-start-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 42px;
+      align-items: end;
+      padding: 44px 52px 26px;
+    }
+    .wb-start-copy {
+      display: grid;
+      gap: 15px;
+    }
+    .wb-launch-v4 .wb-launch-kicker {
+      color: #687380;
+      letter-spacing: .06em;
+    }
+    .wb-launch-v4 h1 {
+      max-width: 760px;
+      margin: 0;
+      color: #111318;
+      font-size: clamp(34px, 3vw, 48px);
+      line-height: 1.12;
+      font-weight: 840;
+      letter-spacing: 0;
+    }
+    .wb-start-subtitle {
+      max-width: 680px;
+      margin: 0;
+      color: #5d6675;
+      font-size: 15px;
+      line-height: 1.78;
+      font-weight: 520;
+    }
+    .wb-start-ai-note {
+      display: grid;
+      gap: 8px;
+      padding: 18px 18px 17px;
+      border: 1px solid rgba(18, 24, 31, .08);
+      border-radius: 14px;
+      background: rgba(255,255,255,.72);
+      box-shadow: 0 18px 52px rgba(18,24,31,.055);
+      backdrop-filter: blur(18px);
+    }
+    .wb-start-ai-note strong {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #111318;
+      font-size: 14px;
+      font-weight: 820;
+    }
+    .wb-start-ai-note strong i {
+      width: 17px;
+      height: 17px;
+      color: #3157ff;
+    }
+    .wb-start-ai-note p {
+      margin: 0;
+      color: #5d6675;
+      font-size: 13px;
+      line-height: 1.65;
+      font-weight: 540;
+    }
+    .wb-start-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      padding: 0 52px 24px;
+    }
+    .wb-start-tab {
+      min-height: 82px;
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      padding: 15px 16px;
+      border: 1px solid rgba(18,24,31,.085);
+      border-radius: 14px;
+      color: #1f2632;
+      background: rgba(255,255,255,.58);
+      text-align: left;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+    .wb-start-tab:hover {
+      transform: translateY(-1px);
+      border-color: rgba(49,87,255,.18);
+      background: rgba(255,255,255,.86);
+    }
+    .wb-start-tab.active {
+      border-color: rgba(49,87,255,.24);
+      background: #fff;
+      box-shadow: 0 20px 48px rgba(18,24,31,.07);
+    }
+    .wb-start-tab i {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      padding: 8px;
+      border-radius: 10px;
+      color: #3157ff;
+      background: rgba(49,87,255,.075);
+    }
+    .wb-start-tab strong {
+      display: block;
+      color: #111318;
+      font-size: 15px;
+      line-height: 1.35;
+      font-weight: 820;
+    }
+    .wb-start-tab small {
+      display: block;
+      margin-top: 4px;
+      color: #687380;
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 560;
+    }
+    .wb-start-stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 430px;
+      gap: 34px;
+      align-items: stretch;
+      margin: 0 52px 38px;
+      padding: 28px;
+      border: 1px solid rgba(18,24,31,.085);
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.82), rgba(248,250,255,.78));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.78);
+    }
+    .wb-start-stage-copy {
+      display: grid;
+      align-content: center;
+      gap: 18px;
+      min-width: 0;
+      padding: 10px 0 10px 4px;
+    }
+    .wb-start-eyebrow {
+      color: #3157ff;
+      font-size: 12px;
+      font-weight: 820;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .wb-start-stage-copy h2 {
+      max-width: 560px;
+      margin: 0;
+      color: #111318;
+      font-size: clamp(26px, 2.4vw, 38px);
+      line-height: 1.18;
+      font-weight: 840;
+      letter-spacing: 0;
+    }
+    .wb-start-stage-copy p {
+      max-width: 570px;
+      margin: 0;
+      color: #5d6675;
+      font-size: 14px;
+      line-height: 1.75;
+      font-weight: 520;
+    }
+    .wb-start-result-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .wb-start-result-tags span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 11px;
+      border: 1px solid rgba(49,87,255,.13);
+      border-radius: 999px;
+      color: #33415c;
+      background: rgba(255,255,255,.72);
+      font-size: 12px;
+      font-weight: 680;
+    }
+    .wb-start-command {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      max-width: 660px;
+      margin-top: 2px;
+      padding: 12px;
+      border: 1px solid rgba(18,24,31,.09);
+      border-radius: 14px;
+      background: rgba(255,255,255,.76);
+      box-shadow: 0 18px 46px rgba(18,24,31,.055);
+    }
+    .wb-start-command small {
+      display: block;
+      margin-bottom: 4px;
+      color: #7a8390;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .wb-start-command strong {
+      display: block;
+      color: #111318;
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 780;
+    }
+    .wb-start-primary {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 11px;
+      color: #fff;
+      background: #111;
+      font-size: 13px;
+      font-weight: 780;
+      white-space: nowrap;
+      box-shadow: 0 16px 36px rgba(17,17,17,.16);
+    }
+    .wb-start-primary i {
+      width: 16px;
+      height: 16px;
+    }
+    .wb-start-example {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 0;
+      color: #49566b;
+      background: transparent;
+      font-size: 13px;
+      font-weight: 720;
+    }
+    .wb-start-example i {
+      width: 15px;
+      height: 15px;
+    }
+    .wb-start-preview {
+      position: relative;
+      display: grid;
+      align-content: start;
+      gap: 14px;
+      min-height: 386px;
+      padding: 18px;
+      border: 1px solid rgba(18,24,31,.085);
+      border-radius: 16px;
+      background: rgba(255,255,255,.84);
+      box-shadow: 0 22px 62px rgba(18,24,31,.075);
+      overflow: hidden;
+    }
+    .wb-start-preview::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(49,87,255,.045), transparent);
+      transform: translateX(-70%);
+      opacity: .72;
+      pointer-events: none;
+    }
+    .wb-start-preview-head {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: #687380;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .wb-start-preview-head strong {
+      display: block;
+      color: #111318;
+      font-size: 15px;
+      font-weight: 820;
+    }
+    .wb-start-preview-head span:last-child {
+      min-height: 24px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 9px;
+      border-radius: 999px;
+      color: #3157ff;
+      background: rgba(49,87,255,.08);
+      font-size: 12px;
+      font-weight: 780;
+      white-space: nowrap;
+    }
+    .wb-result-score-row {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid rgba(18,24,31,.075);
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(248,250,255,.82));
+    }
+    .wb-result-score {
+      display: grid;
+      gap: 5px;
+    }
+    .wb-result-score b {
+      color: #111318;
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 860;
+    }
+    .wb-result-score b small {
+      color: #7a8390;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .wb-result-score span {
+      color: #687380;
+      font-size: 12px;
+      font-weight: 680;
+    }
+    .wb-result-bars {
+      display: grid;
+      gap: 8px;
+    }
+    .wb-result-bars span {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr) 34px;
+      gap: 8px;
+      align-items: center;
+      color: #5d6675;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .wb-result-bars i {
+      height: 5px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #3157ff var(--w), rgba(18,24,31,.08) var(--w));
+    }
+    .wb-result-image-strip {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid rgba(18,24,31,.075);
+      border-radius: 14px;
+      background: rgba(255,255,255,.76);
+    }
+    .wb-result-image-strip img {
+      width: 100%;
+      height: 118px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 11px;
+      border: 1px solid rgba(18,24,31,.075);
+      background: #f7f8fb;
+    }
+    .wb-result-image-strip strong {
+      color: #111318;
+      font-size: 14px;
+      font-weight: 820;
+    }
+    .wb-result-image-strip small {
+      color: #687380;
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 560;
+    }
+    .wb-result-checks {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 8px;
+    }
+    .wb-result-checks span {
+      display: grid;
+      grid-template-columns: 18px minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      min-height: 30px;
+      color: #4c5665;
+      font-size: 12px;
+      font-weight: 640;
+    }
+    .wb-result-checks i {
+      width: 18px;
+      height: 18px;
+      color: #3157ff;
+    }
+    .wb-result-checks b {
+      color: #111318;
+      font-size: 12px;
+      font-weight: 820;
+    }
+    .wb-listing-paper {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 13px;
+      padding: 16px;
+      border: 1px solid rgba(18,24,31,.075);
+      border-radius: 14px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,250,255,.82));
+    }
+    .wb-listing-title {
+      color: #111318;
+      font-size: 15px;
+      line-height: 1.45;
+      font-weight: 820;
+    }
+    .wb-listing-lines {
+      display: grid;
+      gap: 10px;
+    }
+    .wb-listing-line {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      color: #6a7280;
+      font-size: 12px;
+      font-weight: 660;
+    }
+    .wb-listing-line p {
+      margin: 0;
+      color: #343d4c;
+      font-size: 12px;
+      line-height: 1.55;
+      font-weight: 560;
+    }
+    .wb-listing-tags,
+    .wb-image-labels {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .wb-listing-tags span,
+    .wb-image-labels span {
+      min-height: 27px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 9px;
+      border: 1px solid rgba(18,24,31,.08);
+      border-radius: 999px;
+      color: #415067;
+      background: rgba(255,255,255,.76);
+      font-size: 12px;
+      font-weight: 680;
+    }
+    .wb-image-gallery-preview {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 10px;
+      min-height: 244px;
+    }
+    .wb-image-gallery-preview figure {
+      position: relative;
+      overflow: hidden;
+      min-height: 118px;
+      margin: 0;
+      border: 1px solid rgba(18,24,31,.08);
+      border-radius: 14px;
+      background: #f7f8fb;
+    }
+    .wb-image-gallery-preview figure:first-child {
+      grid-row: span 2;
+    }
+    .wb-image-gallery-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    .wb-image-gallery-preview figcaption {
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+      min-height: 24px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 8px;
+      border-radius: 999px;
+      color: #111318;
+      background: rgba(255,255,255,.82);
+      font-size: 12px;
+      font-weight: 760;
+      backdrop-filter: blur(12px);
+    }
+    .wb-start-flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0;
+      margin: 0 52px 44px;
+      border: 1px solid rgba(18,24,31,.08);
+      border-radius: 14px;
+      background: rgba(255,255,255,.64);
+      overflow: hidden;
+    }
+    .wb-start-flow span {
+      position: relative;
+      min-height: 64px;
+      display: grid;
+      align-content: center;
+      gap: 4px;
+      padding: 12px 18px 12px 30px;
+      color: #687380;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .wb-start-flow span:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 18px;
+      bottom: 18px;
+      width: 1px;
+      background: rgba(18,24,31,.08);
+    }
+    .wb-start-flow span::before {
+      content: "";
+      position: absolute;
+      left: 16px;
+      top: 29px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(18,24,31,.18);
+    }
+    .wb-start-flow span.active {
+      color: #111318;
+      background: linear-gradient(90deg, rgba(49,87,255,.075), transparent);
+    }
+    .wb-start-flow span.active::before {
+      background: #3157ff;
+      box-shadow: 0 0 0 5px rgba(49,87,255,.10);
+    }
+    .wb-start-flow strong {
+      color: inherit;
+      font-size: 13px;
+      font-weight: 820;
+    }
+    @media (max-width: 1280px) {
+      .wb-start-hero,
+      .wb-start-stage {
+        grid-template-columns: 1fr;
+      }
+      .wb-start-ai-note,
+      .wb-start-preview {
+        width: min(560px, 100%);
+      }
+    }
+    @media (max-width: 860px) {
+      .wb-start-hero,
+      .wb-start-tabs {
+        padding-left: 22px;
+        padding-right: 22px;
+      }
+      .wb-start-tabs,
+      .wb-start-flow {
+        grid-template-columns: 1fr;
+      }
+      .wb-start-stage,
+      .wb-start-flow {
+        margin-left: 22px;
+        margin-right: 22px;
+      }
+      .wb-start-command,
+      .wb-result-score-row,
+      .wb-image-gallery-preview {
+        grid-template-columns: 1fr;
+      }
+      .wb-start-primary {
+        width: 100%;
+      }
+    }
+    .wb-launch.wb-launch-v5 {
+      display: block;
+      min-height: 0;
+      padding: 0;
+      border: 1px solid rgba(17, 24, 39, .09);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 34px 100px rgba(20, 30, 50, .075);
+    }
+    .wb-launch.wb-launch-v5::before {
+      display: none;
+    }
+    .wb-prime-shell {
+      position: relative;
+      z-index: 1;
+      padding: 42px 52px 46px;
+      background:
+        linear-gradient(180deg, rgba(248,250,255,.72) 0%, rgba(255,255,255,0) 42%),
+        #fff;
+    }
+    .wb-prime-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 36px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+    .wb-prime-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      color: #647084;
+      font-size: 13px;
+      line-height: 1.3;
+      font-weight: 720;
+    }
+    .wb-prime-kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #3157ff;
+      box-shadow: 0 0 0 5px rgba(49,87,255,.10);
+    }
+    .wb-launch-v5 h1 {
+      max-width: 760px;
+      margin: 12px 0 0;
+      color: #111318;
+      font-size: clamp(34px, 3.2vw, 50px);
+      line-height: 1.08;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+    .wb-prime-hero p {
+      max-width: 680px;
+      margin: 16px 0 0;
+      color: #5f6a7c;
+      font-size: 15px;
+      line-height: 1.78;
+      font-weight: 480;
+    }
+    .wb-prime-mode {
+      display: grid;
+      gap: 7px;
+      min-width: 220px;
+      padding: 14px 16px;
+      border: 1px solid rgba(17,24,39,.08);
+      border-radius: 14px;
+      background: rgba(255,255,255,.82);
+    }
+    .wb-prime-mode span {
+      color: #7a8494;
+      font-size: 12px;
+      font-weight: 680;
+    }
+    .wb-prime-mode strong {
+      color: #111318;
+      font-size: 14px;
+      font-weight: 780;
+    }
+    .wb-copilot-window {
+      overflow: hidden;
+      border: 1px solid rgba(17,24,39,.10);
+      border-radius: 18px;
+      background: #fbfcff;
+      box-shadow:
+        0 1px 0 rgba(255,255,255,.85) inset,
+        0 30px 82px rgba(20, 30, 50, .08);
+    }
+    .wb-copilot-bar {
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 0 18px;
+      border-bottom: 1px solid rgba(17,24,39,.08);
+      background: rgba(255,255,255,.78);
+    }
+    .wb-window-dots {
+      display: inline-flex;
+      gap: 7px;
+      align-items: center;
+    }
+    .wb-window-dots i {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #d8dee9;
+    }
+    .wb-copilot-bar strong {
+      color: #252b36;
+      font-size: 13px;
+      font-weight: 760;
+    }
+    .wb-copilot-bar em {
+      min-height: 26px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 10px;
+      border: 1px solid rgba(49,87,255,.14);
+      border-radius: 999px;
+      color: #3157ff;
+      background: rgba(49,87,255,.07);
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 720;
+    }
+    .wb-copilot-body {
+      display: grid;
+      grid-template-columns: 224px minmax(0, 1fr) 386px;
+      gap: 0;
+      min-height: 512px;
+    }
+    .wb-copilot-rail {
+      display: grid;
+      align-content: start;
+      gap: 8px;
+      padding: 22px;
+      border-right: 1px solid rgba(17,24,39,.08);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.78), rgba(246,248,252,.74));
+    }
+    .wb-rail-title {
+      margin: 0 0 8px;
+      color: #7a8494;
+      font-size: 12px;
+      font-weight: 720;
+    }
+    .wb-copilot-tab {
+      width: 100%;
+      min-height: 62px;
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr);
+      gap: 11px;
+      align-items: center;
+      padding: 11px 12px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      color: #303948;
+      background: transparent;
+      text-align: left;
+      transition: background .18s ease, border-color .18s ease, transform .18s ease;
+    }
+    .wb-copilot-tab:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.84);
+      border-color: rgba(17,24,39,.08);
+    }
+    .wb-copilot-tab.active {
+      background: #fff;
+      border-color: rgba(49,87,255,.18);
+      box-shadow: 0 14px 34px rgba(20,30,50,.055);
+    }
+    .wb-copilot-tab i {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      padding: 7px;
+      border-radius: 9px;
+      color: #536071;
+      background: rgba(17,24,39,.045);
+    }
+    .wb-copilot-tab.active i {
+      color: #3157ff;
+      background: rgba(49,87,255,.08);
+    }
+    .wb-copilot-tab strong {
+      display: block;
+      color: #121722;
+      font-size: 13px;
+      font-weight: 780;
+    }
+    .wb-copilot-tab small {
+      display: block;
+      margin-top: 3px;
+      color: #7a8494;
+      font-size: 12px;
+      line-height: 1.35;
+      font-weight: 540;
+    }
+    .wb-rail-foot {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(17,24,39,.08);
+    }
+    .wb-rail-foot button {
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 38px;
+      border: 0;
+      color: #465366;
+      background: transparent;
+      font-size: 12px;
+      font-weight: 720;
+    }
+    .wb-rail-foot i {
+      width: 15px;
+      height: 15px;
+    }
+    .wb-copilot-compose {
+      display: grid;
+      align-content: center;
+      gap: 20px;
+      padding: 42px 44px;
+      background: #fff;
+    }
+    .wb-task-eyebrow {
+      color: #3157ff;
+      font-size: 12px;
+      font-weight: 780;
+    }
+    .wb-copilot-compose h2 {
+      max-width: 560px;
+      margin: 0;
+      color: #111318;
+      font-size: clamp(28px, 2.35vw, 40px);
+      line-height: 1.14;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+    .wb-copilot-compose p {
+      max-width: 560px;
+      margin: 0;
+      color: #5c6677;
+      font-size: 14px;
+      line-height: 1.76;
+      font-weight: 480;
+    }
+    .wb-task-card {
+      display: grid;
+      gap: 14px;
+      max-width: 610px;
+      padding: 18px;
+      border: 1px solid rgba(17,24,39,.10);
+      border-radius: 14px;
+      background:
+        linear-gradient(180deg, #fff, #f8faff);
+      box-shadow: 0 18px 48px rgba(20,30,50,.06);
+    }
+    .wb-task-input-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+    }
+    .wb-task-input-row label {
+      display: block;
+      margin-bottom: 6px;
+      color: #7a8494;
+      font-size: 12px;
+      font-weight: 680;
+    }
+    .wb-task-input-row strong {
+      display: block;
+      color: #111318;
+      font-size: 16px;
+      line-height: 1.45;
+      font-weight: 760;
+    }
+    .wb-task-primary {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 0 19px;
+      border: 0;
+      border-radius: 10px;
+      color: #fff;
+      background: #111;
+      font-size: 13px;
+      font-weight: 760;
+      white-space: nowrap;
+      box-shadow: 0 18px 38px rgba(17,17,17,.15);
+    }
+    .wb-task-primary i {
+      width: 16px;
+      height: 16px;
+    }
+    .wb-task-output-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .wb-task-output-row span {
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 10px;
+      border: 1px solid rgba(49,87,255,.12);
+      border-radius: 999px;
+      color: #33415c;
+      background: rgba(255,255,255,.72);
+      font-size: 12px;
+      font-weight: 680;
+    }
+    .wb-copilot-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      border: 0;
+      color: #465366;
+      background: transparent;
+      font-size: 13px;
+      font-weight: 720;
+    }
+    .wb-copilot-hint i {
+      width: 15px;
+      height: 15px;
+    }
+    .wb-copilot-artifact {
+      display: grid;
+      align-content: stretch;
+      padding: 26px;
+      border-left: 1px solid rgba(17,24,39,.08);
+      background:
+        linear-gradient(180deg, rgba(248,250,255,.82), rgba(255,255,255,.9));
+    }
+    .wb-artifact-panel {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+      min-height: 100%;
+      padding: 18px;
+      border: 1px solid rgba(17,24,39,.10);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 20px 58px rgba(20,30,50,.07);
+    }
+    .wb-artifact-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .wb-artifact-head strong {
+      color: #111318;
+      font-size: 14px;
+      font-weight: 780;
+    }
+    .wb-artifact-head span {
+      min-height: 24px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 9px;
+      border-radius: 999px;
+      color: #3157ff;
+      background: rgba(49,87,255,.08);
+      font-size: 12px;
+      font-weight: 760;
+    }
+    .wb-artifact-image {
+      overflow: hidden;
+      border: 1px solid rgba(17,24,39,.08);
+      border-radius: 13px;
+      background: #f6f8fb;
+    }
+    .wb-artifact-image img {
+      width: 100%;
+      height: 156px;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+    }
+    .wb-artifact-score {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 16px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid rgba(17,24,39,.08);
+      border-radius: 13px;
+      background: #fbfcff;
+    }
+    .wb-artifact-score b {
+      color: #111318;
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 780;
+    }
+    .wb-artifact-score b small {
+      color: #7a8494;
+      font-size: 13px;
+      font-weight: 650;
+    }
+    .wb-artifact-score em {
+      display: block;
+      margin-top: 5px;
+      color: #7a8494;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 650;
+    }
+    .wb-artifact-mini-bars {
+      display: grid;
+      gap: 8px;
+    }
+    .wb-artifact-mini-bars span {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) 28px;
+      gap: 8px;
+      align-items: center;
+      color: #5e697b;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .wb-artifact-mini-bars i {
+      height: 5px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #3157ff var(--w), rgba(17,24,39,.08) var(--w));
+    }
+    .wb-artifact-list {
+      display: grid;
+      gap: 8px;
+    }
+    .wb-artifact-list span {
+      display: grid;
+      grid-template-columns: 18px minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      min-height: 30px;
+      color: #4b5567;
+      font-size: 12px;
+      font-weight: 640;
+    }
+    .wb-artifact-list i {
+      width: 18px;
+      height: 18px;
+      color: #3157ff;
+    }
+    .wb-artifact-list b {
+      color: #111318;
+      font-size: 12px;
+      font-weight: 760;
+    }
+    .wb-artifact-paper {
+      display: grid;
+      gap: 13px;
+      padding: 16px;
+      border: 1px solid rgba(17,24,39,.08);
+      border-radius: 13px;
+      background: #fbfcff;
+    }
+    .wb-artifact-paper h3 {
+      margin: 0;
+      color: #111318;
+      font-size: 16px;
+      line-height: 1.38;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+    .wb-artifact-paper dl {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+    }
+    .wb-artifact-paper div {
+      display: grid;
+      grid-template-columns: 66px minmax(0, 1fr);
+      gap: 10px;
+    }
+    .wb-artifact-paper dt {
+      color: #7a8494;
+      font-size: 12px;
+      font-weight: 680;
+    }
+    .wb-artifact-paper dd {
+      margin: 0;
+      color: #303948;
+      font-size: 12px;
+      line-height: 1.55;
+      font-weight: 560;
+    }
+    .wb-artifact-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .wb-artifact-tags span {
+      min-height: 26px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 9px;
+      border: 1px solid rgba(17,24,39,.08);
+      border-radius: 999px;
+      color: #415067;
+      background: #fff;
+      font-size: 12px;
+      font-weight: 660;
+    }
+    .wb-artifact-gallery {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 10px;
+    }
+    .wb-artifact-gallery figure {
+      position: relative;
+      overflow: hidden;
+      min-height: 120px;
+      margin: 0;
+      border: 1px solid rgba(17,24,39,.08);
+      border-radius: 13px;
+      background: #f6f8fb;
+    }
+    .wb-artifact-gallery figure:first-child {
+      grid-row: span 2;
+    }
+    .wb-artifact-gallery img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .wb-artifact-gallery figcaption {
+      position: absolute;
+      left: 9px;
+      bottom: 9px;
+      min-height: 24px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 8px;
+      border-radius: 999px;
+      color: #111318;
+      background: rgba(255,255,255,.84);
+      font-size: 12px;
+      font-weight: 760;
+      backdrop-filter: blur(12px);
+    }
+    .wb-copilot-flow-v5 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-top: 1px solid rgba(17,24,39,.08);
+      background: rgba(255,255,255,.72);
+    }
+    .wb-copilot-flow-v5 span {
+      position: relative;
+      min-height: 64px;
+      display: grid;
+      align-content: center;
+      gap: 3px;
+      padding: 12px 18px 12px 32px;
+      color: #7a8494;
+      font-size: 12px;
+      font-weight: 620;
+    }
+    .wb-copilot-flow-v5 span:not(:last-child) {
+      border-right: 1px solid rgba(17,24,39,.08);
+    }
+    .wb-copilot-flow-v5 span::before {
+      content: "";
+      position: absolute;
+      left: 17px;
+      top: 29px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(17,24,39,.18);
+    }
+    .wb-copilot-flow-v5 span.active {
+      color: #111318;
+      background: linear-gradient(90deg, rgba(49,87,255,.075), transparent);
+    }
+    .wb-copilot-flow-v5 span.active::before {
+      background: #3157ff;
+      box-shadow: 0 0 0 5px rgba(49,87,255,.10);
+    }
+    .wb-copilot-flow-v5 strong {
+      color: inherit;
+      font-size: 13px;
+      font-weight: 780;
+    }
+    @media (max-width: 1280px) {
+      .wb-prime-hero,
+      .wb-copilot-body {
+        grid-template-columns: 1fr;
+      }
+      .wb-copilot-rail,
+      .wb-copilot-artifact {
+        border-right: 0;
+        border-left: 0;
+        border-top: 1px solid rgba(17,24,39,.08);
+      }
+      .wb-copilot-rail {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .wb-rail-title,
+      .wb-rail-foot {
+        display: none;
+      }
+    }
+    @media (max-width: 860px) {
+      .wb-prime-shell {
+        padding: 28px 20px;
+      }
+      .wb-copilot-compose,
+      .wb-copilot-artifact,
+      .wb-copilot-rail {
+        padding: 20px;
+      }
+      .wb-copilot-rail,
+      .wb-copilot-flow-v5,
+      .wb-task-input-row,
+      .wb-artifact-score,
+      .wb-artifact-gallery {
+        grid-template-columns: 1fr;
+      }
+      .wb-task-primary {
+        width: 100%;
+      }
+    }
     .starter-home {
       min-height: calc(100vh - 112px);
       width: min(1120px, 100%);
@@ -25681,6 +26925,1672 @@
       border-top-color: var(--workspace-line);
     }
 
+    .modal.entitlement-gate-modal {
+      width: min(840px, calc(100vw - 64px));
+      border: 1px solid #eceff4;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 26px 64px rgba(16, 24, 40, .18);
+    }
+    .modal.entitlement-gate-modal.advisor-gate-modal {
+      width: min(680px, calc(100vw - 72px));
+    }
+    .modal.entitlement-gate-modal.advisor-gate-modal .modal-head {
+      min-height: 66px;
+      padding: 18px 30px;
+    }
+    .modal.entitlement-gate-modal.advisor-gate-modal .modal-body {
+      padding: 30px 34px 34px;
+    }
+    .modal.entitlement-gate-modal .modal-head {
+      min-height: 58px;
+      padding: 15px 24px;
+      background: #fff;
+      border-bottom: 1px solid #f1f3f6;
+    }
+    .modal.entitlement-gate-modal .modal-body {
+      padding: 24px 28px 28px;
+      gap: 18px;
+      background: #fff;
+    }
+    .modal.entitlement-gate-modal .modal-foot {
+      display: none;
+    }
+    .entitlement-gate-shell {
+      display: grid;
+      gap: 18px;
+    }
+    .entitlement-gate-lead {
+      display: block;
+      padding: 0 2px 2px;
+      border: 0;
+      background: transparent;
+    }
+    .entitlement-gate-copy {
+      min-width: 0;
+      display: grid;
+      gap: 8px;
+      align-content: center;
+    }
+    .entitlement-gate-copy h3 {
+      margin: 0;
+      color: #111827;
+      font-size: 19px;
+      line-height: 1.25;
+      font-weight: 850;
+      letter-spacing: 0;
+    }
+    .entitlement-gate-copy p {
+      margin: 0;
+      max-width: 640px;
+      color: #566174;
+      font-size: 13px;
+      line-height: 1.65;
+      font-weight: 560;
+    }
+    .entitlement-gate-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 4px;
+      padding: 4px;
+      border: 0;
+      border-radius: 11px;
+      background: #f6f7f9;
+    }
+    .entitlement-gate-action {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 14px;
+      border: 1px solid transparent;
+      border-radius: 9px;
+      color: #3f4857;
+      background: transparent;
+      text-align: center;
+      cursor: pointer;
+      transition: color .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .entitlement-gate-action:hover,
+    .entitlement-gate-action.active {
+      border-color: #e8ecf2;
+      background: #fff;
+      box-shadow: 0 7px 18px rgba(16, 24, 40, .07);
+    }
+    .entitlement-action-copy {
+      display: grid;
+      gap: 1px;
+      min-width: 0;
+    }
+    .entitlement-action-copy strong {
+      color: #111827;
+      font-size: 13px;
+      font-weight: 820;
+    }
+    .entitlement-gate-action.active .entitlement-action-copy strong {
+      color: #155cc5;
+    }
+    .entitlement-action-copy small {
+      color: #7a8494;
+      font-size: 11px;
+      font-weight: 560;
+    }
+    .entitlement-gate-form {
+      display: none;
+      gap: 16px;
+      padding: 18px 20px 20px;
+      border: 1px solid #edf0f4;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: none;
+    }
+    .entitlement-gate-form.open {
+      display: grid;
+    }
+    .entitlement-gate-form .form-grid {
+      gap: 14px 16px;
+    }
+    .entitlement-gate-form .form-row label {
+      color: #566174;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .entitlement-gate-form .input,
+    .entitlement-gate-form .select {
+      height: 40px;
+      border-color: #e2e7ee;
+      border-radius: 9px;
+      background: #fff;
+      font-size: 13px;
+    }
+    .entitlement-gate-form .input[readonly] {
+      color: #3f4857;
+      background: #f8fafc;
+    }
+    .entitlement-module-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      min-height: 40px;
+      align-items: center;
+    }
+    .entitlement-module-options label {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .entitlement-module-options input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .entitlement-module-options span {
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 12px;
+      border: 1px solid #e2e7ee;
+      border-radius: 999px;
+      color: #566174;
+      background: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      transition: border-color .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
+    }
+    .entitlement-module-options input:checked + span {
+      border-color: #1d6fff;
+      color: #155cc5;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(29, 111, 255, .07);
+    }
+    .entitlement-gate-submit {
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 2px;
+    }
+    .advisor-gate-shell {
+      display: grid;
+      gap: 18px;
+      padding: 0 0 2px;
+    }
+    .advisor-gate-hero {
+      position: relative;
+      display: grid;
+      gap: 14px;
+      align-content: center;
+      min-height: 220px;
+      overflow: hidden;
+      padding: 30px 34px 32px;
+      border: 1px solid #e4ebf5;
+      border-radius: 16px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, .98) 0%, rgba(247, 251, 255, .98) 64%, rgba(239, 246, 255, .95) 100%);
+    }
+    .advisor-gate-hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #155cc5 0%, #6daeff 45%, rgba(109, 174, 255, 0) 100%);
+    }
+    .advisor-gate-status {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 12px;
+      border: 1px solid #dce9fb;
+      border-radius: 999px;
+      color: #155cc5;
+      background: #f6faff;
+      font-size: 11px;
+      font-weight: 820;
+    }
+    .advisor-gate-hero h3 {
+      margin: 0;
+      color: #111827;
+      font-size: 28px;
+      line-height: 1.25;
+      font-weight: 860;
+      letter-spacing: 0;
+    }
+    .advisor-gate-hero p {
+      margin: 0;
+      max-width: 520px;
+      color: #566174;
+      font-size: 14px;
+      line-height: 1.75;
+      font-weight: 560;
+    }
+    .advisor-gate-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding-top: 4px;
+    }
+    .advisor-gate-primary,
+    .advisor-gate-secondary {
+      min-height: 40px;
+      padding: 0 18px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease;
+    }
+    .advisor-gate-primary {
+      border: 1px solid #155cc5;
+      color: #fff;
+      background: #155cc5;
+      box-shadow: 0 10px 22px rgba(21, 92, 197, .18);
+    }
+    .advisor-gate-secondary {
+      border: 1px solid #dbe4f0;
+      color: #344054;
+      background: #fff;
+    }
+    .advisor-gate-primary:hover,
+    .advisor-gate-secondary:hover {
+      transform: translateY(-1px);
+    }
+    .advisor-gate-secondary:hover {
+      border-color: #b9cdf0;
+      color: #155cc5;
+      background: #f8fbff;
+    }
+    .entitlement-plan-panel {
+      display: none;
+      min-height: 340px;
+      align-content: start;
+      gap: 14px;
+      padding: 18px 20px 20px;
+      border: 1px solid #edf0f4;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: none;
+    }
+    .entitlement-plan-panel.open {
+      display: grid;
+    }
+    .entitlement-plan-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f0f2f5;
+    }
+    .entitlement-plan-head strong {
+      color: #111827;
+      font-size: 14px;
+      font-weight: 820;
+    }
+    .entitlement-plan-list {
+      display: grid;
+      gap: 8px;
+    }
+    .entitlement-plan-row {
+      position: relative;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 18px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      min-height: 62px;
+      padding: 11px 14px;
+      border: 1px solid #edf0f4;
+      border-radius: 12px;
+      color: inherit;
+      background: #fff;
+      font: inherit;
+      appearance: none;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color .18s ease, background .18s ease, box-shadow .18s ease, transform .18s ease;
+    }
+    .entitlement-plan-row:hover {
+      border-color: #c4d7f6;
+      background: #fff;
+      transform: translateY(-1px);
+    }
+    .entitlement-plan-row.selected {
+      border-color: #1d6fff;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(29, 111, 255, .08);
+    }
+    .entitlement-plan-check {
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #d6dde7;
+      border-radius: 50%;
+      background: #fff;
+      transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+    .entitlement-plan-check::after {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: transparent;
+    }
+    .entitlement-plan-row.selected .entitlement-plan-check {
+      border-color: #1d6fff;
+      background: #1d6fff;
+      box-shadow: 0 0 0 3px rgba(29, 111, 255, .12);
+    }
+    .entitlement-plan-row.selected .entitlement-plan-check::after {
+      background: #fff;
+    }
+    .entitlement-plan-copy {
+      min-width: 0;
+      display: grid;
+      gap: 5px;
+    }
+    .entitlement-plan-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    .entitlement-plan-copy strong {
+      color: #111827;
+      font-size: 14px;
+      font-weight: 820;
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .entitlement-plan-title em {
+      flex: none;
+      padding: 2px 7px;
+      border-radius: 999px;
+      color: #155cc5;
+      background: #f4f8ff;
+      font-size: 11px;
+      line-height: 1.35;
+      font-style: normal;
+      font-weight: 780;
+    }
+    .entitlement-plan-copy small {
+      color: #566174;
+      font-size: 12px;
+      font-weight: 560;
+    }
+    .entitlement-plan-price {
+      display: grid;
+      justify-items: end;
+      gap: 2px;
+      color: #111827;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+    .entitlement-plan-price b {
+      font-size: 17px;
+      line-height: 1.25;
+    }
+    .entitlement-plan-price small {
+      color: #7a8494;
+      font-size: 11px;
+      font-weight: 650;
+    }
+    .entitlement-plan-paybar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 2px;
+      padding: 12px 0 0;
+      border: 0;
+      border-top: 1px solid #f0f2f5;
+      border-radius: 0;
+      background: transparent;
+    }
+    .entitlement-plan-paycopy {
+      min-width: 0;
+      display: grid;
+      gap: 3px;
+    }
+    .entitlement-plan-paycopy strong {
+      color: #111827;
+      font-size: 14px;
+      font-weight: 830;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .entitlement-plan-payaction {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: none;
+    }
+    .entitlement-plan-total {
+      color: #111827;
+      font-size: 18px;
+      line-height: 1.2;
+      font-weight: 880;
+      white-space: nowrap;
+    }
+    .entitlement-plan-buy {
+      min-height: 34px;
+      padding: 0 16px;
+      border: 1px solid #155cc5;
+      border-radius: 9px;
+      color: #fff;
+      background: #155cc5;
+      box-shadow: 0 10px 20px rgba(21, 92, 197, .18);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+    .entitlement-plan-buy:hover {
+      transform: translateY(-1px);
+      background: #0f4fb3;
+      box-shadow: 0 12px 26px rgba(21, 92, 197, .24);
+    }
+    /* Embedded billing prototypes retain their independent layout inside the workbench shell. */
+    .main.view-creditProducts,
+    .main.view-creditAccount,
+    .main.view-creditLedger,
+    .main.view-creditSettings,
+    .main.view-creditManual {
+      padding: 0;
+      gap: 0;
+      background: #f5f7fb;
+    }
+    .credit-prototype-frame {
+      display: block;
+      width: 100%;
+      min-height: 640px;
+      height: calc(100vh - 49px);
+      border: 0;
+      background: #fff;
+    }
+    .credit-purchase-preview {
+      display: grid;
+      gap: 12px;
+    }
+    .credit-purchase-card {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      border: 1px solid #e1e8f2;
+      border-radius: 10px;
+      background: #fff;
+    }
+    .credit-purchase-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      color: #667085;
+      font-size: 12px;
+    }
+    .credit-purchase-line strong {
+      color: #111827;
+      font-size: 13px;
+      text-align: right;
+    }
+    .credit-attachment-upload {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 10px 12px;
+      border: 1px dashed #c7d7ee;
+      border-radius: 8px;
+      background: #f8fbff;
+      cursor: pointer;
+    }
+    .credit-attachment-upload input {
+      display: none;
+    }
+    .credit-attachment-icon {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 7px;
+      background: #fff;
+      color: var(--primary);
+    }
+    .credit-attachment-copy {
+      display: grid;
+      gap: 2px;
+      flex: 1;
+    }
+    .credit-attachment-copy small {
+      color: var(--subtle);
+    }
+    .credit-attachment-action {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .main.view-demoAppointments {
+      padding: 18px 20px 32px;
+      gap: 0;
+      background: #f5f7fb;
+    }
+    .demo-leads-page {
+      display: grid;
+      gap: 14px;
+      min-width: 0;
+    }
+    .demo-leads-panel {
+      overflow: hidden;
+      border: 1px solid #e6ebf2;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, .04);
+    }
+    .demo-leads-tabs {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin: 14px 14px 0;
+      padding: 4px;
+      border: 1px solid #e8edf5;
+      border-radius: 999px;
+      background: #f7f9fc;
+    }
+    .demo-leads-tabs button {
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 14px;
+      border: 0;
+      border-radius: 999px;
+      color: #667085;
+      background: transparent;
+      font-size: 12px;
+      font-weight: 760;
+      cursor: pointer;
+      transition: color .16s ease, background .16s ease, box-shadow .16s ease;
+    }
+    .demo-leads-tabs button:hover,
+    .demo-leads-tabs button.active {
+      color: #155cc5;
+      background: #fff;
+      box-shadow: 0 6px 14px rgba(21, 92, 197, .08);
+    }
+    .demo-leads-tabs span {
+      min-width: 20px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 6px;
+      border-radius: 999px;
+      color: #2563eb;
+      background: #eaf2ff;
+      font-size: 11px;
+      font-weight: 820;
+    }
+    .demo-leads-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 14px 12px;
+      border-top: 1px solid #f2f4f7;
+    }
+    .demo-leads-search {
+      position: relative;
+      width: min(420px, 100%);
+    }
+    .demo-leads-search i {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      width: 16px;
+      height: 16px;
+      color: #98a2b3;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+    .demo-leads-search input {
+      width: 100%;
+      height: 36px;
+      padding: 0 38px 0 12px;
+      border: 1px solid #dbe4f0;
+      border-radius: 8px;
+      color: #111827;
+      background: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      outline: none;
+      transition: border-color .16s ease, box-shadow .16s ease;
+    }
+    .demo-leads-search input:focus {
+      border-color: #8bbcff;
+      box-shadow: 0 0 0 3px rgba(29, 111, 255, .08);
+    }
+    .demo-leads-caption {
+      color: #8a94a6;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .demo-leads-table-wrap {
+      overflow-x: auto;
+      border-top: 1px solid #eef2f6;
+    }
+    .demo-leads-table {
+      width: 100%;
+      min-width: 1180px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    .demo-leads-table th,
+    .demo-leads-table td {
+      border-bottom: 1px solid #edf1f6;
+      padding: 13px 14px;
+      color: #475467;
+      font-size: 12px;
+      line-height: 1.45;
+      vertical-align: middle;
+    }
+    .demo-leads-table th {
+      color: #667085;
+      background: #fbfcfe;
+      font-weight: 760;
+    }
+    .demo-leads-table tr:hover td {
+      background: #fbfdff;
+    }
+    .demo-leads-user {
+      display: grid;
+      grid-template-columns: 32px minmax(0, 1fr);
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .demo-leads-avatar {
+      display: grid;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      border-radius: 50%;
+      color: #667085;
+      background: #eef2f7;
+      font-size: 12px;
+      font-weight: 820;
+    }
+    .demo-leads-user strong,
+    .demo-leads-main strong {
+      display: block;
+      color: #111827;
+      font-size: 13px;
+      font-weight: 820;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .demo-leads-user small,
+    .demo-leads-main small {
+      display: block;
+      margin-top: 3px;
+      color: #7a8494;
+      font-size: 11px;
+      font-weight: 620;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .demo-leads-modules {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .demo-leads-modules span {
+      min-height: 22px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 8px;
+      border: 1px solid #dce7f8;
+      border-radius: 999px;
+      color: #155cc5;
+      background: #f7fbff;
+      font-size: 11px;
+      font-weight: 760;
+    }
+    .demo-leads-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 24px;
+      padding: 0 9px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .demo-leads-status::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .demo-leads-status.pending {
+      border-color: #ffe2b8;
+      color: #b86500;
+      background: #fff7ea;
+    }
+    .demo-leads-status.followed {
+      border-color: #cfe1ff;
+      color: #155cc5;
+      background: #f2f7ff;
+    }
+    .demo-leads-status.converted {
+      border-color: #cdeedd;
+      color: #0f8a5f;
+      background: #eefaf4;
+    }
+    .demo-leads-status.closed {
+      border-color: #edf0f4;
+      color: #667085;
+      background: #f7f8fa;
+    }
+    .demo-leads-actions {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 8px;
+      width: 100%;
+    }
+    .demo-leads-link {
+      min-height: 28px;
+      padding: 0 8px;
+      border: 0;
+      color: #155cc5;
+      background: transparent;
+      font-size: 12px;
+      font-weight: 760;
+      cursor: pointer;
+    }
+    .demo-leads-link:hover {
+      text-decoration: underline;
+    }
+    .demo-leads-outline {
+      min-height: 30px;
+      padding: 0 10px;
+      border: 1px solid #dbe4f0;
+      border-radius: 7px;
+      color: #344054;
+      background: #fff;
+      font-size: 12px;
+      font-weight: 760;
+      cursor: pointer;
+      transition: border-color .16s ease, color .16s ease, background .16s ease;
+    }
+    .demo-leads-outline:hover {
+      border-color: #9dc3ff;
+      color: #155cc5;
+      background: #f7fbff;
+    }
+    .demo-leads-empty {
+      padding: 42px 16px;
+      color: #98a2b3;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 650;
+    }
+    .demo-lead-detail {
+      display: grid;
+      gap: 14px;
+    }
+    .demo-lead-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .demo-lead-detail-grid .full {
+      grid-column: 1 / -1;
+    }
+    .demo-lead-detail-grid section {
+      display: grid;
+      gap: 4px;
+      padding: 12px;
+      border: 1px solid #e8edf5;
+      border-radius: 9px;
+      background: #fbfcfe;
+    }
+    .demo-lead-detail-grid small {
+      color: #7a8494;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .demo-lead-detail-grid strong {
+      color: #111827;
+      font-size: 13px;
+      font-weight: 820;
+    }
+    .demo-lead-detail-note {
+      white-space: pre-line;
+    }
+    .demo-lead-action-card {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      border: 1px solid #e8edf5;
+      border-radius: 10px;
+      background: #fbfcfe;
+    }
+    .demo-lead-action-card strong {
+      color: #111827;
+      font-size: 13px;
+      font-weight: 820;
+    }
+    .demo-lead-action-card small {
+      color: #7a8494;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .demo-lead-action-card .demo-leads-modules {
+      margin-top: 2px;
+    }
+    .demo-lead-action-note {
+      color: #667085;
+      font-size: 12px;
+      line-height: 1.65;
+      font-weight: 620;
+    }
+    .demo-lead-modal-form {
+      display: grid;
+      gap: 14px;
+    }
+    .demo-lead-modal-form .textarea {
+      min-height: 86px;
+    }
+
+    /* Complete menu-page alignment for the shared workspace language. */
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .main,
+    body:is([data-ui-section="operations"], [data-ui-section="management"]) .main * {
+      letter-spacing: 0 !important;
+    }
+
+    body[data-ui-section="operations"] .main :is(
+      .np-focus,
+      .np-panel,
+      .np-detail-panel,
+      .replenish-summary-strip,
+      .supply-list-shell,
+      .cockpit-toolbar,
+      .cockpit-kpis,
+      .cockpit-card,
+      .asin360-switcher,
+      .asin360-product-head,
+      .asin360-routing-strip,
+      .scene-routing-summary
+    ),
+    body[data-ui-section="management"] .main :is(
+      .action-log-shell,
+      .review-compact-toolbar,
+      .review-compact-summary,
+      .review-compact-section,
+      .kb-compact-toolbar,
+      .kb-compact-content,
+      .kb-impact-overview
+    ) {
+      border-color: var(--workspace-line);
+      border-radius: var(--workspace-radius);
+      background: var(--workspace-surface);
+      box-shadow: var(--workspace-shadow);
+    }
+
+    body[data-ui-section="operations"] .np-focus {
+      min-height: 112px;
+      padding: 16px 18px;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      background: #fff;
+    }
+    body[data-ui-section="operations"] .np-focus::before { display: none; }
+    body[data-ui-section="operations"] .np-focus-main { gap: 6px; }
+    body[data-ui-section="operations"] .np-focus-label {
+      min-height: 22px;
+      color: #175cd3;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    body[data-ui-section="operations"] .np-focus h2 {
+      color: var(--workspace-text);
+      font-size: 19px;
+      line-height: 1.35;
+      font-weight: 750;
+    }
+    body[data-ui-section="operations"] .np-focus p {
+      max-width: 860px;
+      color: var(--workspace-text-muted);
+      font-size: 12.5px;
+      line-height: 1.55;
+    }
+    body[data-ui-section="operations"] .np-ai-badge {
+      min-height: 24px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    body[data-ui-section="operations"] .np-work-grid {
+      gap: 14px;
+      grid-template-columns: minmax(0, 1.24fr) minmax(360px, .76fr);
+    }
+    body[data-ui-section="operations"] .np-panel-head {
+      min-height: 56px;
+      padding: 12px 16px;
+      border-bottom-color: var(--workspace-line);
+    }
+    body[data-ui-section="operations"] .np-panel-head h2 {
+      color: var(--workspace-text);
+      font-size: 14px;
+      font-weight: 750;
+    }
+    body[data-ui-section="operations"] .np-panel-head p {
+      color: var(--workspace-text-muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    body[data-ui-section="operations"] .np-queue-row {
+      min-height: 74px;
+      padding: 11px 16px;
+      border-bottom-color: #e9edf2;
+    }
+    body[data-ui-section="operations"] .np-queue-main strong { font-size: 13px; }
+
+    body[data-ui-section="operations"] .replenish-summary-strip {
+      min-height: 112px;
+      grid-template-columns: minmax(0, 1.35fr) repeat(2, minmax(180px, .45fr));
+      color: var(--workspace-text);
+      border-left-width: 1px;
+      overflow: hidden;
+      background: #fff;
+    }
+    body[data-ui-section="operations"] .replenish-summary-main {
+      padding: 16px 20px;
+    }
+    body[data-ui-section="operations"] .replenish-summary-kicker {
+      margin-bottom: 7px;
+      color: var(--workspace-text-muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+    body[data-ui-section="operations"] .replenish-summary-title { gap: 8px; }
+    body[data-ui-section="operations"] .replenish-summary-title strong {
+      color: var(--workspace-text);
+      font-size: 32px;
+      line-height: 1;
+      font-weight: 750;
+    }
+    body[data-ui-section="operations"] .replenish-summary-title span {
+      color: var(--workspace-text-secondary);
+      font-size: 16px;
+      font-weight: 700;
+    }
+    body[data-ui-section="operations"] .replenish-summary-meta {
+      margin-top: 10px;
+      color: var(--workspace-text-muted);
+      font-size: 12px;
+    }
+    body[data-ui-section="operations"] .replenish-summary-panel {
+      padding: 16px 18px;
+      border-left-color: var(--workspace-line);
+      background: #fff;
+    }
+    body[data-ui-section="operations"] .replenish-summary-panel::before { display: none; }
+    body[data-ui-section="operations"] .replenish-summary-panel:nth-child(3) { background: #fff; }
+    body[data-ui-section="operations"] .replenish-summary-panel label {
+      margin-bottom: 8px;
+      color: var(--workspace-text-muted);
+      font-size: 12px;
+    }
+    body[data-ui-section="operations"] .replenish-summary-panel strong {
+      color: var(--workspace-text);
+      font-size: 24px;
+      font-weight: 750;
+    }
+    body[data-ui-section="operations"] .replenish-summary-panel small,
+    body[data-ui-section="operations"] .replenish-summary-link {
+      font-size: 12px;
+    }
+    body[data-ui-section="operations"] .supply-list-toolbar {
+      min-height: 58px;
+      padding: 10px 14px;
+      border-bottom-color: var(--workspace-line);
+    }
+    body[data-ui-section="operations"] .supply-search,
+    body[data-ui-section="operations"] :is(.supply-select, .supply-tool-btn) {
+      height: 36px;
+      border-color: var(--workspace-line-strong);
+      border-radius: 7px;
+      background: #fff;
+      font-size: 13px;
+    }
+    body[data-ui-section="operations"] .supply-tabs {
+      height: 48px;
+      gap: 22px;
+      padding: 0 14px;
+      border-bottom-color: var(--workspace-line);
+    }
+    body[data-ui-section="operations"] .supply-tab {
+      height: 48px;
+      color: var(--workspace-text-muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+    body[data-ui-section="operations"] .supply-tab.active {
+      color: #175cd3;
+      border-bottom-color: #1769e0;
+    }
+    body[data-ui-section="operations"] .supply-table th {
+      height: 42px;
+      color: var(--workspace-text-muted);
+      border-bottom-color: var(--workspace-line);
+      background: #f7f9fb;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    body[data-ui-section="operations"] .supply-table td {
+      height: 78px;
+      border-bottom-color: #e9edf2;
+      color: var(--workspace-text-secondary);
+      font-size: 13px;
+    }
+
+    body[data-ui-section="operations"] .ai-cockpit {
+      width: 100%;
+      max-width: none;
+      gap: 16px;
+    }
+    body[data-ui-section="operations"] .cockpit-toolbar {
+      min-height: 56px;
+      padding: 9px 12px;
+    }
+    body[data-ui-section="operations"] .cockpit-toolbar :is(.select, .input) {
+      height: 36px;
+      font-size: 13px;
+      font-weight: 650;
+    }
+    body[data-ui-section="operations"] .cockpit-toolbar .btn {
+      min-height: 36px;
+      height: 36px;
+      font-size: 13px;
+    }
+    body[data-ui-section="operations"] .cockpit-sync { font-size: 12px; }
+    body[data-ui-section="operations"] .cockpit-kpi {
+      min-height: 108px;
+      padding: 15px 16px 13px;
+      border-right-color: var(--workspace-line);
+    }
+    body[data-ui-section="operations"] .cockpit-kpi span { font-size: 12px; }
+    body[data-ui-section="operations"] .cockpit-kpi strong {
+      color: var(--workspace-text);
+      font-size: 24px;
+      font-weight: 750;
+    }
+    body[data-ui-section="operations"] .cockpit-kpi small {
+      font-size: 11.5px;
+      font-weight: 550;
+    }
+    body[data-ui-section="operations"] .cockpit-ai-card {
+      border-color: #d8e3f1;
+      background: #f8fbff;
+    }
+    body[data-ui-section="operations"] .cockpit-judgement-row {
+      min-height: 78px;
+      border-color: var(--workspace-line);
+      background: #fff;
+      color: var(--workspace-text-secondary);
+      font-size: 12px;
+      font-weight: 550;
+    }
+    body[data-ui-section="operations"] .cockpit-judgement-row b { font-size: 11px; }
+    body[data-ui-section="operations"] .cockpit-section-title h2 {
+      font-size: 16px;
+      font-weight: 750;
+    }
+    body[data-ui-section="operations"] .cockpit-section-title p { font-size: 12px; }
+
+    body[data-ui-section="operations"] .asin360-v2 {
+      width: 100%;
+      max-width: none;
+      gap: 16px;
+    }
+    body[data-ui-section="operations"] .asin360-switcher {
+      min-height: 56px;
+      padding: 9px 12px;
+    }
+    body[data-ui-section="operations"] .asin360-switcher :is(select, input) {
+      height: 36px;
+      border-color: var(--workspace-line-strong);
+      border-radius: 7px;
+      font-size: 13px;
+    }
+    body[data-ui-section="operations"] .asin360-product-head {
+      padding: 18px 20px 14px;
+    }
+    body[data-ui-section="operations"] .asin360-product-visual {
+      border-radius: 8px;
+      background: #f4f8fd;
+    }
+    body[data-ui-section="operations"] .asin360-product-copy h1 {
+      font-size: 21px;
+      font-weight: 750;
+    }
+    body[data-ui-section="operations"] .asin360-tabs button { font-size: 13px; }
+    body[data-ui-section="operations"] :is(.asin360-routing-strip, .scene-routing-summary) > div {
+      padding: 15px 18px;
+      border-right-color: var(--workspace-line);
+    }
+
+    body[data-ui-section="management"] :is(
+      .review-compact-toolbar,
+      .kb-compact-toolbar,
+      .action-log-toolbar
+    ) :is(input, select, .btn) {
+      min-height: 36px;
+      font-size: 13px;
+    }
+    body[data-ui-section="management"] :is(.review-compact-table, .kb-compact-table) th {
+      height: 42px;
+      background: #f7f9fb;
+    }
+    body[data-ui-section="management"] :is(.review-compact-table, .kb-compact-table) td {
+      min-height: 68px;
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+    body[data-ui-section="management"] .kb-impact-copy h2 {
+      font-size: 17px;
+      font-weight: 750;
+    }
+    body[data-ui-section="management"] .kb-impact-stat strong {
+      color: var(--workspace-text);
+      font-weight: 750;
+    }
+
+    body[data-ui-section="management"] .kb-compact-page {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    body[data-ui-section="management"] .kb-compact-page > * {
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .view-cockpitOnboarding {
+      background: #f4f7fb;
+    }
+    .cockpit-onboarding-page {
+      width: min(100%, 1680px);
+      margin: 0 auto;
+      display: grid;
+      gap: 18px;
+      color: #172033;
+    }
+    .cockpit-onboarding-head {
+      min-height: 72px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 28px;
+    }
+    .cockpit-onboarding-title {
+      display: grid;
+      gap: 6px;
+    }
+    .cockpit-onboarding-title h1 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.35;
+      letter-spacing: 0;
+      font-weight: 700;
+    }
+    .cockpit-onboarding-title p {
+      margin: 0;
+      color: #6b778c;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .cockpit-onboarding-kicker {
+      color: #2878ee;
+      font-size: 13px;
+      font-weight: 650;
+    }
+    .cockpit-role-switch {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid #d8e1ed;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 4px 14px rgba(24, 39, 75, .04);
+    }
+    .cockpit-role-switch button {
+      min-height: 34px;
+      padding: 0 14px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #667085;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 650;
+      cursor: pointer;
+    }
+    .cockpit-role-switch button.active {
+      color: #1f67d2;
+      background: #edf5ff;
+      box-shadow: inset 0 0 0 1px #c8ddff;
+    }
+    .cockpit-role-context {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 54px;
+      padding: 10px 14px;
+      border: 1px solid #dce4ee;
+      border-radius: 8px;
+      background: #fff;
+    }
+    .cockpit-role-context > i {
+      width: 20px;
+      height: 20px;
+      color: #2878ee;
+    }
+    .cockpit-role-context-copy {
+      min-width: 0;
+      display: grid;
+      gap: 2px;
+    }
+    .cockpit-role-context-copy strong {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .cockpit-role-context-copy span {
+      color: #7b8798;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .cockpit-role-badge {
+      margin-left: auto;
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 9px;
+      border: 1px solid #cfe0f8;
+      border-radius: 6px;
+      color: #2866b8;
+      background: #f4f8fe;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .cockpit-role-badge i {
+      width: 14px;
+      height: 14px;
+    }
+    .cockpit-onboarding-core {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(360px, .8fr);
+      border: 1px solid #d9e2ee;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 10px 30px rgba(29, 49, 78, .05);
+      overflow: hidden;
+    }
+    .cockpit-onboarding-status {
+      min-height: 350px;
+      padding: 34px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 28px;
+    }
+    .cockpit-status-copy {
+      display: grid;
+      gap: 14px;
+      max-width: 760px;
+    }
+    .cockpit-status-icon {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #c9dcf8;
+      border-radius: 8px;
+      color: #2878ee;
+      background: #f3f8ff;
+    }
+    .cockpit-status-icon.employee {
+      color: #667085;
+      border-color: #d9e0e9;
+      background: #f7f8fa;
+    }
+    .cockpit-status-icon i {
+      width: 23px;
+      height: 23px;
+    }
+    .cockpit-status-copy h2 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.35;
+      letter-spacing: 0;
+      font-weight: 720;
+    }
+    .cockpit-status-copy p {
+      margin: 0;
+      color: #596579;
+      font-size: 15px;
+      line-height: 1.75;
+    }
+    .cockpit-access-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 11px 12px;
+      border-left: 3px solid #7eacee;
+      background: #f6f9fd;
+      color: #526176;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .cockpit-access-note i {
+      flex: 0 0 auto;
+      width: 16px;
+      height: 16px;
+      margin-top: 2px;
+      color: #3f7ed6;
+    }
+    .cockpit-status-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .cockpit-status-actions .btn {
+      min-height: 40px;
+      border-radius: 7px;
+    }
+    .cockpit-status-actions .btn i {
+      width: 16px;
+      height: 16px;
+    }
+    .cockpit-status-actions .btn[aria-disabled="true"] {
+      color: #36765f;
+      border-color: #bfdfd1;
+      background: #eff9f4;
+      cursor: default;
+      box-shadow: none;
+    }
+    .cockpit-admin-owner {
+      width: min(100%, 520px);
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid #dde4ed;
+      border-radius: 8px;
+      background: #fafbfd;
+    }
+    .cockpit-admin-avatar {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: #344054;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .cockpit-admin-owner span {
+      min-width: 0;
+      display: grid;
+      gap: 2px;
+    }
+    .cockpit-admin-owner strong {
+      font-size: 13px;
+    }
+    .cockpit-admin-owner small {
+      color: #7a8698;
+      font-size: 12px;
+    }
+    .cockpit-owner-state {
+      color: #c46a00;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .cockpit-onboarding-flow {
+      padding: 28px 26px;
+      border-left: 1px solid #e1e7ef;
+      background: #fafbfd;
+    }
+    .cockpit-flow-head {
+      margin-bottom: 18px;
+      display: grid;
+      gap: 4px;
+    }
+    .cockpit-flow-head strong {
+      font-size: 15px;
+    }
+    .cockpit-flow-head span {
+      color: #7a8698;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .cockpit-flow-list {
+      display: grid;
+    }
+    .cockpit-flow-step {
+      position: relative;
+      min-height: 62px;
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      gap: 12px;
+    }
+    .cockpit-flow-step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 13px;
+      top: 30px;
+      bottom: 4px;
+      width: 1px;
+      background: #dce3ec;
+    }
+    .cockpit-flow-index {
+      position: relative;
+      z-index: 1;
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #d5deea;
+      border-radius: 50%;
+      color: #8894a5;
+      background: #fff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .cockpit-flow-step.current .cockpit-flow-index {
+      color: #fff;
+      border-color: #2878ee;
+      background: #2878ee;
+      box-shadow: 0 0 0 4px #eaf2ff;
+    }
+    .cockpit-flow-copy {
+      padding-top: 2px;
+      display: grid;
+      align-content: start;
+      gap: 3px;
+    }
+    .cockpit-flow-copy strong {
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .cockpit-flow-copy span {
+      color: #8490a1;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .cockpit-flow-step.current .cockpit-flow-copy span {
+      color: #5f6f86;
+    }
+    .cockpit-output-section {
+      display: grid;
+      gap: 12px;
+    }
+    .cockpit-section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .cockpit-section-head div {
+      display: grid;
+      gap: 4px;
+    }
+    .cockpit-section-head h2 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.4;
+    }
+    .cockpit-section-head p {
+      margin: 0;
+      color: #7a8698;
+      font-size: 13px;
+    }
+    .cockpit-output-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border: 1px solid #dce4ee;
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+    }
+    .cockpit-output-item {
+      min-height: 132px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr);
+      align-content: start;
+      gap: 13px;
+    }
+    .cockpit-output-item + .cockpit-output-item {
+      border-left: 1px solid #e2e8f0;
+    }
+    .cockpit-output-icon {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #d7e3f4;
+      border-radius: 7px;
+      color: #2878ee;
+      background: #f6f9fe;
+    }
+    .cockpit-output-icon i {
+      width: 18px;
+      height: 18px;
+    }
+    .cockpit-output-copy {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      gap: 5px;
+    }
+    .cockpit-output-copy strong {
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .cockpit-output-copy p {
+      margin: 0;
+      color: #68758a;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .cockpit-output-copy span {
+      color: #98a2b3;
+      font-size: 12px;
+    }
+    .cockpit-scope-footer {
+      min-height: 52px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #dce4ee;
+      border-radius: 8px;
+      color: #667085;
+      background: #fff;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .cockpit-scope-footer i {
+      flex: 0 0 auto;
+      width: 17px;
+      height: 17px;
+      color: #4f80c5;
+    }
+    .cockpit-requirement-list {
+      display: grid;
+      gap: 10px;
+    }
+    .cockpit-requirement-row {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .cockpit-requirement-row > i {
+      width: 20px;
+      height: 20px;
+      color: #2878ee;
+    }
+    .cockpit-requirement-row span {
+      display: grid;
+      gap: 3px;
+    }
+    .cockpit-requirement-row strong {
+      font-size: 13px;
+    }
+    .cockpit-requirement-row small {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .cockpit-requirement-row b {
+      color: #667085;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .cockpit-drawer-note {
+      margin-bottom: 14px;
+      padding: 12px;
+      border-left: 3px solid #2878ee;
+      color: #536176;
+      background: #f5f8fc;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
     @media (min-width: 1920px) {
       body:is([data-ui-section="operations"], [data-ui-section="management"]) .main,
       body:is([data-ui-section="operations"], [data-ui-section="management"]) .main:is(
@@ -25694,7 +28604,8 @@
         .view-logs,
         .view-rules,
         .view-asinOverview,
-        .view-aiCockpit
+        .view-aiCockpit,
+        .view-cockpitOnboarding
       ) {
         padding: 22px 28px 38px;
         gap: 18px;
@@ -25714,10 +28625,51 @@
         .view-logs,
         .view-rules,
         .view-asinOverview,
-        .view-aiCockpit
+        .view-aiCockpit,
+        .view-cockpitOnboarding
       ) {
         padding: 16px 16px 28px;
         gap: 14px;
+      }
+      body[data-ui-section="management"] .kb-compact-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      body[data-ui-section="management"] .kb-compact-actions {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+      body[data-ui-section="management"] .kb-impact-overview {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      body[data-ui-section="management"] .kb-impact-lead {
+        min-height: 118px;
+        border-right: 0;
+        border-bottom: 1px solid var(--workspace-line);
+      }
+    }
+    @media (max-width: 1100px) {
+      .cockpit-onboarding-head {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .cockpit-role-switch {
+        align-self: flex-start;
+      }
+      .cockpit-onboarding-core {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .cockpit-onboarding-flow {
+        border-top: 1px solid #e1e7ef;
+        border-left: 0;
+      }
+      .cockpit-output-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .cockpit-output-item + .cockpit-output-item {
+        border-top: 1px solid #e2e8f0;
+        border-left: 0;
       }
     }
   </style>
@@ -25983,11 +28935,14 @@
         "店铺": "全部店铺",
         "币种": "GBP"
       },
+      cockpitOnboardingRole: "admin",
+      cockpitAdminNotified: false,
       asinStatusRule: "全部",
       asinStatusScene: "newProducts",
       handledAsinStatus: new Set(),
       asinFlowRules: ["把 30 天 0 单且库存仍可售的新品优先归入新品测试失败。"],
       homeDemoMode: "new",
+      homeLaunchTask: "selection",
       lifecycleFocusFilter: "all",
       lifecycleDataTime: "2026-07-14 14:30:18",
       lifecycleSyncState: "idle",
@@ -26050,6 +29005,8 @@
       notificationDigestTime: "08:30",
       notificationRecipientPending: 1,
       notificationSendFilter: "all",
+      demoLeadFilter: "all",
+      demoLeadSearch: "",
       knowledgeTab: "library",
       knowledgeImportSource: "",
       knowledgeImportStep: 1,
@@ -26089,6 +29046,7 @@
       ]},
       { title: "商品经营", items: [
         ["aiCockpit", "AI驾驶舱", "sparkles"],
+        ["cockpitOnboarding", "驾驶舱初始态", "database-zap"],
         ["asinOverview", "ASIN总览", "table-properties"],
         ["product360", "ASIN 360", "scan-search"],
         ["exceptions", "待处理中心", "circle-alert"],
@@ -26110,12 +29068,29 @@
       { title: "系统底座", items: [
         ["connectors", "连接器", "plug-zap"],
         ["notifications", "消息推送", "send"]
+      ]},
+      { title: "AI 积分中心", items: [
+        ["creditProducts", "套餐管理", "package"],
+        ["creditAccount", "积分账户", "wallet-cards"],
+        ["creditLedger", "积分明细", "list-filter"]
+      ]},
+      { title: "系统运维", items: [
+        ["creditSettings", "计费设置", "settings-2"],
+        ["creditManual", "权益开通", "hand-coins"],
+        ["demoAppointments", "预约演示", "calendar-check"]
       ]}
     ];
     const routeTitleFallbacks = {
       aiCockpit: "AI驾驶舱",
+      cockpitOnboarding: "驾驶舱初始态",
       lifecycleDashboard: "ASIN运营中心",
-      systemLogs: "系统记录"
+      systemLogs: "系统记录",
+      creditProducts: "套餐管理",
+      creditAccount: "积分账户",
+      creditLedger: "积分明细",
+      creditSettings: "计费设置",
+      creditManual: "权益开通",
+      demoAppointments: "预约演示"
     };
 
     const productOperationNav = navGroups.find(group => group.title === "商品经营");
@@ -26884,6 +29859,37 @@
       { id:"CR-003", task:"桌面收纳盒德语 Listing", type:"Listing", module:"Listing 工厂", credits:28, status:"失败", refund:"是", time:"2026-07-08 11:02" },
       { id:"CR-004", task:"D15 弱动销诊断", type:"生命周期", module:"新品测试", credits:16, status:"成功", refund:"否", time:"2026-07-08 12:20" }
     ];
+
+    const DEMO_APPOINTMENT_LEADS_KEY = "yilianDemoAppointmentLeads";
+
+    function defaultDemoAppointmentLeads() {
+      return [
+        { id:"DEMO20260730001", name:"Lia", phone:"+86 15306530411", company:"杭州某跨境科技", user:"wechat_266ae4760ab07bad90", tenant:"WXT_266AE4760AB07BAD901CEAF5", source:"AI 选品暂未开通", modules:["AI选品"], contactTime:"工作日 09:00-12:00", submittedAt:"2026-07-30 15:47", status:"待跟进", record:"-" },
+        { id:"DEMO20260730002", name:"想念蛋挞", phone:"未填写手机号", company:"义乌某家居贸易", user:"wechat_00a6b59254f63a4379", tenant:"WXT_00A6B59254F63A43798789CB", source:"选品池暂未开通", modules:["AI选品","产品全生命周期管理"], contactTime:"工作日 14:00-18:00", submittedAt:"2026-07-30 10:58", status:"待跟进", record:"-" },
+        { id:"DEMO20260729001", name:"123", phone:"+86 13510008310", company:"深圳某消费电子", user:"wechat_3e4960dc08ed8c4851", tenant:"WXT_3E4960DC08ED8C4851BA1A46", source:"AI 选品暂未开通", modules:["AI选品","Listing"], contactTime:"工作日 09:00-12:00", submittedAt:"2026-07-29 13:55", status:"已跟进", record:"产品顾问 · 2026-07-29 15:20\n已确认需要看自动化选品和 Listing 联动" },
+        { id:"DEMO20260728001", name:"赵去快乐星躲躲", phone:"+86 15698688533", company:"杭州某跨境科技", user:"wechat_efdd72c305e282cc4e", tenant:"WXT_EFDD72C305E282CC4E18FE66", source:"AI 选品暂未开通", modules:["AI选品"], contactTime:"工作日 18:00 后", submittedAt:"2026-07-28 16:04", status:"已转化", record:"销售 · 2026-07-29 09:18\n已开通 AI 开品提效包" },
+        { id:"DEMO20260724001", name:"W", phone:"+86 13203014621", company:"-", user:"wechat_116610af24375f7a15", tenant:"WXT_116610AF24375F7A15CA9DA8", source:"AI 选品暂未开通", modules:["AI选品","套图"], contactTime:"工作日 09:00-12:00", submittedAt:"2026-07-24 10:06", status:"已关闭", record:"管理员 · 2026-07-24 11:43\n重复提交，合并到已有客户记录" }
+      ];
+    }
+
+    function loadDemoAppointmentLeads() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(DEMO_APPOINTMENT_LEADS_KEY) || "null");
+        return Array.isArray(saved) && saved.length ? saved : defaultDemoAppointmentLeads();
+      } catch (error) {
+        return defaultDemoAppointmentLeads();
+      }
+    }
+
+    const demoAppointmentLeads = loadDemoAppointmentLeads();
+
+    function saveDemoAppointmentLeads() {
+      try {
+        localStorage.setItem(DEMO_APPOINTMENT_LEADS_KEY, JSON.stringify(demoAppointmentLeads));
+      } catch (error) {
+        // Demo environment can run without persistent storage.
+      }
+    }
 
     const qs = (selector, root = document) => root.querySelector(selector);
     const qsa = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -28371,6 +31377,15 @@
     function render() {
       ensureNewProductAutomaticTasks();
       hydratePendingKnowledgeUsageReviews();
+      if (isEntitlementBlockedView(state.view)) {
+        const blockedView = state.view;
+        state.view = DEFAULT_VIEW;
+        const currentRoute = window.location.hash.replace(/^#/, "").split("?")[0];
+        if (currentRoute === blockedView) {
+          history.replaceState(null, "", `#${DEFAULT_VIEW}`);
+        }
+        requestAnimationFrame(() => openEntitlementGateModal(blockedView));
+      }
       if (state.view === "rules" && !canViewNewProductRuleSource()) {
         state.view = "dashboard";
         history.replaceState(null, "", "#dashboard");
@@ -28393,6 +31408,7 @@
       const renderers = {
         dashboard: renderDashboard,
         aiCockpit: renderAiCockpit,
+        cockpitOnboarding: renderCockpitOnboarding,
         product360: renderProduct360,
         selectionPool: renderProduct360,
         tasks: renderTasks,
@@ -28435,7 +31451,13 @@
         costRules: renderCostRules,
         connectors: renderConnectors,
         notifications: renderNotifications,
-        settings: renderSettings
+        settings: renderSettings,
+        creditProducts: renderCreditProducts,
+        creditAccount: renderCreditAccount,
+        creditLedger: renderCreditLedger,
+        creditSettings: renderCreditSettings,
+        creditManual: renderCreditManual,
+        demoAppointments: renderDemoAppointments
       };
       const customScene = state.customScenes.find(scene => scene.view === state.view);
       if (!renderers[state.view] && !customScene) state.view = DEFAULT_VIEW;
@@ -28449,74 +31471,189 @@
       });
     }
 
-    function renderNewUserHome() {
-      return `
-        <section class="wb-home wb-home-new">
-          <section class="wb-launch wb-launch-v3">
-            <div class="wb-launch-main">
-              <span class="wb-launch-kicker">AI 启动台</span>
-              <h1>从一个商品方向开始，生成第一份 AI 选品结果。</h1>
-              <p class="wb-launch-lead">新用户不需要先理解完整系统。输入一个类目、关键词或商品想法，羿链 AI 会先给出机会评分、判断依据和后续可推进的内容任务。</p>
-
-              <div class="wb-launch-composer">
-                <div class="wb-launch-composer-head">
-                  <strong>你想开发什么商品？</strong>
-                  <span>AI 会自动补全市场、竞争和后续任务</span>
-                </div>
-                <div class="wb-launch-prompt">
-                  <span>适合 Amazon US 的桌面收纳类小商品</span>
-                  <button data-action="openFirstSelectionTask">创建选品任务 <i data-lucide="arrow-right"></i></button>
-                </div>
-                <div class="wb-launch-examples">
-                  ${["户外露营小工具", "宠物清洁用品", "厨房收纳配件", "办公室桌面用品"].map(item => `<button type="button" data-action="openFirstSelectionTask" data-value="${escapeHtml(item)}">${item}</button>`).join("")}
-                </div>
+    function renderLaunchPreview(taskKey) {
+      if (taskKey === "listing") {
+        return `
+          <aside class="wb-start-preview">
+            <div class="wb-start-preview-head">
+              <div><strong>结果预览</strong><span>生成后进入审核</span></div>
+              <span>AI Listing</span>
+            </div>
+            <div class="wb-listing-paper">
+              <div class="wb-listing-title">Magnetic Desk Lamp for Focused Workspace Lighting</div>
+              <div class="wb-listing-lines">
+                <div class="wb-listing-line"><span>标题</span><p>突出材质、使用场景和核心卖点，避免夸大承诺。</p></div>
+                <div class="wb-listing-line"><span>五点</span><p>亮度调节、磁吸结构、桌面场景、包装清单、售后说明。</p></div>
+                <div class="wb-listing-line"><span>Search Terms</span><p>desk lamp, magnetic light, workspace lighting, bedside lamp</p></div>
               </div>
-
-              <button class="wb-launch-secondary-link" data-action="setHomeDemoMode" data-mode="returning">
-                查看示例数据，先了解完整工作台如何承接结果 <i data-lucide="arrow-right"></i>
-              </button>
-
-              <div class="wb-launch-capabilities">
-                <strong>生成后可以继续推进</strong>
-                <div class="wb-launch-capability-list">
-                  <span>AI 选品</span>
-                  <span>Listing 生成</span>
-                  <span>商品套图</span>
-                  <span>生命周期经营</span>
-                  <span>经验沉淀</span>
-                </div>
+              <div class="wb-listing-tags">
+                <span>SEO</span><span>卖点</span><span>Search Terms</span><span>语气校验</span>
               </div>
             </div>
+            <div class="wb-result-checks">
+              <span><i data-lucide="check-circle-2"></i>商品事实已结构化 <b>可审核</b></span>
+              <span><i data-lucide="shield-check"></i>敏感词和绝对化表达已标记 <b>待确认</b></span>
+              <span><i data-lucide="arrow-right-circle"></i>审核后可衔接套图文案 <b>下一步</b></span>
+            </div>
+          </aside>
+        `;
+      }
+      if (taskKey === "images") {
+        return `
+          <aside class="wb-start-preview">
+            <div class="wb-start-preview-head">
+              <div><strong>结果预览</strong><span>套图方向样例</span></div>
+              <span>商品套图</span>
+            </div>
+            <div class="wb-image-gallery-preview">
+              <figure><img src="../yilian-ai-home/assets/product-gallery-studio.png" alt="商品套图主图预览" style="object-position:left center;"><figcaption>主图</figcaption></figure>
+              <figure><img src="../yilian-ai-home/assets/product-gallery-studio.png" alt="商品套图场景图预览" style="object-position:42% center;"><figcaption>场景</figcaption></figure>
+              <figure><img src="../yilian-ai-home/assets/product-gallery-studio.png" alt="商品套图对比图预览" style="object-position:right center;"><figcaption>对比</figcaption></figure>
+            </div>
+            <div class="wb-image-labels">
+              <span>套图方向</span><span>场景建议</span><span>图片文案</span><span>画面规划</span>
+            </div>
+          </aside>
+        `;
+      }
+      return `
+        <aside class="wb-start-preview">
+          <div class="wb-start-preview-head">
+            <div><strong>结果预览</strong><span>基于示例方向</span></div>
+            <span>AI 选品</span>
+          </div>
+          <div class="wb-result-score-row">
+            <div class="wb-result-score">
+              <b>87<small>/100</small></b>
+              <span>机会评分</span>
+            </div>
+            <div class="wb-result-bars">
+              <span>需求<i style="--w:86%;"></i><b>强</b></span>
+              <span>竞争<i style="--w:64%;"></i><b>中</b></span>
+              <span>供应<i style="--w:78%;"></i><b>稳</b></span>
+            </div>
+          </div>
+          <div class="wb-result-image-strip">
+            <img src="../yilian-ai-home/assets/product-gallery-studio.png" alt="选品结果商品预览">
+            <strong>桌面照明与收纳周边</strong>
+            <small>轻量、可视化卖点清晰，适合继续生成 Listing 与商品套图。</small>
+          </div>
+          <div class="wb-result-checks">
+            <span><i data-lucide="trending-up"></i>需求稳定，季节性波动低 <b>可推进</b></span>
+            <span><i data-lucide="badge-dollar-sign"></i>预计价格带 $18.9 - $29.9 <b>中</b></span>
+            <span><i data-lucide="shield-check"></i>材质和尺寸事实需补齐 <b>待确认</b></span>
+          </div>
+        </aside>
+      `;
+    }
 
-            <aside class="wb-launch-preview">
-              <div class="wb-launch-preview-head">
-                <div><strong>生成结果预览</strong><span>基于示例方向</span></div>
-                <span>AI 选品</span>
+    function renderNewUserHome() {
+      const launchTasks = {
+        selection: {
+          key: "selection",
+          label: "AI 选品",
+          short: "判断商品方向",
+          icon: "scan-search",
+          eyebrow: "推荐先做",
+          title: "先创建一个选品任务，拿到第一份可审核结果。",
+          reason: "你现在还没有历史任务。先从一个商品方向开始，AI 会判断机会、风险和后续能否继续生成 Listing 与套图。",
+          note: "先做选品的好处是不用理解完整系统，输入一个商品方向就能看到 AI 如何给出判断依据。",
+          generated: ["机会评分", "候选商品", "风险提示", "下一步任务"],
+          example: "桌面收纳类小商品",
+          button: "创建首个选品任务",
+          action: "openFirstSelectionTask"
+        },
+        listing: {
+          key: "listing",
+          label: "AI Listing",
+          short: "生成可审核草稿",
+          icon: "file-pen-line",
+          eyebrow: "已有商品资料时",
+          title: "把商品卖点整理成一版可审核 Listing。",
+          reason: "如果你已经有商品卖点、规格和站点目标，可以直接让 AI 生成标题、五点、Search Terms 和语气校验。",
+          note: "Listing 更适合已有商品资料的用户；如果还没有明确商品，建议先从 AI 选品开始。",
+          generated: ["标题", "五点描述", "Search Terms", "语气校验"],
+          example: "磁吸桌面灯，适合办公和床头场景",
+          button: "进入 Listing 生成",
+          view: "listings"
+        },
+        images: {
+          key: "images",
+          label: "商品套图",
+          short: "规划图片方向",
+          icon: "images",
+          eyebrow: "已有商品视觉时",
+          title: "把商品卖点转成套图方向和图片文案。",
+          reason: "围绕商品亮点和使用场景，生成主图、场景图、尺寸图、对比图的方向建议，后续进入图片审核。",
+          note: "套图适合已经确定商品形态的用户；AI 会先给出方向和文案，不会直接替代审核。",
+          generated: ["套图方向", "场景建议", "图片文案", "画面规划"],
+          example: "便携桌面灯，突出质感、尺寸和使用场景",
+          button: "进入商品套图",
+          view: "images"
+        }
+      };
+      const activeKey = launchTasks[state.homeLaunchTask] ? state.homeLaunchTask : "selection";
+      const active = launchTasks[activeKey];
+      const primaryButton = active.action
+        ? `<button class="wb-start-primary" data-action="${active.action}" data-value="${escapeHtml(active.example)}">${active.button}<i data-lucide="arrow-right"></i></button>`
+        : `<button class="wb-start-primary" data-view="${active.view}">${active.button}<i data-lucide="arrow-right"></i></button>`;
+      const flow = [
+        { key: "selection", title: "选品结果", desc: "先判断方向" },
+        { key: "listing", title: "Listing 生成", desc: "形成销售表达" },
+        { key: "images", title: "商品套图", desc: "规划视觉内容" },
+        { key: "review", title: "审核沉淀", desc: "进入团队确认" }
+      ];
+      return `
+        <section class="wb-home wb-home-new">
+          <section class="wb-launch wb-launch-v4">
+            <div class="wb-start-shell">
+              <header class="wb-start-hero">
+                <div class="wb-start-copy">
+                  <span class="wb-launch-kicker">AI 首次任务工作台</span>
+                  <h1>今天先让 AI 帮你完成一个商品任务</h1>
+                  <p class="wb-start-subtitle">先生成一份可审核结果，再决定是否继续推进。你不需要先理解完整系统，只需要选择一个当前最接近的任务。</p>
+                </div>
+                <aside class="wb-start-ai-note">
+                  <strong><i data-lucide="sparkles"></i>AI 推荐</strong>
+                  <p>${active.note}</p>
+                </aside>
+              </header>
+
+              <div class="wb-start-tabs" aria-label="选择首次任务">
+                ${Object.values(launchTasks).map(task => `
+                  <button class="wb-start-tab ${task.key === activeKey ? "active" : ""}" data-action="setHomeLaunchTask" data-task="${task.key}">
+                    <i data-lucide="${task.icon}"></i>
+                    <span><strong>${task.label}</strong><small>${task.short}</small></span>
+                  </button>
+                `).join("")}
               </div>
 
-              <div class="wb-launch-score">
-                <b>87<small>/100</small></b>
-                <p>机会评分会综合需求、竞争、利润空间和供应稳定性，不会直接替你做业务决定。</p>
-              </div>
+              <section class="wb-start-stage">
+                <div class="wb-start-stage-copy">
+                  <span class="wb-start-eyebrow">${active.eyebrow}</span>
+                  <h2>${active.title}</h2>
+                  <p>${active.reason}</p>
+                  <div class="wb-start-result-tags">
+                    ${active.generated.map(item => `<span>${item}</span>`).join("")}
+                  </div>
+                  <div class="wb-start-command">
+                    <div>
+                      <small>示例输入</small>
+                      <strong>${active.example}</strong>
+                    </div>
+                    ${primaryButton}
+                  </div>
+                  <button class="wb-start-example" data-action="setHomeDemoMode" data-mode="returning">
+                    暂时不创建，先看一份示例工作台 <i data-lucide="arrow-right"></i>
+                  </button>
+                </div>
+                ${renderLaunchPreview(activeKey)}
+              </section>
 
-              <div class="wb-launch-product-strip">
-                <img src="../yilian-ai-home/assets/product-thumbs-hires.png" alt="选品结果商品预览">
-                <strong>桌面照明与收纳周边</strong>
-                <small>轻量、低客单决策、可延展为套图和 Listing 内容任务。</small>
+              <div class="wb-start-flow" aria-label="生成后推进路径">
+                ${flow.map(step => `<span class="${step.key === activeKey ? "active" : ""}"><strong>${step.title}</strong>${step.desc}</span>`).join("")}
               </div>
-
-              <div class="wb-launch-preview-list">
-                <span><i data-lucide="trending-up"></i>需求稳定，季节性波动低 <b>可推进</b></span>
-                <span><i data-lucide="badge-dollar-sign"></i>预计价格带 $18.9 - $29.9 <b>中</b></span>
-                <span><i data-lucide="shield-check"></i>先补充材质和尺寸事实 <b>待确认</b></span>
-              </div>
-
-              <div class="wb-launch-next">
-                <span><strong>下一步 1</strong>生成商品 Brief</span>
-                <span><strong>下一步 2</strong>规划套图方向</span>
-                <span><strong>下一步 3</strong>生成 Listing</span>
-              </div>
-            </aside>
+            </div>
           </section>
         </section>
       `;
@@ -28834,6 +31971,138 @@
               <div class="morning-scene-list"><div><span>广告正常</span><b>214</b></div><div><span>高花费低转化</span><b>186</b></div><div><span>TACoS 异常</span><b>93</b></div></div>
             </button>
           </section>
+        </section>
+      `;
+    }
+
+    function cockpitDataRequirementsMarkup() {
+      const requirements = [
+        { icon:"shopping-bag", title:"订单与销售", note:"订单号、SKU / ASIN、销量、销售额、退款及站点店铺归属", state:"必需" },
+        { icon:"package-open", title:"库存与在途", note:"FBA 可售、在途、库龄、库存覆盖天数及补货计划", state:"必需" },
+        { icon:"megaphone", title:"广告表现", note:"广告花费、广告销售额、ACoS、TACoS 及广告活动状态", state:"建议接入" },
+        { icon:"badge-pound-sterling", title:"成本与利润", note:"商品成本、平台费、履约费、广告费及统一币种换算结果", state:"必需" },
+        { icon:"file-check-2", title:"Listing 与经营状态", note:"可售状态、Buy Box、上架时间、负责人及生命周期节点", state:"必需" }
+      ];
+      return `
+        <div class="cockpit-drawer-note">首次同步至少需要订单、库存、成本与商品状态。缺失字段会被标记为待补齐，不参与对应指标和场景判断。</div>
+        <div class="cockpit-requirement-list">
+          ${requirements.map(item => `
+            <div class="cockpit-requirement-row">
+              <i data-lucide="${item.icon}"></i>
+              <span><strong>${item.title}</strong><small>${item.note}</small></span>
+              <b>${item.state}</b>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderCockpitOnboarding() {
+      const isAdmin = state.cockpitOnboardingRole === "admin";
+      const roleContext = isAdmin
+        ? {
+            icon:"shield-check",
+            title:"当前身份：租户管理员",
+            note:"可为当前租户配置连接器、授权店铺范围并启动首次同步。",
+            badge:"拥有配置权限"
+          }
+        : {
+            icon:"user-round",
+            title:"当前身份：普通员工",
+            note:"可查看本人权限范围内的数据接入状态，不能新增、修改或停用连接器。",
+            badge:"仅查看状态"
+          };
+      const statusContent = isAdmin
+        ? `
+          <div class="cockpit-status-copy">
+            <span class="cockpit-status-icon"><i data-lucide="plug-zap"></i></span>
+            <h2>尚未接入经营数据</h2>
+            <p>当前租户未检测到可用连接器。完成授权并通过首次数据校验后，AI 驾驶舱才会生成经营指标、优先任务和复查结果。</p>
+            <div class="cockpit-access-note"><i data-lucide="info"></i><span>连接器按租户配置，仅租户管理员可操作；授权时需要明确可同步的站点、店铺和数据范围。</span></div>
+          </div>
+          <div class="cockpit-status-actions">
+            <button class="btn primary" data-action="openCockpitConnectorSetup"><i data-lucide="plug"></i>配置连接器</button>
+            <button class="btn" data-action="showCockpitDataRequirements"><i data-lucide="list-checks"></i>查看所需数据</button>
+          </div>
+        `
+        : `
+          <div class="cockpit-status-copy">
+            <span class="cockpit-status-icon employee"><i data-lucide="clock-3"></i></span>
+            <h2>等待租户管理员完成数据接入</h2>
+            <p>你无需重复配置。管理员完成连接器授权、首次同步和数据校验后，驾驶舱会自动开放，并按你的站点与店铺权限展示数据。</p>
+            <div class="cockpit-admin-owner">
+              <span class="cockpit-admin-avatar">苏</span>
+              <span><strong>苏禾</strong><small>当前租户管理员</small></span>
+              <b class="cockpit-owner-state">${state.cockpitAdminNotified ? "已提醒" : "尚未配置"}</b>
+            </div>
+            <div class="cockpit-access-note"><i data-lucide="lock-keyhole"></i><span>普通员工不能查看连接器密钥、授权账号和租户级同步配置。</span></div>
+          </div>
+          <div class="cockpit-status-actions">
+            <button class="btn primary" data-action="remindCockpitAdmin" ${state.cockpitAdminNotified ? 'aria-disabled="true"' : ""}><i data-lucide="${state.cockpitAdminNotified ? "check" : "bell-ring"}"></i>${state.cockpitAdminNotified ? "已提醒管理员" : "提醒管理员"}</button>
+            <button class="btn" data-action="showCockpitDataRequirements"><i data-lucide="list-checks"></i>查看所需数据</button>
+          </div>
+        `;
+      const flowSteps = [
+        { title:isAdmin ? "配置连接器" : "管理员配置连接器", note:isAdmin ? "授权数据源与店铺范围" : "当前尚未完成租户授权" },
+        { title:"首次同步", note:"拉取订单、库存、广告和成本数据" },
+        { title:"数据校验", note:"识别缺失字段、同步异常与口径冲突" },
+        { title:"生成驾驶舱", note:"形成指标、场景任务和复查基线" }
+      ];
+      const outputs = [
+        { icon:"chart-no-axes-combined", title:"经营结果", note:"订单、销售、利润、广告与库存按统一口径汇总。", state:"数据校验通过后生成" },
+        { icon:"list-todo", title:"优先任务", note:"规则命中的异常进入待处理中心，并明确负责人和时限。", state:"随每次同步更新" },
+        { icon:"scan-search", title:"效果复查", note:"处理动作到期后自动对比经营结果，形成闭环记录。", state:"动作执行后生成" }
+      ];
+      return `
+        <section class="cockpit-onboarding-page">
+          <header class="cockpit-onboarding-head">
+            <div class="cockpit-onboarding-title">
+              <span class="cockpit-onboarding-kicker">首次进入</span>
+              <h1>先完成数据接入，再生成 AI 驾驶舱</h1>
+              <p>未接入时只呈现当前状态和可执行的下一步，不展示无意义的空指标。</p>
+            </div>
+            <div class="cockpit-role-switch" role="group" aria-label="用户身份">
+              <button class="${isAdmin ? "active" : ""}" data-action="setCockpitOnboardingRole" data-role="admin" aria-pressed="${isAdmin}">租户管理员</button>
+              <button class="${!isAdmin ? "active" : ""}" data-action="setCockpitOnboardingRole" data-role="employee" aria-pressed="${!isAdmin}">普通员工</button>
+            </div>
+          </header>
+
+          <div class="cockpit-role-context">
+            <i data-lucide="${roleContext.icon}"></i>
+            <span class="cockpit-role-context-copy"><strong>${roleContext.title}</strong><span>${roleContext.note}</span></span>
+            <span class="cockpit-role-badge"><i data-lucide="${isAdmin ? "key-round" : "eye"}"></i>${roleContext.badge}</span>
+          </div>
+
+          <section class="cockpit-onboarding-core">
+            <article class="cockpit-onboarding-status">${statusContent}</article>
+            <aside class="cockpit-onboarding-flow">
+              <div class="cockpit-flow-head"><strong>驾驶舱初始化进度</strong><span>完成前一环节后，系统自动进入下一环节。</span></div>
+              <div class="cockpit-flow-list">
+                ${flowSteps.map((step, index) => `
+                  <div class="cockpit-flow-step ${index === 0 ? "current" : ""}">
+                    <span class="cockpit-flow-index">${index + 1}</span>
+                    <span class="cockpit-flow-copy"><strong>${step.title}</strong><span>${step.note}</span></span>
+                  </div>
+                `).join("")}
+              </div>
+            </aside>
+          </section>
+
+          <section class="cockpit-output-section">
+            <header class="cockpit-section-head">
+              <div><h2>接入完成后自动生成</h2><p>不需要员工另行配置指标或卡片。</p></div>
+            </header>
+            <div class="cockpit-output-grid">
+              ${outputs.map(item => `
+                <article class="cockpit-output-item">
+                  <span class="cockpit-output-icon"><i data-lucide="${item.icon}"></i></span>
+                  <span class="cockpit-output-copy"><strong>${item.title}</strong><p>${item.note}</p><span>${item.state}</span></span>
+                </article>
+              `).join("")}
+            </div>
+          </section>
+
+          <div class="cockpit-scope-footer"><i data-lucide="shield-check"></i><span>连接器为租户级配置；驾驶舱展示范围仍受用户角色、站点、店铺和数据权限控制。</span></div>
         </section>
       `;
     }
@@ -34502,7 +37771,7 @@
             ${queue.length ? `<div class="new-product-ai-brief-signals">${recommendationSummary.map(item => `<span class="${item.tone}">${escapeHtml(item.label)} <b>${item.count}</b></span>`).join("")}</div><button class="btn small ${state.inactiveRecommendedOnly ? "primary" : ""}" data-action="toggleInactiveRecommended"><i data-lucide="${state.inactiveRecommendedOnly ? "list" : "list-filter"}"></i>${state.inactiveRecommendedOnly ? "查看全部" : "仅看建议项"}</button>` : ""}
           </div>
           ${activeCardFilters.length || state.inactiveRecommendedOnly ? `<div class="new-product-active-filters"><span>当前筛选</span>${activeCardFilters.map(filter => `<button data-action="clearInactiveCardFilter" data-dimension="${escapeHtml(filter.dimension)}">${escapeHtml(filter.label)}<i data-lucide="x"></i></button>`).join("")}${state.inactiveRecommendedOnly ? `<button data-action="toggleInactiveRecommended">AI 建议项<i data-lucide="x"></i></button>` : ""}<button class="clear-all" data-action="clearAllInactiveCardFilters">清除全部</button><em>${rows.length} 条结果</em></div>` : ""}
-          <div class="inactive-ops-table-wrap"><table class="np-detail-table inactive-ops-table"><thead><tr class="inactive-ops-group-head"><th colspan="3">任务信息</th><th colspan="4">经营数据</th><th colspan="3">处置执行</th></tr><tr><th>优先级 / 状态</th><th>商品 / ASIN</th><th>场景 / 判断</th><th>销量 D7/D15/D30</th><th>库存 / 覆盖</th><th>广告/利润</th><th>Listing / Buy Box</th><th>建议动作</th><th>负责人 / 时限</th><th>操作</th></tr></thead><tbody>${rows.map(row => {const expanded=state.inactiveExpandedId===row.id;const [actionLabel,actionName]=actionMeta(row);const blocked=row.listing!=="可售"||row.buybox==="异常";const status=inactiveStatusValue(row);return `<tr class="inactive-ops-main ${expanded?"expanded":""}" data-action="toggleInactiveRowDetail" data-id="${text(row.id)}"><td><span class="inactive-ops-priority ${levelFor(row).toLowerCase()}">${levelFor(row)}</span><span class="np-pill ${statusTone(status)}">${text(status)}</span></td><td><span class="np-product-cell inactive-ops-product"><span><strong>${text(row.product)}</strong><i data-lucide="${expanded?"chevron-up":"chevron-down"}"></i></span><small>${text(row.sku)} / ${text(row.asin)}</small><small>${text(row.site)} · ${text(row.store)}</small></span></td><td><span class="inactive-ops-judgment"><strong>${text(issueFor(row))}</strong><small>${text(row.desc || row.triggerReason)}</small></span></td><td><span class="inactive-ops-data"><strong>${text(row.sales7)}/${text(row.sales15)}/${text(row.sales30)}</strong></span></td><td><span class="inactive-ops-data"><strong>${text(row.fbaStock)} 件</strong><small>覆盖 ${text(row.coverDays)}</small></span></td><td><span class="inactive-ops-data"><strong>${text(row.adSpend)}/${text(row.profit)}</strong></span></td><td><span class="inactive-ops-data ${blocked?"bad":""}"><strong>${text(row.listing)}</strong><small>Buy Box ${text(row.buybox)}</small></span></td><td><span class="inactive-ops-advice"><strong>${text(row.direction)}</strong><small>${text(row.action)}</small></span></td><td><span class="inactive-ops-owner"><strong>${text(row.owner)}</strong><small>${text(row.due)}</small></span></td><td><button class="btn small ${levelFor(row)==="P0"&&status!=="已闭环"?"primary":""}" data-action="${actionName}" data-id="${text(row.id)}">${actionLabel}</button></td></tr>${expanded?`<tr class="inactive-ops-expanded"><td colspan="10">${renderInlineDetail(row)}</td></tr>`:""}`;}).join("") || `<tr><td colspan="10"><div class="empty">当前筛选暂无不动销处置记录</div></td></tr>`}</tbody></table></div>
+          <div class="inactive-ops-table-wrap"><table class="np-detail-table inactive-ops-table"><thead><tr><th>优先级 / 状态</th><th>商品 / ASIN</th><th>场景 / 判断</th><th>销量 D7/D15/D30</th><th>库存 / 覆盖</th><th>广告/利润</th><th>Listing / Buy Box</th><th>建议动作</th><th>负责人 / 时限</th><th>操作</th></tr></thead><tbody>${rows.map(row => {const expanded=state.inactiveExpandedId===row.id;const [actionLabel,actionName]=actionMeta(row);const blocked=row.listing!=="可售"||row.buybox==="异常";const status=inactiveStatusValue(row);return `<tr class="inactive-ops-main ${expanded?"expanded":""}" data-action="toggleInactiveRowDetail" data-id="${text(row.id)}"><td><span class="inactive-ops-priority ${levelFor(row).toLowerCase()}">${levelFor(row)}</span><span class="np-pill ${statusTone(status)}">${text(status)}</span></td><td><span class="np-product-cell inactive-ops-product"><span><strong>${text(row.product)}</strong><i data-lucide="${expanded?"chevron-up":"chevron-down"}"></i></span><small>${text(row.sku)} / ${text(row.asin)}</small><small>${text(row.site)} · ${text(row.store)}</small></span></td><td><span class="inactive-ops-judgment"><strong>${text(issueFor(row))}</strong><small>${text(row.desc || row.triggerReason)}</small></span></td><td><span class="inactive-ops-data"><strong>${text(row.sales7)}/${text(row.sales15)}/${text(row.sales30)}</strong></span></td><td><span class="inactive-ops-data"><strong>${text(row.fbaStock)} 件</strong><small>覆盖 ${text(row.coverDays)}</small></span></td><td><span class="inactive-ops-data"><strong>${text(row.adSpend)}/${text(row.profit)}</strong></span></td><td><span class="inactive-ops-data ${blocked?"bad":""}"><strong>${text(row.listing)}</strong><small>Buy Box ${text(row.buybox)}</small></span></td><td><span class="inactive-ops-advice"><strong>${text(row.direction)}</strong><small>${text(row.action)}</small></span></td><td><span class="inactive-ops-owner"><strong>${text(row.owner)}</strong><small>${text(row.due)}</small></span></td><td><button class="btn small ${levelFor(row)==="P0"&&status!=="已闭环"?"primary":""}" data-action="${actionName}" data-id="${text(row.id)}">${actionLabel}</button></td></tr>${expanded?`<tr class="inactive-ops-expanded"><td colspan="10">${renderInlineDetail(row)}</td></tr>`:""}`;}).join("") || `<tr><td colspan="10"><div class="empty">当前筛选暂无不动销处置记录</div></td></tr>`}</tbody></table></div>
         </section>
       </section>`;
     }
@@ -35876,6 +39145,263 @@
       ], `<button class="btn" data-action="reuseAsset"><i data-lucide="copy"></i>复用成果</button><button class="btn primary" data-action="exportAsset"><i data-lucide="file-down"></i>导出成果</button>`, libraryAnalytics());
     }
 
+    function resizeCreditPrototypeFrame(frame) {
+      try {
+        const doc = frame.contentWindow?.document;
+        const height = Math.max(
+          doc?.documentElement?.scrollHeight || 0,
+          doc?.body?.scrollHeight || 0,
+          window.innerHeight - 49,
+          640
+        );
+        frame.style.height = `${height}px`;
+      } catch (error) {
+        frame.style.height = "calc(100vh - 49px)";
+      }
+    }
+
+    function renderCreditPrototypeEmbed(pageId, title) {
+      const source = `../ai-billing-workbench-prototype/index.html?embed=1&v=20260730-entitlement-gate#${pageId}`;
+      return `<iframe class="credit-prototype-frame" title="${escapeHtml(title)}" src="${source}" scrolling="no" onload="resizeCreditPrototypeFrame(this)"></iframe>`;
+    }
+
+    function renderCreditProducts() {
+      return renderCreditPrototypeEmbed("products", "套餐管理");
+    }
+
+    function renderCreditAccount() {
+      return renderCreditPrototypeEmbed("account", "积分账户");
+    }
+
+    function renderCreditLedger() {
+      return renderCreditPrototypeEmbed("usage", "积分明细");
+    }
+
+    function renderCreditSettings() {
+      return renderCreditPrototypeEmbed("catalog", "计费设置");
+    }
+
+    function renderCreditManual() {
+      return renderCreditPrototypeEmbed("manual", "权益开通");
+    }
+
+    function demoLeadStatusClass(statusText = "") {
+      if (statusText === "待跟进") return "pending";
+      if (statusText === "已跟进") return "followed";
+      if (statusText === "已转化") return "converted";
+      return "closed";
+    }
+
+    function demoLeadStatus(statusText = "") {
+      return `<span class="demo-leads-status ${demoLeadStatusClass(statusText)}">${escapeHtml(statusText || "-")}</span>`;
+    }
+
+    function demoLeadInitial(lead) {
+      const raw = lead.name && lead.name !== "-" ? lead.name : lead.company || lead.phone || "访";
+      return String(raw).trim().slice(0, 1).toUpperCase();
+    }
+
+    function filteredDemoAppointmentLeads() {
+      const statusMap = { pending:"待跟进", followed:"已跟进", converted:"已转化", closed:"已关闭" };
+      const targetStatus = statusMap[state.demoLeadFilter] || "";
+      const query = String(state.demoLeadSearch || "").trim().toLowerCase();
+      return demoAppointmentLeads.filter(lead => {
+        const matchesStatus = !targetStatus || lead.status === targetStatus;
+        const haystack = [lead.id, lead.name, lead.phone, lead.company, lead.user, lead.tenant, lead.source, lead.contactTime, lead.status, lead.record, lead.followResult, lead.nextContactTime, lead.convertedPackage, lead.closedReason, ...(lead.modules || [])].join(" ").toLowerCase();
+        return matchesStatus && (!query || haystack.includes(query));
+      });
+    }
+
+    function demoLeadOperationButtons(lead) {
+      if (lead.status === "待跟进") {
+        return `<button class="demo-leads-outline" data-action="markDemoLeadFollowed" data-id="${escapeHtml(lead.id)}">记录跟进</button><button class="demo-leads-link" data-action="closeDemoLead" data-id="${escapeHtml(lead.id)}">关闭</button>`;
+      }
+      if (lead.status === "已跟进") {
+        return `<button class="demo-leads-outline" data-action="markDemoLeadFollowed" data-id="${escapeHtml(lead.id)}">继续跟进</button><button class="demo-leads-outline" data-action="convertDemoLead" data-id="${escapeHtml(lead.id)}">标记转化</button><button class="demo-leads-link" data-action="closeDemoLead" data-id="${escapeHtml(lead.id)}">关闭</button>`;
+      }
+      if (lead.status === "已转化") return "";
+      return `<button class="demo-leads-outline" data-action="reopenDemoLead" data-id="${escapeHtml(lead.id)}">重新打开</button>`;
+    }
+
+    function renderDemoLeadRows(rows) {
+      return rows.map(lead => {
+        const modules = Array.isArray(lead.modules) && lead.modules.length ? lead.modules : ["AI选品"];
+        const searchText = [lead.id, lead.name, lead.phone, lead.company, lead.user, lead.tenant, lead.source, lead.contactTime, lead.status, lead.record, lead.followResult, lead.nextContactTime, lead.convertedPackage, lead.closedReason, ...modules].join(" ").toLowerCase();
+        const operation = demoLeadOperationButtons(lead);
+        return `
+          <tr data-search="${escapeHtml(searchText)}">
+            <td>
+              <div class="demo-leads-user">
+                <span class="demo-leads-avatar">${escapeHtml(demoLeadInitial(lead))}</span>
+                <span><strong>${escapeHtml(lead.name || "未填写姓名")}</strong><small>${escapeHtml(lead.user || "-")}</small></span>
+              </div>
+            </td>
+            <td><div class="demo-leads-main"><strong>${escapeHtml(lead.phone || "-")}</strong><small>${escapeHtml(lead.company || "未填写公司")}</small></div></td>
+            <td><div class="demo-leads-main"><strong>${escapeHtml(lead.submittedAt || "-")}</strong><small>${escapeHtml(lead.tenant || "-")}</small></div></td>
+            <td><div class="demo-leads-modules">${modules.map(item => `<span>${escapeHtml(item)}</span>`).join("")}</div></td>
+            <td><div class="demo-leads-main"><strong>${escapeHtml(lead.source || "-")}</strong><small>${escapeHtml(lead.contactTime || "-")}</small></div></td>
+            <td>${demoLeadStatus(lead.status)}</td>
+            <td><div class="demo-leads-main"><strong>${escapeHtml((lead.record || "-").split("\n")[0])}</strong><small>${escapeHtml((lead.record || "-").split("\n")[1] || "-")}</small></div></td>
+            <td><div class="demo-leads-actions">${operation || `<span class="muted">-</span>`}</div></td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function findDemoLead(id) {
+      return demoAppointmentLeads.find(item => item.id === id);
+    }
+
+    function demoLeadActionSummary(lead) {
+      const modules = Array.isArray(lead.modules) && lead.modules.length ? lead.modules : ["AI选品"];
+      return `
+        <section class="demo-lead-action-card">
+          <strong>${escapeHtml(lead.name || "未填写姓名")} · ${escapeHtml(lead.phone || "-")}</strong>
+          <small>${escapeHtml(lead.company || "未填写公司")} · ${escapeHtml(lead.contactTime || "-")}</small>
+          <div class="demo-leads-modules">${modules.map(item => `<span>${escapeHtml(item)}</span>`).join("")}</div>
+        </section>
+      `;
+    }
+
+    function demoLeadDetailFoot(lead) {
+      if (lead.status === "待跟进") {
+        return `<button class="btn" data-action="closeDrawer">关闭</button><button class="btn" data-action="closeDemoLead" data-id="${escapeHtml(lead.id)}">关闭记录</button><button class="btn primary" data-action="markDemoLeadFollowed" data-id="${escapeHtml(lead.id)}">记录跟进</button>`;
+      }
+      if (lead.status === "已跟进") {
+        return `<button class="btn" data-action="closeDrawer">关闭</button><button class="btn" data-action="markDemoLeadFollowed" data-id="${escapeHtml(lead.id)}">继续跟进</button><button class="btn primary" data-action="convertDemoLead" data-id="${escapeHtml(lead.id)}">标记转化</button>`;
+      }
+      if (lead.status === "已关闭") {
+        return `<button class="btn" data-action="closeDrawer">关闭</button><button class="btn primary" data-action="reopenDemoLead" data-id="${escapeHtml(lead.id)}">重新打开</button>`;
+      }
+      return `<button class="btn primary" data-action="closeDrawer">关闭</button>`;
+    }
+
+    function demoLeadDetailMarkup(lead) {
+      const modules = Array.isArray(lead.modules) && lead.modules.length ? lead.modules.join("、") : "-";
+      return `
+        <div class="demo-lead-detail">
+          <div class="demo-lead-detail-grid">
+            <section><small>手机号</small><strong>${escapeHtml(lead.phone || "-")}</strong></section>
+            <section><small>姓名</small><strong>${escapeHtml(lead.name || "未填写")}</strong></section>
+            <section><small>公司名称</small><strong>${escapeHtml(lead.company || "未填写")}</strong></section>
+            <section><small>方便联系时间</small><strong>${escapeHtml(lead.contactTime || "-")}</strong></section>
+            <section class="full"><small>想了解的功能模块</small><strong>${escapeHtml(modules)}</strong></section>
+            <section><small>来源</small><strong>${escapeHtml(lead.source || "-")}</strong></section>
+            <section><small>提交时间</small><strong>${escapeHtml(lead.submittedAt || "-")}</strong></section>
+            <section class="full"><small>租户 / 用户</small><strong>${escapeHtml(lead.tenant || "-")} · ${escapeHtml(lead.user || "-")}</strong></section>
+            <section><small>跟进结果</small><strong>${escapeHtml(lead.followResult || "-")}</strong></section>
+            <section><small>下次联系</small><strong>${escapeHtml(lead.nextContactTime || "-")}</strong></section>
+            <section><small>转化套餐</small><strong>${escapeHtml(lead.convertedPackage || "-")}</strong></section>
+            <section><small>关闭原因</small><strong>${escapeHtml(lead.closedReason || "-")}</strong></section>
+            <section class="full"><small>跟进记录</small><strong class="demo-lead-detail-note">${escapeHtml(lead.record || "-")}</strong></section>
+          </div>
+        </div>
+      `;
+    }
+
+    function demoLeadFollowModalMarkup(lead) {
+      return `
+        <div class="demo-lead-modal-form">
+          ${demoLeadActionSummary(lead)}
+          <div class="form-grid">
+            <div class="form-row"><label>跟进结果</label><select class="input" id="demoLeadFollowResult"><option>已联系，待确认演示时间</option><option>已安排产品演示</option><option>暂时无法联系</option><option>客户需要内部确认</option></select></div>
+            <div class="form-row"><label>下次联系时间</label><input class="input" id="demoLeadNextContact" value="${escapeHtml(lead.nextContactTime || "下一个工作日 10:00")}"></div>
+            <div class="form-row full"><label>跟进记录</label><textarea class="textarea" id="demoLeadFollowNote" placeholder="记录客户关注点、演示安排或下一步动作">${escapeHtml(lead.record && lead.record !== "-" ? lead.record.split("\n").slice(1).join("\n") : "已完成首次跟进，等待确认演示时间")}</textarea></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function demoLeadConvertModalMarkup(lead) {
+      return `
+        <div class="demo-lead-modal-form">
+          ${demoLeadActionSummary(lead)}
+          <div class="form-grid">
+            <div class="form-row"><label>转化套餐</label><select class="input" id="demoLeadConvertedPackage"><option>AI 开品提效包</option><option>AI 经营增长包</option><option>AI 全生命周期版</option><option>线下服务套餐</option></select></div>
+            <div class="form-row"><label>开通方式</label><select class="input" id="demoLeadConvertMode"><option>权益开通</option><option>线下合同</option><option>销售跟进中</option></select></div>
+            <div class="form-row full"><label>转化记录</label><textarea class="textarea" id="demoLeadConvertNote" placeholder="记录套餐意向、合同或后续开通说明">已确认开通意向，进入权益开通流程</textarea></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function demoLeadCloseModalMarkup(lead) {
+      return `
+        <div class="demo-lead-modal-form">
+          ${demoLeadActionSummary(lead)}
+          <div class="form-grid">
+            <div class="form-row"><label>关闭原因</label><select class="input" id="demoLeadClosedReason"><option>重复提交</option><option>暂不需要</option><option>无法联系</option><option>需求不匹配</option><option>测试数据</option></select></div>
+            <div class="form-row full"><label>关闭说明</label><textarea class="textarea" id="demoLeadCloseNote" placeholder="补充关闭原因">已关闭本次预约记录</textarea></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function demoLeadReopenModalMarkup(lead) {
+      return `
+        <div class="demo-lead-modal-form">
+          ${demoLeadActionSummary(lead)}
+          <div class="demo-lead-action-note">重新打开后，该记录会回到待跟进列表，保留原始提交信息，并清空关闭状态。</div>
+        </div>
+      `;
+    }
+
+    function renderDemoAppointments() {
+      const rows = filteredDemoAppointmentLeads();
+      const count = statusName => demoAppointmentLeads.filter(item => !statusName || item.status === statusName).length;
+      const tabs = [
+        ["all", "全部", count("")],
+        ["pending", "待跟进", count("待跟进")],
+        ["followed", "已跟进", count("已跟进")],
+        ["converted", "已转化", count("已转化")],
+        ["closed", "已关闭", count("已关闭")]
+      ];
+      return `
+        <section class="demo-leads-page">
+          <div class="demo-leads-panel">
+            <div class="demo-leads-tabs">
+              ${tabs.map(([key, label, total]) => `<button class="${state.demoLeadFilter === key ? "active" : ""}" data-action="setDemoLeadFilter" data-filter="${key}">${escapeHtml(label)}<span>${total}</span></button>`).join("")}
+            </div>
+            <div class="demo-leads-toolbar">
+              <label class="demo-leads-search">
+                <input id="demoLeadSearch" data-demo-lead-search value="${escapeHtml(state.demoLeadSearch)}" placeholder="手机号 / 姓名 / 公司 / 模块">
+                <i data-lucide="search"></i>
+              </label>
+              <div class="demo-leads-caption">保留用户提交的预约信息、来源模块和后续跟进状态</div>
+            </div>
+            <div class="demo-leads-table-wrap">
+              <table class="demo-leads-table" id="demoLeadTable">
+                <colgroup>
+                  <col style="width:18%">
+                  <col style="width:17%">
+                  <col style="width:18%">
+                  <col style="width:14%">
+                  <col style="width:16%">
+                  <col style="width:9%">
+                  <col style="width:16%">
+                  <col style="width:14%">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>微信用户</th>
+                    <th>联系方式</th>
+                    <th>申请信息</th>
+                    <th>需求模块</th>
+                    <th>来源</th>
+                    <th>状态</th>
+                    <th>跟进记录</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody>${renderDemoLeadRows(rows)}</tbody>
+              </table>
+              <div class="demo-leads-empty" id="demoLeadEmpty" ${rows.length ? "hidden" : ""}>暂无预约演示记录</div>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
     function renderCredits() {
       return moduleTable("积分与任务记录", "记录每次 AI 调用的任务、模块、消耗积分、成功失败、失败是否退回。", credits, [
         {key:"id",label:"记录编号"},{key:"task",label:"任务名称"},{key:"type",label:"任务类型",kind:"status"},{key:"module",label:"消耗模块"},{key:"credits",label:"消耗积分"},{key:"status",label:"状态",kind:"status"},{key:"refund",label:"失败是否退回",kind:"status"},{key:"time",label:"时间"}
@@ -36735,6 +40261,8 @@
     function openModal(title, body, foot) {
       qs("#modal").classList.remove("coming-soon");
       qs("#modal").classList.remove("cockpit-report-modal");
+      qs("#modal").classList.remove("entitlement-gate-modal");
+      qs("#modal").classList.remove("advisor-gate-modal");
       qs("#modalTitle").textContent = title;
       qs("#modalBody").innerHTML = body;
       qs("#modalFoot").innerHTML = foot || `<button class="btn primary" data-action="closeModal">知道了</button>`;
@@ -36749,6 +40277,8 @@
       qs("#modal").classList.remove("open");
       qs("#modal").classList.remove("coming-soon");
       qs("#modal").classList.remove("cockpit-report-modal");
+      qs("#modal").classList.remove("entitlement-gate-modal");
+      qs("#modal").classList.remove("advisor-gate-modal");
     }
 
     function openComingSoon(feature = "该功能", english = "") {
@@ -36770,6 +40300,66 @@
         </div>
       `, `<button class="btn coming-soon-button" data-action="closeModal">我知道了</button>`);
       qs("#modal").classList.add("coming-soon");
+      iconRefresh();
+    }
+
+    function isEntitlementBlockedView(view) {
+      return view === "opportunities" || view === "selectionPool";
+    }
+
+    function getEntitlementBlockedMeta(view) {
+      if (view === "opportunities") return { feature: "AI 选品", module: "AI 选品" };
+      if (view === "selectionPool") return { feature: "选品池", module: "选品池" };
+      return { feature: "当前功能", module: "功能模块" };
+    }
+
+    function openAdvisorGateModal(view = state.view) {
+      const meta = getEntitlementBlockedMeta(view);
+      openModal("功能暂未开通", `
+        <div class="advisor-gate-shell">
+          <section class="advisor-gate-hero">
+            <span class="advisor-gate-status">专属顾问协助</span>
+            <h3>${escapeHtml(meta.feature)}需要开通后使用</h3>
+            <p>当前账号暂未开通该功能。如需使用，可联系您的专属顾问协助确认开通方式和使用流程。</p>
+          </section>
+          <div class="advisor-gate-actions">
+            <button class="advisor-gate-secondary" data-action="closeModal">取消</button>
+            <button class="advisor-gate-primary" data-action="advisorGateContact">去联系专属顾问</button>
+          </div>
+        </div>
+      `, `<span></span>`);
+      qs("#modal").classList.add("entitlement-gate-modal", "advisor-gate-modal");
+      iconRefresh();
+    }
+
+    function openEntitlementGateModal(view = state.view) {
+      if (view === "selectionPool") {
+        openAdvisorGateModal(view);
+        return;
+      }
+      const meta = getEntitlementBlockedMeta(view);
+      const moduleOptions = ["AI选品", "套图", "Listing", "产品全生命周期管理"];
+      openModal(`${meta.feature}暂未开通`, `
+        <div class="entitlement-gate-shell">
+          <section class="entitlement-gate-lead">
+            <div class="entitlement-gate-copy">
+              <h3>建议先预约产品演示</h3>
+              <p>我们会根据你想了解的模块准备演示内容，并协助确认后续开通方式。</p>
+            </div>
+          </section>
+          <section class="entitlement-gate-form open" id="entitlementDemoPanel" data-feature="${escapeHtml(meta.feature)}" data-source="${escapeHtml(meta.feature)}暂未开通">
+            <div class="form-grid">
+              <div class="form-row"><label>手机号 *</label><input class="input" id="demoContactPhone" value="138****1607" placeholder="请输入手机号"></div>
+              <div class="form-row"><label>姓名</label><input class="input" id="demoContactName" placeholder="请输入姓名"></div>
+              <div class="form-row"><label>公司名称</label><input class="input" id="demoCompanyName" placeholder="请输入公司名称"></div>
+              <div class="form-row"><label>方便联系时间</label><select class="select" id="demoContactTime"><option selected>工作日 09:00-12:00</option><option>工作日 14:00-18:00</option><option>工作日 18:00 后</option></select></div>
+              <div class="form-row full"><label>想了解的功能模块</label><div class="entitlement-module-options" id="demoNeedModule">${moduleOptions.map((option, index) => `<label><input type="checkbox" value="${escapeHtml(option)}"${index === 0 ? " checked" : ""}><span>${escapeHtml(option)}</span></label>`).join("")}</div></div>
+            </div>
+            <div class="entitlement-gate-submit"><button class="btn primary" data-action="submitDemoAppointment">提交预约</button></div>
+          </section>
+        </div>
+      `, `<span></span>`);
+      qs("#modal").classList.add("entitlement-gate-modal");
       iconRefresh();
     }
 
@@ -36802,6 +40392,54 @@
       qs("#drawer").classList.remove("open", "wide");
     }
 
+    function openCreditPurchasePreview(payload = {}) {
+      const name = payload.name || "99 元开品体验包";
+      const amount = payload.amount || "99.00";
+      const points = payload.points || "990";
+      const validity = payload.validity || "30 天";
+      const orderNo = payload.orderNo || "ORD202607240018";
+      openDrawer("购买预览", `
+        <div class="credit-purchase-preview">
+          <section class="credit-purchase-card">
+            <div class="credit-purchase-line"><span>商品</span><strong>${escapeHtml(name)}</strong></div>
+            <div class="credit-purchase-line"><span>售价</span><strong>￥${escapeHtml(amount)}</strong></div>
+            <div class="credit-purchase-line"><span>积分</span><strong>${escapeHtml(points)} 积分</strong></div>
+            <div class="credit-purchase-line"><span>有效期</span><strong>${escapeHtml(validity)}</strong></div>
+            <div class="credit-purchase-line"><span>订单号</span><strong>${escapeHtml(orderNo)}</strong></div>
+          </section>
+          <section class="credit-purchase-card">
+            <div class="credit-purchase-line"><span>支付方式</span><strong>微信支付</strong></div>
+            <div class="credit-purchase-line"><span>支付状态</span><strong>等待扫码支付</strong></div>
+          </section>
+        </div>
+      `, `<button class="btn" data-action="closeDrawer">关闭</button><button class="btn primary" data-action="closeDrawer">我已支付</button>`);
+    }
+
+    function openCreditManualDrawer(payload = {}) {
+      const kind = payload.kind || "package";
+      const isPoints = kind === "points";
+      const title = isPoints ? "补充积分" : kind === "detail" ? "开通详情" : "开通套餐";
+      openDrawer(title, `
+        <div class="form-grid">
+          <div class="form-row full"><label>目标租户</label><select class="select"><option>杭州某跨境科技</option><option>义乌某家居贸易</option><option>深圳某消费电子</option></select></div>
+          ${isPoints ? `<div class="form-row"><label>充值积分</label><input class="input" placeholder="请输入充值积分"></div>` : `<div class="form-row"><label>线下服务套餐</label><select class="select"><option>AI 经营增长包</option><option>AI 全生命周期版</option><option>AI 开品提效包</option></select></div>`}
+          <div class="form-row"><label>付款方名称</label><input class="input" placeholder="请输入付款方名称"></div>
+          <div class="form-row"><label>实收金额（元）</label><input class="input" placeholder="请输入实收金额"></div>
+          <div class="form-row full"><label>银行流水号</label><input class="input" placeholder="请输入银行流水号（可选）"></div>
+          <div class="form-row full"><label>附件</label>
+            <label class="credit-attachment-upload">
+              <input type="file">
+              <span class="credit-attachment-icon"><i data-lucide="paperclip"></i></span>
+              <span class="credit-attachment-copy"><strong>上传合同或银行水单</strong><small>支持 PDF、图片或常见文档格式</small></span>
+              <span class="credit-attachment-action">选择文件</span>
+            </label>
+          </div>
+          <div class="form-row full"><label>发放原因</label><textarea class="textarea" placeholder="请说明本次权益开通或积分补充原因"></textarea></div>
+          <div class="form-row full"><label>备注</label><textarea class="textarea" placeholder="请输入备注（可选）"></textarea></div>
+        </div>
+      `, `<button class="btn" data-action="closeDrawer">取消</button><button class="btn primary" data-action="closeDrawer">确认开通</button>`);
+    }
+
     function toast(title, msg) {
       const node = document.createElement("div");
       node.className = "toast";
@@ -36814,6 +40452,12 @@
       view = ROUTE_ALIASES[view] || view;
       if (view === "rules" && !canViewNewProductRuleSource()) {
         toast("无权访问经营策略中心", "仅企业管理员可查看或维护来源规则。");
+        return;
+      }
+      if (isEntitlementBlockedView(view)) {
+        closeDrawer();
+        closeModal();
+        openEntitlementGateModal(view);
         return;
       }
       state.view = view;
@@ -37518,8 +41162,187 @@
       openFirstSelectionTask,
       closeModal,
       closeDrawer,
+      advisorGateContact() {
+        closeModal();
+        toast("已提醒专属顾问", "顾问将协助确认开通方式和使用流程。");
+      },
+      submitDemoAppointment() {
+        const phone = qs("#demoContactPhone")?.value.trim();
+        if (!phone) {
+          toast("缺少手机号", "请先填写手机号后再预约演示。");
+          return;
+        }
+        const panel = qs("#entitlementDemoPanel");
+        const selectedModules = qsa("#demoNeedModule input:checked").map(input => input.value);
+        const name = qs("#demoContactName")?.value.trim() || "未填写姓名";
+        const company = qs("#demoCompanyName")?.value.trim() || "未填写公司";
+        const submittedAt = formatLifecycleDataTime(new Date());
+        demoAppointmentLeads.unshift({
+          id: `DEMO${Date.now()}`,
+          name,
+          phone,
+          company,
+          user: `user_${phone.replace(/[^\d]/g, "").slice(-4) || "demo"}`,
+          tenant: "当前登录账号",
+          source: panel?.dataset.source || "未开通模块弹框",
+          modules: selectedModules.length ? selectedModules : ["AI选品"],
+          contactTime: qs("#demoContactTime")?.value || "工作日 09:00-12:00",
+          submittedAt,
+          status: "待跟进",
+          record: "-"
+        });
+        saveDemoAppointmentLeads();
+        closeModal();
+        toast("预约演示已提交", "信息已留存在系统运维 · 预约演示。");
+      },
+      setDemoLeadFilter(el) {
+        state.demoLeadFilter = el.dataset.filter || "all";
+        render();
+      },
+      openDemoLeadDetail(el) {
+        const lead = findDemoLead(el.dataset.id);
+        if (!lead) return;
+        openDrawer("预约演示详情", demoLeadDetailMarkup(lead), demoLeadDetailFoot(lead));
+      },
+      markDemoLeadFollowed(el) {
+        const lead = findDemoLead(el.dataset.id);
+        if (!lead) return;
+        openModal("记录跟进", demoLeadFollowModalMarkup(lead), `<button class="btn" data-action="closeModal">取消</button><button class="btn primary" data-action="confirmDemoLeadFollow" data-id="${escapeHtml(lead.id)}">保存跟进</button>`);
+      },
+      confirmDemoLeadFollow(el) {
+        const lead = findDemoLead(el.dataset.id);
+        if (!lead) return;
+        const result = qs("#demoLeadFollowResult")?.value || "已联系，待确认演示时间";
+        const nextContact = qs("#demoLeadNextContact")?.value.trim() || "";
+        const note = qs("#demoLeadFollowNote")?.value.trim() || result;
+        lead.status = "已跟进";
+        lead.followResult = result;
+        lead.nextContactTime = nextContact;
+        lead.record = `产品顾问 · ${formatLifecycleDataTime(new Date()).slice(0, 16)}\n${note}`;
+        saveDemoAppointmentLeads();
+        closeModal();
+        closeDrawer();
+        render();
+        toast("已记录跟进", "预约演示状态已更新为已跟进。");
+      },
+      convertDemoLead(el) {
+        const lead = findDemoLead(el.dataset.id);
+        if (!lead) return;
+        openModal("标记转化", demoLeadConvertModalMarkup(lead), `<button class="btn" data-action="closeModal">取消</button><button class="btn primary" data-action="confirmDemoLeadConvert" data-id="${escapeHtml(lead.id)}">确认转化</button>`);
+      },
+      confirmDemoLeadConvert(el) {
+        const lead = findDemoLead(el.dataset.id);
+        if (!lead) return;
+        const convertedPackage = qs("#demoLeadConvertedPackage")?.value || "AI 开品提效包";
+        const convertMode = qs("#demoLeadConvertMode")?.value || "权益开通";
+        const note = qs("#demoLeadConvertNote")?.value.trim() || "已确认开通意向，进入权益开通流程";
+        lead.status = "已转化";
+        lead.convertedPackage = convertedPackage;
+        lead.convertMode = convertMode;
+        lead.closedReason = "";
+        lead.record = `销售 · ${formatLifecycleDataTime(new Date()).slice(0, 16)}\n${convertedPackage} · ${convertMode} · ${note}`;
+        saveDemoAppointmentLeads();
+        closeModal();
+        closeDrawer();
+        render();
+        toast("已标记转化", "该预约记录已更新为已转化。");
+      },
+      closeDemoLead(el) {
+        const lead = findDemoLead(el.dataset.id);
+        if (!lead) return;
+        openModal("关闭预约记录", demoLeadCloseModalMarkup(lead), `<button class="btn" data-action="closeModal">取消</button><button class="btn primary" data-action="confirmDemoLeadClose" data-id="${escapeHtml(lead.id)}">确认关闭</button>`);
+      },
+      confirmDemoLeadClose(el) {
+        const lead = findDemoLead(el.dataset.id);
+        if (!lead) return;
+        const reason = qs("#demoLeadClosedReason")?.value || "暂不需要";
+        const note = qs("#demoLeadCloseNote")?.value.trim() || "已关闭本次预约记录";
+        lead.status = "已关闭";
+        lead.closedReason = reason;
+        lead.record = `管理员 · ${formatLifecycleDataTime(new Date()).slice(0, 16)}\n${reason} · ${note}`;
+        saveDemoAppointmentLeads();
+        closeModal();
+        closeDrawer();
+        render();
+        toast("已关闭", "该预约记录已关闭。");
+      },
+      reopenDemoLead(el) {
+        const lead = findDemoLead(el.dataset.id);
+        if (!lead) return;
+        openModal("重新打开预约", demoLeadReopenModalMarkup(lead), `<button class="btn" data-action="closeModal">取消</button><button class="btn primary" data-action="confirmDemoLeadReopen" data-id="${escapeHtml(lead.id)}">重新打开</button>`);
+      },
+      confirmDemoLeadReopen(el) {
+        const lead = findDemoLead(el.dataset.id);
+        if (!lead) return;
+        lead.status = "待跟进";
+        lead.closedReason = "";
+        lead.record = `管理员 · ${formatLifecycleDataTime(new Date()).slice(0, 16)}\n已重新打开，等待继续跟进`;
+        saveDemoAppointmentLeads();
+        closeModal();
+        closeDrawer();
+        render();
+        toast("已恢复待跟进", "该预约记录已重新进入待跟进列表。");
+      },
       setHomeDemoMode(el) {
         state.homeDemoMode = el.dataset.mode || "returning";
+        render();
+      },
+      setCockpitOnboardingRole(el) {
+        state.cockpitOnboardingRole = el.dataset.role === "employee" ? "employee" : "admin";
+        render();
+      },
+      showCockpitDataRequirements() {
+        const isAdmin = state.cockpitOnboardingRole === "admin";
+        openDrawer(
+          "驾驶舱所需数据",
+          cockpitDataRequirementsMarkup(),
+          isAdmin
+            ? `<button class="btn" data-action="closeDrawer">关闭</button><button class="btn primary" data-action="goToCockpitConnectorManager"><i data-lucide="plug"></i>前往连接器管理</button>`
+            : `<button class="btn primary" data-action="closeDrawer">关闭</button>`
+        );
+      },
+      openCockpitConnectorSetup() {
+        if (state.cockpitOnboardingRole !== "admin") {
+          toast("无配置权限", "请联系租户管理员完成连接器配置。");
+          return;
+        }
+        openDrawer(
+          "配置经营数据连接器",
+          `
+            <div class="cockpit-drawer-note">连接器是租户级配置。授权后，系统会先校验站点、店铺和字段范围，再启动首次同步。</div>
+            <div class="cockpit-requirement-list">
+              <div class="cockpit-requirement-row">
+                <i data-lucide="database"></i>
+                <span><strong>经营 ERP</strong><small>同步订单、商品、库存、采购在途和成本数据。</small></span>
+                <b>尚未连接</b>
+              </div>
+              <div class="cockpit-requirement-row">
+                <i data-lucide="megaphone"></i>
+                <span><strong>Amazon Ads</strong><small>同步广告花费、广告销售额、活动状态和效率指标。</small></span>
+                <b>尚未连接</b>
+              </div>
+              <div class="cockpit-requirement-row">
+                <i data-lucide="store"></i>
+                <span><strong>授权范围</strong><small>由管理员选择当前租户可同步的站点与店铺。</small></span>
+                <b>待配置</b>
+              </div>
+            </div>
+          `,
+          `<button class="btn" data-action="closeDrawer">取消</button><button class="btn primary" data-action="goToCockpitConnectorManager"><i data-lucide="arrow-right"></i>前往连接器管理</button>`
+        );
+      },
+      goToCockpitConnectorManager() {
+        closeDrawer();
+        setView("connectors");
+      },
+      remindCockpitAdmin() {
+        if (state.cockpitOnboardingRole !== "employee" || state.cockpitAdminNotified) return;
+        state.cockpitAdminNotified = true;
+        render();
+        toast("已提醒租户管理员", "苏禾将收到驾驶舱数据接入提醒。");
+      },
+      setHomeLaunchTask(el) {
+        state.homeLaunchTask = el.dataset.task || "selection";
         render();
       },
       useSelectionStarterExample(el) {
@@ -42073,6 +45896,19 @@
     });
 
     document.addEventListener("input", event => {
+      if (event.target?.matches?.("[data-demo-lead-search]")) {
+        const rawQuery = event.target.value.trim();
+        const query = rawQuery.toLowerCase();
+        state.demoLeadSearch = rawQuery;
+        let visibleCount = 0;
+        qsa("#demoLeadTable tbody tr[data-search]").forEach(row => {
+          row.hidden = Boolean(query && !String(row.dataset.search || "").includes(query));
+          if (!row.hidden) visibleCount += 1;
+        });
+        const empty = qs("#demoLeadEmpty");
+        if (empty) empty.hidden = visibleCount > 0;
+        return;
+      }
       if (!event.target?.matches?.("[data-log-search]")) return;
       const rawQuery = event.target.value.trim();
       const query = rawQuery.toLowerCase();
@@ -42336,6 +46172,14 @@
 
     window.addEventListener("message", event => {
       const data = event.data;
+      if (data?.type === "lingyi-credit-purchase-preview") {
+        openCreditPurchasePreview(data.payload || {});
+        return;
+      }
+      if (data?.type === "lingyi-credit-manual-drawer") {
+        openCreditManualDrawer(data.payload || {});
+        return;
+      }
       if (!data || data.type !== "yilian-asin-overview-quick-views") return;
       try {
         localStorage.setItem("yilian-asin-overview-quick-views", JSON.stringify(data.settings || {}));
