@@ -1,5 +1,7 @@
 {
   "scripts": {
-    "check:billing-pages": "node scripts/check-billing-pages.js"
+    "check:billing-pages": "node scripts/check-billing-pages.js",
+    "check:workbench-pages": "node scripts/check-workbench-pages.js",
+    "check:publish": "npm run check:billing-pages && npm run check:workbench-pages"
   }
 }

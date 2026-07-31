@@ -17,3 +17,11 @@ Required billing surfaces:
 - `系统运维 / 权益开通`: `#creditManual` embeds billing page `#manual`
 
 Do not replace the workbench shell with generated HTML that omits these menu groups, route renderers, iframe embedding, or drawer message handling. If the billing prototype UI must be redesigned, update `prototype-manifest/billing-pages.json` and `scripts/check-billing-pages.js` in the same change.
+
+The `经营策略中心` page is also guarded. Before publishing changes that touch `yilian-ai-workbench/index.html`, run:
+
+```bash
+npm run check:publish
+```
+
+Do not remove the `rules` navigation item, `renderRules` route, `renderRulesLegacy` fallback, or `yilian-ai-workbench/strategy-center.html` unless the user explicitly asks for that surface to be retired. If the strategy center is redesigned, update `prototype-manifest/workbench-pages.json` and `scripts/check-workbench-pages.js` in the same change.

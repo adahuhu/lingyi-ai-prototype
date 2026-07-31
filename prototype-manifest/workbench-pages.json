@@ -1,0 +1,18 @@
+{
+  "entryFile": "yilian-ai-workbench/index.html",
+  "requiredFiles": [
+    "yilian-ai-workbench/index.html",
+    "yilian-ai-workbench/strategy-center.html"
+  ],
+  "pages": [
+    {
+      "view": "rules",
+      "label": "经营策略中心",
+      "icon": "sliders-horizontal",
+      "renderer": "renderRules",
+      "fallbackRenderer": "renderRulesLegacy",
+      "standaloneFile": "yilian-ai-workbench/strategy-center.html",
+      "standaloneTitle": "经营策略中心 - 产品定义版线框图"
+    }
+  ]
+}
