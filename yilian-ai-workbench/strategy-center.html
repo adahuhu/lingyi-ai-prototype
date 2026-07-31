@@ -655,6 +655,302 @@
       main,
       html.embedded-mode main { padding: 22px 28px 38px; }
     }
+
+    /* Refined compact density pass for the management workspace. */
+    :root {
+      --workspace-canvas: #f3f5f8;
+      --workspace-surface: #ffffff;
+      --workspace-surface-subtle: #f8fafc;
+      --workspace-line: #dfe6ef;
+      --workspace-line-soft: #edf1f5;
+      --workspace-line-strong: #ccd6e3;
+      --workspace-text: #1d2939;
+      --workspace-text-secondary: #4b5b70;
+      --workspace-text-muted: #7b8797;
+      --workspace-blue: #1769e0;
+      --workspace-blue-soft: #eef5ff;
+      --workspace-shadow: 0 1px 2px rgba(16, 24, 40, .035);
+    }
+    body,
+    .shell {
+      color: var(--workspace-text);
+      background: var(--workspace-canvas);
+    }
+    main,
+    html.embedded-mode main {
+      padding: 12px 14px 22px;
+    }
+    .workspace {
+      grid-template-rows: 48px minmax(0, 1fr);
+    }
+    .topbar {
+      min-height: 48px;
+      background: rgba(255, 255, 255, .96);
+    }
+    .pagebar {
+      min-height: 34px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+    .segments {
+      height: 34px;
+      padding: 2px;
+      border-color: var(--workspace-line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .segments button {
+      min-height: 28px;
+      padding: 0 13px;
+      border-radius: 6px;
+      color: #5d6b7c;
+      font-size: 12px;
+      font-weight: 680;
+    }
+    .segments button.active {
+      color: var(--workspace-blue);
+      background: var(--workspace-blue-soft);
+    }
+    .card,
+    .view-card,
+    .overview-quick-views,
+    .form-block {
+      border-color: var(--workspace-line);
+      border-radius: 8px;
+      box-shadow: var(--workspace-shadow) !important;
+    }
+    .card + .card {
+      margin-top: 10px;
+    }
+    .btn {
+      min-height: 32px;
+      padding: 0 12px;
+      border-color: var(--workspace-line-strong);
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .btn.primary {
+      border-color: var(--workspace-blue);
+      background: var(--workspace-blue);
+    }
+    .stage-rail {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      padding: 10px;
+    }
+    .stage {
+      min-height: 58px;
+      padding: 8px 10px;
+      border-color: var(--workspace-line);
+      background: linear-gradient(180deg, #fff 0%, #fbfcfe 100%);
+    }
+    .stage + .stage::before {
+      left: -8px;
+      top: 16px;
+      color: #b4bfcc;
+      font-size: 16px;
+    }
+    .stage.active {
+      border-color: #94bff7;
+      background: linear-gradient(180deg, #f4f8ff 0%, #edf5ff 100%);
+      box-shadow: inset 3px 0 0 var(--workspace-blue);
+    }
+    .stage i {
+      font-size: 9px;
+      font-weight: 700;
+    }
+    .stage b {
+      margin-top: 3px;
+      font-size: 12px;
+      font-weight: 780;
+      line-height: 1.2;
+    }
+    .stage span {
+      margin-top: 3px;
+      font-size: 10px;
+      line-height: 1.2;
+    }
+    .stage .count {
+      right: 8px;
+      top: 8px;
+      min-width: 18px;
+      height: 18px;
+      font-size: 9px;
+      background: #edf2f7;
+    }
+    .rule-toolbar {
+      min-height: 44px;
+      padding: 6px 12px;
+      background: linear-gradient(180deg, #fff 0%, #fafbfd 100%);
+    }
+    .rule-filters,
+    .head-actions {
+      gap: 8px;
+    }
+    .rule-filter,
+    .field {
+      height: 32px;
+      border-color: var(--workspace-line-strong);
+      border-radius: 7px;
+      color: #344054;
+      font-size: 12px;
+    }
+    input.rule-filter {
+      width: 184px;
+    }
+    .rules {
+      padding: 0 12px 8px;
+    }
+    .rule-labels,
+    .rule-row {
+      grid-template-columns: minmax(142px, .82fr) minmax(290px, 1.78fr) minmax(150px, .88fr) minmax(190px, 1.18fr) minmax(150px, .92fr) 62px 44px;
+      gap: 12px;
+    }
+    .rule-labels {
+      min-height: 32px;
+      padding: 0 2px;
+      color: #748195;
+      background: #f7f9fc;
+      font-size: 11px;
+      font-weight: 720;
+    }
+    .rule-row {
+      min-height: 66px;
+      border-top-color: #e8edf3;
+      color: var(--workspace-text-secondary);
+      font-size: 11px;
+    }
+    .rule-row:hover {
+      background: #fbfdff;
+    }
+    .rule-row b {
+      color: var(--workspace-text);
+      font-size: 12px;
+      font-weight: 760;
+      line-height: 1.32;
+    }
+    .rule-row small {
+      margin-top: 3px;
+      color: #7b8797;
+      font-size: 10px;
+      line-height: 1.28;
+    }
+    .condition-box {
+      min-height: 40px;
+      padding: 5px 7px;
+      border-color: #dfe7f1;
+      background: #f8fafc;
+    }
+    .condition-line {
+      gap: 4px;
+    }
+    .condition-line + .condition-line {
+      margin-top: 4px;
+    }
+    .condition-chip {
+      min-height: 19px;
+      padding: 0 6px;
+      border: 1px solid #e4eaf1;
+      background: #eef3f8;
+      color: #526173;
+      font-size: 9px;
+      font-weight: 650;
+    }
+    .and {
+      color: #9aa6b6;
+      font-size: 9px;
+      font-weight: 700;
+    }
+    .signal {
+      gap: 2px;
+    }
+    .signal-line {
+      gap: 6px;
+    }
+    .dot {
+      width: 6px;
+      height: 6px;
+    }
+    .tag {
+      min-height: 20px;
+      padding: 0 7px;
+      font-size: 10px;
+      font-weight: 720;
+    }
+    .text-btn {
+      font-size: 11px;
+      font-weight: 760;
+    }
+    .rules-foot {
+      min-height: 30px;
+      padding: 0;
+      color: #7b8797;
+      font-size: 10px;
+    }
+    .overview-quick-views {
+      margin-bottom: 10px;
+    }
+    .overview-quick-views-head {
+      min-height: 46px;
+      padding: 0 12px;
+    }
+    .overview-quick-view-row {
+      min-height: 48px;
+      padding: 0 12px;
+    }
+    .view-grid {
+      gap: 10px;
+    }
+    .view-card {
+      min-height: 124px;
+      padding: 12px;
+      background: linear-gradient(180deg, #fff 0%, #fbfcfe 100%);
+    }
+    .view-icon {
+      width: 28px;
+      height: 28px;
+      flex-basis: 28px;
+    }
+    .view-card-title b {
+      font-size: 13px;
+    }
+    .view-condition {
+      margin-top: 10px;
+      min-height: 28px;
+      font-size: 11px;
+      line-height: 1.42;
+    }
+    .view-card-foot {
+      padding-top: 8px;
+      font-size: 10px;
+    }
+    .drawer {
+      box-shadow: -18px 0 44px rgba(16, 24, 40, .12) !important;
+    }
+    .drawer:not(.open) {
+      border-left-color: transparent;
+      box-shadow: none !important;
+    }
+    @media (min-width: 1920px) {
+      main,
+      html.embedded-mode main {
+        padding: 14px 18px 24px;
+      }
+      .card + .card {
+        margin-top: 12px;
+      }
+    }
+    @media (max-width: 1360px) {
+      .rule-labels,
+      .rule-row {
+        grid-template-columns: 130px minmax(250px, 1.62fr) 142px 170px 142px 58px 42px;
+        gap: 9px;
+      }
+      .stage {
+        padding-right: 8px;
+      }
+    }
   </style>
 </head>
 <body>
