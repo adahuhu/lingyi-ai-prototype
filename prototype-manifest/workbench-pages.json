@@ -9,6 +9,7 @@
       "view": "rules",
       "label": "经营策略中心",
       "icon": "sliders-horizontal",
+      "groupTitle": "商品经营",
       "renderer": "renderRules",
       "fallbackRenderer": "renderRulesLegacy",
       "standaloneFile": "yilian-ai-workbench/strategy-center.html",
