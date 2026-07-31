@@ -28328,13 +28328,6 @@
       width: 16px;
       height: 16px;
     }
-    .cockpit-status-actions .btn[aria-disabled="true"] {
-      color: #36765f;
-      border-color: #bfdfd1;
-      background: #eff9f4;
-      cursor: default;
-      box-shadow: none;
-    }
     .cockpit-admin-owner {
       width: min(100%, 520px);
       display: grid;
@@ -28525,25 +28518,6 @@
     .cockpit-output-copy span {
       color: #98a2b3;
       font-size: 12px;
-    }
-    .cockpit-scope-footer {
-      min-height: 52px;
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border: 1px solid #dce4ee;
-      border-radius: 8px;
-      color: #667085;
-      background: #fff;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-    .cockpit-scope-footer i {
-      flex: 0 0 auto;
-      width: 17px;
-      height: 17px;
-      color: #4f80c5;
     }
     .cockpit-requirement-list {
       display: grid;
@@ -28936,7 +28910,6 @@
         "币种": "GBP"
       },
       cockpitOnboardingRole: "admin",
-      cockpitAdminNotified: false,
       asinStatusRule: "全部",
       asinStatusScene: "newProducts",
       handledAsinStatus: new Set(),
@@ -32029,16 +32002,14 @@
           <div class="cockpit-status-copy">
             <span class="cockpit-status-icon employee"><i data-lucide="clock-3"></i></span>
             <h2>等待租户管理员完成数据接入</h2>
-            <p>你无需重复配置。管理员完成连接器授权、首次同步和数据校验后，驾驶舱会自动开放，并按你的站点与店铺权限展示数据。</p>
+            <p>您无需重复配置，管理员完成连接器授权、首次同步和数据校验后，驾驶舱会自动开放，并按您的站点与店铺权限展示数据。</p>
             <div class="cockpit-admin-owner">
               <span class="cockpit-admin-avatar">苏</span>
               <span><strong>苏禾</strong><small>当前租户管理员</small></span>
-              <b class="cockpit-owner-state">${state.cockpitAdminNotified ? "已提醒" : "尚未配置"}</b>
+              <b class="cockpit-owner-state">尚未配置</b>
             </div>
-            <div class="cockpit-access-note"><i data-lucide="lock-keyhole"></i><span>普通员工不能查看连接器密钥、授权账号和租户级同步配置。</span></div>
           </div>
           <div class="cockpit-status-actions">
-            <button class="btn primary" data-action="remindCockpitAdmin" ${state.cockpitAdminNotified ? 'aria-disabled="true"' : ""}><i data-lucide="${state.cockpitAdminNotified ? "check" : "bell-ring"}"></i>${state.cockpitAdminNotified ? "已提醒管理员" : "提醒管理员"}</button>
             <button class="btn" data-action="showCockpitDataRequirements"><i data-lucide="list-checks"></i>查看所需数据</button>
           </div>
         `;
@@ -32059,7 +32030,6 @@
             <div class="cockpit-onboarding-title">
               <span class="cockpit-onboarding-kicker">首次进入</span>
               <h1>先完成数据接入，再生成 AI 驾驶舱</h1>
-              <p>未接入时只呈现当前状态和可执行的下一步，不展示无意义的空指标。</p>
             </div>
             <div class="cockpit-role-switch" role="group" aria-label="用户身份">
               <button class="${isAdmin ? "active" : ""}" data-action="setCockpitOnboardingRole" data-role="admin" aria-pressed="${isAdmin}">租户管理员</button>
@@ -32090,7 +32060,7 @@
 
           <section class="cockpit-output-section">
             <header class="cockpit-section-head">
-              <div><h2>接入完成后自动生成</h2><p>不需要员工另行配置指标或卡片。</p></div>
+              <div><h2>接入完成后自动生成</h2>${isAdmin ? "" : "<p>请先联系管理员授权</p>"}</div>
             </header>
             <div class="cockpit-output-grid">
               ${outputs.map(item => `
@@ -32101,8 +32071,6 @@
               `).join("")}
             </div>
           </section>
-
-          <div class="cockpit-scope-footer"><i data-lucide="shield-check"></i><span>连接器为租户级配置；驾驶舱展示范围仍受用户角色、站点、店铺和数据权限控制。</span></div>
         </section>
       `;
     }
@@ -38829,7 +38797,8 @@
     }
 
     function renderRules() {
-      return `<section class="strategy-embed"><iframe src="./strategy-center.html?embedded=1" title="经营策略中心" loading="eager"></iframe></section>`;
+      // Keep the strategy center inline so the page survives static publishes that omit iframe assets.
+      return renderRulesLegacy();
     }
 
     function renderRulesLegacy() {
@@ -41334,12 +41303,6 @@
       goToCockpitConnectorManager() {
         closeDrawer();
         setView("connectors");
-      },
-      remindCockpitAdmin() {
-        if (state.cockpitOnboardingRole !== "employee" || state.cockpitAdminNotified) return;
-        state.cockpitAdminNotified = true;
-        render();
-        toast("已提醒租户管理员", "苏禾将收到驾驶舱数据接入提醒。");
       },
       setHomeLaunchTask(el) {
         state.homeLaunchTask = el.dataset.task || "selection";
