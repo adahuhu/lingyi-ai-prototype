@@ -76,8 +76,12 @@ for (const page of manifest.pages) {
 
   requireText(entryHtml, `${page.view}: ${page.renderer}`, `workbench renderer map ${page.view}`);
   requireText(entryHtml, `function ${page.renderer}()`, `workbench renderer function ${page.renderer}`);
-  requireText(entryHtml, `function ${page.fallbackRenderer}()`, `workbench fallback renderer ${page.fallbackRenderer}`);
-  requireText(entryHtml, `return ${page.fallbackRenderer}();`, `workbench inline fallback ${page.label}`);
+  if (page.embedSrc) {
+    requireText(entryHtml, page.embedSrc, `workbench embedded page ${page.label}`);
+  }
+  if (page.fallbackRenderer) {
+    requireText(entryHtml, `function ${page.fallbackRenderer}()`, `workbench fallback renderer ${page.fallbackRenderer}`);
+  }
   if (page.visibilityFunction) {
     requireText(entryHtml, `function ${page.visibilityFunction}()`, `workbench visibility function ${page.visibilityFunction}`);
   }
@@ -88,6 +92,9 @@ for (const page of manifest.pages) {
   const standaloneHtml = readProjectFile(page.standaloneFile);
   requireText(standaloneHtml, page.standaloneTitle, `standalone page title ${page.label}`);
   requireText(standaloneHtml, page.label, `standalone page content ${page.label}`);
+  for (const needle of page.standaloneNeedles || []) {
+    requireText(standaloneHtml, needle, `standalone latest marker ${page.label}`);
+  }
 }
 
 if (failures.length > 0) {

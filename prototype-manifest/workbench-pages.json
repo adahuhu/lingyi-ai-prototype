@@ -9,13 +9,21 @@
       "view": "rules",
       "label": "经营策略中心",
       "icon": "sliders-horizontal",
-      "groupTitle": "商品经营",
+      "groupTitle": "沉淀与管理",
       "visibilityFunction": "canViewNewProductRuleSource",
       "visibilityNeedle": "return isExceptionManagerRole(currentExceptionActor().role);",
       "renderer": "renderRules",
+      "embedSrc": "./strategy-center.html?embedded=1",
       "fallbackRenderer": "renderRulesLegacy",
       "standaloneFile": "yilian-ai-workbench/strategy-center.html",
-      "standaloneTitle": "经营策略中心 - 产品定义版线框图"
+      "standaloneTitle": "经营策略中心 - 产品定义版线框图",
+      "standaloneNeedles": [
+        "判断规则",
+        "场景展示",
+        "生命周期设置",
+        "新建场景",
+        "AI 创建规则"
+      ]
     }
   ]
 }

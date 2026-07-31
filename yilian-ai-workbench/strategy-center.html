@@ -311,6 +311,23 @@
     .view-card-foot { margin-top: auto; padding-top: 9px; border-top: 1px solid var(--line-soft); display: flex; align-items: center; justify-content: space-between; color: var(--blue); font-size: 9px; font-weight: 650; }
     .view-card-foot i { font-style: normal; font-size: 13px; transition: transform .16s ease; }
     .view-card:hover .view-card-foot i { transform: translateX(2px); }
+    .overview-quick-views { margin-bottom: 12px; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+    .overview-quick-views-head { min-height: 58px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; gap: 18px; border-bottom: 1px solid var(--line-soft); }
+    .overview-quick-views-head b { display: block; font-size: 12px; }
+    .overview-quick-views-head small { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; }
+    .overview-quick-views-note { color: #98a2b3; font-size: 10px; white-space: nowrap; }
+    .overview-quick-view-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .overview-quick-view-row { min-height: 58px; padding: 0 14px; display: flex; align-items: center; gap: 9px; border-right: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+    .overview-quick-view-row:nth-child(3n) { border-right: 0; }
+    .overview-quick-view-row:nth-last-child(-n + 3) { border-bottom: 0; }
+    .overview-quick-view-dot { width: 7px; height: 7px; flex: 0 0 7px; border-radius: 50%; background: #2f6fec; box-shadow: 0 0 0 3px #edf4ff; }
+    .overview-quick-view-dot.warn { background: #e88400; box-shadow: 0 0 0 3px #fff5e6; }
+    .overview-quick-view-dot.risk { background: #e75a55; box-shadow: 0 0 0 3px #fff0ef; }
+    .overview-quick-view-copy { min-width: 0; flex: 1; }
+    .overview-quick-view-copy b { display: block; overflow: hidden; color: #344054; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .overview-quick-view-copy small { display: block; overflow: hidden; margin-top: 3px; color: #98a2b3; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+    .overview-quick-view-toggle { display: inline-flex; align-items: center; gap: 6px; flex: 0 0 auto; color: #667085; font-size: 9px; cursor: pointer; }
+    .overview-quick-view-toggle input { width: 15px; height: 15px; margin: 0; accent-color: var(--blue); cursor: pointer; }
     .view-drawer { width: min(860px, calc(100vw - 40px)); }
     .view-condition-summary { min-height: 52px; border: 1px solid #dce7f5; border-radius: 8px; padding: 10px 11px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; background: #f8fbff; }
     .condition-token { min-height: 25px; border: 1px solid #c7dcff; border-radius: 6px; padding: 0 8px; display: inline-flex; align-items: center; background: #fff; color: #285b9f; font-size: 9px; font-weight: 650; }
@@ -434,6 +451,11 @@
     .view-condition { margin-top: 13px; font-size: 10px; line-height: 1.5; }
     .view-card-foot { padding-top: 8px; font-size: 10px; }
     .view-card-foot i { font-size: 15px; }
+    .overview-quick-views { border-radius: 8px; }
+    .overview-quick-views-head b { font-size: 13px; }
+    .overview-quick-views-head small, .overview-quick-views-note { font-size: 10px; }
+    .overview-quick-view-copy b { font-size: 11px; }
+    .overview-quick-view-copy small, .overview-quick-view-toggle { font-size: 10px; }
     .drawer { grid-template-rows: 62px minmax(0,1fr) 66px; box-shadow: none; border-left: 1px solid var(--line); }
     .drawer.rule-drawer { width: min(1220px, 64vw); }
     .drawer.wide, .view-drawer { width: min(980px, calc(100vw - 32px)); }
@@ -477,10 +499,161 @@
     .btn.primary {
       box-shadow: none !important;
     }
+    .rule-labels,
+    .rule-row { grid-template-columns: minmax(130px,.8fr) minmax(300px,1.8fr) minmax(155px,.9fr) minmax(180px,1.05fr) minmax(155px,.92fr) 66px 52px; }
+    .rule-row .output-tags { margin-bottom: 3px; }
+    .outcome-card { min-height: 136px; }
+    .ai-action { border-color: #e4e9f0; background: #fafbfd; }
+    .notify-review-config {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+      padding: 12px;
+      border: 1px solid #e4e9f0;
+      border-radius: 8px;
+      background: #fff;
+    }
+    .notify-review-config label { display: grid; gap: 6px; min-width: 0; }
+    .notify-review-config label > span { color: #667085; font-size: 10px; font-weight: 700; }
     @media (max-width: 1360px) {
-      .rule-labels, .rule-row { grid-template-columns: 122px minmax(260px,1.55fr) 155px 150px 138px 60px 48px; gap: 9px; }
+      .rule-labels, .rule-row { grid-template-columns: 122px minmax(260px,1.55fr) 145px 165px 145px 60px 48px; gap: 9px; }
       .view-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+      .overview-quick-view-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .overview-quick-view-row:nth-child(3n) { border-right: 1px solid var(--line-soft); }
+      .overview-quick-view-row:nth-child(2n) { border-right: 0; }
+      .overview-quick-view-row:nth-last-child(-n + 3) { border-bottom: 1px solid var(--line-soft); }
+      .overview-quick-view-row:nth-last-child(-n + 2) { border-bottom: 0; }
       .drawer.rule-drawer { width: calc(100vw - 28px); }
+    }
+
+    /* Match the shared operations and management workspace language. */
+    :root {
+      --workspace-canvas: #f4f6f8;
+      --workspace-surface: #ffffff;
+      --workspace-surface-subtle: #f8fafc;
+      --workspace-line: #e2e7ee;
+      --workspace-line-strong: #d4dce7;
+      --workspace-text: #182230;
+      --workspace-text-secondary: #475467;
+      --workspace-text-muted: #667085;
+      --workspace-radius: 8px;
+      --workspace-shadow: 0 1px 2px rgba(16, 24, 40, .035);
+    }
+    body,
+    .shell {
+      color: var(--workspace-text);
+      background: var(--workspace-canvas);
+      font-size: 13.5px;
+    }
+    .side {
+      padding: 16px 10px 14px;
+      border-right-color: var(--workspace-line);
+      background: #fbfcfd;
+      box-shadow: none;
+    }
+    .logo {
+      border-radius: 8px;
+      background: #1769e0;
+      box-shadow: none;
+    }
+    .nav {
+      min-height: 38px;
+      border-radius: 7px;
+      color: #344054;
+      font-size: 13.5px;
+      font-weight: 650;
+    }
+    .nav.active {
+      color: #175cd3;
+      background: #eaf2fd;
+    }
+    .workspace { grid-template-rows: 52px minmax(0, 1fr); }
+    .topbar {
+      padding: 0 20px;
+      border-bottom-color: var(--workspace-line);
+      background: rgba(255, 255, 255, .96);
+    }
+    .topbar strong { color: var(--workspace-text); font-size: 16px; font-weight: 800; }
+    main,
+    html.embedded-mode main {
+      padding: 18px 20px 32px;
+    }
+    .pagebar { min-height: 38px; margin-bottom: 12px; }
+    .card,
+    .view-card,
+    .overview-quick-views,
+    .form-block {
+      border-color: var(--workspace-line);
+      border-radius: var(--workspace-radius);
+      background: var(--workspace-surface);
+      box-shadow: var(--workspace-shadow) !important;
+    }
+    .card + .card { margin-top: 14px; }
+    .card-head {
+      min-height: 54px;
+      padding: 10px 16px;
+      border-bottom-color: var(--workspace-line);
+    }
+    .card-head strong { color: var(--workspace-text); font-size: 14px; font-weight: 750; }
+    .card-head small { color: var(--workspace-text-muted); font-size: 12px; font-weight: 500; }
+    .btn,
+    .field,
+    .rule-filter,
+    .search {
+      border-color: var(--workspace-line-strong);
+      border-radius: 7px;
+      box-shadow: none !important;
+    }
+    .btn { min-height: 36px; color: #344054; font-size: 13px; font-weight: 650; }
+    .btn.primary { color: #fff; border-color: #1769e0; background: #1769e0; }
+    .stage-rail { padding: 12px; gap: 10px; }
+    .stage {
+      min-height: 72px;
+      padding: 10px 12px;
+      border-color: var(--workspace-line);
+      border-radius: 7px;
+    }
+    .stage.active {
+      border-color: #b9d2f2;
+      background: #f3f7fd;
+      box-shadow: inset 3px 0 0 #1769e0;
+    }
+    .stage b { font-size: 13px; }
+    .stage span { color: var(--workspace-text-muted); font-size: 11px; }
+    .rule-summary { min-height: 46px; padding: 0 14px; }
+    .rule-summary strong { font-size: 14px; font-weight: 750; }
+    .rule-summary span,
+    .system-check { color: var(--workspace-text-muted); font-size: 12px; }
+    .rules { padding: 0 14px 12px; }
+    .rule-toolbar { min-height: 56px; padding: 10px 12px; }
+    .rule-filter { height: 36px; font-size: 12px; }
+    .rule-labels {
+      min-height: 38px;
+      color: var(--workspace-text-muted);
+      font-size: 11.5px;
+      background: #f7f9fb;
+    }
+    .rule-row {
+      min-height: 82px;
+      color: var(--workspace-text-secondary);
+      font-size: 11.5px;
+      border-bottom-color: #e9edf2;
+    }
+    .rule-row b { color: #243247; font-size: 13px; font-weight: 700; }
+    .rule-row small { color: #8a96a8; font-size: 10.5px; }
+    .condition-box { border-color: var(--workspace-line); background: #fafbfc; }
+    .view-grid { gap: 12px; }
+    .view-card { min-height: 146px; padding: 14px; }
+    .view-card-title b { font-size: 14px; font-weight: 750; }
+    .view-condition { color: var(--workspace-text-muted); font-size: 11.5px; }
+    .drawer { border-left-color: var(--workspace-line); box-shadow: none; }
+    .drawer-head,
+    .drawer-foot { padding: 0 20px; }
+    .drawer-body { padding: 20px; }
+    @media (min-width: 1920px) {
+      main,
+      html.embedded-mode main { padding: 22px 28px 38px; }
     }
   </style>
 </head>
@@ -499,6 +672,10 @@
       <div class="nav">库存与补货</div>
       <div class="nav">清货与复盘</div>
       <div class="nav">评论与洞察</div>
+      <div class="group">沉淀与管理</div>
+      <div class="nav">动作日志</div>
+      <div class="nav">经营复盘</div>
+      <div class="nav">企业经营知识库</div>
       <div class="nav active">经营策略中心</div>
     </aside>
 
@@ -506,10 +683,10 @@
       <header class="topbar"><strong>经营策略中心</strong><div class="search">搜索任务、MSKU、ASIN、异常、成果</div></header>
       <main>
         <div class="pagebar">
-          <div class="segments"><button type="button" class="active" data-panel="strategyPanel">生命周期与规则</button><button type="button" data-panel="viewPanel">经营视图</button></div>
+          <div class="segments"><button type="button" class="active" data-panel="strategyPanel">判断规则</button><button type="button" data-panel="viewPanel">场景展示</button></div>
           <div class="pagebar-actions">
-            <button class="btn" id="manageStages" type="button">管理阶段</button>
-            <button class="btn primary" id="newView" type="button" hidden>＋ 新建团队视图</button>
+            <button class="btn" id="manageStages" type="button">生命周期设置</button>
+            <button class="btn primary" id="newView" type="button" hidden>＋ 新建场景</button>
           </div>
         </div>
 
@@ -523,12 +700,12 @@
               <div class="rule-filters">
                 <input class="rule-filter" id="ruleSearch" placeholder="搜索规则或问题">
                 <select class="rule-filter" id="ruleSourceFilter"><option value="">全部来源</option><option value="系统">系统模板</option><option value="租户">租户规则</option></select>
-                <select class="rule-filter" id="ruleExecutionFilter"><option value="">全部执行结果</option><option>异常任务</option><option>生命周期流转</option><option>经营视图</option><option>组合执行</option></select>
+                <select class="rule-filter" id="ruleExecutionFilter" hidden><option value="">全部处理方式</option><option>异常任务</option><option>生命周期流转</option><option>经营视图</option><option>组合执行</option></select>
               </div>
               <div class="head-actions"><button class="btn" id="openLibrary">全部规则</button><button class="btn primary" id="newRule">AI 创建规则</button></div>
             </div>
             <div class="rules">
-              <div class="rule-labels"><span>规则</span><span>当满足</span><span>识别结果</span><span>命中后执行</span><span>阶段建议/流转</span><span>状态</span><span></span></div>
+              <div class="rule-labels"><span>规则</span><span>判断条件</span><span>处理事项</span><span>建议动作</span><span>通知 / 复查</span><span>状态</span><span></span></div>
               <div id="ruleRows"></div>
               <div class="rules-foot"><span id="filteredCount">显示 3 条</span></div>
             </div>
@@ -536,6 +713,7 @@
         </section>
 
         <section class="panel" id="viewPanel">
+          <section class="overview-quick-views" id="asinOverviewQuickViews"></section>
           <div class="view-grid" id="viewRows"></div>
         </section>
       </main>
@@ -547,16 +725,16 @@
   <aside class="drawer rule-drawer" id="ruleDrawer">
     <div class="drawer-head"><div><strong id="drawerTitle">AI 创建规则</strong><small>描述经营问题，AI 自动转换为结构化规则</small></div><button class="close" data-close>×</button></div>
     <div class="drawer-body">
-      <div class="stepper"><div class="step active"><b>1</b>适用范围</div><div class="step active"><b>2</b>判断条件</div><div class="step active"><b>3</b>命中后执行</div></div>
+      <div class="stepper"><div class="step active"><b>1</b>适用对象</div><div class="step active"><b>2</b>判断条件</div><div class="step active"><b>3</b>处理设置</div></div>
 
       <div class="ai-mode">
-        <div class="mode-head"><span>描述经营问题</span><small>AI 将自动填写范围、条件和执行结果</small></div>
-        <textarea class="ai-input" id="aiInput">新品开售 30 天后，如果近 30 日销量为 0、库存仍大于 0 且 Listing 可售，识别为 D30 零单，归入不动销处置，并生成待处理任务；如需进入清货，由负责人确认。</textarea>
-        <div class="ai-actions"><span>无法识别的字段会提示确认</span><button class="btn primary" id="parseRule">AI 生成规则</button></div>
+        <div class="mode-head"><span>描述要识别的问题</span><small>AI 会整理为可确认的规则草稿</small></div>
+        <textarea class="ai-input" id="aiInput">新品开售 30 天后，如果近 30 日销量为 0、库存仍大于 0 且 Listing 可售，识别为 D30 零单，今天通知负责人，并建议进入清货。</textarea>
+        <div class="ai-actions"><span>生成后可继续手动调整</span><button class="btn primary" id="parseRule">AI 整理</button></div>
       </div>
 
       <section class="form-section">
-        <div class="form-title">1. 适用范围 <span>限定规则对哪些经营对象生效</span></div>
+        <div class="form-title">1. 适用对象 <span>选择这条规则关注哪些商品</span></div>
         <div class="scope-grid">
           <div class="scope-card"><span><b>生命周期阶段</b><small id="scopeStage">新品测试</small></span><button class="text-btn">更改</button></div>
           <div class="scope-card"><span><b>站点 / 店铺</b><small>全部已授权范围</small></span><button class="text-btn">限定</button></div>
@@ -576,41 +754,45 @@
       </section>
 
       <section class="form-section">
-        <div class="form-title">3. 命中后执行 <span>结果可单独选择，也可组合执行</span></div>
-        <div class="execution-mode" id="executionMode"><button type="button" class="active" data-output="issue" aria-pressed="true">异常任务</button><button type="button" data-output="stage" aria-pressed="false">阶段建议</button><button type="button" class="active" data-output="view" aria-pressed="true">经营视图</button></div>
+        <div class="form-title">3. 处理设置 <span>确认问题归属、建议动作和复查要求</span></div>
+        <div class="execution-mode" id="executionMode"><button type="button" class="active" data-output="issue" aria-pressed="true">生成待处理</button><button type="button" class="active" data-output="stage" aria-pressed="true">调整阶段</button><button type="button" class="active" data-output="view" aria-pressed="true">归入场景</button></div>
         <div class="execution-grid" id="executionGrid">
           <article class="outcome-card task" id="issueOutcomeCard">
-            <div class="outcome-head"><div class="outcome-title"><input type="checkbox" id="issueOutcomeEnabled" checked hidden><i class="outcome-icon">!</i>异常处理</div><span class="tag red" id="taskOutcomeTag">异常任务</span></div>
+            <div class="outcome-head"><div class="outcome-title"><input type="checkbox" id="issueOutcomeEnabled" checked hidden><i class="outcome-icon">!</i>处理事项</div><span class="tag red" id="taskOutcomeTag">待处理</span></div>
             <div class="outcome-fields">
               <label class="outcome-field"><span>识别为</span><select class="inline-field" id="issueSelect"><option>D30 零单</option><option>D15 弱动销</option><option>测试通过</option><option>基础条件阻断</option><option>数据待补齐</option><option>连续零单</option><option>有花费无订单</option><option>ACOS 过高</option><option>TACoS 过高</option><option>库存覆盖不足</option><option>补货候选</option><option>清货消化慢</option><option>差评集中出现</option><option>新建问题类型…</option></select><small class="match-note"><span>AI 已自动匹配，可修改</span></small></label>
-              <label class="outcome-field"><span>处理时效</span><select class="inline-field" id="deadlineSelect"><option>今天处理</option><option>48 小时内处理</option><option>7 天内处理</option></select></label>
+              <label class="outcome-field"><span>处理时效</span><select class="inline-field" id="deadlineSelect"><option>今天处理</option><option>48 小时内处理</option><option>7 天内复查</option></select></label>
               <div class="custom-issue" id="customIssueFields"><input class="field" id="customIssueName" placeholder="输入新的问题名称"></div>
             </div>
-            <div class="outcome-foot"><span><i class="status-dot"></i><span id="taskSystemAction">自动生成待处理任务</span></span></div>
+            <div class="outcome-foot"><span><i class="status-dot"></i><span id="taskSystemAction">命中后进入待处理中心</span></span></div>
           </article>
-          <article class="outcome-card lifecycle inactive" id="stageOutcomeCard">
-            <div class="outcome-head"><div class="outcome-title"><input type="checkbox" id="stageOutcomeEnabled" hidden><i class="outcome-icon">→</i>生命周期阶段建议</div><span class="tag" id="stageOutcomeTag">不执行</span></div>
-            <div class="stage-flow"><div class="stage-node"><span>当前阶段</span><strong id="currentStageOutcome">新品测试</strong></div><i class="stage-arrow">→</i><label class="stage-node"><span>建议阶段</span><select class="inline-field" id="stageTargetSelect"><option value="清货">清货</option><option value="正常经营">正常经营</option><option value="停售归档">停售归档</option></select></label></div>
-            <div class="outcome-foot"><span><i class="status-dot green"></i><select class="inline-field" id="stageMethodSelect"><option>负责人确认后流转</option><option>主管审批后流转</option><option>系统自动流转</option></select></span></div>
+          <article class="outcome-card lifecycle" id="stageOutcomeCard">
+            <div class="outcome-head"><div class="outcome-title"><input type="checkbox" id="stageOutcomeEnabled" checked hidden><i class="outcome-icon">→</i>阶段调整</div><span class="tag blue" id="stageOutcomeTag">调整阶段</span></div>
+            <div class="stage-flow"><div class="stage-node"><span>当前阶段</span><strong id="currentStageOutcome">新品测试</strong></div><i class="stage-arrow">→</i><label class="stage-node"><span>目标阶段</span><select class="inline-field" id="stageTargetSelect"><option value="清货">清货</option><option value="正常经营">正常经营</option><option value="停售归档">停售归档</option></select></label></div>
+            <div class="outcome-foot"><span><i class="status-dot green"></i>可选择自动调整或人工确认</span></div>
           </article>
         </div>
         <article class="outcome-card destination" id="viewOutcomeCard">
-          <div class="outcome-head"><div class="outcome-title"><input type="checkbox" id="viewOutcomeEnabled" checked hidden><i class="outcome-icon">▦</i>归入经营视图</div><span class="tag blue" id="viewOutcomeTag">经营视图</span></div>
+          <div class="outcome-head"><div class="outcome-title"><input type="checkbox" id="viewOutcomeEnabled" checked hidden><i class="outcome-icon">▦</i>归入业务场景</div><span class="tag blue" id="viewOutcomeTag">业务场景</span></div>
           <div class="destination-content">
-            <label class="destination-select"><span style="display:block;color:#98a2b3;font-size:8px">归入经营视图</span><select class="inline-field" id="issueViewSelect"><option>不动销处置</option><option>新品测试</option><option>在售经营</option><option>广告健康</option><option>库存与补货</option><option>清货与复盘</option><option>评论与洞察</option></select></label>
-            <div class="destination-copy"><b id="viewMatchNote" style="display:block;color:#344054;font-size:10px">系统已根据识别结果推荐，可修改</b>命中结果将展示在所选经营视图中。</div>
+            <label class="destination-select"><span style="display:block;color:#98a2b3;font-size:8px">业务场景</span><select class="inline-field" id="issueViewSelect"><option>不动销处置</option><option>新品测试</option><option>在售经营</option><option>广告健康</option><option>库存与补货</option><option>清货与复盘</option><option>评论与洞察</option></select></label>
+            <div class="destination-copy"><b id="viewMatchNote" style="display:block;color:#344054;font-size:10px">已为当前问题推荐场景，可修改</b>保存后可在对应场景中查看命中商品。</div>
           </div>
         </article>
-        <div class="drawer-tip">清货、停售归档、黑名单、自动调价、停广告等高风险动作默认需要人工确认，可由客户策略改为自动执行。</div>
-        <div class="ai-action"><div><b>建议动作由 AI 自动分析</b></div><p>系统将结合当前 ASIN 数据、规则证据和企业知识库，生成适合该商品的具体处理建议。</p></div>
+        <div class="ai-action"><div><b>建议动作</b></div><p>为命中商品生成可执行建议；运营人员确认后再提交实际处理结果。</p></div>
+        <div class="notify-review-config">
+          <label><span>接收对象</span><select class="field" id="notifyRecipient"><option>ASIN 负责人</option><option>运营负责人</option><option>广告负责人</option><option>供应链负责人</option><option>指定成员</option></select></label>
+          <label><span>通知渠道</span><select class="field" id="notifyChannel"><option>飞书 + 钉钉</option><option>仅飞书</option><option>仅钉钉</option><option>不通知</option></select></label>
+          <label><span>复查时间</span><select class="field" id="reviewCycle"><option>次日复查</option><option>48 小时后复查</option><option>7 天后复查</option><option>下次数据同步后复查</option></select></label>
+        </div>
       </section>
     </div>
     <div class="drawer-foot">
       <div class="ai-validation" id="aiValidation" hidden>
-        <div class="ai-validation-head"><b>AI 校验结果</b><span class="ai-validation-status" id="aiValidationStatus">通过</span></div>
+        <div class="ai-validation-head"><b>设置检查</b><span class="ai-validation-status" id="aiValidationStatus">通过</span></div>
         <p id="aiValidationMessage">字段可用，条件无冲突，未发现互斥的生命周期动作。</p>
       </div>
-      <div class="drawer-foot-actions"><button class="btn" id="saveDraft">保存草稿</button><button class="btn primary" id="enableRule">AI 校验并启用</button></div>
+      <div class="drawer-foot-actions"><button class="btn" id="saveDraft">保存草稿</button><button class="btn primary" id="enableRule">检查并启用</button></div>
     </div>
   </aside>
 
@@ -618,14 +800,14 @@
     <div class="drawer-head"><div><strong>全部规则</strong><small>跨阶段查看、启停和管理规则版本</small></div><button class="close" data-close>×</button></div>
     <div class="drawer-body">
       <div class="library-toolbar"><input class="field" placeholder="搜索规则、指标或识别结果"><select class="field"><option>全部生命周期</option><option>新品测试</option><option>正常经营</option><option>清货</option></select><select class="field"><option>全部识别结果</option><option>销售</option><option>广告</option><option>库存</option><option>Listing</option></select><button class="btn">重置</button></div>
-      <div class="card" style="margin-top:8px;overflow:hidden"><table><thead><tr><th>规则</th><th>适用范围</th><th>条件摘要</th><th>识别结果</th><th>执行结果</th><th>阶段建议/流转</th><th>版本/状态</th><th></th></tr></thead><tbody>
-        <tr><td><strong>新品有效测试前置条件</strong><small>系统模板</small></td><td>新品测试 · 持续检查</td><td>Listing、Buy Box、广告或库存不满足</td><td><span class="tag red">基础条件阻断 · 今天处理</span></td><td><span class="tag orange">异常任务</span> <span class="tag blue">经营视图</span></td><td>保持当前阶段<br><small>暂停有效测试计时</small></td><td><span class="tag green">V1 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
-        <tr><td><strong>D15 弱动销观察</strong><small>系统模板</small></td><td>新品测试 · D15</td><td>D15销量低于目标且接近止损线</td><td><span class="tag orange">D15 弱动销 · 48小时</span></td><td><span class="tag orange">异常任务</span> <span class="tag blue">经营视图</span></td><td>保持当前阶段<br><small>7天后复查</small></td><td><span class="tag green">V2 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
-        <tr><td><strong>D30 仍未出单</strong><small>系统模板</small></td><td>新品测试 · D30</td><td>30日销量=0 且库存&gt;0</td><td><span class="tag red">D30 零单 · 今天处理</span></td><td><span class="tag orange">异常任务</span> <span class="tag blue">经营视图</span></td><td>保持当前阶段<br><small>建议进入清货 · 负责人确认</small></td><td><span class="tag green">V3 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
-        <tr><td><strong>D30 测试达标</strong><small>系统模板</small></td><td>新品测试 · D30</td><td>30日销量≥60 且利润为正</td><td><span class="tag green">测试通过</span></td><td><span class="tag green">生命周期流转</span></td><td>自动进入正常经营</td><td><span class="tag green">V2 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
-        <tr><td><strong>新品关键数据完整性</strong><small>系统模板</small></td><td>新品测试 · 节点判断前</td><td>当前节点必需经营字段缺失</td><td><span class="tag orange">数据待补齐 · 48小时</span></td><td><span class="tag orange">异常任务</span> <span class="tag blue">经营视图</span></td><td>保持当前阶段<br><small>补齐后重新计算</small></td><td><span class="tag green">V1 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
-        <tr><td><strong>广告有花费无订单</strong><small>租户规则</small></td><td>新品测试、正常经营</td><td>7日花费&gt;0 且广告订单=0</td><td><span class="tag orange">有花费无订单 · 48小时</span></td><td><span class="tag orange">异常任务</span></td><td>保持当前阶段</td><td><span class="tag green">V4 · 已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
-        <tr><td><strong>库存覆盖不足</strong><small>租户规则</small></td><td>正常经营</td><td>覆盖天数&lt;采购+物流周期</td><td><span class="tag blue">补货候选 · 48小时</span></td><td><span class="tag orange">异常任务</span></td><td>保持当前阶段</td><td><span class="tag">V1 · 草稿</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
+      <div class="card" style="margin-top:8px;overflow:hidden"><table><thead><tr><th>规则</th><th>适用对象</th><th>判断条件</th><th>处理事项</th><th>建议动作</th><th>通知 / 复查</th><th>状态</th><th></th></tr></thead><tbody>
+        <tr><td><strong>新品有效测试前置条件</strong><small>系统模板</small></td><td>新品测试 · 持续检查</td><td>Listing、Buy Box、广告或库存不满足</td><td><span class="tag red">基础条件阻断 · 今天处理</span></td><td>先修复可售条件并暂停有效计时</td><td>对应负责人 · 修复后复查</td><td><span class="tag green">已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
+        <tr><td><strong>D15 弱动销观察</strong><small>系统模板</small></td><td>新品测试 · D15</td><td>D15销量低于目标且接近止损线</td><td><span class="tag orange">D15 弱动销 · 48小时</span></td><td>调整价格和广告后继续观察</td><td>对应负责人 · 7天后复查</td><td><span class="tag green">已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
+        <tr><td><strong>D30 仍未出单</strong><small>系统模板</small></td><td>新品测试 · D30</td><td>30日销量=0 且库存&gt;0</td><td><span class="tag red">D30 零单 · 今天处理</span></td><td>暂停补货并复核 Listing</td><td>对应负责人 · 次日复查</td><td><span class="tag green">已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
+        <tr><td><strong>D30 测试达标</strong><small>系统模板</small></td><td>新品测试 · D30</td><td>30日销量≥60 且利润为正</td><td><span class="tag green">测试通过</span></td><td>转入常规经营</td><td>无需通知 · 下次同步确认</td><td><span class="tag green">已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
+        <tr><td><strong>新品关键数据完整性</strong><small>系统模板</small></td><td>新品测试 · 节点判断前</td><td>当前节点必需经营字段缺失</td><td><span class="tag orange">数据待补齐 · 48小时</span></td><td>补齐数据后重新计算测试结论</td><td>数据负责人 · 补齐后复查</td><td><span class="tag green">已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
+        <tr><td><strong>广告有花费无订单</strong><small>企业规则</small></td><td>新品测试、常规经营</td><td>7日花费&gt;0 且广告订单=0</td><td><span class="tag orange">有花费无订单 · 48小时</span></td><td>检查搜索词并调整预算</td><td>广告负责人 · 48小时复查</td><td><span class="tag green">已启用</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
+        <tr><td><strong>库存覆盖不足</strong><small>企业规则</small></td><td>常规经营</td><td>覆盖天数&lt;采购+物流周期</td><td><span class="tag blue">补货候选 · 48小时</span></td><td>确认在途并生成补货建议</td><td>供应链负责人 · 48小时复查</td><td><span class="tag">草稿</span></td><td><button class="text-btn editRule">编辑</button></td></tr>
       </tbody></table></div>
     </div>
     <div class="drawer-foot"><button class="btn primary" id="newFromLibrary">＋ 新建规则</button></div>
@@ -689,25 +871,25 @@
     ];
     let ruleData = {
       '待开售': [
-        { name:'识别有效开售日期', meta:'系统生命周期规则', conditions:['有效开售日期 已识别'], signal:'已开售', signalClass:'green', priority:'', result:'记录生命周期判断', resultMeta:'不创建异常任务', stage:'自动进入新品测试', stageMeta:'系统自动流转', view:'新品测试' }
+        { name:'识别有效开售日期', meta:'系统生命周期规则', conditions:['有效开售日期 已识别'], signal:'已开售', signalClass:'green', priority:'', result:'记录生命周期判断', resultMeta:'记录开售日期并进入新品测试', stage:'自动进入新品测试', stageMeta:'系统自动流转', view:'新品测试' }
       ],
       '新品测试': [
-        { name:'新品有效测试前置条件', meta:'持续检查 · 系统模板', conditions:['Listing = 可售','Buy Box = 正常','基础广告 = 已开启','FBA 可售库存 > 0'], signal:'基础条件阻断', signalClass:'red', priority:'今天处理', result:'自动生成待处理任务', resultMeta:'先修复可售条件，恢复后重新累计有效测试天数', stage:'保持当前阶段', stageMeta:'暂停有效测试计时', view:'新品测试' },
-        { name:'D15 弱动销观察', meta:'D15 · 系统模板', conditions:['有效测试天数 ≥ 15','D15 销量 < 当前测试目标','广告接近止损线'], signal:'D15 弱动销', signalClass:'orange', priority:'48小时处理', result:'自动生成待处理任务', resultMeta:'收缩低效广告并调整价格，7天后复查', stage:'保持当前阶段', stageMeta:'继续测试观察', view:'新品测试' },
-        { name:'D30 仍未出单', meta:'D30 · 系统模板', conditions:['近30日 销量 = 0','库存 > 0','Listing = 可售'], signal:'D30 零单', signalClass:'red', priority:'今天处理', result:'自动生成待处理任务', resultMeta:'暂停补货并评估清货方案', stage:'保持当前阶段', stageMeta:'建议进入清货 · 负责人确认后流转', view:'不动销处置' },
-        { name:'D30 测试达标', meta:'D30 · 系统模板', conditions:['近30日 销量 ≥ 60','平均利润/单 > 0'], signal:'测试通过', signalClass:'green', priority:'', result:'记录生命周期判断', resultMeta:'不创建异常任务', stage:'自动进入正常经营', stageMeta:'系统自动流转', view:'新品测试' },
-        { name:'新品关键数据完整性', meta:'节点判断前 · 系统模板', conditions:['当前节点必需字段 缺失'], signal:'数据待补齐', signalClass:'orange', priority:'48小时处理', result:'自动生成待处理任务', resultMeta:'补齐广告订单和利润数据后重新计算', stage:'保持当前阶段', stageMeta:'暂停输出测试结论', view:'新品测试' },
-        { name:'广告有花费无订单', meta:'持续检查 · 租户规则', conditions:['近7日 广告花费 > 0','近7日 广告订单 = 0','库存 > 0'], signal:'有花费无订单', signalClass:'orange', priority:'48小时处理', result:'自动合并到处理任务', resultMeta:'AI 分析具体建议动作', stage:'保持当前阶段', stageMeta:'显示到广告健康', view:'广告健康' }
+        { name:'新品有效测试前置条件', meta:'持续检查 · 系统模板', conditions:['Listing = 可售','Buy Box = 正常','基础广告 = 已开启','FBA 可售库存 > 0'], signal:'基础条件阻断', signalClass:'red', priority:'今天处理', result:'进入待处理中心', resultMeta:'先修复可售条件，恢复后重新累计有效测试天数', stage:'保持当前阶段', stageMeta:'暂停有效测试计时', view:'新品测试' },
+        { name:'D15 弱动销观察', meta:'D15 · 系统模板', conditions:['有效测试天数 ≥ 15','D15 销量 < 当前测试目标','广告接近止损线'], signal:'D15 弱动销', signalClass:'orange', priority:'48小时处理', result:'进入待处理中心', resultMeta:'收缩低效广告并调整价格，7天后复查', stage:'保持当前阶段', stageMeta:'继续测试观察', view:'新品测试' },
+        { name:'D30 仍未出单', meta:'D30 · 系统模板', conditions:['近30日 销量 = 0','库存 > 0','Listing = 可售'], signal:'D30 零单', signalClass:'red', priority:'今天处理', result:'进入待处理中心', resultMeta:'暂停补货，复核 Listing 并评估清货', stage:'自动进入清货', stageMeta:'系统自动流转', view:'不动销处置' },
+        { name:'D30 测试达标', meta:'D30 · 系统模板', conditions:['近30日 销量 ≥ 60','平均利润/单 > 0'], signal:'测试通过', signalClass:'green', priority:'', result:'保留判断结果', resultMeta:'转入常规经营并继续观察利润', stage:'自动进入正常经营', stageMeta:'系统自动流转', view:'新品测试' },
+        { name:'新品关键数据完整性', meta:'节点判断前 · 系统模板', conditions:['当前节点必需字段 缺失'], signal:'数据待补齐', signalClass:'orange', priority:'48小时处理', result:'进入待处理中心', resultMeta:'补齐广告订单和利润数据后重新计算', stage:'保持当前阶段', stageMeta:'暂停输出测试结论', view:'新品测试' },
+        { name:'广告有花费无订单', meta:'持续检查 · 企业规则', conditions:['近7日 广告花费 > 0','近7日 广告订单 = 0','库存 > 0'], signal:'有花费无订单', signalClass:'orange', priority:'48小时处理', result:'进入待处理中心', resultMeta:'收缩低效广告并检查搜索词', stage:'保持当前阶段', stageMeta:'显示到广告健康', view:'广告健康' }
       ],
       '正常经营': [
-        { name:'30 日销量明显下滑', meta:'持续检查 · 系统模板', conditions:['销量变化率 < -40%','近30日 销量 > 0'], signal:'销量明显下滑', signalClass:'orange', priority:'48小时处理', result:'自动生成待处理任务', resultMeta:'AI 联动库存、广告和 Listing 分析', stage:'保持当前阶段', stageMeta:'不自动流转', view:'在售经营' },
-        { name:'平均利润转负', meta:'持续检查 · 系统模板', conditions:['近30日 平均利润/单 < 0'], signal:'平均利润转负', signalClass:'red', priority:'48小时处理', result:'自动生成待处理任务', resultMeta:'AI 复查成本、售价和广告', stage:'保持当前阶段', stageMeta:'不自动流转', view:'在售经营' },
-        { name:'库存覆盖不足', meta:'持续检查 · 租户规则', conditions:['覆盖天数 < 安全库存天数','近30日 销量 > 0'], signal:'补货候选', signalClass:'blue', priority:'48小时处理', result:'自动生成待处理任务', resultMeta:'AI 生成补货建议', stage:'保持当前阶段', stageMeta:'显示到库存与补货', view:'库存与补货' }
+        { name:'30 日销量明显下滑', meta:'持续检查 · 系统模板', conditions:['销量变化率 < -40%','近30日 销量 > 0'], signal:'销量明显下滑', signalClass:'orange', priority:'48小时处理', result:'进入待处理中心', resultMeta:'检查库存、广告与 Listing 变化', stage:'保持当前阶段', stageMeta:'不自动流转', view:'在售经营' },
+        { name:'平均利润转负', meta:'持续检查 · 系统模板', conditions:['近30日 平均利润/单 < 0'], signal:'平均利润转负', signalClass:'red', priority:'48小时处理', result:'进入待处理中心', resultMeta:'复核成本、售价与广告投入', stage:'保持当前阶段', stageMeta:'不自动流转', view:'在售经营' },
+        { name:'库存覆盖不足', meta:'持续检查 · 企业规则', conditions:['覆盖天数 < 安全库存天数','近30日 销量 > 0'], signal:'补货候选', signalClass:'blue', priority:'48小时处理', result:'进入待处理中心', resultMeta:'确认在途并生成小批量补货建议', stage:'保持当前阶段', stageMeta:'显示到库存与补货', view:'库存与补货' }
       ],
       '清货': [
-        { name:'清货库存消化慢', meta:'进入清货后持续检查', conditions:['清货天数 ≥ 14','库存消化率 < 20%'], signal:'清货消化慢', signalClass:'orange', priority:'48小时处理', result:'自动生成待处理任务', resultMeta:'AI 复查价格和促销', stage:'保持清货', stageMeta:'继续观察', view:'清货与复盘' },
-        { name:'清货期广告误投', meta:'进入清货后持续检查', conditions:['近7日 广告花费 > 0','近7日 广告订单 = 0'], signal:'清货期广告误投', signalClass:'red', priority:'48小时处理', result:'自动合并到清货任务', resultMeta:'AI 分析广告调整动作', stage:'保持清货', stageMeta:'不自动流转', view:'清货与复盘' },
-        { name:'清货完成', meta:'系统生命周期规则', conditions:['库存 = 0','在途库存 = 0'], signal:'清货完成', signalClass:'green', priority:'', result:'记录生命周期判断', resultMeta:'不创建异常任务', stage:'自动进入停售归档', stageMeta:'系统自动流转', view:'清货与复盘' }
+        { name:'清货库存消化慢', meta:'进入清货后持续检查', conditions:['清货天数 ≥ 14','库存消化率 < 20%'], signal:'清货消化慢', signalClass:'orange', priority:'48小时处理', result:'进入待处理中心', resultMeta:'复核清货价格与促销力度', stage:'保持清货', stageMeta:'继续观察', view:'清货与复盘' },
+        { name:'清货期广告误投', meta:'进入清货后持续检查', conditions:['近7日 广告花费 > 0','近7日 广告订单 = 0'], signal:'清货期广告误投', signalClass:'red', priority:'48小时处理', result:'进入待处理中心', resultMeta:'停止无订单广告并复核残余预算', stage:'保持清货', stageMeta:'不自动流转', view:'清货与复盘' },
+        { name:'清货完成', meta:'系统生命周期规则', conditions:['库存 = 0','在途库存 = 0'], signal:'清货完成', signalClass:'green', priority:'', result:'保留判断结果', resultMeta:'归档商品并保留经营复盘', stage:'自动进入停售归档', stageMeta:'系统自动流转', view:'清货与复盘' }
       ],
       '停售归档': []
     };
@@ -769,11 +951,50 @@
       '库存覆盖不足':'库存与补货', '补货候选':'库存与补货',
       '清货消化慢':'清货与复盘', '差评集中出现':'评论与洞察'
     };
+    const ASIN_OVERVIEW_QUICK_VIEW_KEY = 'yilian-asin-overview-quick-views';
+    const asinOverviewQuickViewDefinitions = [
+      { id:'stockout', label:'断货', source:'库存与补货', signals:['补货候选'], tone:'risk' },
+      { id:'new-no-order', label:'新品未出单', source:'新品测试', signals:['D15 弱动销','D30 零单'], tone:'warn' },
+      { id:'d30-decision', label:'D30待决策', source:'不动销处置', signals:['D30 零单'], tone:'risk' },
+      { id:'ad-abnormal', label:'广告异常', source:'广告健康', signals:['有花费无订单'], tone:'warn' },
+      { id:'seven-zero', label:'7天0单', source:'新品测试', signals:['D15 弱动销'], tone:'warn' },
+      { id:'fifteen-zero', label:'15天0单', source:'新品测试', signals:['D15 弱动销'], tone:'warn' },
+      { id:'thirty-zero', label:'30天0单', source:'不动销处置', signals:['D30 零单'], tone:'risk' },
+      { id:'early-zero', label:'开售不足15天0单', source:'新品测试', signals:['D15 弱动销'], tone:'' },
+      { id:'late-zero', label:'开售超过15天0单', source:'新品测试', signals:['D30 零单'], tone:'' },
+      { id:'replenishment', label:'补货候选', source:'库存与补货', signals:['补货候选'], tone:'' },
+      { id:'listing-issue', label:'Listing异常', source:'新品测试', signals:['基础条件阻断'], tone:'risk' },
+      { id:'clearance-queue', label:'清货队列', source:'清货与复盘', signals:['清货消化慢','清货期广告误投'], tone:'warn' }
+    ];
     const stageRail = document.getElementById('stageRail');
     const ruleRows = document.getElementById('ruleRows');
 
     function escapeHTML(value = '') {
       return String(value).replace(/[&<>"']/g, character => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' })[character]);
+    }
+
+    function readAsinOverviewQuickViewSettings() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(ASIN_OVERVIEW_QUICK_VIEW_KEY) || '{}');
+        return Object.fromEntries(asinOverviewQuickViewDefinitions.map(item => [item.id, saved[item.id] !== false]));
+      } catch (error) {
+        return Object.fromEntries(asinOverviewQuickViewDefinitions.map(item => [item.id, true]));
+      }
+    }
+
+    function saveAsinOverviewQuickViewSettings(settings) {
+      localStorage.setItem(ASIN_OVERVIEW_QUICK_VIEW_KEY, JSON.stringify(settings));
+      if (window.parent !== window) {
+        window.parent.postMessage({ type:'yilian-asin-overview-quick-views', settings }, '*');
+      }
+    }
+
+    function getAsinOverviewQuickViewGroups() {
+      const allRules = Object.values(ruleData).flat();
+      return asinOverviewQuickViewDefinitions.map(item => ({
+        ...item,
+        rules: allRules.filter(rule => rule.view === item.source && item.signals.includes(rule.signal))
+      })).filter(item => item.rules.length);
     }
 
     function renderStages() {
@@ -905,9 +1126,9 @@
         return `<div class="rule-row">
         <div><b>${rule.name}</b><small>${rule.meta}</small></div>
         <div class="condition-box"><div class="condition-line">${rule.conditions.map((item,index) => `${index ? '<span class="and">且</span>' : ''}<span class="condition-chip">${item}</span>`).join('')}</div></div>
-        <div class="signal"><div class="signal-line"><i class="dot ${rule.signalClass}"></i><b>${rule.signal}</b></div><small>${rule.priority ? rule.priority + ' · ' : ''}同类信号自动合并</small></div>
-        <div><div class="output-tags">${executionResult.outputs.map(output => `<span class="tag ${output.color}">${output.type}</span>`).join('')}</div><small>${rule.result}</small></div>
-        <div><b>${rule.stage}</b><small>${rule.stageMeta}</small></div>
+        <div class="signal"><div class="signal-line"><i class="dot ${rule.signalClass}"></i><b>${rule.signal}</b></div><small>${rule.priority || '持续关注'}</small></div>
+        <div><b>${rule.resultMeta || '根据商品现状给出处理建议'}</b><small>${rule.result.includes('任务') ? '进入待处理中心' : '保留判断结果'}</small></div>
+        <div><b>对应负责人</b><small>${rule.priority || '下一次同步后复查'} · 飞书/钉钉</small></div>
         <span class="tag green">已启用</span><button class="text-btn editRule">编辑</button>
       </div>`;
       }).join('') || '<div class="rule-empty">当前筛选条件下没有规则</div>';
@@ -949,28 +1170,45 @@
     }
 
     function getViewConditionParts(view) {
-      if (view.sourceType === 'stage') return [`当前阶段 = ${view.sourceValue}`];
+      if (view.sourceType === 'stage') return [`展示 ${view.sourceValue} 阶段商品`];
       if (view.sourceType === 'rules') {
         const signals = [...new Set(getLinkedRules(view).map(rule => rule.signal))];
-        return signals.length ? [`识别结果 = ${signals.join(' / ')}`] : ['尚未配置识别规则'];
+        return signals.length ? [`包含 ${signals.join('、')}`] : ['尚未设置关注问题'];
       }
       return view.extra.length ? view.extra : ['尚未设置收录条件'];
     }
 
     function getViewConditionHTML(view) {
-      if (view.sourceType === 'stage') return `当前阶段 = <b>${view.sourceValue}</b>`;
+      if (view.sourceType === 'stage') return `展示 <b>${view.sourceValue}</b> 阶段商品`;
       if (view.sourceType === 'rules') {
         const signals = [...new Set(getLinkedRules(view).map(rule => rule.signal))];
-        return signals.length ? `识别结果 = <b>${signals.join(' / ')}</b>` : '<b>尚未配置识别规则</b>';
+        return signals.length ? `关注 <b>${signals.length}</b> 类经营问题` : '<b>尚未设置关注问题</b>';
       }
       return `<b>${view.extra.length}</b> 个团队筛选条件`;
     }
 
     function renderViews() {
+      const settings = readAsinOverviewQuickViewSettings();
+      const quickGroups = getAsinOverviewQuickViewGroups();
+      document.getElementById('asinOverviewQuickViews').innerHTML = `
+        <div class="overview-quick-views-head">
+          <div>
+            <b>总览快捷筛选</b>
+            <small>将已启用的细分规则作为 ASIN 总览中的快速查看入口</small>
+          </div>
+          <span class="overview-quick-views-note">无命中商品时自动隐藏</span>
+        </div>
+        <div class="overview-quick-view-list">
+          ${quickGroups.map(group => `<label class="overview-quick-view-row">
+            <i class="overview-quick-view-dot ${group.tone}"></i>
+            <span class="overview-quick-view-copy"><b>${escapeHTML(group.label)}</b><small>${escapeHTML(group.source)} · ${group.rules.length} 条已启用规则</small></span>
+            <span class="overview-quick-view-toggle"><input type="checkbox" data-asin-quick-view="${group.id}" ${settings[group.id] ? 'checked' : ''}>显示</span>
+          </label>`).join('') || '<div class="linked-empty">启用细分规则后，可在这里设置总览快捷筛选</div>'}
+        </div>`;
       document.getElementById('viewRows').innerHTML = views.map((view,index) => {
         const isTeam = view.type === '团队视图';
         const iconClass = isTeam ? 'team' : (view.sourceType === 'rules' ? 'rule' : 'stage');
-        const typeLabel = isTeam ? '团队' : '系统';
+        const typeLabel = isTeam ? '自定义' : '默认';
         return `<button type="button" class="view-card" data-view-action="settings" data-index="${index}">
           <div class="view-card-head">
             <div class="view-card-title"><span class="view-icon ${iconClass}">${isTeam ? '团' : view.name.slice(0,1)}</span><b>${view.name}</b></div>
@@ -1016,8 +1254,8 @@
       const isTeam = isNew || view.type === '团队视图';
       linkedRulesExpanded = false;
 
-      document.getElementById('viewDrawerTitle').textContent = isNew ? '新建团队视图' : view.name;
-      document.getElementById('viewDrawerSubtitle').textContent = isNew ? '保存团队常用关注范围' : (isTeam ? '编辑收录条件与菜单状态' : '查看收录条件与关联规则');
+      document.getElementById('viewDrawerTitle').textContent = isNew ? '新建场景' : view.name;
+      document.getElementById('viewDrawerSubtitle').textContent = isNew ? '保存常用商品关注范围' : (isTeam ? '编辑展示范围与菜单状态' : '查看该场景关注的商品范围');
       document.getElementById('teamViewInfoBlock').hidden = !isTeam;
       document.getElementById('teamViewConditionsBlock').hidden = !isTeam;
       document.getElementById('systemViewConditionBlock').hidden = isTeam;
@@ -1048,6 +1286,15 @@
       if (!button) return;
       const index = Number(button.dataset.index);
       if (button.dataset.viewAction === 'settings') openViewSettings(index);
+    });
+
+    document.getElementById('viewPanel').addEventListener('change', event => {
+      const input = event.target.closest('[data-asin-quick-view]');
+      if (!input) return;
+      const settings = readAsinOverviewQuickViewSettings();
+      settings[input.dataset.asinQuickView] = input.checked;
+      saveAsinOverviewQuickViewSettings(settings);
+      showToast(input.checked ? '已显示在 ASIN 总览更多视图' : '已从 ASIN 总览更多视图隐藏');
     });
 
     const panels = document.querySelectorAll('.panel');
@@ -1085,13 +1332,13 @@
     function openRuleDrawer(create = true, preferredView = '') {
       ruleCreating = create;
       ruleValidated = false;
-      document.getElementById('drawerTitle').textContent = create ? 'AI 创建规则' : '编辑结构化规则';
+      document.getElementById('drawerTitle').textContent = create ? 'AI 创建规则' : '编辑规则';
       document.getElementById('aiValidation').hidden = true;
-      document.getElementById('enableRule').textContent = create ? 'AI 校验并启用' : 'AI 校验并保存';
+      document.getElementById('enableRule').textContent = create ? '检查并启用' : '检查并保存';
       document.getElementById('scopeStage').textContent = activeStage;
       document.getElementById('currentStageOutcome').textContent = activeStage;
       updateStageTargetOptions();
-      setExecutionOutputs(['issue','view']);
+      setExecutionOutputs(['issue','stage','view']);
       if (preferredView) {
         issueSelect.value = '新建问题类型…';
         syncIssueMapping();
@@ -1118,16 +1365,16 @@
       if (!ruleValidated) return;
       ruleValidated = false;
       document.getElementById('aiValidation').hidden = true;
-      document.getElementById('enableRule').textContent = ruleCreating ? 'AI 校验并启用' : 'AI 校验并保存';
+      document.getElementById('enableRule').textContent = ruleCreating ? '检查并启用' : '检查并保存';
     }
     function validateCurrentRule() {
       const handlesIssue = issueOutcomeEnabled.checked;
       const handlesStage = stageOutcomeEnabled.checked;
       const handlesView = viewOutcomeEnabled.checked;
-      if (!handlesIssue && !handlesStage && !handlesView) return { type:'error', status:'需要补充', message:'至少选择一种命中结果：异常任务、阶段建议或经营视图。' };
+      if (!handlesIssue && !handlesStage && !handlesView) return { type:'error', status:'需要补充', message:'至少选择一种处理方式：进入待处理、调整阶段或归入业务场景。' };
       const custom = issueSelect.value === '新建问题类型…';
       const signal = handlesIssue ? (custom ? document.getElementById('customIssueName').value.trim() : issueSelect.value) : '';
-      if (handlesIssue && !signal) return { type:'error', status:'需要补充', message:'识别结果为空，暂时无法生成待处理任务。' };
+      if (handlesIssue && !signal) return { type:'error', status:'需要补充', message:'处理事项为空，暂时无法进入待处理中心。' };
       const duplicate = ruleCreating && handlesIssue && (ruleData[activeStage] || []).some(rule => rule.signal === signal);
       if (duplicate) return { type:'warning', status:'发现相似规则', message:`“${signal}”已存在相似规则。字段与条件结构有效，请确认是否仍要启用。` };
       return { type:'success', status:'校验通过', message:'字段可用，条件无冲突，未发现重复规则或互斥的生命周期动作。' };
@@ -1142,9 +1389,8 @@
     document.getElementById('parseRule').addEventListener('click', () => {
       document.getElementById('issueSelect').value = 'D30 零单';
       syncIssueMapping(true);
-      setExecutionOutputs(['issue','view']);
       resetRuleValidation();
-      showToast('AI 已生成结构化规则，默认生成任务并归入不动销处置');
+      showToast('AI 已生成结构化规则，并匹配为 D30 零单');
     });
     document.getElementById('saveDraft').addEventListener('click', () => showToast('规则草稿已保存'));
     document.getElementById('enableRule').addEventListener('click', () => {
@@ -1177,15 +1423,15 @@
           priority:handlesIssue ? deadlineSelect.value : '',
           result:handlesIssue ? '自动生成待处理任务' : '记录规则判断',
           resultMeta:handlesIssue ? 'AI 分析具体建议动作' : '不创建异常任务',
-          stage:handlesStage ? `建议进入${stageTargetSelect.value}` : '保持当前阶段',
-          stageMeta:handlesStage ? stageMethodSelect.value : '不执行生命周期流转',
+          stage:handlesStage ? `自动进入${stageTargetSelect.value}` : '保持当前阶段',
+          stageMeta:handlesStage ? '系统自动流转' : '不执行生命周期流转',
           view:targetView || undefined
         });
         renderRules();
         renderViews();
       }
       closeDrawers();
-      showToast('规则已启用，命中结果已更新');
+      showToast('规则已启用');
     });
     document.getElementById('ruleDrawer').addEventListener('input', resetRuleValidation);
     document.getElementById('ruleDrawer').addEventListener('change', resetRuleValidation);
@@ -1235,7 +1481,6 @@
     const customIssueFields = document.getElementById('customIssueFields');
     const deadlineSelect = document.getElementById('deadlineSelect');
     const stageTargetSelect = document.getElementById('stageTargetSelect');
-    const stageMethodSelect = document.getElementById('stageMethodSelect');
     function updateStageTargetOptions() {
       const currentValue = stageTargetSelect.value;
       const options = stageData.filter(stage => stage.name !== activeStage).map(stage => stage.name);
@@ -1273,19 +1518,18 @@
       document.getElementById('customIssueName').disabled = !handlesIssue;
       deadlineSelect.disabled = !handlesIssue;
       stageTargetSelect.disabled = !handlesStage;
-      stageMethodSelect.disabled = !handlesStage;
       issueOutcomeCard.classList.toggle('inactive', !handlesIssue);
       stageOutcomeCard.classList.toggle('inactive', !handlesStage);
       viewOutcomeCard.classList.toggle('inactive', !handlesView);
       const taskTag = document.getElementById('taskOutcomeTag');
-      taskTag.textContent = handlesIssue ? '异常任务' : '不执行';
+      taskTag.textContent = handlesIssue ? '待处理' : '不生成';
       taskTag.className = `tag ${handlesIssue ? 'red' : ''}`;
-      document.getElementById('taskSystemAction').textContent = handlesIssue ? '自动生成待处理任务' : '不生成异常任务';
+      document.getElementById('taskSystemAction').textContent = handlesIssue ? '命中后进入待处理中心' : '不生成待处理事项';
       const stageTag = document.getElementById('stageOutcomeTag');
-      stageTag.textContent = handlesStage ? '阶段建议' : '不执行';
+      stageTag.textContent = handlesStage ? '调整阶段' : '不调整';
       stageTag.className = `tag ${handlesStage ? 'blue' : ''}`;
       const viewTag = document.getElementById('viewOutcomeTag');
-      viewTag.textContent = handlesView ? '经营视图' : '不执行';
+      viewTag.textContent = handlesView ? '业务场景' : '不归入';
       viewTag.className = `tag ${handlesView ? 'blue' : ''}`;
     }
     executionMode.querySelectorAll('[data-output]').forEach(button => button.addEventListener('click', () => {
@@ -1297,7 +1541,7 @@
     }));
     issueSelect.addEventListener('change', () => { syncIssueMapping(); updateOutcomeSummary(); });
     issueViewSelect.addEventListener('change', () => { document.getElementById('viewMatchNote').textContent = '已人工调整归属视图'; });
-    [deadlineSelect, stageTargetSelect, stageMethodSelect].forEach(field => field.addEventListener('change', updateOutcomeSummary));
+    [deadlineSelect, stageTargetSelect].forEach(field => field.addEventListener('change', updateOutcomeSummary));
     document.getElementById('addCondition').addEventListener('click', () => {
       const row = document.createElement('div');
       row.className = 'condition-edit';
@@ -1311,7 +1555,7 @@
     renderViews();
     updateStageTargetOptions();
     syncIssueMapping();
-    setExecutionOutputs(['issue','view']);
+    setExecutionOutputs(['issue','stage','view']);
   </script>
 </body>
 </html>
