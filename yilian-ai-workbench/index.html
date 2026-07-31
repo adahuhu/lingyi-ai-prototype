@@ -37039,7 +37039,7 @@
     }
 
     function canViewNewProductRuleSource() {
-      return isExceptionAdminRole(currentExceptionActor().role);
+      return isExceptionManagerRole(currentExceptionActor().role);
     }
 
     function newProductEvidenceSummary(row) {
@@ -40420,7 +40420,7 @@
     function setView(view) {
       view = ROUTE_ALIASES[view] || view;
       if (view === "rules" && !canViewNewProductRuleSource()) {
-        toast("无权访问经营策略中心", "仅企业管理员可查看或维护来源规则。");
+        toast("无权访问经营策略中心", "仅运营主管或企业管理员可查看或维护来源规则。");
         return;
       }
       if (isEntitlementBlockedView(view)) {

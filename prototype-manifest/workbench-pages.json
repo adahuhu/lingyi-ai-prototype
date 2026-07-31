@@ -10,6 +10,8 @@
       "label": "经营策略中心",
       "icon": "sliders-horizontal",
       "groupTitle": "商品经营",
+      "visibilityFunction": "canViewNewProductRuleSource",
+      "visibilityNeedle": "return isExceptionManagerRole(currentExceptionActor().role);",
       "renderer": "renderRules",
       "fallbackRenderer": "renderRulesLegacy",
       "standaloneFile": "yilian-ai-workbench/strategy-center.html",

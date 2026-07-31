@@ -78,6 +78,12 @@ for (const page of manifest.pages) {
   requireText(entryHtml, `function ${page.renderer}()`, `workbench renderer function ${page.renderer}`);
   requireText(entryHtml, `function ${page.fallbackRenderer}()`, `workbench fallback renderer ${page.fallbackRenderer}`);
   requireText(entryHtml, `return ${page.fallbackRenderer}();`, `workbench inline fallback ${page.label}`);
+  if (page.visibilityFunction) {
+    requireText(entryHtml, `function ${page.visibilityFunction}()`, `workbench visibility function ${page.visibilityFunction}`);
+  }
+  if (page.visibilityNeedle) {
+    requireText(entryHtml, page.visibilityNeedle, `workbench visibility rule ${page.label}`);
+  }
 
   const standaloneHtml = readProjectFile(page.standaloneFile);
   requireText(standaloneHtml, page.standaloneTitle, `standalone page title ${page.label}`);
