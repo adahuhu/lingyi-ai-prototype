@@ -251,6 +251,7 @@
       white-space: nowrap;
     }
     .topbar[data-view="dashboard"] .topbar-demo { display: inline-flex; }
+    .topbar[data-view="cockpitOnboarding"] { display: none; }
     .topbar-demo .demo-label {
       color: #8a96a8;
       font-size: 12px;
@@ -28135,7 +28136,7 @@
       width: min(100%, 1680px);
       margin: 0 auto;
       display: grid;
-      gap: 18px;
+      gap: 20px;
       color: #172033;
     }
     .cockpit-onboarding-head {
@@ -28195,12 +28196,180 @@
       background: #edf5ff;
       box-shadow: inset 0 0 0 1px #c8ddff;
     }
+    .cockpit-guide-banner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 28px;
+      min-height: 132px;
+      padding: 22px 24px;
+      border: 1px solid #d8e2ef;
+      border-left: 4px solid #2878ee;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(29, 49, 78, .05);
+    }
+    .cockpit-guide-banner.employee {
+      border-left-color: #7d8a9d;
+    }
+    .cockpit-guide-main {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .cockpit-guide-icon {
+      flex: 0 0 auto;
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #cfe0fa;
+      border-radius: 8px;
+      color: #2878ee;
+      background: #f3f8ff;
+    }
+    .cockpit-guide-banner.employee .cockpit-guide-icon {
+      color: #667085;
+      border-color: #dce2ea;
+      background: #f7f8fa;
+    }
+    .cockpit-guide-icon i {
+      width: 23px;
+      height: 23px;
+    }
+    .cockpit-guide-copy {
+      min-width: 0;
+      display: grid;
+      gap: 4px;
+    }
+    .cockpit-guide-copy > span {
+      color: #2878ee;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .cockpit-guide-banner.employee .cockpit-guide-copy > span {
+      color: #667085;
+    }
+    .cockpit-guide-copy h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.4;
+      letter-spacing: 0;
+    }
+    .cockpit-guide-copy p {
+      margin: 0;
+      color: #677489;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .cockpit-guide-side {
+      display: grid;
+      justify-items: end;
+      gap: 12px;
+    }
+    .cockpit-guide-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    .cockpit-guide-actions .btn {
+      min-height: 38px;
+      border-radius: 7px;
+    }
+    .cockpit-demo-preview {
+      display: grid;
+      gap: 12px;
+    }
+    .cockpit-demo-preview-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 0 2px;
+    }
+    .cockpit-demo-preview-head > div {
+      display: grid;
+      gap: 3px;
+    }
+    .cockpit-demo-preview-head h2 {
+      margin: 0;
+      color: #1f2937;
+      font-size: 17px;
+      line-height: 1.4;
+    }
+    .cockpit-demo-preview-head p {
+      margin: 0;
+      color: #7c8798;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .cockpit-demo-preview-head > span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 8px;
+      border: 1px solid #cfe0fa;
+      border-radius: 6px;
+      color: #2b6fc8;
+      background: #f4f8fe;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .cockpit-demo-preview-head > span i {
+      width: 14px;
+      height: 14px;
+    }
+    .cockpit-demo-preview-frame {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #d7e0eb;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 12px 32px rgba(29, 49, 78, .07);
+    }
+    .cockpit-demo-preview-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      object-position: top center;
+      background: #f7f9fc;
+    }
+    .cockpit-demo-more {
+      min-height: 50px;
+      margin: 0;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: 1px solid #d6e4f7;
+      border-radius: 8px;
+      color: #285f9f;
+      background: #f7faff;
+      box-shadow: 0 6px 18px rgba(37, 99, 177, .06);
+      font-size: 14px;
+      font-weight: 650;
+      line-height: 1.5;
+      text-align: center;
+    }
+    .cockpit-demo-more i {
+      width: 18px;
+      height: 18px;
+      color: #2878ee;
+    }
+    .cockpit-demo-more strong {
+      color: #1d63c5;
+      font-weight: 750;
+    }
     .cockpit-role-context {
       display: flex;
       align-items: center;
       gap: 12px;
-      min-height: 54px;
-      padding: 10px 14px;
+      min-height: 50px;
+      padding: 9px 14px;
       border: 1px solid #dce4ee;
       border-radius: 8px;
       background: #fff;
@@ -28218,11 +28387,6 @@
     .cockpit-role-context-copy strong {
       font-size: 14px;
       line-height: 1.4;
-    }
-    .cockpit-role-context-copy span {
-      color: #7b8798;
-      font-size: 13px;
-      line-height: 1.45;
     }
     .cockpit-role-badge {
       margin-left: auto;
@@ -28252,8 +28416,8 @@
       overflow: hidden;
     }
     .cockpit-onboarding-status {
-      min-height: 350px;
-      padding: 34px 36px;
+      min-height: 330px;
+      padding: 38px 40px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -28261,8 +28425,8 @@
     }
     .cockpit-status-copy {
       display: grid;
-      gap: 14px;
-      max-width: 760px;
+      gap: 16px;
+      max-width: 680px;
     }
     .cockpit-status-icon {
       width: 46px;
@@ -28285,7 +28449,7 @@
     }
     .cockpit-status-copy h2 {
       margin: 0;
-      font-size: 26px;
+      font-size: 28px;
       line-height: 1.35;
       letter-spacing: 0;
       font-weight: 720;
@@ -28293,26 +28457,8 @@
     .cockpit-status-copy p {
       margin: 0;
       color: #596579;
-      font-size: 15px;
-      line-height: 1.75;
-    }
-    .cockpit-access-note {
-      display: flex;
-      align-items: flex-start;
-      gap: 9px;
-      padding: 11px 12px;
-      border-left: 3px solid #7eacee;
-      background: #f6f9fd;
-      color: #526176;
-      font-size: 13px;
-      line-height: 1.55;
-    }
-    .cockpit-access-note i {
-      flex: 0 0 auto;
-      width: 16px;
-      height: 16px;
-      margin-top: 2px;
-      color: #3f7ed6;
+      font-size: 14px;
+      line-height: 1.7;
     }
     .cockpit-status-actions {
       display: flex;
@@ -28368,29 +28514,24 @@
       font-weight: 650;
     }
     .cockpit-onboarding-flow {
-      padding: 28px 26px;
+      padding: 34px 30px;
       border-left: 1px solid #e1e7ef;
       background: #fafbfd;
     }
     .cockpit-flow-head {
-      margin-bottom: 18px;
+      margin-bottom: 24px;
       display: grid;
       gap: 4px;
     }
     .cockpit-flow-head strong {
       font-size: 15px;
     }
-    .cockpit-flow-head span {
-      color: #7a8698;
-      font-size: 12px;
-      line-height: 1.5;
-    }
     .cockpit-flow-list {
       display: grid;
     }
     .cockpit-flow-step {
       position: relative;
-      min-height: 62px;
+      min-height: 58px;
       display: grid;
       grid-template-columns: 28px minmax(0, 1fr);
       gap: 12px;
@@ -28425,19 +28566,23 @@
       box-shadow: 0 0 0 4px #eaf2ff;
     }
     .cockpit-flow-copy {
-      padding-top: 2px;
-      display: grid;
-      align-content: start;
-      gap: 3px;
+      min-height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
     }
     .cockpit-flow-copy strong {
       font-size: 13px;
       line-height: 1.45;
     }
     .cockpit-flow-copy span {
+      padding: 3px 7px;
+      border-radius: 5px;
       color: #8490a1;
+      background: #f0f3f7;
       font-size: 12px;
-      line-height: 1.45;
+      line-height: 1.35;
     }
     .cockpit-flow-step.current .cockpit-flow-copy span {
       color: #5f6f86;
@@ -28475,8 +28620,8 @@
       overflow: hidden;
     }
     .cockpit-output-item {
-      min-height: 132px;
-      padding: 20px;
+      min-height: 112px;
+      padding: 22px;
       display: grid;
       grid-template-columns: 36px minmax(0, 1fr);
       align-content: start;
@@ -28513,11 +28658,7 @@
       margin: 0;
       color: #68758a;
       font-size: 13px;
-      line-height: 1.6;
-    }
-    .cockpit-output-copy span {
-      color: #98a2b3;
-      font-size: 12px;
+      line-height: 1.5;
     }
     .cockpit-requirement-list {
       display: grid;
@@ -28623,6 +28764,12 @@
       }
     }
     @media (max-width: 1100px) {
+      .cockpit-guide-banner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .cockpit-guide-side {
+        justify-items: start;
+      }
       .cockpit-onboarding-head {
         align-items: stretch;
         flex-direction: column;
@@ -31972,104 +32119,54 @@
 
     function renderCockpitOnboarding() {
       const isAdmin = state.cockpitOnboardingRole === "admin";
-      const roleContext = isAdmin
+      const guide = isAdmin
         ? {
-            icon:"shield-check",
-            title:"当前身份：租户管理员",
-            note:"可为当前租户配置连接器、授权店铺范围并启动首次同步。",
-            badge:"拥有配置权限"
+            icon:"plug-zap",
+            role:"租户管理员",
+            title:"连接经营数据，启用 AI 驾驶舱",
+            note:"完成租户连接器授权后，系统将自动同步并生成经营看板。"
           }
         : {
             icon:"user-round",
-            title:"当前身份：普通员工",
-            note:"可查看本人权限范围内的数据接入状态，不能新增、修改或停用连接器。",
-            badge:"仅查看状态"
+            role:"普通员工",
+            title:"等待管理员完成数据接入",
+            note:"请联系租户管理员完成连接器授权，授权后驾驶舱将按您的权限自动开放。"
           };
-      const statusContent = isAdmin
-        ? `
-          <div class="cockpit-status-copy">
-            <span class="cockpit-status-icon"><i data-lucide="plug-zap"></i></span>
-            <h2>尚未接入经营数据</h2>
-            <p>当前租户未检测到可用连接器。完成授权并通过首次数据校验后，AI 驾驶舱才会生成经营指标、优先任务和复查结果。</p>
-            <div class="cockpit-access-note"><i data-lucide="info"></i><span>连接器按租户配置，仅租户管理员可操作；授权时需要明确可同步的站点、店铺和数据范围。</span></div>
-          </div>
-          <div class="cockpit-status-actions">
-            <button class="btn primary" data-action="openCockpitConnectorSetup"><i data-lucide="plug"></i>配置连接器</button>
-            <button class="btn" data-action="showCockpitDataRequirements"><i data-lucide="list-checks"></i>查看所需数据</button>
-          </div>
-        `
-        : `
-          <div class="cockpit-status-copy">
-            <span class="cockpit-status-icon employee"><i data-lucide="clock-3"></i></span>
-            <h2>等待租户管理员完成数据接入</h2>
-            <p>您无需重复配置，管理员完成连接器授权、首次同步和数据校验后，驾驶舱会自动开放，并按您的站点与店铺权限展示数据。</p>
-            <div class="cockpit-admin-owner">
-              <span class="cockpit-admin-avatar">苏</span>
-              <span><strong>苏禾</strong><small>当前租户管理员</small></span>
-              <b class="cockpit-owner-state">尚未配置</b>
-            </div>
-          </div>
-          <div class="cockpit-status-actions">
-            <button class="btn" data-action="showCockpitDataRequirements"><i data-lucide="list-checks"></i>查看所需数据</button>
-          </div>
-        `;
-      const flowSteps = [
-        { title:isAdmin ? "配置连接器" : "管理员配置连接器", note:isAdmin ? "授权数据源与店铺范围" : "当前尚未完成租户授权" },
-        { title:"首次同步", note:"拉取订单、库存、广告和成本数据" },
-        { title:"数据校验", note:"识别缺失字段、同步异常与口径冲突" },
-        { title:"生成驾驶舱", note:"形成指标、场景任务和复查基线" }
-      ];
-      const outputs = [
-        { icon:"chart-no-axes-combined", title:"经营结果", note:"订单、销售、利润、广告与库存按统一口径汇总。", state:"数据校验通过后生成" },
-        { icon:"list-todo", title:"优先任务", note:"规则命中的异常进入待处理中心，并明确负责人和时限。", state:"随每次同步更新" },
-        { icon:"scan-search", title:"效果复查", note:"处理动作到期后自动对比经营结果，形成闭环记录。", state:"动作执行后生成" }
-      ];
       return `
         <section class="cockpit-onboarding-page">
-          <header class="cockpit-onboarding-head">
-            <div class="cockpit-onboarding-title">
-              <span class="cockpit-onboarding-kicker">首次进入</span>
-              <h1>先完成数据接入，再生成 AI 驾驶舱</h1>
-            </div>
-            <div class="cockpit-role-switch" role="group" aria-label="用户身份">
-              <button class="${isAdmin ? "active" : ""}" data-action="setCockpitOnboardingRole" data-role="admin" aria-pressed="${isAdmin}">租户管理员</button>
-              <button class="${!isAdmin ? "active" : ""}" data-action="setCockpitOnboardingRole" data-role="employee" aria-pressed="${!isAdmin}">普通员工</button>
-            </div>
-          </header>
-
-          <div class="cockpit-role-context">
-            <i data-lucide="${roleContext.icon}"></i>
-            <span class="cockpit-role-context-copy"><strong>${roleContext.title}</strong><span>${roleContext.note}</span></span>
-            <span class="cockpit-role-badge"><i data-lucide="${isAdmin ? "key-round" : "eye"}"></i>${roleContext.badge}</span>
-          </div>
-
-          <section class="cockpit-onboarding-core">
-            <article class="cockpit-onboarding-status">${statusContent}</article>
-            <aside class="cockpit-onboarding-flow">
-              <div class="cockpit-flow-head"><strong>驾驶舱初始化进度</strong><span>完成前一环节后，系统自动进入下一环节。</span></div>
-              <div class="cockpit-flow-list">
-                ${flowSteps.map((step, index) => `
-                  <div class="cockpit-flow-step ${index === 0 ? "current" : ""}">
-                    <span class="cockpit-flow-index">${index + 1}</span>
-                    <span class="cockpit-flow-copy"><strong>${step.title}</strong><span>${step.note}</span></span>
-                  </div>
-                `).join("")}
+          <section class="cockpit-guide-banner ${isAdmin ? "admin" : "employee"}">
+            <div class="cockpit-guide-main">
+              <span class="cockpit-guide-icon"><i data-lucide="${guide.icon}"></i></span>
+              <div class="cockpit-guide-copy">
+                <span>${guide.role}</span>
+                <h1>${guide.title}</h1>
+                <p>${guide.note}</p>
               </div>
-            </aside>
+            </div>
+            <div class="cockpit-guide-side">
+              <div class="cockpit-role-switch" role="group" aria-label="用户身份">
+                <button class="${isAdmin ? "active" : ""}" data-action="setCockpitOnboardingRole" data-role="admin" aria-pressed="${isAdmin}">租户管理员</button>
+                <button class="${!isAdmin ? "active" : ""}" data-action="setCockpitOnboardingRole" data-role="employee" aria-pressed="${!isAdmin}">普通员工</button>
+              </div>
+              <div class="cockpit-guide-actions">
+                ${isAdmin ? `<button class="btn primary" data-action="goToCockpitConnectorManager"><i data-lucide="plug"></i>配置连接器</button>` : ""}
+                <button class="btn" data-action="showCockpitDataRequirements"><i data-lucide="list-checks"></i>查看所需数据</button>
+              </div>
+            </div>
           </section>
 
-          <section class="cockpit-output-section">
-            <header class="cockpit-section-head">
-              <div><h2>接入完成后自动生成</h2>${isAdmin ? "" : "<p>请先联系管理员授权</p>"}</div>
+          <section class="cockpit-demo-preview">
+            <header class="cockpit-demo-preview-head">
+              <div>
+                <h2>AI 驾驶舱效果示例</h2>
+                <p>完成数据接入后，页面将按实际经营数据自动生成。</p>
+              </div>
+              <span><i data-lucide="sparkles"></i>示例数据</span>
             </header>
-            <div class="cockpit-output-grid">
-              ${outputs.map(item => `
-                <article class="cockpit-output-item">
-                  <span class="cockpit-output-icon"><i data-lucide="${item.icon}"></i></span>
-                  <span class="cockpit-output-copy"><strong>${item.title}</strong><p>${item.note}</p><span>${item.state}</span></span>
-                </article>
-              `).join("")}
+            <div class="cockpit-demo-preview-frame">
+              <img src="assets/ai-cockpit-demo-hd.png" alt="AI 驾驶舱示例数据页面">
             </div>
+            <p class="cockpit-demo-more"><i data-lucide="sparkles"></i><span>更多AI分析请<strong>开通后查看</strong></span></p>
           </section>
         </section>
       `;
@@ -41267,36 +41364,6 @@
           isAdmin
             ? `<button class="btn" data-action="closeDrawer">关闭</button><button class="btn primary" data-action="goToCockpitConnectorManager"><i data-lucide="plug"></i>前往连接器管理</button>`
             : `<button class="btn primary" data-action="closeDrawer">关闭</button>`
-        );
-      },
-      openCockpitConnectorSetup() {
-        if (state.cockpitOnboardingRole !== "admin") {
-          toast("无配置权限", "请联系租户管理员完成连接器配置。");
-          return;
-        }
-        openDrawer(
-          "配置经营数据连接器",
-          `
-            <div class="cockpit-drawer-note">连接器是租户级配置。授权后，系统会先校验站点、店铺和字段范围，再启动首次同步。</div>
-            <div class="cockpit-requirement-list">
-              <div class="cockpit-requirement-row">
-                <i data-lucide="database"></i>
-                <span><strong>经营 ERP</strong><small>同步订单、商品、库存、采购在途和成本数据。</small></span>
-                <b>尚未连接</b>
-              </div>
-              <div class="cockpit-requirement-row">
-                <i data-lucide="megaphone"></i>
-                <span><strong>Amazon Ads</strong><small>同步广告花费、广告销售额、活动状态和效率指标。</small></span>
-                <b>尚未连接</b>
-              </div>
-              <div class="cockpit-requirement-row">
-                <i data-lucide="store"></i>
-                <span><strong>授权范围</strong><small>由管理员选择当前租户可同步的站点与店铺。</small></span>
-                <b>待配置</b>
-              </div>
-            </div>
-          `,
-          `<button class="btn" data-action="closeDrawer">取消</button><button class="btn primary" data-action="goToCockpitConnectorManager"><i data-lucide="arrow-right"></i>前往连接器管理</button>`
         );
       },
       goToCockpitConnectorManager() {
