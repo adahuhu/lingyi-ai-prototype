@@ -5837,22 +5837,52 @@
     }
     .asin-quick-view-group {
       min-width: 0;
+      flex: 1 1 auto;
       display: flex;
       align-items: center;
       gap: 4px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .asin-quick-view-group::-webkit-scrollbar { display: none; }
+    .asin-overview-toolbar > .np-detail-tools {
+      flex: 0 0 auto;
+      flex-wrap: nowrap;
     }
     .asin-overview-toolbar .np-detail-tab {
+      flex: 0 0 auto;
       min-height: 30px;
       border-radius: 7px;
       padding: 0 10px;
       font-size: 11.5px;
+      white-space: nowrap;
+    }
+    .asin-view-count {
+      min-width: 18px;
+      height: 18px;
+      border-radius: 5px;
+      background: #f0f3f8;
+      color: #7a8799;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5px;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .asin-overview-toolbar .np-detail-tab.active .asin-view-count,
+    .asin-more-menu > button.active .asin-view-count {
+      background: #e6f1ff;
+      color: #1677ff;
     }
     .asin-more-menu,
     .asin-more-filters {
       position: relative;
       display: inline-flex;
     }
+    .asin-more-menu { flex: 0 0 auto; }
     .asin-more-menu > button {
       min-height: 30px;
       border: 1px solid transparent;
@@ -5865,6 +5895,7 @@
       padding: 0 9px;
       font-size: 11.5px;
       font-weight: 560;
+      white-space: nowrap;
       cursor: pointer;
     }
     .asin-more-menu > button:hover,
@@ -5927,6 +5958,63 @@
       background: #f3f8ff;
       color: #1677ff;
     }
+    .asin-rule-filter-row {
+      min-height: 46px;
+      border-bottom: 1px solid #e8eef6;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #d2dae6 transparent;
+    }
+    .asin-rule-filter {
+      flex: 0 0 auto;
+      min-height: 30px;
+      border: 1px solid #d8e2ef;
+      border-radius: 7px;
+      background: #fff;
+      color: #526075;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color .15s ease, background .15s ease, color .15s ease;
+    }
+    .asin-rule-filter:hover {
+      border-color: #91caff;
+      color: #1677ff;
+    }
+    .asin-rule-filter.active {
+      border-color: #91caff;
+      background: #f3f8ff;
+      color: #1677ff;
+      box-shadow: 0 0 0 1px rgba(22, 119, 255, .04);
+    }
+    .asin-rule-filter .asin-rule-check {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      background: #1677ff;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .asin-rule-filter b {
+      color: #8792a6;
+      font-size: 10.5px;
+      font-weight: 700;
+    }
+    .asin-rule-filter.active b { color: #458ee6; }
     .asin-filter-shell {
       position: relative;
       border-bottom: 1px solid #e8eef6;
@@ -6228,8 +6316,8 @@
       scrollbar-width: thin;
     }
     .np-detail-table.asin-master-table {
-      width: 4620px;
-      min-width: 4620px;
+      width: 4800px;
+      min-width: 4800px;
       table-layout: fixed;
     }
     .asin-master-table .asin-col-select { width: 42px; }
@@ -6264,6 +6352,7 @@
     .asin-master-table .asin-col-listing-status { width: 100px; }
     .asin-master-table .asin-col-buybox { width: 100px; }
     .asin-master-table .asin-col-listing-issue { width: 180px; }
+    .asin-master-table .asin-col-rule { width: 180px; }
     .asin-master-table .asin-col-scene { width: 170px; }
     .asin-master-table .asin-col-inactive { width: 150px; }
     .asin-master-table .asin-col-operating { width: 110px; }
@@ -6276,6 +6365,31 @@
     }
     .asin-master-table th:last-child,
     .asin-master-table td:last-child { border-right: 0; }
+    .asin-rule-tags {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .asin-rule-tags span {
+      min-height: 22px;
+      border: 1px solid #dce7f5;
+      border-radius: 5px;
+      background: #f6f9fd;
+      color: #475467;
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 6px;
+      font-size: 10.5px;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+    .asin-rule-tags .empty-rule {
+      border-color: transparent;
+      background: transparent;
+      color: #98a2b3;
+      padding-left: 0;
+    }
     .asin-master-table thead th {
       position: sticky;
       z-index: 5;
@@ -21866,6 +21980,129 @@
       stroke: #169b70;
       stroke-width: 3;
     }
+    .cockpit-low-data {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(260px, .55fr);
+      gap: 22px;
+      align-items: stretch;
+      padding: 18px 20px 20px;
+    }
+    .cockpit-low-data-main {
+      min-width: 0;
+      display: grid;
+      gap: 18px;
+      padding-right: 22px;
+      border-right: 1px solid #e7ebf1;
+    }
+    .cockpit-low-data-status {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .cockpit-low-data-icon {
+      width: 38px;
+      height: 38px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border: 1px solid #d9e7fb;
+      border-radius: 8px;
+      color: #2878ee;
+      background: #f3f8ff;
+    }
+    .cockpit-low-data-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+    .cockpit-low-data-status strong {
+      display: block;
+      color: #172033;
+      font-size: 14px;
+      font-weight: 880;
+    }
+    .cockpit-low-data-status p {
+      margin: 3px 0 0;
+      color: #748197;
+      font-size: 12px;
+      line-height: 1.5;
+      font-weight: 650;
+    }
+    .cockpit-low-data-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-top: 1px solid #e7ebf1;
+    }
+    .cockpit-low-data-metric {
+      min-width: 0;
+      display: grid;
+      gap: 4px;
+      padding: 14px 16px 2px 0;
+    }
+    .cockpit-low-data-metric + .cockpit-low-data-metric {
+      padding-left: 16px;
+      border-left: 1px solid #edf0f4;
+    }
+    .cockpit-low-data-metric span {
+      color: #8995a5;
+      font-size: 11px;
+      font-weight: 720;
+    }
+    .cockpit-low-data-metric strong {
+      overflow: hidden;
+      color: #172033;
+      font-size: 18px;
+      line-height: 1.2;
+      font-weight: 900;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .cockpit-low-data-metric small {
+      color: #8793a5;
+      font-size: 10px;
+      font-weight: 650;
+    }
+    .cockpit-low-data-progress {
+      display: grid;
+      align-content: center;
+      gap: 12px;
+      padding: 2px 4px;
+    }
+    .cockpit-low-data-progress-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .cockpit-low-data-progress-head span {
+      color: #66758a;
+      font-size: 12px;
+      font-weight: 760;
+    }
+    .cockpit-low-data-progress-head strong {
+      color: #172033;
+      font-size: 20px;
+      font-weight: 900;
+    }
+    .cockpit-low-data-progress-track {
+      height: 7px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e9eef5;
+    }
+    .cockpit-low-data-progress-track i {
+      display: block;
+      width: var(--progress);
+      height: 100%;
+      border-radius: inherit;
+      background: #2878ee;
+    }
+    .cockpit-low-data-progress p {
+      margin: 0;
+      color: #7f8b9c;
+      font-size: 11px;
+      line-height: 1.55;
+      font-weight: 650;
+    }
     .cockpit-detail-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -22091,6 +22328,16 @@
       .cockpit-lifecycle-grid,
       .cockpit-operation-grid,
       .cockpit-scenario-grid { grid-template-columns: 1fr; }
+      .cockpit-low-data { grid-template-columns: 1fr; }
+      .cockpit-low-data-main {
+        padding-right: 0;
+        padding-bottom: 18px;
+        border-right: 0;
+        border-bottom: 1px solid #e7ebf1;
+      }
+      .cockpit-low-data-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .cockpit-low-data-metric:nth-child(n+3) { border-top: 1px solid #edf0f4; }
+      .cockpit-low-data-metric:nth-child(3) { padding-left: 0; border-left: 0; }
       .cockpit-product-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .cockpit-product-strip button,
       .cockpit-product-strip button:nth-child(4n) { border-right: 1px solid #edf0f4; }
@@ -29211,6 +29458,7 @@
       asinOwnerOverrides: {},
       asinStageOverrides: {},
       asinD30DecisionOverrides: {},
+      asinOverviewRuleFilters: new Set(),
       asinMoreViewsOpen: false,
       asinMoreFiltersOpen: false,
       selectValues: {},
@@ -32362,6 +32610,22 @@
         {key:"acos",label:"ACoS",value:"-",note:"广告花费 / 广告销售额",cls:"",view:"ads",definition:"当前数据源缺少可匹配的广告销售额，暂不计算。"},
         {key:"tacos",label:"TACoS",value:"26.3%",note:"前一日 27.6%",cls:"warn",view:"ads",definition:"广告花费占总销售额的比例。"}
       ];
+      const cockpitTrendData = [
+        {date:"07-07",sales:"£910.69",profit:"£21.10",units:"129",margin:"2.3%",salesHeight:76,unitsHeight:48,line:[50,83]},
+        {date:"07-08",sales:"£797.52",profit:"£17.86",units:"118",margin:"2.2%",salesHeight:64,unitsHeight:44,line:[150,96]},
+        {date:"07-09",sales:"£908.79",profit:"£22.33",units:"131",margin:"2.5%",salesHeight:75,unitsHeight:49,line:[250,76]},
+        {date:"07-10",sales:"£739.54",profit:"£14.82",units:"103",margin:"2.0%",salesHeight:54,unitsHeight:39,line:[350,112]},
+        {date:"07-11",sales:"£807.17",profit:"£19.62",units:"266",margin:"2.4%",salesHeight:66,unitsHeight:100,line:[450,88]},
+        {date:"07-12",sales:"£688.73",profit:"£15.02",units:"96",margin:"2.2%",salesHeight:47,unitsHeight:36,line:[550,108]},
+        {date:"07-13",sales:"£884.25",profit:"£19.67",units:"127",margin:"2.2%",salesHeight:71,unitsHeight:48,line:[650,87]}
+      ];
+      const cockpitTrendDays = EMBED_MODE === "cockpitPreview" || state.cockpitFilters["统计周期"] !== "最近 24 小时"
+        ? cockpitTrendData
+        : cockpitTrendData.slice(-1);
+      const hasCockpitTrend = cockpitTrendDays.length >= 3;
+      const latestCockpitDay = cockpitTrendDays[cockpitTrendDays.length - 1];
+      const cockpitTrendProgress = Math.min(100, Math.round(cockpitTrendDays.length / 3 * 100));
+      const cockpitTrendRemaining = Math.max(0, 3 - cockpitTrendDays.length);
       const priorities = [
         {title:"30 天 0 单",note:"无出单且仍占用库存，先确认去留",count:"306",icon:"timer-off",tone:"#d94a4a",view:"inactive"},
         {title:"广告效率异常",note:"TACoS 异常，需核查高花费低转化",count:"93",icon:"megaphone",tone:"#c46a00",view:"ads"},
@@ -32454,28 +32718,48 @@
           </section>
 
           <section class="cockpit-card cockpit-trend-card">
-            <header class="cockpit-block-head"><div><h3>近 7 天销售、销量与毛利润趋势</h3><p>金额已统一换算为 GBP</p></div><button class="cockpit-link" data-view="health">查看经营健康</button></header>
-            <div class="cockpit-combo-chart">
-              <div class="cockpit-chart-summary">
-                <div><span>7 日销售额</span><strong>£5,736.69</strong></div>
-                <div><span>7 日销量</span><strong>970</strong></div>
-                <div><span>7 日毛利润</span><strong>£130.42</strong></div>
-                <div><span>平均毛利率</span><strong>2.3%</strong></div>
-                <div class="cockpit-chart-legend"><span><i></i>销售额</span><span><i></i>销量</span><span><i></i>毛利润</span></div>
-              </div>
-              <div class="cockpit-chart-plot" role="img" aria-label="近7天销售额与销量柱形图、毛利润折线图">
-                <div class="cockpit-chart-columns">
-                  ${[
-                    ["07-07","£910.69","£21.10","129",76,48],["07-08","£797.52","£17.86","118",64,44],["07-09","£908.79","£22.33","131",75,49],
-                    ["07-10","£739.54","£14.82","103",54,39],["07-11","£807.17","£19.62","266",66,100],["07-12","£688.73","£15.02","96",47,36],["07-13","£884.25","£19.67","127",71,48]
-                  ].map(item => `<button class="cockpit-chart-day" data-action="showOpsChartPoint" data-title="销售、销量与毛利润" data-point="${item[0]}" data-value="销售额 ${item[1]} · 销量 ${item[3]}" data-note="毛利润 ${item[2]}"><span class="cockpit-chart-bar-wrap"><i class="cockpit-chart-bar sales" style="--h:${item[4]}%"><b>${item[1]}</b></i><i class="cockpit-chart-bar volume" style="--h:${item[5]}%"><b>${item[3]}</b></i></span><span>${item[0]}</span></button>`).join("")}
+            ${hasCockpitTrend ? `
+              <header class="cockpit-block-head"><div><h3>近 7 天销售、销量与毛利润趋势</h3><p>金额已统一换算为 GBP</p></div><button class="cockpit-link" data-view="health">查看经营健康</button></header>
+              <div class="cockpit-combo-chart">
+                <div class="cockpit-chart-summary">
+                  <div><span>7 日销售额</span><strong>£5,736.69</strong></div>
+                  <div><span>7 日销量</span><strong>970</strong></div>
+                  <div><span>7 日毛利润</span><strong>£130.42</strong></div>
+                  <div><span>平均毛利率</span><strong>2.3%</strong></div>
+                  <div class="cockpit-chart-legend"><span><i></i>销售额</span><span><i></i>销量</span><span><i></i>毛利润</span></div>
                 </div>
-                <svg class="cockpit-chart-lines" viewBox="0 0 700 210" preserveAspectRatio="none" aria-hidden="true">
-                  <polyline class="cockpit-chart-profit-line" points="50,83 150,96 250,76 350,112 450,88 550,108 650,87"></polyline>
-                  ${[[50,83],[150,96],[250,76],[350,112],[450,88],[550,108],[650,87]].map(point => `<circle class="cockpit-chart-point" cx="${point[0]}" cy="${point[1]}" r="4"></circle>`).join("")}
-                </svg>
+                <div class="cockpit-chart-plot" role="img" aria-label="近7天销售额与销量柱形图、毛利润折线图">
+                  <div class="cockpit-chart-columns">
+                    ${cockpitTrendDays.map(item => `<button class="cockpit-chart-day" data-action="showOpsChartPoint" data-title="销售、销量与毛利润" data-point="${item.date}" data-value="销售额 ${item.sales} · 销量 ${item.units}" data-note="毛利润 ${item.profit}"><span class="cockpit-chart-bar-wrap"><i class="cockpit-chart-bar sales" style="--h:${item.salesHeight}%"><b>${item.sales}</b></i><i class="cockpit-chart-bar volume" style="--h:${item.unitsHeight}%"><b>${item.units}</b></i></span><span>${item.date}</span></button>`).join("")}
+                  </div>
+                  <svg class="cockpit-chart-lines" viewBox="0 0 700 210" preserveAspectRatio="none" aria-hidden="true">
+                    <polyline class="cockpit-chart-profit-line" points="${cockpitTrendDays.map(item => item.line.join(",")).join(" ")}"></polyline>
+                    ${cockpitTrendDays.map(item => `<circle class="cockpit-chart-point" cx="${item.line[0]}" cy="${item.line[1]}" r="4"></circle>`).join("")}
+                  </svg>
+                </div>
               </div>
-            </div>
+            ` : `
+              <header class="cockpit-block-head"><div><h3>今日经营快照</h3><p>${cockpitTrendDays.length} 个有效日期，暂不生成趋势判断</p></div><button class="cockpit-link" data-view="health">查看经营健康</button></header>
+              <div class="cockpit-low-data">
+                <div class="cockpit-low-data-main">
+                  <div class="cockpit-low-data-status">
+                    <span class="cockpit-low-data-icon"><i data-lucide="chart-no-axes-column-increasing"></i></span>
+                    <div><strong>当前数据不足以形成趋势</strong><p>已展示 ${latestCockpitDay.date} 的经营结果，累计更多有效日期后再判断变化方向。</p></div>
+                  </div>
+                  <div class="cockpit-low-data-metrics">
+                    <div class="cockpit-low-data-metric"><span>销售额</span><strong>${latestCockpitDay.sales}</strong><small>${latestCockpitDay.date}</small></div>
+                    <div class="cockpit-low-data-metric"><span>销量</span><strong>${latestCockpitDay.units}</strong><small>${latestCockpitDay.date}</small></div>
+                    <div class="cockpit-low-data-metric"><span>订单毛利润</span><strong>${latestCockpitDay.profit}</strong><small>${latestCockpitDay.date}</small></div>
+                    <div class="cockpit-low-data-metric"><span>毛利率</span><strong>${latestCockpitDay.margin}</strong><small>${latestCockpitDay.date}</small></div>
+                  </div>
+                </div>
+                <div class="cockpit-low-data-progress">
+                  <div class="cockpit-low-data-progress-head"><span>趋势数据积累</span><strong>${cockpitTrendDays.length} / 3</strong></div>
+                  <div class="cockpit-low-data-progress-track" aria-label="趋势数据积累 ${cockpitTrendDays.length} / 3"><i style="--progress:${cockpitTrendProgress}%"></i></div>
+                  <p>还需 ${cockpitTrendRemaining} 个有效日期。达到 3 个后，系统将自动展示销售、销量与毛利润趋势。</p>
+                </div>
+              </div>
+            `}
           </section>
 
           <section class="cockpit-card cockpit-product-card">
@@ -33239,20 +33523,6 @@
 
     function renderAsinOverview() {
       const mainViews = ["全部", "待处理", "新品测试", "在售经营", "广告健康", "库存与补货", "清货与复盘"];
-      const quickViewDefinitions = [
-        { id:"stockout", label:"断货" },
-        { id:"new-no-order", label:"新品未出单" },
-        { id:"d30-decision", label:"D30待决策" },
-        { id:"ad-abnormal", label:"广告异常" },
-        { id:"seven-zero", label:"7天0单" },
-        { id:"fifteen-zero", label:"15天0单" },
-        { id:"thirty-zero", label:"30天0单" },
-        { id:"early-zero", label:"开售不足15天0单" },
-        { id:"late-zero", label:"开售超过15天0单" },
-        { id:"replenishment", label:"补货候选" },
-        { id:"listing-issue", label:"Listing异常" },
-        { id:"clearance-queue", label:"清货队列" }
-      ];
       const filters = state.asinOverviewFilters || {};
       const productName = row => products.find(product => product.id === row.sku || product.asin === row.asin)?.name || row.product || row.name || row.sku;
       const text = value => value === undefined || value === null || value === "" ? "--" : String(value);
@@ -33455,31 +33725,84 @@
         if (view === "广告健康") return row.sceneMatches.some(item => item.view === "ads") || /广告/.test(`${row.adEfficiency} ${row.risk}`);
         if (view === "库存与补货") return row.sceneMatches.some(item => item.view === "inventory") || row.inventoryStatus !== "库存正常";
         if (view === "清货与复盘") return /清货/.test(row.lifecycleStage) || row.sceneMatches.some(item => item.view === "clearance");
-        if (view === "断货") return row.inventoryStatus === "断货";
-        if (view === "新品未出单") return /新品/.test(row.lifecycleStage) && hasValue(row.sales7) && numeric(row.sales7) === 0;
-        if (view === "D30待决策") return row.lifecycleNode === "D30" && /待决策|待确认|测试失败|黑名单|强制清仓/.test(row.d30Decision);
-        if (view === "广告异常") return /异常|高花费|亏损|未收缩/.test(`${row.adEfficiency} ${row.risk}`);
-        if (view === "7天0单") return hasValue(row.sales7) && numeric(row.sales7) === 0;
-        if (view === "15天0单") return hasValue(row.sales15) && numeric(row.sales15) === 0;
-        if (view === "30天0单") return hasValue(row.sales30) && numeric(row.sales30) === 0;
-        if (view === "开售不足15天0单") return hasValue(row.sellingDaysValue) && numeric(row.sellingDaysValue) < 15 && hasValue(row.sales7) && numeric(row.sales7) === 0;
-        if (view === "开售超过15天0单") return hasValue(row.sellingDaysValue) && numeric(row.sellingDaysValue) >= 15 && hasValue(row.sales30) && numeric(row.sales30) === 0;
-        if (view === "补货候选") return /补货/.test(`${row.suggestion} ${row.action} ${row.sceneMatches.map(item => item.scene).join(" ")}`);
-        if (view === "Listing异常") return row.listingHealth === "Listing异常";
-        if (view === "清货队列") return /清货/.test(`${row.lifecycleStage} ${row.sceneMatches.map(item => item.scene).join(" ")}`);
+        if (view === "评论与洞察") return row.sceneMatches.some(item => item.view === "voice") || /差评|评论|退货|转化阻断/.test(`${row.scene} ${row.risk} ${row.action}`);
         return true;
       };
-      const quickViewSettings = (() => {
-        try { return JSON.parse(localStorage.getItem("yilian-asin-overview-quick-views") || "{}"); }
-        catch (error) { return {}; }
-      })();
-      const moreViews = quickViewDefinitions
-        .filter(item => quickViewSettings[item.id] !== false)
-        .filter(item => rows.some(row => matchesOverviewView(row, item.label)))
-        .map(item => item.label);
+      const moreViews = strategyOperatingViews
+        .filter(item => !mainViews.includes(item.name))
+        .map(item => item.name);
       const allViews = [...mainViews, ...moreViews];
       const activeTab = allViews.includes(state.filter) ? state.filter : "全部";
       const matchesTab = row => matchesOverviewView(row, activeTab);
+      const viewRows = rows.filter(matchesTab);
+      const operatingText = row => [
+        row.scene,
+        row.risk,
+        row.conclusion,
+        row.action,
+        row.d30Decision,
+        row.salesTrend,
+        row.adEfficiency,
+        row.sceneMatches.map(item => item.scene).join(" ")
+      ].join(" ");
+      const ruleDefinitionsByView = {
+        "新品测试": [
+          { id:"new-zero-order", label:"0 出单", sourceRuleId:"FLOW-003", matches:row => hasValue(row.sales30) && numeric(row.sales30) === 0 },
+          { id:"new-weak-sales", label:"弱动销", sourceRuleId:"RULE-001", matches:row => /弱动销/.test(operatingText(row)) || (hasValue(row.sales15) && numeric(row.sales15) >= 1 && numeric(row.sales15) <= 3) },
+          { id:"new-low-sales", label:"低动销", sourceRuleId:"RULE-NEW-LOW", matches:row => /低动销/.test(operatingText(row)) || (hasValue(row.sales30) && numeric(row.sales30) >= 1 && numeric(row.sales30) <= 8) },
+          { id:"new-base-blocked", label:"基础条件阻断", sourceRuleId:"FLOW-004", matches:row => row.listingHealth === "Listing异常" || /未开启|阻断/.test(`${row.baseAdStatus} ${operatingText(row)}`) },
+          { id:"new-test-passed", label:"测试通过", sourceRuleId:"FLOW-002", matches:row => /测试通过|转入正常|阶段流转/.test(operatingText(row)) || (hasValue(row.sales30) && numeric(row.sales30) >= 24 && hasValue(row.avgProfit) && numeric(row.avgProfit) >= 0 && row.listingHealth !== "Listing异常") }
+        ],
+        "在售经营": [
+          { id:"health-sales-drop", label:"销量下滑", sourceRuleId:"RULE-HEALTH-SALES", matches:row => /下滑/.test(row.salesTrend) },
+          { id:"health-profit-negative", label:"利润转负", sourceRuleId:"RULE-HEALTH-PROFIT", matches:row => /负|亏损/.test(row.profitState) },
+          { id:"health-listing-issue", label:"Listing 异常", sourceRuleId:"RULE-HEALTH-LISTING", matches:row => row.listingHealth === "Listing异常" },
+          { id:"health-normal", label:"经营正常", sourceRuleId:"RULE-HEALTH-NORMAL", matches:row => !/下滑/.test(row.salesTrend) && !/负|亏损/.test(row.profitState) && row.listingHealth !== "Listing异常" }
+        ],
+        "广告健康": [
+          { id:"ads-cost-low-conversion", label:"高花费低转化", sourceRuleId:"RULE-ADS-COST", matches:row => /高花费|低转化/.test(operatingText(row)) },
+          { id:"ads-tacos-high", label:"TACoS 过高", sourceRuleId:"RULE-ADS-TACOS", matches:row => hasValue(row.tacos) && numeric(row.tacos) >= 30 },
+          { id:"ads-no-order", label:"无效广告", sourceRuleId:"RULE-ADS-NO-ORDER", matches:row => hasValue(row.adSpend) && numeric(row.adSpend) > 0 && hasValue(row.adOrders) && numeric(row.adOrders) === 0 },
+          { id:"ads-normal", label:"广告正常", sourceRuleId:"RULE-ADS-NORMAL", matches:row => /正常|有效/.test(row.adEfficiency) && !(hasValue(row.tacos) && numeric(row.tacos) >= 30) }
+        ],
+        "库存与补货": [
+          { id:"inventory-stockout-risk", label:"预计 14 天断货", sourceRuleId:"RULE-INV-STOCKOUT", matches:row => /断货|覆盖不足/.test(row.inventoryStatus) || (hasValue(row.coverage) && numeric(row.coverage) <= 14) },
+          { id:"inventory-overstock", label:"库存积压", sourceRuleId:"RULE-INV-OVERSTOCK", matches:row => row.inventoryStatus === "库存积压" || (hasValue(row.coverage) && numeric(row.coverage) >= 60) },
+          { id:"inventory-replenishment", label:"建议补货", sourceRuleId:"RULE-INV-REPLENISH", matches:row => /补货/.test(`${row.suggestion} ${row.action} ${operatingText(row)}`) },
+          { id:"inventory-normal", label:"库存正常", sourceRuleId:"RULE-INV-NORMAL", matches:row => row.inventoryStatus === "库存正常" }
+        ],
+        "清货与复盘": [
+          { id:"clearance-active", label:"清货中", sourceRuleId:"RULE-CLEAR-ACTIVE", matches:row => /清货/.test(row.lifecycleStage) && numeric(row.fbaStockValue) > 0 },
+          { id:"clearance-review", label:"待复查", sourceRuleId:"RULE-CLEAR-REVIEW", matches:row => /复查|观察/.test(`${row.taskStatus} ${row.statusText} ${operatingText(row)}`) },
+          { id:"clearance-completed", label:"清货完成", sourceRuleId:"FLOW-006", matches:row => /清货/.test(row.lifecycleStage) && hasValue(row.fbaStockValue) && numeric(row.fbaStockValue) <= 0 },
+          { id:"clearance-ad-spend", label:"广告误投", sourceRuleId:"RULE-003", matches:row => /清货/.test(row.lifecycleStage) && hasValue(row.adSpend) && numeric(row.adSpend) > 0 }
+        ],
+        "评论与洞察": [
+          { id:"voice-negative-review", label:"差评预警", sourceRuleId:"RULE-VOICE-REVIEW", matches:row => /差评|评论/.test(operatingText(row)) },
+          { id:"voice-return", label:"退货异常", sourceRuleId:"RULE-VOICE-RETURN", matches:row => /退货|退款/.test(operatingText(row)) },
+          { id:"voice-conversion-block", label:"转化阻断", sourceRuleId:"RULE-VOICE-CONVERSION", matches:row => /转化阻断|转化异常/.test(operatingText(row)) }
+        ]
+      };
+      const activeRuleDefs = ruleDefinitionsByView[activeTab] || [];
+      const configuredRuleIds = state.asinOverviewRuleFilters instanceof Set ? state.asinOverviewRuleFilters : new Set();
+      const activeRuleIds = new Set([...configuredRuleIds].filter(id => activeRuleDefs.some(rule => rule.id === id)));
+      const matchesRuleFilters = row => !activeRuleIds.size || activeRuleDefs.some(rule => activeRuleIds.has(rule.id) && rule.matches(row));
+      const matchedRuleLabels = row => {
+        const primaryViewName = {
+          newProducts:"新品测试",
+          health:"在售经营",
+          ads:"广告健康",
+          inventory:"库存与补货",
+          clearance:"清货与复盘",
+          voice:"评论与洞察"
+        }[row.sceneView];
+        const candidateRules = activeRuleDefs.length
+          ? activeRuleDefs
+          : ruleDefinitionsByView[primaryViewName] || [];
+        return [...new Set(candidateRules.filter(rule => rule.matches(row)).map(rule => rule.label))];
+      };
+      const mainViewCounts = Object.fromEntries(mainViews.map(view => [view, rows.filter(row => matchesOverviewView(row, view)).length]));
+      const moreViewCounts = Object.fromEntries(moreViews.map(view => [view, rows.filter(row => matchesOverviewView(row, view)).length]));
       const matchesFilters = row => (
         (!filters.search || [row.id, row.name, row.asin, row.owner, row.store].some(value => String(value || "").toLowerCase().includes(String(filters.search).toLowerCase()))) &&
         (filters.site === "all" || row.site === filters.site) &&
@@ -33500,8 +33823,8 @@
         (filters.profitState === "all" || row.profitState === filters.profitState) &&
         (filters.suggestion === "all" || row.suggestion === filters.suggestion)
       );
-      const viewRows = rows.filter(matchesTab);
       const visibleRows = viewRows
+        .filter(matchesRuleFilters)
         .filter(matchesFilters)
         .sort((a, b) => {
           if (filters.sort === "first-asc") return String(a.firstAvailableDate).localeCompare(String(b.firstAvailableDate));
@@ -33553,11 +33876,11 @@
           <section class="np-detail-panel asin-overview-panel">
             <div class="asin-overview-toolbar">
               <div class="asin-quick-view-group">
-                ${mainViews.map(tab => `<button class="np-detail-tab ${activeTab === tab ? "active" : ""}" data-action="setFilter" data-filter="${tab}">${escapeHtml(tab)}</button>`).join("")}
+                ${mainViews.map(tab => `<button class="np-detail-tab ${activeTab === tab ? "active" : ""}" data-action="setFilter" data-filter="${tab}" aria-pressed="${activeTab === tab}">${escapeHtml(tab)}<span class="asin-view-count">${mainViewCounts[tab]}</span></button>`).join("")}
                 ${moreViews.length ? `<span class="asin-more-menu">
                   <button type="button" data-action="toggleAsinMoreViews" class="${moreViews.includes(activeTab) || state.asinMoreViewsOpen ? "active" : ""}">更多视图<i data-lucide="chevron-down"></i></button>
                   <span class="asin-more-menu-popover ${state.asinMoreViewsOpen ? "open" : ""}">
-                    ${moreViews.map(tab => `<button class="${activeTab === tab ? "active" : ""}" data-action="setFilter" data-filter="${tab}">${escapeHtml(tab)}</button>`).join("")}
+                    ${moreViews.map(tab => `<button class="${activeTab === tab ? "active" : ""}" data-action="setFilter" data-filter="${tab}">${escapeHtml(tab)} · ${moreViewCounts[tab]}</button>`).join("")}
                   </span>
                 </span>` : ""}
               </div>
@@ -33573,6 +33896,14 @@
                 <button class="btn small" data-action="exportCurrent"><i data-lucide="download"></i>导出</button>
               </div>
             </div>
+            ${activeRuleDefs.length ? `<div class="asin-rule-filter-row" aria-label="${escapeHtml(activeTab)}规则筛选">
+              <button type="button" class="asin-rule-filter ${!activeRuleIds.size ? "active" : ""}" data-action="toggleAsinOverviewRule" data-rule-id="all" aria-pressed="${!activeRuleIds.size}">全部规则<b>${viewRows.length}</b></button>
+              ${activeRuleDefs.map(rule => {
+                const selected = activeRuleIds.has(rule.id);
+                const count = viewRows.filter(row => rule.matches(row)).length;
+                return `<button type="button" class="asin-rule-filter ${selected ? "active" : ""}" data-action="toggleAsinOverviewRule" data-rule-id="${escapeHtml(rule.id)}" aria-pressed="${selected}">${selected ? '<span class="asin-rule-check">✓</span>' : ""}${escapeHtml(rule.label)}<b>${count}</b></button>`;
+              }).join("")}
+            </div>` : ""}
             <div class="asin-filter-shell">
               <div class="asin-filter-bar">
                 <label class="asin-filter-search">
@@ -33665,6 +33996,7 @@
                     <col class="asin-col-listing-status">
                     <col class="asin-col-buybox">
                     <col class="asin-col-listing-issue">
+                    <col class="asin-col-rule">
                     <col class="asin-col-scene">
                     <col class="asin-col-inactive">
                     <col class="asin-col-operating">
@@ -33682,7 +34014,7 @@
                       <th colspan="9">广告</th>
                       <th colspan="4">利润</th>
                       <th colspan="3">Listing</th>
-                      <th colspan="6">状态与处理</th>
+                      <th colspan="7">状态与处理</th>
                     </tr>
                     <tr class="asin-column-head">
                       <th>商品 / MSKU / ASIN</th>
@@ -33718,6 +34050,7 @@
                       <th>Listing</th>
                       <th>Buy Box</th>
                       <th>异常原因</th>
+                      <th>命中规则</th>
                       <th>场景分流</th>
                       <th>不动销计时</th>
 	                      <th>综合状态</th>
@@ -33762,13 +34095,14 @@
                       <td><span class="asin-status-stack">${pill(row.listingStatus, row.listingStatus === "可售" ? "good" : /异常|抑制|不可售/.test(row.listingStatus) ? "bad" : "neutral")}</span></td>
                       <td><span class="asin-status-stack">${pill(row.buyBoxStatus, row.buyBoxStatus === "正常" ? "good" : /异常/.test(row.buyBoxStatus) ? "bad" : "neutral")}</span></td>
                       <td><span class="asin-metric-cell"><small class="${row.listingIssueReason !== "--" ? "asin-listing-reason" : ""}">${row.listingIssueReason !== "--" ? escapeHtml(syncText(row.listingIssueReason)) : "无"}</small></span></td>
+                      <td><span class="asin-rule-tags">${matchedRuleLabels(row).map(label => `<span>${escapeHtml(label)}</span>`).join("") || '<span class="empty-rule">未命中</span>'}</span></td>
                       <td><span class="asin-route-cell"><strong>主 · ${escapeHtml(row.scene)}</strong><small>${row.sceneMatches.length > 1 ? `同时命中 · ${escapeHtml(row.sceneMatches.slice(1).map(item => item.scene).join(" / "))}` : "单一场景命中"}</small></span></td>
                       <td><span class="asin-cell-stack">${pill(row.inactiveTimer, row.inactiveTimer === "已进入" ? "warn" : "neutral")}<small>连续 0 单 · ${escapeHtml(row.noSaleDays)}</small><small>进入时间 · ${escapeHtml(row.inactiveEnteredAt)}</small></span></td>
                       <td><span class="asin-status-stack">${pill(row.operatingStatus, /断货|受阻/.test(row.operatingStatus) ? "bad" : /关注|清货/.test(row.operatingStatus) ? "warn" : "good")}</span></td>
                       <td><span class="asin-status-stack">${pill(row.taskStatus, /待分配|待处理/.test(row.taskStatus) ? "warn" : row.taskStatus === "处理中" ? "info" : row.taskStatus === "无任务" ? "neutral" : "good")}</span></td>
                       <td><span class="asin-status-stack">${pill(row.priority, priorityTone(row.priority))}<small class="${/缺失/.test(row.dataState) ? "bad" : ""}">${escapeHtml(row.dataState)}</small></span></td>
                       <td class="asin-sticky-action"><span class="asin-action-cell"><small class="asin-ai-label"><i data-lucide="sparkles"></i>规则建议</small><strong>${escapeHtml(row.action)}</strong><button class="asin-scene-link" data-action="openAsinScene" data-id="${escapeHtml(row.id)}" data-view="${escapeHtml(row.sceneView)}">进入场景<i data-lucide="arrow-right"></i></button></span></td>
-                    </tr>`).join("") || `<tr><td colspan="40"><div class="empty">当前筛选条件下没有 ASIN</div></td></tr>`}
+                    </tr>`).join("") || `<tr><td colspan="41"><div class="empty">当前筛选条件下没有 ASIN</div></td></tr>`}
                   </tbody>
                 </table>
               </div>
@@ -37754,9 +38088,8 @@
       </section>`;
     }
 
-
     function exceptionCleanText(value) {
-      return String(value ?? "").replace(/s+/g, " ").trim();
+      return String(value ?? "").replace(/\s+/g, " ").trim();
     }
 
     function exceptionSameText(a, b) {
@@ -37779,7 +38112,7 @@
       if (/开售|有效测试日|开售日期/.test(context)) return "开售日期识别规则";
       if (/数据|字段|缺失|补齐/.test(context)) return "数据完整性检查规则";
       if (/Listing|Buy Box|可售/.test(context)) return "可售状态检查规则";
-      if (/D30|零单|0s*单/.test(context)) return "新品 D30 去留规则";
+      if (/D30|零单|0\s*单/.test(context)) return "新品 D30 去留规则";
       if (/D15|延长/.test(context)) return "新品 D15 延长测试规则";
       if (/D7|测试/.test(context)) return "新品 D7 早期观察规则";
       if (/广告|TACoS|ACOS|点击|花费/.test(context)) return "广告健康规则";
@@ -37792,14 +38125,14 @@
       const context = exceptionContextText(row);
       if (/开售|有效测试日|开售日期/.test(context)) return "商品已同步且未识别有效开售日期";
       if (/数据|字段|缺失|补齐/.test(context)) return "关键字段缺失，需先补齐后再执行规则";
-      if (/D30|零单|0s*单/.test(context)) return "有效测试满 30 天后未达到销量或利润目标";
+      if (/D30|零单|0\s*单/.test(context)) return "有效测试满 30 天后未达到销量或利润目标";
       if (/D15|延长/.test(context)) return "有效测试达到 D15 且核心指标未达标";
       if (/D7|测试/.test(context)) return "有效测试达到 D7 且早期信号异常";
       if (/Listing|Buy Box|可售/.test(context)) return "Listing 不可售、Buy Box 异常或可售链路阻断";
       if (/广告|TACoS|ACOS|点击|花费/.test(context)) return "广告花费、TACoS、ACOS 或利润触发阈值";
       if (/库存|补货|断货|覆盖/.test(context)) return "库存、覆盖天数或补货节奏触发阈值";
       if (/清货|移除|降价/.test(context)) return "清货进度、库存占用或广告消耗触发阈值";
-      return "来源场景：" + canonicalExceptionSceneName(row.sourceScene || row.stage || "系统巡检");
+      return `来源场景：${canonicalExceptionSceneName(row.sourceScene || row.stage || "系统巡检")}`;
     }
 
     function exceptionRuleDisplay(row) {
@@ -37807,7 +38140,7 @@
       const version = exceptionCleanText(row.ruleVersion);
       let title = exceptionCleanText(row.sourceRule || row.ruleName || row.rule || row.ruleId);
       if (!title || exceptionSameText(title, issue)) title = exceptionRuleTitleFallback(row);
-      if (version && !new RegExp("(^|\s|·)V?" + version.replace(/^V/i, "") + "(\s|$)", "i").test(title)) title = title + " · " + (/^V/i.test(version) ? version : "V" + version);
+      if (version && !new RegExp(`(^|\\s|·)V?${version.replace(/^V/i, "")}(\\s|$)`, "i").test(title)) title = `${title} · ${/^V/i.test(version) ? version : `V${version}`}`;
       let detail = exceptionCleanText(row.ruleTrigger || row.triggerReason || row.ruleCondition || row.desc);
       if (!detail || exceptionSameText(detail, issue) || exceptionSameText(detail, title)) detail = exceptionRuleDetailFallback(row);
       return {title, detail};
@@ -37818,7 +38151,7 @@
       if (/开售|有效测试日|开售日期/.test(context)) return "无法计算有效测试日，D7/D15/D30 判断、补货和清货分流会被暂停。";
       if (/数据|字段|缺失|补齐/.test(context)) return "关键字段缺失，相关规则不能稳定输出经营结论。";
       if (/Listing|Buy Box|可售/.test(context)) return "商品有库存但不可售，销售链路被阻断，广告投入可能无效。";
-      if (/D30|零单|0s*单/.test(context)) return "新品测试未达标且库存占用，继续投放或补货会扩大成本。";
+      if (/D30|零单|0\s*单/.test(context)) return "新品测试未达标且库存占用，继续投放或补货会扩大成本。";
       if (/D15|D7|测试/.test(context)) return "新品早期指标未达标，继续观察前需要确认是否调整测试条件。";
       if (/广告|TACoS|ACOS|点击|花费/.test(context)) return "广告持续消耗但未形成有效利润，继续投放会扩大亏损。";
       if (/库存|补货|断货|覆盖/.test(context)) return "库存覆盖不足，存在断货、排名下降和补货决策延误风险。";
@@ -37831,7 +38164,7 @@
       if (/开售|有效测试日|开售日期/.test(context)) return "补齐首次 FBA 可售日期或确认 ERP 开售字段映射；补齐后重新计算生命周期。";
       if (/数据|字段|缺失|补齐/.test(context)) return "补齐缺失字段后重新执行规则；未补齐前不输出最终经营结论。";
       if (/Listing|Buy Box|可售/.test(context)) return "先恢复 Listing 和 Buy Box，再重新判断销量、广告和补货动作。";
-      if (/D30|零单|0s*单/.test(context)) return "停止新增补货，进入去留评估；确认清货、移除或归档方案。";
+      if (/D30|零单|0\s*单/.test(context)) return "停止新增补货，进入去留评估；确认清货、移除或归档方案。";
       if (/D15|D7|测试/.test(context)) return "先修复可控条件，恢复后重新累计有效测试天数。";
       if (/广告|TACoS|ACOS|点击|花费/.test(context)) return "收缩低效广告，保留核心词并复查转化和利润。";
       if (/库存|补货|断货|覆盖/.test(context)) return "校准库存和在途数据，重新计算补货节奏和安全库存。";
@@ -41693,6 +42026,7 @@
       chooseHistory(){ openSearch(); },
       setFilter(el){
         state.filter = el.dataset.filter === "全部" ? "all" : el.dataset.filter;
+        state.asinOverviewRuleFilters = new Set();
         state.inactiveExpandedId = null;
         state.asinMoreViewsOpen = false;
         render();
@@ -41740,12 +42074,25 @@
         state.asinMoreViewsOpen = false;
         render();
       },
+      toggleAsinOverviewRule(el) {
+        const ruleId = el.dataset.ruleId;
+        if (!ruleId || ruleId === "all") {
+          state.asinOverviewRuleFilters = new Set();
+        } else {
+          const next = new Set(state.asinOverviewRuleFilters || []);
+          if (next.has(ruleId)) next.delete(ruleId);
+          else next.add(ruleId);
+          state.asinOverviewRuleFilters = next;
+        }
+        render();
+      },
       setAsinOverviewFilter(el) {
         state.asinOverviewFilters[el.dataset.filterKey] = el.value || "all";
         render();
       },
       resetAsinOverviewFilters() {
         state.filter = "all";
+        state.asinOverviewRuleFilters = new Set();
         state.asinMoreViewsOpen = false;
         state.asinMoreFiltersOpen = false;
         state.asinOverviewFilters = {
@@ -46368,6 +46715,7 @@
       if (cockpitFilter) {
         state.cockpitFilters[cockpitFilter.dataset.cockpitFilter] = cockpitFilter.value;
         state.selectValues[selectStorageKey(cockpitFilter)] = cockpitFilter.value;
+        render();
         toast("筛选范围已更新", `${cockpitFilter.dataset.cockpitFilter}：${cockpitFilter.value}`);
         return;
       }
