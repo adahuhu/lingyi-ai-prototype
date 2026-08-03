@@ -37754,6 +37754,103 @@
       </section>`;
     }
 
+
+    function exceptionCleanText(value) {
+      return String(value ?? "").replace(/s+/g, " ").trim();
+    }
+
+    function exceptionSameText(a, b) {
+      const left = exceptionCleanText(a);
+      const right = exceptionCleanText(b);
+      if (!left || !right) return false;
+      if (left === right) return true;
+      return (left.length >= 6 && right.includes(left)) || (right.length >= 6 && left.includes(right));
+    }
+
+    function exceptionContextText(row) {
+      return [row.type, row.rule, row.desc, row.risk, row.action, row.stage, row.sourceScene, row.ruleId, row.ruleTrigger, row.triggerReason]
+        .map(exceptionCleanText)
+        .filter(Boolean)
+        .join(" ");
+    }
+
+    function exceptionRuleTitleFallback(row) {
+      const context = exceptionContextText(row);
+      if (/开售|有效测试日|开售日期/.test(context)) return "开售日期识别规则";
+      if (/数据|字段|缺失|补齐/.test(context)) return "数据完整性检查规则";
+      if (/Listing|Buy Box|可售/.test(context)) return "可售状态检查规则";
+      if (/D30|零单|0s*单/.test(context)) return "新品 D30 去留规则";
+      if (/D15|延长/.test(context)) return "新品 D15 延长测试规则";
+      if (/D7|测试/.test(context)) return "新品 D7 早期观察规则";
+      if (/广告|TACoS|ACOS|点击|花费/.test(context)) return "广告健康规则";
+      if (/库存|补货|断货|覆盖/.test(context)) return "库存补货规则";
+      if (/清货|移除|降价/.test(context)) return "清货处置规则";
+      return "经营策略中心规则";
+    }
+
+    function exceptionRuleDetailFallback(row) {
+      const context = exceptionContextText(row);
+      if (/开售|有效测试日|开售日期/.test(context)) return "商品已同步且未识别有效开售日期";
+      if (/数据|字段|缺失|补齐/.test(context)) return "关键字段缺失，需先补齐后再执行规则";
+      if (/D30|零单|0s*单/.test(context)) return "有效测试满 30 天后未达到销量或利润目标";
+      if (/D15|延长/.test(context)) return "有效测试达到 D15 且核心指标未达标";
+      if (/D7|测试/.test(context)) return "有效测试达到 D7 且早期信号异常";
+      if (/Listing|Buy Box|可售/.test(context)) return "Listing 不可售、Buy Box 异常或可售链路阻断";
+      if (/广告|TACoS|ACOS|点击|花费/.test(context)) return "广告花费、TACoS、ACOS 或利润触发阈值";
+      if (/库存|补货|断货|覆盖/.test(context)) return "库存、覆盖天数或补货节奏触发阈值";
+      if (/清货|移除|降价/.test(context)) return "清货进度、库存占用或广告消耗触发阈值";
+      return "来源场景：" + canonicalExceptionSceneName(row.sourceScene || row.stage || "系统巡检");
+    }
+
+    function exceptionRuleDisplay(row) {
+      const issue = exceptionCleanText(row.type);
+      const version = exceptionCleanText(row.ruleVersion);
+      let title = exceptionCleanText(row.sourceRule || row.ruleName || row.rule || row.ruleId);
+      if (!title || exceptionSameText(title, issue)) title = exceptionRuleTitleFallback(row);
+      if (version && !new RegExp("(^|\s|·)V?" + version.replace(/^V/i, "") + "(\s|$)", "i").test(title)) title = title + " · " + (/^V/i.test(version) ? version : "V" + version);
+      let detail = exceptionCleanText(row.ruleTrigger || row.triggerReason || row.ruleCondition || row.desc);
+      if (!detail || exceptionSameText(detail, issue) || exceptionSameText(detail, title)) detail = exceptionRuleDetailFallback(row);
+      return {title, detail};
+    }
+
+    function exceptionRiskFallback(row) {
+      const context = exceptionContextText(row);
+      if (/开售|有效测试日|开售日期/.test(context)) return "无法计算有效测试日，D7/D15/D30 判断、补货和清货分流会被暂停。";
+      if (/数据|字段|缺失|补齐/.test(context)) return "关键字段缺失，相关规则不能稳定输出经营结论。";
+      if (/Listing|Buy Box|可售/.test(context)) return "商品有库存但不可售，销售链路被阻断，广告投入可能无效。";
+      if (/D30|零单|0s*单/.test(context)) return "新品测试未达标且库存占用，继续投放或补货会扩大成本。";
+      if (/D15|D7|测试/.test(context)) return "新品早期指标未达标，继续观察前需要确认是否调整测试条件。";
+      if (/广告|TACoS|ACOS|点击|花费/.test(context)) return "广告持续消耗但未形成有效利润，继续投放会扩大亏损。";
+      if (/库存|补货|断货|覆盖/.test(context)) return "库存覆盖不足，存在断货、排名下降和补货决策延误风险。";
+      if (/清货|移除|降价/.test(context)) return "库存消化慢，仓储和广告成本仍在占用。";
+      return "该事项会影响当前生命周期判断和后续任务闭环，需要负责人确认。";
+    }
+
+    function exceptionAdviceFallback(row) {
+      const context = exceptionContextText(row);
+      if (/开售|有效测试日|开售日期/.test(context)) return "补齐首次 FBA 可售日期或确认 ERP 开售字段映射；补齐后重新计算生命周期。";
+      if (/数据|字段|缺失|补齐/.test(context)) return "补齐缺失字段后重新执行规则；未补齐前不输出最终经营结论。";
+      if (/Listing|Buy Box|可售/.test(context)) return "先恢复 Listing 和 Buy Box，再重新判断销量、广告和补货动作。";
+      if (/D30|零单|0s*单/.test(context)) return "停止新增补货，进入去留评估；确认清货、移除或归档方案。";
+      if (/D15|D7|测试/.test(context)) return "先修复可控条件，恢复后重新累计有效测试天数。";
+      if (/广告|TACoS|ACOS|点击|花费/.test(context)) return "收缩低效广告，保留核心词并复查转化和利润。";
+      if (/库存|补货|断货|覆盖/.test(context)) return "校准库存和在途数据，重新计算补货节奏和安全库存。";
+      if (/清货|移除|降价/.test(context)) return "确认清货节奏、价格和广告上限，并设置复查时间。";
+      return "确认负责人、处理动作和复查标准，完成后回写处理结果。";
+    }
+
+    function exceptionRiskDisplay(row) {
+      const risk = exceptionCleanText(row.risk);
+      if (risk && ![row.type, row.rule, row.desc].some(value => exceptionSameText(risk, value))) return risk;
+      return exceptionRiskFallback(row);
+    }
+
+    function exceptionAdviceDisplay(row) {
+      const action = exceptionCleanText(row.action || row.suggestion);
+      if (action && ![row.type, row.rule, row.desc, row.risk].some(value => exceptionSameText(action, value))) return action;
+      return exceptionAdviceFallback(row);
+    }
+
     function renderExceptions() {
       const actor = currentExceptionActor();
       const scopeTabs = exceptionScopeTabs();
@@ -37824,20 +37921,25 @@
           </div>
           ${assignmentBar}
           <div class="np-detail-body exception-sheet-body"><div class="np-detail-table-wrap exception-sheet-wrap"><table class="np-detail-table exception-sheet-table ${isUnassignedView && canAssign ? "with-selection" : ""}">
-            <thead><tr>${selectHeader}<th>优先级 / 时限</th><th>商品 / MSKU / ASIN</th><th>生命周期</th><th>识别问题</th><th>来源规则</th><th>风险摘要</th><th>AI 建议</th><th>负责人</th><th>状态</th><th>最近命中</th></tr></thead>
-            <tbody>${rows.map(row => `<tr data-action="openException" data-id="${row.id}">
+            <thead><tr>${selectHeader}<th>优先级 / 时限</th><th>商品 / MSKU / ASIN</th><th>生命周期</th><th>识别结果</th><th>来源规则 / 触发条件</th><th>风险摘要</th><th>AI 建议</th><th>负责人</th><th>状态</th><th>最近命中</th></tr></thead>
+            <tbody>${rows.map(row => {
+              const ruleDisplay = exceptionRuleDisplay(row);
+              const riskCopy = exceptionRiskDisplay(row);
+              const adviceCopy = exceptionAdviceDisplay(row);
+              return `<tr data-action="openException" data-id="${row.id}">
               ${isUnassignedView && canAssign ? `<td><input class="exception-row-select" type="checkbox" data-exception-select data-id="${row.id}" aria-label="选择 ${escapeHtml(productName(row))}" ${state.exceptionSelectedIds?.has(row.id) ? "checked" : ""}></td>` : ""}
               <td><span class="np-metric-stack"><span class="exception-priority-text ${row.priority.toLowerCase()}">${row.priority}</span><small>${escapeHtml(row.due)}</small></span></td>
               <td><span class="np-product-cell"><strong>${escapeHtml(productName(row))}</strong><small>${escapeHtml(row.sku)} / ${escapeHtml(row.asin)} · ${escapeHtml(row.site)}</small></span></td>
               <td><span class="exception-stage" data-stage="${escapeHtml(row.stage)}"><strong>${escapeHtml(row.stage)}</strong><small>${escapeHtml(canonicalExceptionSceneName(row.sourceScene))}</small></span></td>
               <td><span class="exception-problem">${escapeHtml(row.type)}</span></td>
-              <td><span class="exception-rule"><strong>${escapeHtml(row.rule)}</strong><small class="exception-two-line">${escapeHtml(row.desc)}</small></span></td>
-              <td><span class="exception-two-line exception-risk-copy">${escapeHtml(row.risk)}</span></td>
-              <td><span class="exception-two-line exception-advice-copy">${escapeHtml(row.action)}</span></td>
+              <td><span class="exception-rule"><strong>${escapeHtml(ruleDisplay.title)}</strong><small class="exception-two-line">${escapeHtml(ruleDisplay.detail)}</small></span></td>
+              <td><span class="exception-two-line exception-risk-copy">${escapeHtml(riskCopy)}</span></td>
+              <td><span class="exception-two-line exception-advice-copy">${escapeHtml(adviceCopy)}</span></td>
               <td>${row.owner === "待分配" ? `<div class="exception-assignment-cell"><strong>待分配</strong><small>${escapeHtml(row.unassignedReason || "未匹配到负责人")}</small><span>建议：${escapeHtml(row.recommendedOwner || "待确认")}</span>${canAssign ? `<button data-action="assignException" data-id="${row.id}">立即分配</button>` : ""}</div>` : `<span class="np-metric-stack"><strong>${escapeHtml(row.owner)}</strong><small>${escapeHtml(row.store)}</small></span>`}</td>
               <td><span class="exception-status-stack"><span class="np-pill ${statusTone(row.status)}">${escapeHtml(row.status)}</span>${row.verificationStatus || row.observationUntil ? `<small>${escapeHtml(row.verificationStatus || row.observationUntil)}</small>` : ""}</span></td>
               <td><span class="np-metric-stack"><strong>${escapeHtml(row.lastHit)}</strong><small>累计 ${row.recurrence || 1} 次</small></span></td>
-            </tr>`).join("") || `<tr><td colspan="${isUnassignedView && canAssign ? 11 : 10}"><div class="empty">${isUnassignedView ? "当前没有待分配任务" : "当前筛选暂无待处理任务"}</div></td></tr>`}</tbody>
+            </tr>`;
+            }).join("") || `<tr><td colspan="${isUnassignedView && canAssign ? 11 : 10}"><div class="empty">${isUnassignedView ? "当前没有待分配任务" : "当前筛选暂无待处理任务"}</div></td></tr>`}</tbody>
           </table></div></div>
         </section>
       </section>`;
