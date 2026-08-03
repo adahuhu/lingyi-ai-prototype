@@ -5966,9 +5966,15 @@
       align-items: center;
       gap: 8px;
       padding: 7px 12px;
-      overflow-x: auto;
-      scrollbar-width: thin;
-      scrollbar-color: #d2dae6 transparent;
+      overflow: visible;
+    }
+    .asin-rule-filter-list {
+      min-width: 0;
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
     }
     .asin-rule-filter {
       flex: 0 0 auto;
@@ -6015,6 +6021,77 @@
       font-weight: 700;
     }
     .asin-rule-filter.active b { color: #458ee6; }
+    .asin-rule-more {
+      position: relative;
+      flex: 0 0 auto;
+      display: inline-flex;
+    }
+    .asin-rule-more > button {
+      min-height: 30px;
+      border: 1px solid #d8e2ef;
+      border-radius: 7px;
+      background: #fff;
+      color: #526075;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .asin-rule-more > button:hover,
+    .asin-rule-more:focus-within > button,
+    .asin-rule-more > button.active {
+      border-color: #91caff;
+      background: #f3f8ff;
+      color: #1677ff;
+    }
+    .asin-rule-more > button svg {
+      width: 13px;
+      height: 13px;
+    }
+    .asin-rule-more-popover {
+      position: absolute;
+      top: calc(100% + 7px);
+      right: 0;
+      z-index: 55;
+      width: min(520px, calc(100vw - 300px));
+      max-height: 300px;
+      border: 1px solid #dce5f0;
+      border-radius: 9px;
+      background: #fff;
+      box-shadow: 0 18px 42px rgba(15, 23, 42, .15);
+      padding: 10px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+      overflow-y: auto;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-4px);
+      transition: opacity .15s ease, transform .15s ease;
+    }
+    .asin-rule-more::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: 100%;
+      height: 8px;
+    }
+    .asin-rule-more:hover .asin-rule-more-popover,
+    .asin-rule-more:focus-within .asin-rule-more-popover {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    .asin-rule-more-popover .asin-rule-filter {
+      width: 100%;
+      justify-content: space-between;
+      text-align: left;
+    }
     .asin-filter-shell {
       position: relative;
       border-bottom: 1px solid #e8eef6;
@@ -33522,7 +33599,7 @@
     }
 
     function renderAsinOverview() {
-      const mainViews = ["全部", "待处理", "新品测试", "在售经营", "广告健康", "库存与补货", "清货与复盘"];
+      const mainViews = ["全部", "新品测试", "在售经营", "广告健康", "库存与补货", "清货与复盘"];
       const filters = state.asinOverviewFilters || {};
       const productName = row => products.find(product => product.id === row.sku || product.asin === row.asin)?.name || row.product || row.name || row.sku;
       const text = value => value === undefined || value === null || value === "" ? "--" : String(value);
@@ -33719,7 +33796,6 @@
       const rows = products.map(buildRow);
       const matchesOverviewView = (row, view) => {
         if (view === "全部") return true;
-        if (view === "待处理") return /待分配|待处理|处理中/.test(row.taskStatus);
         if (view === "新品测试") return /新品/.test(row.lifecycleStage) || row.sceneMatches.some(item => item.view === "newProducts");
         if (view === "在售经营") return /常规|老品/.test(row.lifecycleStage) || row.sceneMatches.some(item => item.view === "health");
         if (view === "广告健康") return row.sceneMatches.some(item => item.view === "ads") || /广告/.test(`${row.adEfficiency} ${row.risk}`);
@@ -33783,7 +33859,8 @@
           { id:"voice-conversion-block", label:"转化阻断", sourceRuleId:"RULE-VOICE-CONVERSION", matches:row => /转化阻断|转化异常/.test(operatingText(row)) }
         ]
       };
-      const activeRuleDefs = ruleDefinitionsByView[activeTab] || [];
+      const allRuleDefs = Object.values(ruleDefinitionsByView).flat();
+      const activeRuleDefs = activeTab === "全部" ? allRuleDefs : ruleDefinitionsByView[activeTab] || [];
       const configuredRuleIds = state.asinOverviewRuleFilters instanceof Set ? state.asinOverviewRuleFilters : new Set();
       const activeRuleIds = new Set([...configuredRuleIds].filter(id => activeRuleDefs.some(rule => rule.id === id)));
       const matchesRuleFilters = row => !activeRuleIds.size || activeRuleDefs.some(rule => activeRuleIds.has(rule.id) && rule.matches(row));
@@ -33796,9 +33873,13 @@
           clearance:"清货与复盘",
           voice:"评论与洞察"
         }[row.sceneView];
-        const candidateRules = activeRuleDefs.length
-          ? activeRuleDefs
-          : ruleDefinitionsByView[primaryViewName] || [];
+        const candidateRules = activeRuleIds.size
+          ? activeRuleDefs.filter(rule => activeRuleIds.has(rule.id))
+          : activeTab === "全部"
+            ? ruleDefinitionsByView[primaryViewName] || []
+            : activeRuleDefs.length
+              ? activeRuleDefs
+              : ruleDefinitionsByView[primaryViewName] || [];
         return [...new Set(candidateRules.filter(rule => rule.matches(row)).map(rule => rule.label))];
       };
       const mainViewCounts = Object.fromEntries(mainViews.map(view => [view, rows.filter(row => matchesOverviewView(row, view)).length]));
@@ -33871,6 +33952,14 @@
         { text:"广告数据缺失 3 个 ASIN", tone:"warn" },
         { text:"已触发规则重算", tone:"" }
       ];
+      const inlineRuleLimit = activeTab === "全部" ? 6 : 7;
+      const inlineRuleDefs = activeRuleDefs.slice(0, inlineRuleLimit);
+      const overflowRuleDefs = activeRuleDefs.slice(inlineRuleLimit);
+      const renderRuleFilterButton = rule => {
+        const selected = activeRuleIds.has(rule.id);
+        const count = viewRows.filter(row => rule.matches(row)).length;
+        return `<button type="button" class="asin-rule-filter ${selected ? "active" : ""}" data-action="toggleAsinOverviewRule" data-rule-id="${escapeHtml(rule.id)}" aria-pressed="${selected}">${selected ? '<span class="asin-rule-check">✓</span>' : ""}<span>${escapeHtml(rule.label)}</span><b>${count}</b></button>`;
+      };
       return `
         <section class="np-page">
           <section class="np-detail-panel asin-overview-panel">
@@ -33897,12 +33986,16 @@
               </div>
             </div>
             ${activeRuleDefs.length ? `<div class="asin-rule-filter-row" aria-label="${escapeHtml(activeTab)}规则筛选">
-              <button type="button" class="asin-rule-filter ${!activeRuleIds.size ? "active" : ""}" data-action="toggleAsinOverviewRule" data-rule-id="all" aria-pressed="${!activeRuleIds.size}">全部规则<b>${viewRows.length}</b></button>
-              ${activeRuleDefs.map(rule => {
-                const selected = activeRuleIds.has(rule.id);
-                const count = viewRows.filter(row => rule.matches(row)).length;
-                return `<button type="button" class="asin-rule-filter ${selected ? "active" : ""}" data-action="toggleAsinOverviewRule" data-rule-id="${escapeHtml(rule.id)}" aria-pressed="${selected}">${selected ? '<span class="asin-rule-check">✓</span>' : ""}${escapeHtml(rule.label)}<b>${count}</b></button>`;
-              }).join("")}
+              <div class="asin-rule-filter-list">
+                <button type="button" class="asin-rule-filter ${!activeRuleIds.size ? "active" : ""}" data-action="toggleAsinOverviewRule" data-rule-id="all" aria-pressed="${!activeRuleIds.size}"><span>全部规则</span><b>${viewRows.length}</b></button>
+                ${inlineRuleDefs.map(renderRuleFilterButton).join("")}
+              </div>
+              ${overflowRuleDefs.length ? `<span class="asin-rule-more">
+                <button type="button" class="${overflowRuleDefs.some(rule => activeRuleIds.has(rule.id)) ? "active" : ""}" aria-haspopup="true"><span>更多</span><b>${overflowRuleDefs.length}</b><i data-lucide="chevron-down"></i></button>
+                <span class="asin-rule-more-popover">
+                  ${overflowRuleDefs.map(renderRuleFilterButton).join("")}
+                </span>
+              </span>` : ""}
             </div>` : ""}
             <div class="asin-filter-shell">
               <div class="asin-filter-bar">
