@@ -1039,7 +1039,7 @@
               <div class="head-actions"><button class="btn" id="openLibrary">全部规则</button><button class="btn primary" id="newRule">AI 创建规则</button></div>
             </div>
             <div class="rules">
-              <div class="rule-labels"><span>规则</span><span>判断条件</span><span>输出标签 / 待办</span><span>建议动作</span><span>通知 / 复查</span><span>状态</span><span></span></div>
+              <div class="rule-labels"><span>规则</span><span>判断条件</span><span>识别结果 / 待办</span><span>建议动作</span><span>通知 / 复查</span><span>状态</span><span></span></div>
               <div id="ruleRows"></div>
               <div class="rules-foot"><span id="filteredCount">显示 3 条</span></div>
             </div>
@@ -1106,7 +1106,7 @@
           <article class="outcome-card task" id="issueOutcomeCard">
             <div class="outcome-head"><div class="outcome-title"><input type="checkbox" id="issueOutcomeEnabled" checked hidden><i class="outcome-icon">!</i>处理事项</div><span class="tag red" id="taskOutcomeTag">待处理</span></div>
             <div class="outcome-fields">
-              <label class="outcome-field"><span>识别为 / 筛选标签</span><select class="inline-field" id="issueSelect"><option>D30 零单</option><option>D15 弱动销</option><option>测试通过</option><option>基础条件阻断</option><option>数据待补齐</option><option>连续零单</option><option>有花费无订单</option><option>ACOS 过高</option><option>TACoS 过高</option><option>库存覆盖不足</option><option>补货候选</option><option>清货消化慢</option><option>差评集中出现</option><option>新建问题类型…</option></select><small class="match-note"><span>AI 已自动匹配，可修改</span></small></label>
+              <label class="outcome-field"><span>识别为</span><select class="inline-field" id="issueSelect"><option>D30 零单</option><option>D15 弱动销</option><option>测试通过</option><option>基础条件阻断</option><option>数据待补齐</option><option>连续零单</option><option>有花费无订单</option><option>ACOS 过高</option><option>TACoS 过高</option><option>库存覆盖不足</option><option>补货候选</option><option>清货消化慢</option><option>差评集中出现</option><option>新建问题类型…</option></select><small class="match-note"><span>AI 已自动匹配，可修改</span></small></label>
               <label class="outcome-field"><span>处理时效</span><select class="inline-field" id="deadlineSelect"><option>今天处理</option><option>48 小时内处理</option><option>7 天内复查</option></select></label>
               <div class="custom-issue" id="customIssueFields"><input class="field" id="customIssueName" placeholder="输入新的问题名称"></div>
             </div>
@@ -1815,7 +1815,7 @@
       const ruleLabel = document.getElementById('ruleLabel').value.trim();
       const ruleCode = document.getElementById('ruleCode').value.trim();
       if (!ruleName) return { type:'error', status:'需要补充', message:'请先填写规则名称，用于策略中心列表、通知和审计追溯。' };
-      if (!ruleLabel) return { type:'error', status:'需要补充', message:'请先填写输出标签。页面筛选项和待处理类型会使用这个标签。' };
+      if (!ruleLabel) return { type:'error', status:'需要补充', message:'请先在“命中后执行”里选择或填写识别类型。' };
       if (!ruleCode) return { type:'error', status:'需要补充', message:'请先填写规则编号，避免规则改名后历史记录无法追溯。' };
       const handlesIssue = issueOutcomeEnabled.checked;
       const handlesStage = stageOutcomeEnabled.checked;
