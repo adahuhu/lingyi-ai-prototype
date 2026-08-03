@@ -189,7 +189,7 @@
     .drawer-body { overflow: auto; padding: 14px 18px 24px; }
     .drawer-foot { border-top: 1px solid var(--line); justify-content: flex-end; }
     .close { width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 7px; background: #fff; color: #475467; }
-    .stepper { min-height: 42px; border: 1px solid #dbe5f2; border-radius: 8px; padding: 0 10px; display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; align-items: center; background: #fbfcfe; }
+    .stepper { min-height: 42px; border: 1px solid #dbe5f2; border-radius: 8px; padding: 0 10px; display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; align-items: center; background: #fbfcfe; }
     .step { display: flex; align-items: center; gap: 7px; color: #667085; font-size: 10px; }
     .step b { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: #edf2f7; color: #667085; font-size: 9px; }
     .step.active { color: var(--blue); font-weight: 680; }
@@ -215,6 +215,12 @@
     .form-section { margin-top: 15px; }
     .form-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; color: #344054; font-size: 11px; font-weight: 700; }
     .form-title span { color: #98a2b3; font-size: 9px; font-weight: 400; }
+    .rule-basic-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; }
+    .rule-basic-field { min-height: 58px; border: 1px solid #dbe5f2; border-radius: 8px; padding: 8px 10px; display: grid; gap: 5px; background: #fbfcfe; color: #667085; font-size: 9px; }
+    .rule-basic-field.full { grid-column: 1 / -1; }
+    .rule-basic-field input,
+    .rule-basic-field select { width: 100%; height: 24px; border: 0; outline: 0; background: transparent; color: #344054; padding: 0; font-size: 11px; font-weight: 700; }
+    .rule-basic-field small { color: #98a2b3; font-size: 8px; line-height: 1.45; }
     .scope-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
     .scope-card { min-height: 47px; border: 1px solid #dbe5f2; border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; justify-content: space-between; background: #fbfcfe; font-size: 10px; }
     .scope-card small { display: block; margin-top: 3px; color: var(--muted); font-size: 8px; }
@@ -516,6 +522,11 @@
     }
     .notify-review-config label { display: grid; gap: 6px; min-width: 0; }
     .notify-review-config label > span { color: #667085; font-size: 10px; font-weight: 700; }
+    .rule-basic-grid { gap: 10px; }
+    .rule-basic-field { min-height: 62px; padding: 9px 11px; font-size: 10px; }
+    .rule-basic-field input,
+    .rule-basic-field select { height: 26px; font-size: 12px; }
+    .rule-basic-field small { font-size: 9px; }
     @media (max-width: 1360px) {
       .rule-labels, .rule-row { grid-template-columns: 122px minmax(260px,1.55fr) 145px 165px 145px 60px 48px; gap: 9px; }
       .view-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
@@ -524,6 +535,7 @@
       .overview-quick-view-row:nth-child(2n) { border-right: 0; }
       .overview-quick-view-row:nth-last-child(-n + 3) { border-bottom: 1px solid var(--line-soft); }
       .overview-quick-view-row:nth-last-child(-n + 2) { border-bottom: 0; }
+      .rule-basic-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
       .drawer.rule-drawer { width: calc(100vw - 28px); }
     }
 
@@ -932,6 +944,32 @@
       border-left-color: transparent;
       box-shadow: none !important;
     }
+    .rule-basic-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .rule-basic-field {
+      min-height: 58px;
+      border-color: #dfe7f1;
+      border-radius: 7px;
+      background: #fbfcfe;
+      font-size: 10px;
+    }
+    .rule-basic-field input,
+    .rule-basic-field select {
+      height: 24px;
+      color: var(--workspace-text);
+      font-size: 12px;
+      font-weight: 760;
+    }
+    .rule-basic-field small {
+      font-size: 9px;
+    }
+    @media (max-width: 1360px) {
+      .rule-basic-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
     @media (min-width: 1920px) {
       main,
       html.embedded-mode main {
@@ -1001,7 +1039,7 @@
               <div class="head-actions"><button class="btn" id="openLibrary">全部规则</button><button class="btn primary" id="newRule">AI 创建规则</button></div>
             </div>
             <div class="rules">
-              <div class="rule-labels"><span>规则</span><span>判断条件</span><span>处理事项</span><span>建议动作</span><span>通知 / 复查</span><span>状态</span><span></span></div>
+              <div class="rule-labels"><span>规则</span><span>判断条件</span><span>输出标签 / 待办</span><span>建议动作</span><span>通知 / 复查</span><span>状态</span><span></span></div>
               <div id="ruleRows"></div>
               <div class="rules-foot"><span id="filteredCount">显示 3 条</span></div>
             </div>
@@ -1021,13 +1059,25 @@
   <aside class="drawer rule-drawer" id="ruleDrawer">
     <div class="drawer-head"><div><strong id="drawerTitle">AI 创建规则</strong><small>描述经营问题，AI 自动转换为结构化规则</small></div><button class="close" data-close>×</button></div>
     <div class="drawer-body">
-      <div class="stepper"><div class="step active"><b>1</b>适用对象</div><div class="step active"><b>2</b>判断条件</div><div class="step active"><b>3</b>处理设置</div></div>
+      <div class="stepper"><div class="step active"><b>0</b>基本信息</div><div class="step active"><b>1</b>适用对象</div><div class="step active"><b>2</b>判断条件</div><div class="step active"><b>3</b>处理设置</div></div>
 
       <div class="ai-mode">
         <div class="mode-head"><span>描述要识别的问题</span><small>AI 会整理为可确认的规则草稿</small></div>
         <textarea class="ai-input" id="aiInput">新品开售 30 天后，如果近 30 日销量为 0、库存仍大于 0 且 Listing 可售，识别为 D30 零单，今天通知负责人，并建议进入清货。</textarea>
         <div class="ai-actions"><span>生成后可继续手动调整</span><button class="btn primary" id="parseRule">AI 整理</button></div>
       </div>
+
+      <section class="form-section">
+        <div class="form-title">0. 规则基本信息 <span>决定列表名称、页面筛选标签和规则追溯</span></div>
+        <div class="rule-basic-grid">
+          <label class="rule-basic-field">规则名称<input id="ruleName" value="D30 仍未出单" placeholder="例如：D15 弱动销观察"></label>
+          <label class="rule-basic-field">输出标签<input id="ruleLabel" value="D30 零单" placeholder="例如：弱动销"><small>新品测试卡片、场景筛选和待办类型使用这个标签。</small></label>
+          <label class="rule-basic-field">规则编号<input id="ruleCode" value="NEW_D30_ZERO_ORDER" placeholder="例如：NEW_D15_WEAK_SALES"></label>
+          <label class="rule-basic-field">适用节点<select id="ruleNode"><option>持续检查</option><option>D7</option><option>D15</option><option selected>D30</option><option>D37</option></select></label>
+          <label class="rule-basic-field">优先级<select id="rulePriority"><option selected>P0 今天处理</option><option>P1 48小时处理</option><option>P2 7天内复查</option><option>仅观察</option></select></label>
+          <label class="rule-basic-field">触发点<select id="ruleTrigger"><option>数据同步完成</option><option selected>到达节点时</option><option>数据补齐后</option><option>基础条件恢复后</option><option>复查到期</option></select></label>
+        </div>
+      </section>
 
       <section class="form-section">
         <div class="form-title">1. 适用对象 <span>选择这条规则关注哪些商品</span></div>
@@ -1240,6 +1290,7 @@
     let activeView = 3;
     let ruleCreating = true;
     let ruleValidated = false;
+    let editingRule = null;
     let stageDraft = [];
     const problemViewMap = {
       'D30 零单':'不动销处置', 'D15 弱动销':'不动销处置', '连续零单':'不动销处置',
@@ -1267,6 +1318,85 @@
 
     function escapeHTML(value = '') {
       return String(value).replace(/[&<>"']/g, character => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' })[character]);
+    }
+
+    const ruleCodeBySignal = {
+      'D30 零单':'NEW_D30_ZERO_ORDER',
+      'D15 弱动销':'NEW_D15_WEAK_SALES',
+      '测试通过':'NEW_D30_TEST_PASS',
+      '基础条件阻断':'NEW_BASIC_BLOCKER',
+      '数据待补齐':'NEW_DATA_MISSING',
+      '连续零单':'NEW_CONTINUOUS_ZERO_ORDER',
+      '有花费无订单':'AD_SPEND_NO_ORDER',
+      'ACOS 过高':'AD_HIGH_ACOS',
+      'TACoS 过高':'AD_HIGH_TACOS',
+      '库存覆盖不足':'INV_COVERAGE_LOW',
+      '补货候选':'INV_REPLENISH_CANDIDATE',
+      '清货消化慢':'CLR_SLOW_CLEARANCE',
+      '差评集中出现':'VOC_BAD_REVIEW_CLUSTER'
+    };
+
+    function inferRuleNode(rule = {}) {
+      const text = [rule.node, rule.meta, rule.name, rule.signal, ...(rule.conditions || [])].join(' ');
+      const match = text.match(/D\s*(\d+)/i);
+      return match ? `D${match[1]}` : '持续检查';
+    }
+
+    function inferRuleName(signal = '', node = '') {
+      if (signal === 'D30 零单') return 'D30 仍未出单';
+      if (signal === 'D15 弱动销') return 'D15 弱动销观察';
+      if (signal === '测试通过') return 'D30 测试达标';
+      if (signal === '基础条件阻断') return '新品有效测试前置条件';
+      if (signal === '数据待补齐') return '新品关键数据完整性';
+      if (signal === '有花费无订单') return '广告有花费无订单';
+      return node && node !== '持续检查' ? `${node} ${signal || '判断规则'}` : `${signal || '经营问题'}规则`;
+    }
+
+    function inferPriority(signal = '', deadline = '') {
+      const text = `${signal} ${deadline}`;
+      if (/P0|D30|今天|零单|阻断/i.test(text)) return 'P0 今天处理';
+      if (/P2|7\s*天|测试通过|观察/i.test(text)) return 'P2 7天内复查';
+      if (/仅观察/.test(text)) return '仅观察';
+      return 'P1 48小时处理';
+    }
+
+    function buildRuleCode(signal = '', node = '') {
+      if (ruleCodeBySignal[signal]) return ruleCodeBySignal[signal];
+      const nodePrefix = node && node !== '持续检查' ? node.replace(/\s+/g, '').toUpperCase() : 'RULE';
+      const normalized = String(signal || 'CUSTOM').trim().replace(/[^\w]+/g, '_').replace(/^_+|_+$/g, '').toUpperCase();
+      return `${nodePrefix}_${normalized || Date.now()}`;
+    }
+
+    function fillRuleIdentity(rule = null) {
+      const signal = rule?.signal || issueSelect.value;
+      const node = rule ? inferRuleNode(rule) : (signal.match(/D\d+/i)?.[0]?.toUpperCase() || (activeStage === '新品测试' ? 'D30' : '持续检查'));
+      const priority = inferPriority(signal, rule?.priority || deadlineSelect.value);
+      document.getElementById('ruleName').value = rule?.name || inferRuleName(signal, node);
+      document.getElementById('ruleLabel').value = signal === '新建问题类型…' ? '' : signal;
+      document.getElementById('ruleCode').value = rule?.code || buildRuleCode(signal, node);
+      document.getElementById('ruleNode').value = [...document.getElementById('ruleNode').options].some(option => option.value === node) ? node : '持续检查';
+      document.getElementById('rulePriority').value = [...document.getElementById('rulePriority').options].some(option => option.value === priority) ? priority : 'P1 48小时处理';
+      document.getElementById('ruleTrigger').value = rule?.trigger || (node === '持续检查' ? '数据同步完成' : '到达节点时');
+    }
+
+    function syncRuleIdentityFromSignal() {
+      const labelInput = document.getElementById('ruleLabel');
+      const custom = issueSelect.value === '新建问题类型…';
+      const signal = custom ? document.getElementById('customIssueName').value.trim() : issueSelect.value;
+      if (!signal) return;
+      labelInput.value = signal;
+      const node = signal.match(/D\d+/i)?.[0]?.toUpperCase() || document.getElementById('ruleNode').value;
+      document.getElementById('ruleName').value = inferRuleName(signal, node);
+      document.getElementById('ruleCode').value = buildRuleCode(signal, node);
+      document.getElementById('rulePriority').value = inferPriority(signal, deadlineSelect.value);
+      if (node && [...document.getElementById('ruleNode').options].some(option => option.value === node)) document.getElementById('ruleNode').value = node;
+    }
+
+    function collectConditionSummary() {
+      return [...document.querySelectorAll('#conditions .condition-edit')].map(row => {
+        const values = [...row.querySelectorAll('select,input')].map(field => field.value.trim()).filter(Boolean);
+        return values.join(' ');
+      }).filter(Boolean);
     }
 
     function readAsinOverviewQuickViewSettings() {
@@ -1419,16 +1549,20 @@
       document.getElementById('filteredCount').textContent = `显示 ${rows.length} / ${allRows.length} 条`;
       ruleRows.innerHTML = rows.map(rule => {
         const executionResult = getRuleExecution(rule);
+        const ruleIndex = allRows.indexOf(rule);
+        const node = inferRuleNode(rule);
+        const code = rule.code || buildRuleCode(rule.signal, node);
+        const version = rule.version || 'V1';
         return `<div class="rule-row">
-        <div><b>${rule.name}</b><small>${rule.meta}</small></div>
+        <div><b>${escapeHTML(rule.name)}</b><small>${escapeHTML(rule.meta)}</small><small>${escapeHTML(code)} · ${escapeHTML(version)}</small></div>
         <div class="condition-box"><div class="condition-line">${rule.conditions.map((item,index) => `${index ? '<span class="and">且</span>' : ''}<span class="condition-chip">${item}</span>`).join('')}</div></div>
         <div class="signal"><div class="signal-line"><i class="dot ${rule.signalClass}"></i><b>${rule.signal}</b></div><small>${rule.priority || '持续关注'}</small></div>
         <div><b>${rule.resultMeta || '根据商品现状给出处理建议'}</b><small>${rule.result.includes('任务') ? '进入待处理中心' : '保留判断结果'}</small></div>
         <div><b>对应负责人</b><small>${rule.priority || '下一次同步后复查'} · 飞书/钉钉</small></div>
-        <span class="tag green">已启用</span><button class="text-btn editRule">编辑</button>
+        <span class="tag green">已启用</span><button class="text-btn editRule" data-rule-index="${ruleIndex}">编辑</button>
       </div>`;
       }).join('') || '<div class="rule-empty">当前筛选条件下没有规则</div>';
-      ruleRows.querySelectorAll('.editRule').forEach(button => button.addEventListener('click', () => openRuleDrawer(false)));
+      ruleRows.querySelectorAll('.editRule').forEach(button => button.addEventListener('click', () => openRuleDrawer(false, '', allRows[Number(button.dataset.ruleIndex)])));
     }
 
     function getRulesForView(viewName) {
@@ -1625,9 +1759,10 @@
     });
     document.getElementById('addStage').addEventListener('click', addLifecycleStage);
     document.getElementById('saveStages').addEventListener('click', saveLifecycleStages);
-    function openRuleDrawer(create = true, preferredView = '') {
+    function openRuleDrawer(create = true, preferredView = '', sourceRule = null) {
       ruleCreating = create;
       ruleValidated = false;
+      editingRule = sourceRule;
       document.getElementById('drawerTitle').textContent = create ? 'AI 创建规则' : '编辑规则';
       document.getElementById('aiValidation').hidden = true;
       document.getElementById('enableRule').textContent = create ? '检查并启用' : '检查并保存';
@@ -1635,14 +1770,26 @@
       document.getElementById('currentStageOutcome').textContent = activeStage;
       updateStageTargetOptions();
       setExecutionOutputs(['issue','stage','view']);
-      if (preferredView) {
+      if (sourceRule) {
+        const knownSignal = [...issueSelect.options].some(option => option.value === sourceRule.signal);
+        issueSelect.value = knownSignal ? sourceRule.signal : '新建问题类型…';
+        document.getElementById('customIssueName').value = knownSignal ? '' : sourceRule.signal;
+        const targetStage = sourceRule.stage?.replace(/^自动进入|^建议进入/, '') || '';
+        if (targetStage && [...stageTargetSelect.options].some(option => option.value === targetStage)) stageTargetSelect.value = targetStage;
+        if (sourceRule.view && [...issueViewSelect.options].some(option => option.value === sourceRule.view)) issueViewSelect.value = sourceRule.view;
+        if (sourceRule.priority && [...deadlineSelect.options].some(option => option.value === sourceRule.priority)) deadlineSelect.value = sourceRule.priority;
+        syncIssueMapping();
+        fillRuleIdentity(sourceRule);
+      } else if (preferredView) {
         issueSelect.value = '新建问题类型…';
         syncIssueMapping();
         document.getElementById('issueViewSelect').value = preferredView;
         document.getElementById('viewMatchNote').textContent = '已按当前经营视图预选，可修改';
+        fillRuleIdentity();
       } else {
         if (create) issueSelect.value = 'D30 零单';
         syncIssueMapping();
+        fillRuleIdentity();
       }
       updateOutcomeSummary();
       openDrawer(document.getElementById('ruleDrawer'));
@@ -1664,14 +1811,20 @@
       document.getElementById('enableRule').textContent = ruleCreating ? '检查并启用' : '检查并保存';
     }
     function validateCurrentRule() {
+      const ruleName = document.getElementById('ruleName').value.trim();
+      const ruleLabel = document.getElementById('ruleLabel').value.trim();
+      const ruleCode = document.getElementById('ruleCode').value.trim();
+      if (!ruleName) return { type:'error', status:'需要补充', message:'请先填写规则名称，用于策略中心列表、通知和审计追溯。' };
+      if (!ruleLabel) return { type:'error', status:'需要补充', message:'请先填写输出标签。页面筛选项和待处理类型会使用这个标签。' };
+      if (!ruleCode) return { type:'error', status:'需要补充', message:'请先填写规则编号，避免规则改名后历史记录无法追溯。' };
       const handlesIssue = issueOutcomeEnabled.checked;
       const handlesStage = stageOutcomeEnabled.checked;
       const handlesView = viewOutcomeEnabled.checked;
       if (!handlesIssue && !handlesStage && !handlesView) return { type:'error', status:'需要补充', message:'至少选择一种处理方式：进入待处理、调整阶段或归入业务场景。' };
       const custom = issueSelect.value === '新建问题类型…';
-      const signal = handlesIssue ? (custom ? document.getElementById('customIssueName').value.trim() : issueSelect.value) : '';
+      const signal = handlesIssue ? ruleLabel : '';
       if (handlesIssue && !signal) return { type:'error', status:'需要补充', message:'处理事项为空，暂时无法进入待处理中心。' };
-      const duplicate = ruleCreating && handlesIssue && (ruleData[activeStage] || []).some(rule => rule.signal === signal);
+      const duplicate = handlesIssue && (ruleData[activeStage] || []).some(rule => rule !== editingRule && (rule.signal === signal || rule.code === ruleCode));
       if (duplicate) return { type:'warning', status:'发现相似规则', message:`“${signal}”已存在相似规则。字段与条件结构有效，请确认是否仍要启用。` };
       return { type:'success', status:'校验通过', message:'字段可用，条件无冲突，未发现重复规则或互斥的生命周期动作。' };
     }
@@ -1685,6 +1838,14 @@
     document.getElementById('parseRule').addEventListener('click', () => {
       document.getElementById('issueSelect').value = 'D30 零单';
       syncIssueMapping(true);
+      fillRuleIdentity({
+        name:'D30 仍未出单',
+        signal:'D30 零单',
+        meta:'D30 · AI 草稿',
+        priority:'P0 今天处理',
+        trigger:'到达节点时',
+        conditions:['近30日 销量 = 0']
+      });
       resetRuleValidation();
       showToast('AI 已生成结构化规则，并匹配为 D30 零单');
     });
@@ -1698,34 +1859,39 @@
         document.getElementById('enableRule').textContent = validation.type === 'warning' ? '仍然启用' : (ruleCreating ? '确认启用' : '确认保存');
         return;
       }
+      const handlesIssue = issueOutcomeEnabled.checked;
+      const handlesStage = stageOutcomeEnabled.checked;
+      const handlesView = viewOutcomeEnabled.checked;
+      const signal = document.getElementById('ruleLabel').value.trim();
+      const priority = document.getElementById('rulePriority').value;
+      const targetView = handlesView ? issueViewSelect.value : '';
+      const node = document.getElementById('ruleNode').value;
+      const conditionSummary = collectConditionSummary();
+      const rulePayload = {
+        name:document.getElementById('ruleName').value.trim(),
+        code:document.getElementById('ruleCode').value.trim(),
+        version:'V1',
+        node,
+        trigger:document.getElementById('ruleTrigger').value,
+        meta:`${node} · 租户规则`,
+        conditions:(!ruleCreating && editingRule?.conditions?.length) ? editingRule.conditions : (conditionSummary.length ? conditionSummary : ['按当前结构化条件执行']),
+        signal,
+        signalClass:/P0|今天|零单|阻断/.test(priority) ? 'red' : /P1|48/.test(priority) ? 'orange' : 'green',
+        priority:handlesIssue ? priority : '',
+        result:handlesIssue ? '自动生成待处理任务' : '记录规则判断',
+        resultMeta:handlesIssue ? '命中后进入待处理中心，由运营确认建议动作' : '不创建异常任务',
+        stage:handlesStage ? `建议进入${stageTargetSelect.value}` : '保持当前阶段',
+        stageMeta:handlesStage ? '命中后负责人确认流转' : '不执行生命周期流转',
+        view:targetView || undefined
+      };
       if (ruleCreating) {
-        const handlesIssue = issueOutcomeEnabled.checked;
-        const handlesStage = stageOutcomeEnabled.checked;
-        const handlesView = viewOutcomeEnabled.checked;
-        const custom = issueSelect.value === '新建问题类型…';
-        const signal = handlesIssue
-          ? (custom ? document.getElementById('customIssueName').value.trim() : issueSelect.value)
-          : handlesStage
-            ? `流转至${stageTargetSelect.value}`
-            : `${issueViewSelect.value}视图收录`;
-        if (handlesIssue && !signal) { showToast('请填写问题名称'); return; }
-        const targetView = handlesView ? issueViewSelect.value : '';
-        ruleData[activeStage].unshift({
-          name:`${signal}规则`,
-          meta:'持续检查 · 租户规则',
-          conditions:['按当前结构化条件执行'],
-          signal,
-          signalClass:handlesIssue ? 'orange' : 'green',
-          priority:handlesIssue ? deadlineSelect.value : '',
-          result:handlesIssue ? '自动生成待处理任务' : '记录规则判断',
-          resultMeta:handlesIssue ? 'AI 分析具体建议动作' : '不创建异常任务',
-          stage:handlesStage ? `自动进入${stageTargetSelect.value}` : '保持当前阶段',
-          stageMeta:handlesStage ? '系统自动流转' : '不执行生命周期流转',
-          view:targetView || undefined
-        });
-        renderRules();
-        renderViews();
+        ruleData[activeStage] = ruleData[activeStage] || [];
+        ruleData[activeStage].unshift(rulePayload);
+      } else if (editingRule) {
+        Object.assign(editingRule, rulePayload, { version:editingRule.version || 'V1' });
       }
+      renderRules();
+      renderViews();
       closeDrawers();
       showToast('规则已启用');
     });
@@ -1835,9 +2001,23 @@
         : [...current, button.dataset.output];
       setExecutionOutputs(next);
     }));
-    issueSelect.addEventListener('change', () => { syncIssueMapping(); updateOutcomeSummary(); });
+    issueSelect.addEventListener('change', () => { syncIssueMapping(); syncRuleIdentityFromSignal(); updateOutcomeSummary(); });
+    document.getElementById('customIssueName').addEventListener('input', syncRuleIdentityFromSignal);
+    document.getElementById('ruleLabel').addEventListener('input', event => {
+      const label = event.target.value.trim();
+      const node = document.getElementById('ruleNode').value;
+      if (label) document.getElementById('ruleCode').value = buildRuleCode(label, node);
+    });
+    document.getElementById('ruleNode').addEventListener('change', () => {
+      const label = document.getElementById('ruleLabel').value.trim();
+      if (label) document.getElementById('ruleCode').value = buildRuleCode(label, document.getElementById('ruleNode').value);
+    });
     issueViewSelect.addEventListener('change', () => { document.getElementById('viewMatchNote').textContent = '已人工调整归属视图'; });
-    [deadlineSelect, stageTargetSelect].forEach(field => field.addEventListener('change', updateOutcomeSummary));
+    deadlineSelect.addEventListener('change', () => {
+      document.getElementById('rulePriority').value = inferPriority(document.getElementById('ruleLabel').value.trim(), deadlineSelect.value);
+      updateOutcomeSummary();
+    });
+    stageTargetSelect.addEventListener('change', updateOutcomeSummary);
     document.getElementById('addCondition').addEventListener('click', () => {
       const row = document.createElement('div');
       row.className = 'condition-edit';
