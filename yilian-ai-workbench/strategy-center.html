@@ -215,7 +215,7 @@
     .form-section { margin-top: 15px; }
     .form-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; color: #344054; font-size: 11px; font-weight: 700; }
     .form-title span { color: #98a2b3; font-size: 9px; font-weight: 400; }
-    .rule-basic-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; }
+    .rule-basic-grid { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(180px,.8fr); gap: 8px; }
     .rule-basic-field { min-height: 58px; border: 1px solid #dbe5f2; border-radius: 8px; padding: 8px 10px; display: grid; gap: 5px; background: #fbfcfe; color: #667085; font-size: 9px; }
     .rule-basic-field.full { grid-column: 1 / -1; }
     .rule-basic-field input,
@@ -522,7 +522,7 @@
     }
     .notify-review-config label { display: grid; gap: 6px; min-width: 0; }
     .notify-review-config label > span { color: #667085; font-size: 10px; font-weight: 700; }
-    .rule-basic-grid { gap: 10px; }
+    .rule-basic-grid { grid-template-columns: minmax(0,1.2fr) minmax(200px,.8fr); gap: 10px; }
     .rule-basic-field { min-height: 62px; padding: 9px 11px; font-size: 10px; }
     .rule-basic-field input,
     .rule-basic-field select { height: 26px; font-size: 12px; }
@@ -945,7 +945,7 @@
       box-shadow: none !important;
     }
     .rule-basic-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: minmax(0,1.2fr) minmax(200px,.8fr);
       gap: 8px;
     }
     .rule-basic-field {
@@ -1068,15 +1068,15 @@
       </div>
 
       <section class="form-section">
-        <div class="form-title">0. 规则基本信息 <span>决定列表名称、页面筛选标签和规则追溯</span></div>
+        <div class="form-title">0. 规则基本信息 <span>规则编号、版本和触发点由系统自动生成</span></div>
         <div class="rule-basic-grid">
           <label class="rule-basic-field">规则名称<input id="ruleName" value="D30 仍未出单" placeholder="例如：D15 弱动销观察"></label>
-          <label class="rule-basic-field">输出标签<input id="ruleLabel" value="D30 零单" placeholder="例如：弱动销"><small>新品测试卡片、场景筛选和待办类型使用这个标签。</small></label>
-          <label class="rule-basic-field">规则编号<input id="ruleCode" value="NEW_D30_ZERO_ORDER" placeholder="例如：NEW_D15_WEAK_SALES"></label>
           <label class="rule-basic-field">适用节点<select id="ruleNode"><option>持续检查</option><option>D7</option><option>D15</option><option selected>D30</option><option>D37</option></select></label>
-          <label class="rule-basic-field">优先级<select id="rulePriority"><option selected>P0 今天处理</option><option>P1 48小时处理</option><option>P2 7天内复查</option><option>仅观察</option></select></label>
-          <label class="rule-basic-field">触发点<select id="ruleTrigger"><option>数据同步完成</option><option selected>到达节点时</option><option>数据补齐后</option><option>基础条件恢复后</option><option>复查到期</option></select></label>
         </div>
+        <input type="hidden" id="ruleLabel" value="D30 零单">
+        <input type="hidden" id="ruleCode" value="NEW_D30_ZERO_ORDER">
+        <select id="rulePriority" hidden><option selected>P0 今天处理</option><option>P1 48小时处理</option><option>P2 7天内复查</option><option>仅观察</option></select>
+        <select id="ruleTrigger" hidden><option>数据同步完成</option><option selected>到达节点时</option><option>数据补齐后</option><option>基础条件恢复后</option><option>复查到期</option></select>
       </section>
 
       <section class="form-section">
@@ -1106,7 +1106,7 @@
           <article class="outcome-card task" id="issueOutcomeCard">
             <div class="outcome-head"><div class="outcome-title"><input type="checkbox" id="issueOutcomeEnabled" checked hidden><i class="outcome-icon">!</i>处理事项</div><span class="tag red" id="taskOutcomeTag">待处理</span></div>
             <div class="outcome-fields">
-              <label class="outcome-field"><span>识别为</span><select class="inline-field" id="issueSelect"><option>D30 零单</option><option>D15 弱动销</option><option>测试通过</option><option>基础条件阻断</option><option>数据待补齐</option><option>连续零单</option><option>有花费无订单</option><option>ACOS 过高</option><option>TACoS 过高</option><option>库存覆盖不足</option><option>补货候选</option><option>清货消化慢</option><option>差评集中出现</option><option>新建问题类型…</option></select><small class="match-note"><span>AI 已自动匹配，可修改</span></small></label>
+              <label class="outcome-field"><span>识别为 / 筛选标签</span><select class="inline-field" id="issueSelect"><option>D30 零单</option><option>D15 弱动销</option><option>测试通过</option><option>基础条件阻断</option><option>数据待补齐</option><option>连续零单</option><option>有花费无订单</option><option>ACOS 过高</option><option>TACoS 过高</option><option>库存覆盖不足</option><option>补货候选</option><option>清货消化慢</option><option>差评集中出现</option><option>新建问题类型…</option></select><small class="match-note"><span>AI 已自动匹配，可修改</span></small></label>
               <label class="outcome-field"><span>处理时效</span><select class="inline-field" id="deadlineSelect"><option>今天处理</option><option>48 小时内处理</option><option>7 天内复查</option></select></label>
               <div class="custom-issue" id="customIssueFields"><input class="field" id="customIssueName" placeholder="输入新的问题名称"></div>
             </div>
