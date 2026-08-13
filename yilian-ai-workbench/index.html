@@ -29521,25 +29521,10 @@
     }
     .action-record-page-head {
       display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 2px 2px 0;
-    }
-    .action-record-page-head > div > span {
-      color: #98a2b3;
-      font-size: 12px;
-    }
-    .action-record-page-head h1 {
-      margin: 6px 0 4px;
-      color: #182230;
-      font-size: 24px;
-      letter-spacing: 0;
-    }
-    .action-record-page-head p {
-      margin: 0;
-      color: #667085;
-      font-size: 13px;
+      align-items: center;
+      justify-content: flex-end;
+      min-height: 36px;
+      padding: 0 2px;
     }
     .action-record-attention {
       display: flex;
@@ -41877,7 +41862,7 @@
       const rows = state.inactiveRecommendedOnly ? workflowRows.filter(row => recommendedIds.has(row.id)) : workflowRows;
       const activeMetricRows = workflowRows.filter(row => ["待处理","处理中"].includes(inactiveStatusValue(row)));
       const todayDueCount = activeMetricRows.filter(row => row.due === "今天").length;
-      const actionMeta = row => ["已完成","已忽略"].includes(inactiveStatusValue(row)) || !inactiveTaskPermission(row, "operate") ? ["查看详情","openInactive"] : ["处理","openInactive"];
+      const actionMeta = row => ["已完成","已忽略"].includes(inactiveStatusValue(row)) || !inactiveTaskPermission(row, "operate") ? ["详情","openInactive"] : ["处理","openInactive"];
       const sites = [...new Set(permissionRows.map(row => row.site))];
       const stores = [...new Set(permissionRows.map(row => row.store))];
       const owners = [...new Set(permissionRows.map(row => row.owner))];
@@ -41934,7 +41919,7 @@
               <td><span class="inactive-ops-owner"><strong>${text(row.owner)}</strong></span></td>
               <td><span class="inactive-ops-owner"><strong>${text(row.due)}</strong></span></td>
               <td><span class="inactive-table-metric"><strong>${text(row.generatedAt)}</strong></span></td>
-              <td><button class="btn small ${levelFor(row)==="P0"&&!["已完成","已忽略"].includes(status)?"primary":""}" data-action="${actionName}" data-id="${text(row.id)}">${actionLabel}</button></td>
+              <td><button class="btn small" data-action="${actionName}" data-id="${text(row.id)}">${actionLabel}</button></td>
             </tr>`;
           }).join("") || `<tr><td colspan="20"><div class="empty">当前筛选暂无不动销处置记录</div></td></tr>`}</tbody></table></div>
         </section>
@@ -42072,11 +42057,10 @@
           ${focusPanel}
           ${effectPanel}
           ${progressSummary}
-          <section class="decision-card full"><h4>关键经营数据</h4><div class="inactive-core-metrics"><div><span>销量 D7/D15/D30</span><strong>${escapeHtml(display(row.sales7))}/${escapeHtml(display(row.sales15))}/${escapeHtml(display(row.sales30))}</strong></div><div><span>FBA 可售</span><strong>${escapeHtml(display(row.fbaStock))} 件</strong></div><div><span>库存覆盖</span><strong>${escapeHtml(display(row.coverDays))}</strong></div><div><span>库龄</span><strong>${escapeHtml(display(row.agedDays))} 天</strong></div><div><span>近 30 日广告花费</span><strong>${escapeHtml(display(row.adSpend))}</strong></div><div><span>近 30 日利润/单</span><strong>${escapeHtml(profitPerUnit)}</strong></div></div></section>
+          <section class="decision-card full"><h4>当前经营数据</h4><div class="inactive-core-metrics"><div><span>生命周期阶段</span><strong>${escapeHtml(display(row.stage))}</strong></div><div><span>经营时长</span><strong>${escapeHtml(operatingDays)}</strong></div><div><span>无销量天数</span><strong>${escapeHtml(display(row.noSaleDays))} 天</strong></div><div><span>销量 D7/D15/D30</span><strong>${escapeHtml(display(row.sales7))}/${escapeHtml(display(row.sales15))}/${escapeHtml(display(row.sales30))}</strong></div><div><span>FBA 可售</span><strong>${escapeHtml(display(row.fbaStock))} 件</strong></div><div><span>库存覆盖</span><strong>${escapeHtml(display(row.coverDays))}</strong></div><div><span>库龄</span><strong>${escapeHtml(display(row.agedDays))} 天</strong></div><div><span>库存金额</span><strong>${escapeHtml(display(row.inventoryValue))}</strong></div><div><span>近 30 日广告花费</span><strong>${escapeHtml(display(row.adSpend))}</strong></div><div><span>近 30 日利润/单</span><strong>${escapeHtml(profitPerUnit)}</strong></div><div><span>Listing</span><strong>${escapeHtml(display(row.listing))}</strong></div><div><span>Buy Box</span><strong>${escapeHtml(display(row.buybox))}</strong></div></div></section>
           ${nextStep}
           <div class="inactive-complete-details">
-          <section class="inactive-more-section"><h4>处置依据</h4><div class="inactive-suggestion-list"><div><span>命中条件</span><strong>${escapeHtml(display(row.ruleTrigger))}</strong></div><div><span>判断说明</span><strong>${escapeHtml(display(row.desc))}</strong></div><div><span>生命周期处理</span><strong>${escapeHtml(inactiveLifecycleHandling(row))}</strong></div></div></section>
-            <section class="inactive-more-section"><h4>处置档案</h4><div class="inactive-archive-grid"><div class="inactive-archive-group"><h5>识别信息</h5><div class="exception-meta-grid"><div><span>处置编号</span><strong>${escapeHtml(display(row.id))}</strong></div><div><span>生成日期</span><strong>${escapeHtml(display(row.generatedAt))}</strong></div><div><span>${isExceptionAdminRole(currentExceptionActor().role) ? "来源规则" : "识别方式"}</span><strong>${escapeHtml(isExceptionAdminRole(currentExceptionActor().role) ? display(row.sourceRule) : "系统经营规则识别")}</strong></div>${isExceptionAdminRole(currentExceptionActor().role) ? `<div><span>规则版本</span><strong>${escapeHtml(display(row.ruleVersion))}</strong></div>` : ""}<div><span>不动销类型</span><strong>${escapeHtml(display(row.issueType))}</strong></div><div><span>处置阶段</span><strong>${escapeHtml(stage)}</strong></div></div></div><div class="inactive-archive-group"><h5>经营背景</h5><div class="exception-meta-grid"><div><span>生命周期阶段</span><strong>${escapeHtml(display(row.stage))}</strong></div><div><span>经营时长</span><strong>${escapeHtml(operatingDays)}</strong></div><div><span>无销量天数</span><strong>${escapeHtml(display(row.noSaleDays))} 天</strong></div><div><span>库存金额</span><strong>${escapeHtml(display(row.inventoryValue))}</strong></div><div><span>Listing / Buy Box</span><strong>${escapeHtml(display(row.listing))} / ${escapeHtml(display(row.buybox))}</strong></div></div></div></div></section>
+            <section class="inactive-more-section"><h4>识别与处置信息</h4><div class="inactive-archive-grid"><div class="inactive-archive-group"><h5>识别记录</h5><div class="exception-meta-grid"><div><span>处置编号</span><strong>${escapeHtml(display(row.id))}</strong></div><div><span>生成日期</span><strong>${escapeHtml(display(row.generatedAt))}</strong></div><div><span>首次识别场景</span><strong>${escapeHtml(display(canonicalExceptionSceneName(row.sourceScene)))}</strong></div><div><span>${isExceptionAdminRole(currentExceptionActor().role) ? "来源规则" : "识别方式"}</span><strong>${escapeHtml(isExceptionAdminRole(currentExceptionActor().role) ? display(row.sourceRule) : "系统经营规则识别")}</strong></div>${isExceptionAdminRole(currentExceptionActor().role) ? `<div><span>规则版本</span><strong>${escapeHtml(display(row.ruleVersion))}</strong></div>` : ""}<div><span>不动销类型</span><strong>${escapeHtml(display(row.issueType))}</strong></div><div><span>处置阶段</span><strong>${escapeHtml(stage)}</strong></div></div></div><div class="inactive-archive-group"><h5>判断与处理</h5><div class="inactive-suggestion-list"><div><span>命中条件</span><strong>${escapeHtml(display(row.ruleTrigger))}</strong></div><div><span>判断说明</span><strong>${escapeHtml(display(row.desc))}</strong></div><div><span>生命周期处理</span><strong>${escapeHtml(inactiveLifecycleHandling(row))}</strong></div></div></div></div></section>
             <section class="inactive-more-section"><h4>责任与时效</h4><div class="exception-meta-grid"><div><span>负责人</span><strong>${escapeHtml(display(row.owner))}</strong></div><div><span>最晚处理时间</span><strong>${escapeHtml(display(row.deadline || row.due))}</strong></div><div><span>确认方式</span><strong>${escapeHtml(display(row.decisionMode))}</strong></div>${isCompleted ? "" : `<div><span>实际处理时间</span><strong>${escapeHtml(display(row.actualProcessedAt))}</strong></div>`}</div>${resultItems.length && !isCompleted ? `<div class="inactive-result-grid">${resultItems.map(([label,value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(display(value))}</strong></div>`).join("")}</div>` : ""}</section>
             <section class="inactive-more-section"><h4>处置进度</h4>${inactiveProcessPath(statusValue)}</section>
           </div>
@@ -43165,7 +43149,6 @@
       return `
         <section class="np-page action-record-page">
           <header class="action-record-page-head">
-            <div><span>沉淀与管理 / 经营动作记录</span><h1>经营动作记录</h1><p>记录已实际执行或明确关闭的经营动作，以及后续复查形成的结果。</p></div>
             <div class="np-toolbar-actions"><button class="icon-btn" data-action="resetOperationDemo" title="重置演示数据" aria-label="重置演示数据"><i data-lucide="rotate-ccw"></i></button><button class="btn" data-action="exportActionLogs"><i data-lucide="download"></i>导出记录</button></div>
           </header>
           <section class="action-record-attention">
@@ -47301,7 +47284,7 @@
           : `<button class="btn primary" data-view="logs">查看经营动作记录</button>`;
         const start = canOperate && currentStatus === "待处理" ? `<button class="btn" data-action="startInactive" data-id="${row.id}">标记处理中</button>` : "";
         const ignore = canOperate && ["待处理","处理中"].includes(currentStatus) ? `<button class="btn" data-action="ignoreInactive" data-id="${row.id}">忽略</button>` : "";
-        openDrawer(`${row.product} · 不动销处置`, inactiveDetail(row), `<button class="btn" data-action="openSku360" data-id="${row.sku}">ASIN 360</button><button class="btn" data-view="${escapeHtml(exceptionSourceView(row))}">来源场景</button>${ignore}${start}${primary}`);
+        openDrawer(`${row.product} · 不动销处置`, inactiveDetail(row), `<button class="btn" data-action="openSku360" data-id="${row.sku}">ASIN 360</button>${ignore}${start}${primary}`);
         qs("#drawerBody").scrollTop = 0;
       },
       startInactive(el){ const row=inactive.find(item=>item.id===el.dataset.id); if(!row)return; if(!inactiveTaskPermission(row,"operate")){toast("无权操作该处置","仅负责人、运营主管或企业管理员可处理。");return;} if(inactiveStatusValue(row)!=="待处理"){toast("状态已更新","仅待处理记录可标记为处理中，请刷新后重试。");return;} row.status="处理中"; syncInactiveTask(row); logs.unshift({id:`LOG-${Date.now()}`,related:row.id,sku:row.sku,asin:row.asin,type:"开始不动销处置",content:"负责人已开始处理",user:currentExceptionActor().name,time:"刚刚",before:"待处理",after:"处理中",failure:"-",result:"处理中"}); closeDrawer(); render(); toast("已开始处置", "任务状态已同步到待处理中心。"); },
