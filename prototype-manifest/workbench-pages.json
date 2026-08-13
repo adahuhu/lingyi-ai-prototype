@@ -33,6 +33,8 @@
     "function businessActionRecords()",
     "function openActionRecordDrawer(row)",
     "实际执行时间",
-    "操作链路"
+    "操作链路",
+    "const problemRecovered = !dataIncomplete && criteriaPassed && guardrailsPassed",
+    "plan.recoveryBatchesMet=evaluation.problemRecovered"
   ]
 }
