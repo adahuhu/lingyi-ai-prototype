@@ -32219,9 +32219,9 @@
     const tasks = [
       { id:"TASK-001", name:"英国站发饰开品全链路", type:"开品任务", stage:"图片待审核", progress:68, owner:"运营一组", status:"待审核", credits:236, next:"审核 28 张图片与 9 条 Listing", steps:["目标理解","选品结论","Brief","图片","Listing","刊登","新品测试"] },
       { id:"TASK-002", name:"Kitchen 100 个 ASIN 自动粗筛", type:"自动化选品", stage:"候选品审核", progress:78, owner:"产品开发", status:"待审核", credits:128, next:"确认 6 个 A 类机会", steps:["目标理解","采集","规则过滤","利润核算","供应商匹配","候选结论"] },
-      { id:"TASK-003", name:"D15 弱动销新品诊断", type:"新品测试分析", stage:"处置建议生成", progress:91, owner:"运营主管", status:"执行中", credits:64, next:"生成异常队列和不动销处置", steps:["读取生命周期","D15 规则","广告利润","建议动作","动作日志"] },
+      { id:"TASK-003", name:"D15 弱动销新品诊断", type:"新品测试分析", stage:"处置建议生成", progress:91, owner:"运营主管", status:"执行中", credits:64, next:"生成异常队列和不动销处置", steps:["读取生命周期","D15 规则","广告利润","建议动作","经营动作记录"] },
       { id:"TASK-004", name:"广告 TACoS 异常复盘", type:"广告异常分析", stage:"等待处理", progress:100, owner:"广告人员", status:"已完成", credits:46, next:"已写入异常队列", steps:["拉取广告","利润判断","库存判断","建议动作"] },
-      { id:"TASK-005", name:"清货处置复盘与经验沉淀", type:"清货复盘", stage:"复查数据待齐", progress:52, owner:"运营主管", status:"执行中", credits:58, next:"形成经验候选", steps:["清货数据","动作日志","效果复查","经验候选"] }
+      { id:"TASK-005", name:"清货处置复盘与经验沉淀", type:"清货复盘", stage:"复查数据待齐", progress:52, owner:"运营主管", status:"执行中", credits:58, next:"形成经验候选", steps:["清货数据","经营动作记录","效果复查","经验候选"] }
     ];
 
     const lifecycle = [
@@ -34249,7 +34249,7 @@
           {label:"收缩", value:1, color:"#d97706"},
           {label:"暂停", value:1, color:"#dc4c45"},
           {label:"重建", value:1, color:"#1677ff"}
-        ], "4"), "广告建议需要进入审批和动作日志，形成可复查闭环。")}
+        ], "4"), "广告建议需要进入审批和经营动作记录，形成可复查闭环。")}
         ${chartCard("异常原因", "高花费低转化、库存风险、清货期误投", barChart([
           {label:"高花费低转化", value:1},
           {label:"清货期误投", value:1},
@@ -34321,7 +34321,7 @@
           {label:"广告动作", value:1},
           {label:"价格动作", value:1},
           {label:"内容动作", value:1}
-        ], logs.length), "动作日志让每个 AI 建议有执行证据和复查结果。")}
+        ], logs.length), "经营动作记录让每个 AI 建议有执行证据和复查结果。")}
         ${chartCard("复查结果趋势", "动作后是否有效", lineChart([42,45,48,51,55,58,61], ["D-6","D-5","D-4","D-3","D-2","D-1","今天"], {alt:true}), "后续可以把复查结果直接回流到质量反馈和规则中心。")}
         ${chartCard("动作来源", "异常、审核、不动销的动作占比", barChart([
           {label:"异常", value:1, view:"exceptions"},
@@ -34417,7 +34417,7 @@
         ]), "权限要匹配高风险动作，尤其 ERP 写入、广告预算和补货审批。")}
         ${chartCard("审计留痕", "关键动作不可删除", insightList([
           {title:"审核记录", text:"只允许作废，不允许物理删除。", badge:"已启用"},
-          {title:"动作日志", text:"记录操作人、时间、执行前后和复查结果。", badge:"在线"},
+          {title:"经营动作记录", text:"记录操作人、时间、执行前后和复查结果。", badge:"在线"},
           {title:"客户数据", text:"仅用于客户自身业务任务。", badge:"受控"}
         ]), "安全与审计是 B 端 AI 工作台必须具备的基础能力。")}
       </div>`;
@@ -35333,7 +35333,7 @@
           action:"检查关键词结构，收缩低效词并保留高相关词。",
           boundary:"当前判断不直接调整预算，需广告负责人确认词包和预算边界。",
           review:"调整执行后 7 天复查 TACoS、自然排名和订单结构。",
-          source:["广告报表","关键词排名","订单利润结构","历史动作日志"],
+          source:["广告报表","关键词排名","订单利润结构","历史经营动作记录"],
           taskName:"复核车载收纳箱广告关键词结构",
           primaryLabel:"安排广告复核"
         },
@@ -35359,7 +35359,7 @@
           action:"进入第二轮复查，检查价格与详情页说服力。",
           boundary:"当前复查只覆盖 7 天窗口，不代表长期结论。",
           review:"明天自动复查详情页改动建议是否进入任务中心。",
-          source:["动作日志","点击率变化","转化漏斗","页面内容检查"],
+          source:["经营动作记录","点击率变化","转化漏斗","页面内容检查"],
           taskName:"复查车载收纳箱页面承接问题",
           primaryLabel:"进入复查"
         },
@@ -37235,7 +37235,7 @@
                     <button data-action="openErpSyncDrawer"><i data-lucide="refresh-cw"></i>同步 ERP 数据</button>
                   </span>
                 </span>
-                <button class="btn small" data-view="logs"><i data-lucide="history"></i>动作日志</button>
+                <button class="btn small" data-view="logs"><i data-lucide="history"></i>经营动作记录</button>
                 <button class="btn small" data-action="exportCurrent"><i data-lucide="download"></i>导出</button>
               </div>
             </div>
@@ -40368,7 +40368,7 @@
             <div class="np-toolbar-actions">
               <span class="np-data-time">当前数据：<b>${escapeHtml(state.lifecycleDataTime)}</b></span>
               <button class="btn" data-action="requireFailureReason"><i data-lucide="message-square-warning"></i>检查失败原因</button>
-              <button class="btn primary" data-view="logs"><i data-lucide="history"></i>查看动作日志</button>
+              <button class="btn primary" data-view="logs"><i data-lucide="history"></i>查看经营动作记录</button>
             </div>
           </section>
 
@@ -42071,7 +42071,7 @@
     }
 
     function inactiveProcessPath(current) {
-      if (current === "已忽略") return `<div class="process-path"><div class="process-path-row done"><i></i><span><strong>已忽略</strong>已记录忽略原因，可从动作日志追溯</span></div></div>`;
+      if (current === "已忽略") return `<div class="process-path"><div class="process-path-row done"><i></i><span><strong>已忽略</strong>已记录忽略原因，可从经营动作记录追溯</span></div></div>`;
       const normalized = ["待复查","已闭环"].includes(current) ? "已完成" : current === "执行中" ? "处理中" : current || "待处理";
       const steps = ["待处理","处理中","已完成"];
       const currentIndex = Math.max(steps.indexOf(normalized), 0);
@@ -42080,7 +42080,7 @@
     }
 
     function processPath(current) {
-      if (current === "已忽略") return `<div class="process-path"><div class="process-path-row done"><i></i><span><strong>已忽略</strong>已记录忽略原因，可从动作日志追溯</span></div></div>`;
+      if (current === "已忽略") return `<div class="process-path"><div class="process-path-row done"><i></i><span><strong>已忽略</strong>已记录忽略原因，可从经营动作记录追溯</span></div></div>`;
       const normalized = current === "执行中" || current === "待复查" ? "处理中" : current === "已闭环" ? "已完成" : current || "待处理";
       const steps = normalized === "待分配" ? ["待分配","待处理","处理中","已完成"] : ["待处理","处理中","已完成"];
       const currentIndex = Math.max(steps.indexOf(normalized), 0);
@@ -43210,7 +43210,7 @@
       return `<section class="np-page">
         <section class="np-focus">
           <div class="np-focus-main"><span class="np-focus-label"><i data-lucide="sparkles"></i>AI 经营复盘</span><h2>比较处理前后结果，把有效经验留给下一次判断</h2><p>复盘承接实际动作与系统复查结果；有复用价值的案例会形成候选经验，经知识确认后用于后续 AI 建议。</p><div class="np-focus-actions"><span class="np-ai-badge">复盘记录 ${normalizedRows.length}</span><span class="np-ai-badge">待总结 ${pending}</span><span class="np-ai-badge">已验证有效 ${effective}</span></div></div>
-          <div class="np-toolbar-actions"><button class="btn" data-view="logs"><i data-lucide="history"></i>查看动作日志</button><button class="btn primary" data-action="openReviewKnowledgeCandidates"><i data-lucide="library-big"></i>查看候选经验</button></div>
+          <div class="np-toolbar-actions"><button class="btn" data-view="logs"><i data-lucide="history"></i>查看经营动作记录</button><button class="btn primary" data-action="openReviewKnowledgeCandidates"><i data-lucide="library-big"></i>查看候选经验</button></div>
         </section>
         <section class="np-detail-panel"><div class="np-detail-body"><div class="np-detail-table-wrap"><table class="np-detail-table np-wide-table">
           <thead><tr><th>商品 / SKU</th><th>来源阶段</th><th>原问题</th><th>执行动作</th><th>处理前</th><th>处理后</th><th>效果与贡献</th><th>经验沉淀</th><th>状态</th></tr></thead>
@@ -43232,9 +43232,9 @@
       ];
       const dimensions = [
         { label:"销售表现", status:"改善", change:"↑12%", tone:"good", conclusion:"销售额和订单量较上周期提升。", scope:"286 个在售 ASIN · 3 个站点 · 近 30 天", sources:["销售数据", "异常复查"], evidence:["销售额较前 30 天提升 12%", "订单量较前 30 天提升 8%", "3 个销售异常中 2 个已改善"], examples:["重点关注：低转化商品仍需继续复查"], ai:"销售端整体向好，改善主要来自低效广告收缩和部分商品价格调整。" },
-        { label:"利润与广告", status:"改善", change:"↑8%", tone:"good", conclusion:"广告浪费减少，利润水平回升。", scope:"286 个在售 ASIN · 广告与利润数据 · 近 30 天", sources:["广告数据", "利润数据", "动作日志"], evidence:["广告浪费减少 £320", "整体利润较前 30 天提升 8%", "6 个低效广告问题已完成动作"], examples:["重点关注：调整后的广告仍需观察 TACoS 和单件利润"], ai:"广告收缩已带来利润改善，后续需验证是否影响自然订单。" },
+        { label:"利润与广告", status:"改善", change:"↑8%", tone:"good", conclusion:"广告浪费减少，利润水平回升。", scope:"286 个在售 ASIN · 广告与利润数据 · 近 30 天", sources:["广告数据", "利润数据", "经营动作记录"], evidence:["广告浪费减少 £320", "整体利润较前 30 天提升 8%", "6 个低效广告问题已完成动作"], examples:["重点关注：调整后的广告仍需观察 TACoS 和单件利润"], ai:"广告收缩已带来利润改善，后续需验证是否影响自然订单。" },
         { label:"库存与补货", status:"待关注", change:"—", tone:"warn", conclusion:"低库存覆盖和补货确认仍是主要风险。", scope:"286 个在售 ASIN · 库存与补货数据 · 当前周期", sources:["库存数据", "补货记录", "异常复查"], evidence:["库存覆盖低于安全线：8 个 ASIN", "已触发补货建议：5 个 ASIN", "补货已提交但未确认到货：2 个 ASIN"], examples:["代表问题：沥水篮覆盖 2.1 天", "代表问题：线缆收纳盒覆盖 5.4 天"], ai:"库存风险集中在少数商品，需先补齐到货确认和覆盖复查。" },
-        { label:"Listing 与售后", status:"稳定", change:"↑", tone:"info", conclusion:"内容风险已修正，但转化结果仍需验证。", scope:"Listing 资产 · 转化与售后数据 · 当前周期", sources:["Listing 数据", "售后数据", "动作日志"], evidence:["4 个内容或售后问题已完成处理", "1 个合规 Listing 问题已闭环", "低转化问题仍有 2 个待复查"], examples:["代表问题：补充容量表达后，销量结果尚未完全形成"], ai:"内容修正已经完成，下一步应以 7 天转化结果判断动作是否有效。" },
+        { label:"Listing 与售后", status:"稳定", change:"↑", tone:"info", conclusion:"内容风险已修正，但转化结果仍需验证。", scope:"Listing 资产 · 转化与售后数据 · 当前周期", sources:["Listing 数据", "售后数据", "经营动作记录"], evidence:["4 个内容或售后问题已完成处理", "1 个合规 Listing 问题已闭环", "低转化问题仍有 2 个待复查"], examples:["代表问题：补充容量表达后，销量结果尚未完全形成"], ai:"内容修正已经完成，下一步应以 7 天转化结果判断动作是否有效。" },
         { label:"风险与合规", status:"良好", change:"↑", tone:"good", conclusion:"风险识别和处置闭环较完整。", scope:"286 个在售 ASIN · 风险规则与复查结果 · 当前周期", sources:["风险规则", "异常记录", "复查结果"], evidence:["AI 识别风险 9 个", "已验证有效 10 项动作", "合规问题已处理并形成候选经验"], examples:["后续关注：确认候选经验的适用范围和边界"], ai:"风险处理已形成闭环，稳定有效的做法将进入候选经验复核；确认后用于后续 AI 建议。" }
       ];
       return `<section class="np-page np-review-page">
@@ -43837,7 +43837,7 @@
       { id:"due-reminder", event:"到期前提醒", timing:"按优先级", receiver:"负责人", detail:"P0 提前 2 小时；P1 提前 6 小时；P2 提前 24 小时", tone:"warning", enabled:true },
       { id:"overdue", event:"已逾期", timing:"立即", receiver:"负责人 + 运营主管", detail:"任务完成、忽略或归档后停止提醒", tone:"danger", enabled:true },
       { id:"repeated", event:"重复发生", timing:"按优先级", receiver:"负责人，升级时通知主管", detail:"仅风险升级或关键证据变化时再次推送", tone:"warning", enabled:true },
-      { id:"completed", event:"任务已完成", timing:"不单独推送", receiver:"-", detail:"仅写入动作日志和每日简报统计", tone:"muted", locked:true, enabled:false }
+      { id:"completed", event:"任务已完成", timing:"不单独推送", receiver:"-", detail:"仅写入经营动作记录和每日简报统计", tone:"muted", locked:true, enabled:false }
     ];
     const notificationPolicies = notificationPolicyDefaults.map(item => ({...item}));
 
@@ -44008,11 +44008,11 @@
           bg: "#eaf2ff",
           logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231676ff'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-size='27' font-family='Arial,sans-serif' font-weight='800' fill='white'%3E%E7%BE%BF%3C/text%3E%3C/svg%3E",
           logoPad: "0px",
-          desc: "连接凌羿ERP，打通内部商品档案、刊登、库存、动作日志和生命周期经营数据。",
+          desc: "连接凌羿ERP，打通内部商品档案、刊登、库存、经营动作记录和生命周期经营数据。",
           setup: "请输入凌羿 ERP 应用凭证。完成授权后，系统会同步内部商品档案、刊登草稿、库存和运营动作数据。",
           inputLabel: "应用凭证",
           placeholder: "请输入凌羿 ERP 应用 Key",
-          tools: ["商品档案", "刊登草稿", "库存", "动作日志", "生命周期", "处理结果"]
+          tools: ["商品档案", "刊登草稿", "库存", "经营动作记录", "生命周期", "处理结果"]
         },
         {
           key: "lingxing",
@@ -44336,7 +44336,7 @@
           <section class="tenant-connector-section">
             <div class="tenant-connector-section-body tenant-sync-line">
               <span><strong>${escapeHtml(connection.syncMode || "自动同步")}</strong> · 历史范围 ${escapeHtml(connection.historyRange || "-")}<br>最近同步：${escapeHtml(connection.lastSync || "尚未同步")}</span>
-              <span>${syncing ? "正在拉取并校验数据…" : "同步结果将写入动作日志"}</span>
+              <span>${syncing ? "正在拉取并校验数据…" : "同步结果将写入系统审计"}</span>
             </div>
           </section>
         </div>
@@ -45287,7 +45287,7 @@
             </section>
             <section class="decision-card">
               <h4>动作闭环</h4>
-              <p>负责人 ${escapeHtml(row.owner || "待分配")}，最晚处理 ${escapeHtml(row.due || "待设置")}。处理后写入动作日志，并在下一轮巡检复核销量、广告效率和库存覆盖。</p>
+              <p>负责人 ${escapeHtml(row.owner || "待分配")}，最晚处理 ${escapeHtml(row.due || "待设置")}。处理后写入经营动作记录，并在下一轮巡检复核销量、广告效率和库存覆盖。</p>
             </section>
           </section>
         </div>
@@ -45333,7 +45333,7 @@
         <div class="kv">${entries.slice(0,8).map(([k,v])=>`<div class="kv-item"><label>${escapeHtml(k)}</label><strong>${escapeHtml(v)}</strong></div>`).join("")}</div>
         ${detailAnalytics(row)}
         <div class="card"><strong>AI 结论</strong><div class="meta">${escapeHtml(row.conclusion || row.action || row.suggestion || row.advice || row.verdict || "系统已基于 ERP 数据、企业规则和生命周期状态给出当前处理建议。")}</div></div>
-        <div class="card"><strong>判断依据</strong><ul class="reason-list"><li><span class="dot"></span><span>调用商品、库存、广告、利润、供应链与历史结果。</span></li><li><span class="dot"></span><span>命中对应业务规则后进入审核、异常或处置队列。</span></li><li><span class="dot"></span><span>处理结果会写入动作日志并回流质量反馈中心。</span></li></ul></div>
+        <div class="card"><strong>判断依据</strong><ul class="reason-list"><li><span class="dot"></span><span>调用商品、库存、广告、利润、供应链与历史结果。</span></li><li><span class="dot"></span><span>命中对应业务规则后进入审核、异常或处置队列。</span></li><li><span class="dot"></span><span>处理结果会写入经营动作记录并回流质量反馈中心。</span></li></ul></div>
       `, `<button class="btn" data-action="addLogFor" data-id="${id}">记录动作</button><button class="btn success" data-action="markDone" data-id="${id}">标记完成</button><button class="btn primary" data-action="closeDrawer">关闭</button>`);
     }
 
@@ -45791,7 +45791,7 @@
         const map = {
           "开发新品":"帮我从 UK 站 Beauty 和 Kitchen 类目开发一批新品，完成选品、Brief、图片、Listing、刊登草稿和 D30 新品测试计划。",
           "自动选品":"导入 100 个 ASIN，执行硬规则、利润、需求、竞争和 1688 匹配，输出 A/B/C 推荐等级。",
-          "处理不动销":"筛选 D7 / D15 / D30 不动销商品，生成清货、补货、黑名单和动作日志建议。"
+          "处理不动销":"筛选 D7 / D15 / D30 不动销商品，生成清货、补货、黑名单和经营动作记录建议。"
         };
         qs("#goalInput").value = map[text] || `帮我${text}，输出结论、依据、风险、建议动作和待审核项。`;
       },
@@ -45977,7 +45977,7 @@
             <div class="form-row"><label>已选择</label><input class="input" value="${state.selectedAsins.size} 个 ASIN" disabled></div>
             <div class="form-row"><label>生命周期阶段</label><select class="input" id="bulkAsinStage">${stages.map(stage => `<option>${escapeHtml(stage)}</option>`).join("")}</select></div>
             <div class="form-row full"><label>校正原因 <span style="color:#f04438">*</span></label><textarea class="textarea" id="bulkAsinStageReason" placeholder="说明为什么需要人工校正阶段，例如：实际已进入清货执行期"></textarea></div>
-            <div class="form-row full"><div class="ops-import-safe-note"><strong>权限与影响</strong><span>仅租户管理员可校正。历史记录不覆盖；后续规则从新阶段继续执行，本次操作写入动作日志。</span></div></div>
+            <div class="form-row full"><div class="ops-import-safe-note"><strong>权限与影响</strong><span>仅租户管理员可校正。历史记录不覆盖；后续规则从新阶段继续执行，本次操作写入系统审计。</span></div></div>
           </div>
         `, `<button class="btn" data-action="closeModal">取消</button><button class="btn primary" data-action="confirmBulkAsinStage">确认校正</button>`);
       },
@@ -46182,7 +46182,7 @@
                 <div class="data-result"><span>状态更新</span><strong>21</strong></div>
               </div>
             </section>
-            <div class="ops-import-safe-note"><strong>同步说明</strong><span>系统将从 ERP MCP 拉取最新商品、库存、销量、广告、利润和 Listing 状态；同步完成后写入动作日志，可追溯本次数据来源和规则重算结果。</span></div>
+            <div class="ops-import-safe-note"><strong>同步说明</strong><span>系统将从 ERP MCP 拉取最新商品、库存、销量、广告、利润和 Listing 状态；同步完成后写入系统审计，可追溯本次数据来源和规则重算结果。</span></div>
           </div>
         `, `<button class="btn" data-action="closeDrawer">取消</button><button class="btn primary" data-action="confirmErpSync"><i data-lucide="refresh-cw"></i>开始同步</button>`);
       },
@@ -46221,7 +46221,7 @@
             attachment:"同步批次记录"
           });
           render();
-          toast("ERP 同步完成", "成功更新 860 条数据，已触发规则重算并写入动作日志。");
+          toast("ERP 同步完成", "成功更新 860 条数据，已触发规则重算并写入系统审计。");
           setTimeout(() => {
             if (state.lifecycleSyncState === "done") {
               state.lifecycleSyncState = "idle";
@@ -46318,7 +46318,7 @@
         });
         closeDrawer();
         render();
-        toast("Excel 数据已导入", "已导入通过校验的数据，并将错误明细写入动作日志。");
+        toast("Excel 数据已导入", "已导入通过校验的数据，并将错误明细写入系统审计。");
       },
       setLifecycleFocusFilter(el){
         const next = el.dataset.filter || "all";
@@ -46368,7 +46368,7 @@
               <div><strong>ASIN / SKU</strong><span>商品识别字段</span><em>已识别</em></div>
               <div><strong>销量 / 库存</strong><span>D7 / D15 / D30、FBA 可售、覆盖天数</span><em>已识别</em></div>
               <div><strong>广告 / 利润</strong><span>花费、ACOS、TACoS、单品利润</span><em class="pending">待检查</em></div>
-              <div><strong>处理闭环</strong><span>负责人、处理状态、处理结果、动作日志</span><em class="pending">待检查</em></div>
+              <div><strong>处理闭环</strong><span>负责人、处理状态、处理结果、经营动作记录</span><em class="pending">待检查</em></div>
             </div>
             ${state.lifecycleImportState === "done" ? `<div class="ops-import-result"><i data-lucide="check-circle"></i>上次导入已完成，字段预检通过，当前数据已刷新。</div>` : ""}
             <div class="ops-import-safe-note"><strong>安全边界</strong><span>导入只刷新主表数据并生成异常队列，不会自动执行停售、清货、移除或黑名单动作。</span></div>
@@ -47033,7 +47033,7 @@
           const inactiveTask = inactive.find(item => item.related === row.id && !["已完成","已忽略","已闭环"].includes(item.status));
           if (issue) handlers.openException({dataset:{id:issue.id}});
           else if (inactiveTask) handlers.openInactive({dataset:{id:inactiveTask.id}});
-          else toast("暂无关联任务", "当前任务可能已完成，请查看详情或动作日志。");
+          else toast("暂无关联任务", "当前任务可能已完成，请查看详情或经营动作记录。");
           return;
         }
       },
@@ -47190,7 +47190,7 @@
             <div class="form-row"><label>当前阶段</label><input class="input" value="新品测试" disabled></div>
             <div class="form-row"><label>目标阶段</label><input class="input" value="正常经营" disabled></div>
             <div class="form-row full"><label>确认说明</label><textarea class="textarea" id="newProductPassNote" placeholder="补充阶段流转说明">测试指标已达到当前节点标准，确认转入正常经营。</textarea></div>
-            <div class="form-row full"><div class="ops-import-safe-note"><strong>提交后</strong><span>关闭新品测试任务、更新生命周期阶段并写入动作日志；当前页面保持不变。</span></div></div>
+            <div class="form-row full"><div class="ops-import-safe-note"><strong>提交后</strong><span>关闭新品测试任务、更新生命周期阶段并写入经营动作记录；当前页面保持不变。</span></div></div>
           </div>
         `, `<button class="btn" data-action="closeModal">取消</button><button class="btn primary" data-action="submitNewProductPass" data-id="${escapeHtml(row.id)}">确认阶段流转</button>`);
       },
@@ -47283,7 +47283,7 @@
         const canOperate = inactiveTaskPermission(row, "operate");
         const primary = canOperate && ["待处理","处理中"].includes(currentStatus)
           ? `<button class="btn primary" data-action="fillInactiveResult" data-id="${row.id}">提交处置结果</button>`
-          : `<button class="btn primary" data-view="logs">查看动作日志</button>`;
+          : `<button class="btn primary" data-view="logs">查看经营动作记录</button>`;
         const start = canOperate && currentStatus === "待处理" ? `<button class="btn" data-action="startInactive" data-id="${row.id}">标记处理中</button>` : "";
         const ignore = canOperate && ["待处理","处理中"].includes(currentStatus) ? `<button class="btn" data-action="ignoreInactive" data-id="${row.id}">忽略</button>` : "";
         openDrawer(`${row.product} · 不动销处置`, inactiveDetail(row), `<button class="btn" data-action="openSku360" data-id="${row.sku}">ASIN 360</button><button class="btn" data-view="${escapeHtml(exceptionSourceView(row))}">来源场景</button>${ignore}${start}${primary}`);
@@ -47344,7 +47344,7 @@
           row.effectConclusion=plan ? `等待${row.reviewWindow}核对原问题是否解除，并验证${row.reviewMetrics}。` : "来源规则未关联可用的效果策略，当前无法启动复查。";
         }
         state.inactiveResultPreviousStatus=null;
-        closeModal(); closeDrawer(); render(); toast("处置结果已提交", outcome==="已完成" ? "任务已完成，动作日志和结果验证计划已同步生成。" : outcome==="无法执行" ? "任务已退回待处理，阻塞原因已写入动作日志。" : "任务保持处理中，未完成原因已写入动作日志。");
+        closeModal(); closeDrawer(); render(); toast("处置结果已提交", outcome==="已完成" ? "任务已完成，经营动作记录和结果验证计划已同步生成。" : outcome==="无法执行" ? "任务已退回待处理，阻塞原因已写入经营动作记录。" : "任务保持处理中，未完成原因已写入经营动作记录。");
       },
       ignoreInactive(el){ const row=inactive.find(item=>item.id===el.dataset.id); if(!row)return; if(!inactiveTaskPermission(row,"operate")){toast("无权操作该处置","仅负责人、运营主管或企业管理员可忽略。");return;} if(["已完成","已忽略"].includes(inactiveStatusValue(row))){toast("任务已结束","当前状态不能再忽略。");return;} openModal("忽略不动销处置", `<div class="form-row"><label>忽略原因</label><select class="input" id="inactiveIgnoreType"><option>业务确认无需处理</option><option>数据误报</option><option>已在线下处理</option><option>暂不适用</option></select></div><div class="form-row"><label>忽略说明</label><textarea class="textarea" id="inactiveIgnoreReason" placeholder="说明本次忽略的业务依据"></textarea></div>`, `<button class="btn" data-action="closeModal">取消</button><button class="btn danger" data-action="confirmIgnoreInactive" data-id="${el.dataset.id}">确认忽略</button>`); },
       confirmIgnoreInactive(el){ const row=inactive.find(item=>item.id===el.dataset.id); const note=qs("#inactiveIgnoreReason")?.value.trim(); if(!row)return; if(!inactiveTaskPermission(row,"operate")){toast("无权操作该处置","仅负责人、运营主管或企业管理员可忽略。");return;} if(["已完成","已忽略"].includes(inactiveStatusValue(row))){toast("任务已结束","当前状态不能再忽略。");return;} if(!note){toast("请填写忽略依据", "忽略会改变任务状态，必须保留具体原因。");return;} const reason=qs("#inactiveIgnoreType")?.value || "其他原因";const submittedAt=currentDataTimestamp().slice(0,16);row.status="已忽略";row.failureReason=reason;row.failureNote=note;row.failure=`${reason}：${note}`;row.processResult=`已忽略：${note}`;row.actualAction="-";row.actualProcessedAt="-";row.resultSubmittedAt=submittedAt;row.resolvedAt=submittedAt;row.due="已忽略";syncInactiveTask(row);const task=inactiveTaskRecord(row);if(task){task.recheckAfterSync=true;task.verificationStatus="已忽略，后续同步仍会重新判断";task.ignoreReason=row.failure;}addActionLog(task||row,{type:"忽略不动销处置",content:row.failure,user:currentExceptionActor().name,before:row.triggerReason,after:row.processResult,failure:row.failure,review:"后续同步继续判断",result:"已忽略",resultSubmittedAt:submittedAt}); closeModal(); closeDrawer(); render(); toast("处置已忽略", "本次任务已关闭；后续同步如再次命中，将生成关联的新处置任务。"); },
@@ -47367,7 +47367,7 @@
             ? `<button class="btn" data-action="startException" data-id="${e.id}">${inactiveTask ? "标记处理中" : startLabel}</button><button class="btn primary" data-action="fillExceptionResult" data-id="${e.id}">${resultLabel}</button>`
             : e.status === "处理中" && canOperate
               ? `<button class="btn primary" data-action="fillExceptionResult" data-id="${e.id}">${resultLabel}</button>`
-              : !active ? `<button class="btn primary" data-view="logs">动作日志</button>` : "";
+              : !active ? `<button class="btn primary" data-view="logs">经营动作记录</button>` : "";
         const transfer = active && !unassigned && canOperate ? `<button class="btn" data-action="transferException" data-id="${e.id}">转交负责人</button>` : "";
         const ignore = active && !unassigned && canOperate ? `<button class="btn" data-action="${inactiveTask ? "ignoreInactive" : "ignoreException"}" data-id="${inactiveTask ? e.inactiveId : e.id}">忽略本次</button>` : "";
         openDrawer(
@@ -47674,10 +47674,10 @@
         if(willVerify) ensureAutomaticBusinessReviewForException(e, actionLog, mode);
         closeModal(); closeDrawer(); render();
         const toastCopy=inactiveSource
-          ? {resolved:["处理已完成","不动销清单和待处理中心已同步，实际动作和结果已写入动作日志。"],observe:["已记录继续观察","任务保持处理中，可继续补充实际结果。"],partial:["已记录部分执行","任务保持处理中，未完成原因已写入动作日志。"],failed:["已记录无法执行","任务退回待处理，阻塞原因已写入动作日志。"]}
+          ? {resolved:["处理已完成","不动销清单和待处理中心已同步，实际动作和结果已写入经营动作记录。"],observe:["已记录继续观察","任务保持处理中，可继续补充实际结果。"],partial:["已记录部分执行","任务保持处理中，未完成原因已写入经营动作记录。"],failed:["已记录无法执行","任务退回待处理，阻塞原因已写入经营动作记录。"]}
           : sourceNewProduct && mode==="resolved"
           ? {resolved:["动作已完成",`新品测试已进入待复查，将在${sourceNewProduct.reviewAt}重新计算。`]}
-          : {resolved:["处理已完成","结果已写入动作日志，并按规则快照创建结果验证计划。"],observe:["已进入持续观察","任务保持处理中，系统将按规则观察周期进行结果验证。"],partial:["已记录部分执行","任务保持处理中；完成剩余动作后再创建结果验证计划。"],failed:["已记录无法执行","任务退回待处理，阻塞原因已写入动作日志。"]};
+          : {resolved:["处理已完成","结果已写入经营动作记录，并按规则快照创建结果验证计划。"],observe:["已进入持续观察","任务保持处理中，系统将按规则观察周期进行结果验证。"],partial:["已记录部分执行","任务保持处理中；完成剩余动作后再创建结果验证计划。"],failed:["已记录无法执行","任务退回待处理，阻塞原因已写入经营动作记录。"]};
         toast(...toastCopy[mode]);
       },
       transferExceptionOwner(el){ const e=exceptions.find(x=>x.id===el.dataset.id); if(!e)return; e.owner=currentExceptionActor().name; syncInactiveFromTask(e); render(); toast("已转交负责人", `负责人已更新为${e.owner}。`); },
@@ -47797,7 +47797,7 @@
         syncInactiveFromTask(e);
         addActionLog(e,{type:"忽略待办",content:"确认本次不处理",before:e.desc,after:e.ignoreReason,failure:e.ignoreReason,review:"后续同步继续判断",result:"已忽略"});
         closeModal(); closeDrawer(); render();
-        toast("本次任务已忽略", "原因已写入动作日志；后续同步若再次命中，将生成关联的新任务。");
+        toast("本次任务已忽略", "原因已写入经营动作记录；后续同步若再次命中，将生成关联的新任务。");
       },
       transferInactive(el){
         const e=exceptions.find(x=>x.id===el.dataset.id); if(!e)return;
@@ -47843,7 +47843,7 @@
         row.status = "处理中";
         closeModal();
         render();
-        toast("失败原因已保存", "现在可以完成处置并生成动作日志。");
+        toast("失败原因已保存", "现在可以完成处置并生成经营动作记录。");
       },
       completeInactiveRow(el){
         handlers.openInactive(el);
@@ -48013,7 +48013,7 @@
         closeDrawer();
         if (!row.result || /待观察|待处理|数据不足/.test(row.result)) {
           setView("logs");
-          toast("等待系统复查", "复查数据齐全后，系统会自动生成经营复盘；动作日志不能跳过复查直接沉淀经验。");
+          toast("等待系统复查", "复查数据齐全后，系统会自动生成经营复盘；经营动作记录不能跳过复查直接沉淀经验。");
           return;
         }
         setView("failure");
@@ -48057,7 +48057,7 @@
               <section class="decision-card full"><h4>经验沉淀</h4><p>${canExtract ? "本次结果可由知识管理员确认后沉淀为候选经验。" : "当前结果尚不满足经验沉淀条件，系统将继续等待完整复查数据。"}</p><div class="meta">当前状态：${escapeHtml(row.knowledgeStatus || "待判断")}</div></section>
             </div>
           </div>
-        `, `<button class="btn" data-action="feedbackBusinessReview" data-id="${row.id}">反馈 AI 复查</button><button class="btn" data-action="openReviewSourceLog" data-id="${row.id}">查看动作日志</button>${knowledgeAction}`);
+        `, `<button class="btn" data-action="feedbackBusinessReview" data-id="${row.id}">反馈 AI 复查</button><button class="btn" data-action="openReviewSourceLog" data-id="${row.id}">查看经营动作记录</button>${knowledgeAction}`);
       },
       feedbackBusinessReview(el){
         const review=failureReasons.find(item=>item.id===el.dataset.id); if(!review)return;
@@ -48100,7 +48100,7 @@
       openReviewSourceLog(el){
         const row=failureReasons.find(item=>item.id===el.dataset.id); if(!row)return;
         const actionLog=logs.find(item=>item.id===(row.actionLogId || row.sourceLog));
-        if(!actionLog){toast("暂无可追溯动作日志", "该复盘记录缺少实际执行动作，不能作为经验沉淀依据。");return;}
+        if(!actionLog){toast("暂无可追溯经营动作记录", "该复盘记录缺少实际执行动作，不能作为经验沉淀依据。");return;}
         closeDrawer(); state.filter="全部"; setView("logs");
         requestAnimationFrame(()=>handlers.openLogDetail({dataset:{id:actionLog.id}}));
       },
@@ -48736,7 +48736,7 @@
                   ? `<button class="btn primary" data-action="openKnowledgeUsageTask" data-id="${escapeHtml(item.id)}">查看待处理事项</button>`
                   : `<button class="btn primary" data-action="openKnowledgeGapSupplement" data-id="${escapeHtml(item.id)}">补充经验</button>`
               : `<button class="btn primary" data-action="startKnowledgeUsageReview" data-id="${escapeHtml(item.id)}">查看自动复查</button>`;
-        openDrawer("经验使用记录", `<div class="kb-detail"><div class="kb-detail-grid"><section><small>ASIN</small><strong>${escapeHtml(item.asin || "--")}</strong></section><section><small>业务场景</small><strong>${escapeHtml(item.scene)}</strong></section><section class="full"><small>业务问题</small><strong>${escapeHtml(item.query)}</strong></section><section><small>引用经验 / 版本</small><strong>${escapeHtml(item.knowledgeVersion || item.matched)}</strong></section><section class="full"><small>实际执行动作</small><strong>${escapeHtml(item.action || item.decision)}</strong></section><section class="full"><small>实际结果</small><strong>${escapeHtml(item.result || item.feedback)}</strong></section><section><small>处理事项</small><strong>${task ? escapeHtml(task.type) : item.noMatch ? "尚未创建" : "已归档"}</strong></section><section><small>执行记录</small><strong>${actionLog ? `${escapeHtml(actionLog.type)} · 已记录` : "尚未记录"}</strong></section><section><small>自动复查状态</small><strong>${review ? escapeHtml(review.status) : actionLog ? "等待系统自动复查" : "等待实际处理动作"}</strong></section><section><small>当前状态</small><strong>${escapeHtml(item.reviewStatus || "待复查")}</strong></section><section class="full"><small>处理人 / 时间</small><strong>${escapeHtml(item.user)} · ${escapeHtml(item.time)}</strong></section></div></div>`, `<button class="btn" data-action="closeDrawer">关闭</button>${actionLog ? `<button class="btn" data-action="openKnowledgeUsageActionLog" data-id="${escapeHtml(item.id)}">查看动作日志</button>` : ""}${nextAction}`);
+        openDrawer("经验使用记录", `<div class="kb-detail"><div class="kb-detail-grid"><section><small>ASIN</small><strong>${escapeHtml(item.asin || "--")}</strong></section><section><small>业务场景</small><strong>${escapeHtml(item.scene)}</strong></section><section class="full"><small>业务问题</small><strong>${escapeHtml(item.query)}</strong></section><section><small>引用经验 / 版本</small><strong>${escapeHtml(item.knowledgeVersion || item.matched)}</strong></section><section class="full"><small>实际执行动作</small><strong>${escapeHtml(item.action || item.decision)}</strong></section><section class="full"><small>实际结果</small><strong>${escapeHtml(item.result || item.feedback)}</strong></section><section><small>处理事项</small><strong>${task ? escapeHtml(task.type) : item.noMatch ? "尚未创建" : "已归档"}</strong></section><section><small>执行记录</small><strong>${actionLog ? `${escapeHtml(actionLog.type)} · 已记录` : "尚未记录"}</strong></section><section><small>自动复查状态</small><strong>${review ? escapeHtml(review.status) : actionLog ? "等待系统自动复查" : "等待实际处理动作"}</strong></section><section><small>当前状态</small><strong>${escapeHtml(item.reviewStatus || "待复查")}</strong></section><section class="full"><small>处理人 / 时间</small><strong>${escapeHtml(item.user)} · ${escapeHtml(item.time)}</strong></section></div></div>`, `<button class="btn" data-action="closeDrawer">关闭</button>${actionLog ? `<button class="btn" data-action="openKnowledgeUsageActionLog" data-id="${escapeHtml(item.id)}">查看经营动作记录</button>` : ""}${nextAction}`);
       },
       openKnowledgeUsageTask(el){
         const item=knowledgeUsageLogs.find(row=>row.id===el.dataset.id); if(!item)return;
@@ -48772,7 +48772,7 @@
         const actionLog=ensureKnowledgeUsageActionLog(item);
         if(!actionLog){
           closeDrawer(); setView("logs");
-          toast("等待实际处理动作", "请先在待处理中心完成业务动作；动作日志生成后，系统会按复查周期自动校验结果。");
+          toast("等待实际处理动作", "请先在待处理中心完成业务动作；经营动作记录生成后，系统会按复查周期自动校验结果。");
           return;
         }
         item.actionLogId=actionLog.id;
@@ -48782,7 +48782,7 @@
         }
         const review=failureReasons.find(row=>row.id===item.reviewId);
         if(!review){
-          toast("复查记录准备中", "系统正在关联动作日志与复查数据，请稍后刷新查看。");
+          toast("复查记录准备中", "系统正在关联经营动作记录与复查数据，请稍后刷新查看。");
           return;
         }
         closeDrawer(); setView("failure");
@@ -49348,7 +49348,7 @@
               <span class="notify-policy-event ${policy.tone}"><i></i>${escapeHtml(policy.event)}</span>
               <span><strong>${readOnlyPolicy ? "系统固定边界" : "仅调整本条消息"}</strong><small>${readOnlyPolicy ? "任务完成后不再制造额外通知。" : "异常识别、任务生成和优先级仍由经营规则决定。"}</small></span>
             </div>
-            ${timingLocked ? `<div class="notify-policy-lock"><i data-lucide="lock-keyhole"></i><span><strong>发送时机由系统统一控制</strong><small>${policy.id === "new-p0" ? "P0 必须实时通知，不能改为定时汇总。" : "完成结果仅进入动作日志和简报统计。"}</small></span></div>` : ""}
+            ${timingLocked ? `<div class="notify-policy-lock"><i data-lucide="lock-keyhole"></i><span><strong>发送时机由系统统一控制</strong><small>${policy.id === "new-p0" ? "P0 必须实时通知，不能改为定时汇总。" : "完成结果仅进入经营动作记录和简报统计。"}</small></span></div>` : ""}
             <div class="notify-policy-editor-grid">
               <label><span>通知场景</span><input class="input" value="${escapeHtml(policy.event)}" readonly></label>
               <label><span>发送时间</span>${timingControl}</label>
@@ -50016,7 +50016,7 @@
           saveConnectorConnections();
           render();
           handlers.openConnector({dataset:{key:connector.key}});
-          toast(draft.isUpdate ? "租户授权已切换" : "租户连接已启用", draft.isUpdate ? "新授权首次同步通过，旧授权快照和范围差异已写入动作日志。" : "其他成员无需重复授权，数据访问继续受角色和店铺权限控制。");
+          toast(draft.isUpdate ? "租户授权已切换" : "租户连接已启用", draft.isUpdate ? "新授权首次同步通过，旧授权快照和范围差异已写入系统审计。" : "其他成员无需重复授权，数据访问继续受角色和店铺权限控制。");
         }, 850);
       },
       detectConnectorPermissions(el){
