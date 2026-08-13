@@ -58,6 +58,10 @@ function getNavGroupBlock(source, groupTitle) {
 
 const entryHtml = readProjectFile(manifest.entryFile);
 
+for (const needle of manifest.entryNeedles || []) {
+  requireText(entryHtml, needle, `workbench entry marker`);
+}
+
 for (const relativePath of manifest.requiredFiles) {
   readProjectFile(relativePath);
 }
