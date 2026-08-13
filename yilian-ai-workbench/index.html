@@ -41691,6 +41691,12 @@
       row.reviewTacosChange = delta(baseline.TACoS ?? row.tacos, row.reviewTacos, "%");
       row.reviewProfit = String(value("利润/单","平均利润/单","利润"));
       row.reviewProfitChange = delta(baseline["利润/单"] ?? row.profit, row.reviewProfit);
+      row.reviewSalesChangeRate = String(value("D30 销量变化率"));
+      row.reviewSalesChangeRateChange = delta(baseline["D30 销量变化率"] ?? row.salesChangeRate30d, row.reviewSalesChangeRate, "%");
+      row.reviewNoSaleDays = String(value("连续无单天数","连续零单天数"));
+      row.reviewNoSaleDaysChange = delta(baseline["连续无单天数"] ?? row.noSaleDays, row.reviewNoSaleDays, " 天");
+      row.reviewListing = String(value("Listing 状态"));
+      row.reviewBuybox = String(value("Buy Box"));
       row.reviewDue = result === "无法判断" ? "等待人工补充配置或有效数据" : evaluation.dataIncomplete ? "下一次完整数据同步后" : "已完成";
       row.effectConclusion = evaluation.note;
     }
@@ -42032,6 +42038,7 @@
       const effectStatus = display(row.effectStatus || (isCompleted ? "待观察" : "-"));
       const reviewDataTime = display(row.reviewDataTime || state.lifecycleDataTime);
       const effectTone = /有效/.test(effectStatus) && !/无效|部分/.test(effectStatus) ? "effective" : /无效|负向/.test(effectStatus) ? "ineffective" : "";
+      const ruleKey = row.ruleFacet?.itemKey || "";
       const effectRows = [
         ["销量 D7/D15/D30", `${display(row.sales7)}/${display(row.sales15)}/${display(row.sales30)}`, row.reviewSales || "待形成", row.reviewSalesChange || "--"],
         ["FBA 可售", `${display(row.fbaStock)} 件`, row.reviewFbaStock || "待形成", row.reviewStockChange || "--"],
@@ -42039,6 +42046,12 @@
         ["TACoS", display(row.tacos), row.reviewTacos || "待形成", row.reviewTacosChange || "--"],
         ["利润/单", profitPerUnit, row.reviewProfit || "待形成", row.reviewProfitChange || "--"]
       ];
+      if (ruleKey === "HIGH_STOCK_LOW_SALES") effectRows.splice(1, 0, ["D30 销量变化率", display(row.salesChangeRate30d), row.reviewSalesChangeRate || "待形成", row.reviewSalesChangeRateChange || "--"]);
+      if (ruleKey === "REGULAR_ZERO_ORDER") effectRows.splice(1, 0, ["连续无单天数", `${display(row.noSaleDays)} 天`, row.reviewNoSaleDays || "待形成", row.reviewNoSaleDaysChange || "--"]);
+      effectRows.push(
+        ["Listing", display(row.listing), row.reviewListing || "待形成", row.reviewListing ? (row.reviewListing === row.listing ? "保持" : "已变化") : "--"],
+        ["Buy Box", display(row.buybox), row.reviewBuybox || "待形成", row.reviewBuybox ? (row.reviewBuybox === row.buybox ? "保持" : "已变化") : "--"]
+      );
       const effectPanel = isCompleted
         ? `<section class="decision-card full inactive-effect-card ${/\u5f85复查|\u5f85观察/.test(effectStatus) ? "pending" : ""}"><div class="inactive-effect-head"><div><h4>效果复查</h4><p>同一指标口径下，对比动作执行前后的经营数据</p></div><span class="inactive-effect-status ${effectTone}">${escapeHtml(effectStatus)}</span></div><div class="inactive-effect-data"><header><span>复查指标</span><span>处理前</span><span>处理后</span><span>变化</span></header>${effectRows.map(([label,before,after,change]) => `<div><strong>${escapeHtml(label)}</strong><span>${escapeHtml(before)}</span><span class="${after === "待形成" ? "pending-value" : ""}">${escapeHtml(after)}</span><span class="${change === "--" ? "pending-value" : ""}">${escapeHtml(change)}</span></div>`).join("")}</div><div class="inactive-effect-plan"><div><span>观察窗口</span><strong>${escapeHtml(display(row.reviewWindow || "按来源规则关联的效果策略"))}</strong></div><div><span>复查指标</span><strong>${escapeHtml(display(row.reviewMetrics || "待效果策略配置"))}</strong></div><div><span>复查时间</span><strong>${escapeHtml(display(row.reviewDue || "待计算"))}</strong></div></div><p class="inactive-effect-note"><strong>数据截至：</strong>${escapeHtml(reviewDataTime)}<br><strong>复查结论：</strong>${escapeHtml(display(row.effectConclusion || "尚未形成完整处理后数据，暂不判断动作是否有效"))}</p></section>`
         : "";
@@ -42282,7 +42295,8 @@
       if (!configured) return null;
       const source = inactiveSourceForTask(row);
       const actualExecutedAt = String(row.actualProcessedAt || "").replace(" ", "T");
-      const startedAt = actualExecutedAt && !Number.isNaN(Date.parse(actualExecutedAt)) ? new Date(actualExecutedAt) : new Date();
+      if (!actualExecutedAt || Number.isNaN(Date.parse(actualExecutedAt))) return null;
+      const startedAt = new Date(actualExecutedAt);
       const criteria = configured.criteria?.map(item => ({ ...item })) || [{
         metric:configured.metric,
         comparator:configured.comparator,
