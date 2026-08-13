@@ -41576,6 +41576,9 @@
         row.taskId = existing.id;
         existing.inactiveId = row.id;
         existing.action = inactiveTaskSuggestion(row);
+        existing.rule = row.sourceRule || existing.rule;
+        existing.ruleVersion = row.ruleVersion || existing.ruleVersion;
+        existing.ruleFacet = row.ruleFacet || existing.ruleFacet;
         existing.hitSnapshot = existing.hitSnapshot?.length ? existing.hitSnapshot : inactiveTaskDataSnapshot(row);
         existing.currentData = inactiveTaskDataSnapshot(row);
         return existing;
@@ -41594,6 +41597,8 @@
         store:row.store || "-",
         stage:row.stage || "-",
         rule:row.sourceRule || "不动销经营规则",
+        ruleVersion:row.ruleVersion || "V1.0",
+        ruleFacet:row.ruleFacet,
         desc:row.triggerReason || "-",
         action:inactiveTaskSuggestion(row),
         owner:row.owner || "待分配",
@@ -42274,7 +42279,9 @@
     function createExceptionVerificationSnapshot(row, mode) {
       const configured = configuredExceptionVerificationPolicy(row);
       if (!configured) return null;
-      const startedAt = new Date();
+      const source = inactiveSourceForTask(row);
+      const actualExecutedAt = String(row.actualProcessedAt || "").replace(" ", "T");
+      const startedAt = actualExecutedAt && !Number.isNaN(Date.parse(actualExecutedAt)) ? new Date(actualExecutedAt) : new Date();
       const criteria = configured.criteria?.map(item => ({ ...item })) || [{
         metric:configured.metric,
         comparator:configured.comparator,
@@ -42287,8 +42294,8 @@
         planId:`VRP-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
         policyId:configured.policyId,
         policyVersion:Number(configured.version || 1),
-        sourceRule:row.rule,
-        ruleVersion:row.ruleVersion || "V1.0",
+        sourceRule:source?.sourceRule || row.rule,
+        ruleVersion:source?.ruleVersion || row.ruleVersion || "V1.0",
         stageAtAction:row.stage || "-",
         actionMode:mode,
         actualExecutedAt:startedAt.toISOString(),
@@ -42306,8 +42313,8 @@
         requiredRecoveryBatches:Number(configured.requiredRecoveryBatches || 1),
         recoveryBatchesMet:0,
         ruleThresholdSnapshot:{
-          sourceRule:configured.sourceRule || row.rule,
-          ruleVersion:row.ruleVersion || "V1.0",
+          sourceRule:configured.sourceRule || source?.sourceRule || row.rule,
+          ruleVersion:source?.ruleVersion || row.ruleVersion || "V1.0",
           criteriaMode:configured.criteriaMode || "all",
           criteria:criteria.map(item => ({ ...item })),
           guardrails:guardrails.map(item => ({ ...item })),
