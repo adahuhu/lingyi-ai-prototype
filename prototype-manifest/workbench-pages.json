@@ -28,6 +28,11 @@
     "yilian-strategy-policy-v2",
     "evaluateExceptionVerification",
     "yilian-operation-closure-v8",
-    "syncInactiveVerificationFromTask"
+    "syncInactiveVerificationFromTask",
+    "[\"logs\", \"经营动作记录\", \"history\"]",
+    "function businessActionRecords()",
+    "function openActionRecordDrawer(row)",
+    "实际执行时间",
+    "操作链路"
   ]
 }

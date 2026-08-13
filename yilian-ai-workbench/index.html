@@ -29516,6 +29516,435 @@
       height: 15px;
       color: #1677ff;
     }
+    .action-record-page {
+      gap: 14px;
+    }
+    .action-record-page-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 2px 2px 0;
+    }
+    .action-record-page-head > div > span {
+      color: #98a2b3;
+      font-size: 12px;
+    }
+    .action-record-page-head h1 {
+      margin: 6px 0 4px;
+      color: #182230;
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+    .action-record-page-head p {
+      margin: 0;
+      color: #667085;
+      font-size: 13px;
+    }
+    .action-record-attention {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      min-height: 68px;
+      padding: 10px 14px;
+      background: #fff;
+      border: 1px solid #e2e7ee;
+      border-radius: 8px;
+    }
+    .action-record-attention-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 190px;
+      padding-right: 18px;
+      border-right: 1px solid #e5eaf0;
+    }
+    .action-record-attention-title > svg {
+      width: 18px;
+      height: 18px;
+      color: #d97706;
+    }
+    .action-record-attention-title > div,
+    .action-record-attention-options,
+    .action-record-focus {
+      display: flex;
+      align-items: center;
+    }
+    .action-record-attention-title > div {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .action-record-attention-title strong { color: #344054; font-size: 13px; }
+    .action-record-attention-title span { color: #98a2b3; font-size: 11px; }
+    .action-record-attention-options {
+      flex: 1;
+      gap: 8px;
+      min-width: 0;
+      overflow-x: auto;
+    }
+    .action-record-focus {
+      flex: 0 0 auto;
+      gap: 7px;
+      height: 36px;
+      padding: 0 10px;
+      color: #475467;
+      font-size: 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e7ee;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .action-record-focus:hover,
+    .action-record-focus.active {
+      color: #175cd3;
+      background: #eff6ff;
+      border-color: #b7d2fb;
+    }
+    .action-record-focus svg { width: 14px; height: 14px; }
+    .action-record-focus strong {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 5px;
+      color: inherit;
+      font-size: 11px;
+      background: #fff;
+      border: 1px solid currentColor;
+      border-radius: 10px;
+    }
+    .action-record-clear {
+      flex: 0 0 auto;
+      padding: 0 5px;
+      color: #175cd3;
+      font-size: 12px;
+      background: none;
+      border: 0;
+      cursor: pointer;
+    }
+    .action-record-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      background: #fff;
+      border: 1px solid #dfe6ee;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .action-record-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 14px;
+      border-bottom: 1px solid #edf1f5;
+    }
+    .action-record-toolbar > .smart-select { width: 150px; }
+    .action-record-toolbar select {
+      width: 150px;
+      height: 36px;
+      padding: 0 30px 0 10px;
+      color: #344054;
+      font-size: 13px;
+      background: #fff;
+      border: 1px solid #d8e0ea;
+      border-radius: 6px;
+    }
+    .action-record-table-wrap {
+      min-height: 0;
+      overflow: auto;
+    }
+    .action-record-table {
+      width: 100%;
+      min-width: 1450px;
+      table-layout: fixed;
+      border-collapse: collapse;
+    }
+    .action-record-table th,
+    .action-record-table td {
+      padding: 12px 14px;
+      text-align: left;
+      vertical-align: middle;
+      border-bottom: 1px solid #edf1f5;
+    }
+    .action-record-table th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      color: #667085;
+      font-size: 12px;
+      font-weight: 650;
+      background: #f8fafc;
+    }
+    .action-record-table th:nth-child(1) { width: 152px; }
+    .action-record-table th:nth-child(2) { width: 210px; }
+    .action-record-table th:nth-child(3) { width: 175px; }
+    .action-record-table th:nth-child(4) { width: 355px; }
+    .action-record-table th:nth-child(5) { width: 150px; }
+    .action-record-table th:nth-child(6) { width: 112px; }
+    .action-record-table th:nth-child(7) { width: 296px; }
+    .action-record-table tbody tr { cursor: pointer; }
+    .action-record-table tbody tr:hover td { background: #f8fbff; }
+    .action-record-table td > strong,
+    .action-record-table td > small,
+    .action-record-table td:last-child > span {
+      display: block;
+    }
+    .action-record-table td > strong {
+      overflow: hidden;
+      color: #253046;
+      font-size: 13px;
+      line-height: 1.45;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .action-record-table td > small,
+    .action-record-table td:last-child > span {
+      overflow: hidden;
+      margin-top: 3px;
+      color: #8a96a8;
+      font-size: 11px;
+      line-height: 1.45;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .action-record-table td:nth-child(4) > strong,
+    .action-record-table td:nth-child(7) > small {
+      display: -webkit-box;
+      white-space: normal;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+    .action-record-table td:last-child > strong { color: #175cd3; }
+    .action-record-status {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 2px 8px;
+      font-size: 12px;
+      font-weight: 650;
+      border-radius: 4px;
+    }
+    .action-record-status.complete { color: #07865b; background: #eaf8f2; }
+    .action-record-status.failed { color: #d92d20; background: #fff2f0; }
+    .action-record-status.waiting { color: #b54708; background: #fff7e8; border: 1px dashed #f5b97c; }
+    #drawer:has(.action-record-detail-shell) {
+      width: min(850px, 100vw);
+    }
+    .action-record-detail-shell {
+      min-width: 0;
+    }
+    .action-record-detail-tabs {
+      display: flex;
+      gap: 22px;
+      margin: -8px -4px 16px;
+      border-bottom: 1px solid #e5eaf0;
+    }
+    .action-record-detail-tabs button {
+      min-height: 42px;
+      padding: 0 2px;
+      color: #667085;
+      font-size: 13px;
+      font-weight: 650;
+      background: none;
+      border: 0;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+    }
+    .action-record-detail-tabs button.active { color: #175cd3; border-bottom-color: #175cd3; }
+    .action-record-detail-summary {
+      padding: 15px 16px;
+      background: #f7f9fc;
+      border-left: 3px solid #175cd3;
+    }
+    .action-record-detail-summary > div {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 8px;
+    }
+    .action-record-detail-summary strong { color: #182230; font-size: 15px; }
+    .action-record-detail-summary p { margin: 0; color: #475467; font-size: 13px; line-height: 1.6; }
+    .action-record-progress {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      margin: 18px 0;
+    }
+    .action-record-progress > div {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding-top: 18px;
+      text-align: center;
+    }
+    .action-record-progress > div::before {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #dfe5ec;
+    }
+    .action-record-progress > div:first-child::before { left: 50%; width: 50%; }
+    .action-record-progress > div:last-child::before { width: 50%; }
+    .action-record-progress i {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      z-index: 1;
+      width: 12px;
+      height: 12px;
+      background: #fff;
+      border: 2px solid #c7d0dc;
+      border-radius: 50%;
+      transform: translateX(-50%);
+    }
+    .action-record-progress .done::before { background: #7eb2f5; }
+    .action-record-progress .done i { background: #175cd3; border-color: #175cd3; }
+    .action-record-progress strong { color: #344054; font-size: 12px; }
+    .action-record-progress small { color: #98a2b3; font-size: 11px; }
+    .action-record-detail-section {
+      padding: 16px 0;
+      border-top: 1px solid #e5eaf0;
+    }
+    .action-record-detail-section h3 { margin: 0 0 4px; color: #182230; font-size: 14px; }
+    .action-record-section-note { display: block; margin-bottom: 12px; color: #98a2b3; font-size: 11px; }
+    .action-record-facts,
+    .action-record-trace-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px 18px;
+    }
+    .action-record-fact,
+    .action-record-trace-grid > div {
+      min-width: 0;
+    }
+    .action-record-fact span,
+    .action-record-trace-grid span,
+    .action-record-change span,
+    .action-record-review-meta span {
+      display: block;
+      color: #98a2b3;
+      font-size: 11px;
+    }
+    .action-record-fact strong,
+    .action-record-trace-grid strong,
+    .action-record-change strong,
+    .action-record-review-meta strong {
+      display: block;
+      margin-top: 4px;
+      color: #344054;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .action-record-fact.full,
+    .action-record-trace-grid .full { grid-column: 1 / -1; }
+    .action-record-evidence-summary {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 8px 18px;
+      margin-bottom: 12px;
+      padding: 12px;
+      background: #f8fafc;
+      border: 1px solid #e5eaf0;
+      border-radius: 6px;
+    }
+    .action-record-evidence-summary > div:first-child { grid-column: 1 / -1; }
+    .action-record-evidence-summary span { display: block; color: #98a2b3; font-size: 11px; }
+    .action-record-evidence-summary strong { display: block; margin-top: 3px; color: #344054; font-size: 12px; line-height: 1.5; }
+    .action-record-evidence-list,
+    .action-record-review-list {
+      border: 1px solid #e1e7ee;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .action-record-evidence-head,
+    .action-record-evidence-main {
+      display: grid;
+      grid-template-columns: 1.2fr .75fr 1.55fr .6fr;
+      gap: 10px;
+      padding: 9px 11px;
+    }
+    .action-record-evidence-head { color: #667085; font-size: 11px; background: #f8fafc; }
+    .action-record-evidence-row { border-top: 1px solid #edf1f5; }
+    .action-record-evidence-main { align-items: center; color: #344054; font-size: 12px; }
+    .action-record-evidence-source { display: flex; justify-content: space-between; gap: 12px; padding: 0 11px 9px; color: #98a2b3; font-size: 10px; }
+    .action-record-evidence-hit { color: #175cd3; font-weight: 650; }
+    .action-record-change {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) 24px minmax(0,1fr);
+      align-items: center;
+      gap: 10px;
+    }
+    .action-record-change > div {
+      min-height: 74px;
+      padding: 12px;
+      background: #f8fafc;
+      border: 1px solid #e5eaf0;
+      border-radius: 6px;
+    }
+    .action-record-change > svg { width: 16px; color: #98a2b3; }
+    .action-record-review-box {
+      padding: 14px;
+      background: #f7fbf9;
+      border: 1px solid #d5ece3;
+      border-radius: 6px;
+    }
+    .action-record-review-box > strong { color: #08755a; font-size: 14px; }
+    .action-record-review-box > p { margin: 5px 0 12px; color: #475467; font-size: 12px; line-height: 1.6; }
+    .action-record-review-head,
+    .action-record-review-row-main {
+      display: grid;
+      grid-template-columns: 1.15fr .8fr .8fr .9fr 1fr;
+      gap: 9px;
+      padding: 9px 10px;
+    }
+    .action-record-review-head { color: #667085; font-size: 11px; background: #fff; }
+    .action-record-review-row { border-top: 1px solid #edf1f5; background: #fff; }
+    .action-record-review-row-main { color: #344054; font-size: 12px; }
+    .action-record-review-rule { display: flex; justify-content: space-between; gap: 12px; padding: 0 10px 9px; color: #98a2b3; font-size: 10px; }
+    .action-record-review-meta { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; margin-top: 12px; }
+    .action-record-review-meta .full { grid-column: 1 / -1; }
+    .action-record-plan-row {
+      display: grid;
+      grid-template-columns: .9fr 1fr 1.55fr;
+      gap: 10px;
+      padding: 10px;
+      border-top: 1px solid #edf1f5;
+    }
+    .action-record-plan-row:first-child { border-top: 0; }
+    .action-record-plan-row span { display: block; color: #98a2b3; font-size: 10px; }
+    .action-record-plan-row strong { display: block; margin-top: 3px; color: #344054; font-size: 12px; line-height: 1.45; }
+    .action-record-timeline {
+      position: relative;
+      margin: 16px 0 0 8px;
+      padding-left: 26px;
+      border-left: 2px solid #e1e7ee;
+    }
+    .action-record-timeline-item {
+      position: relative;
+      padding: 0 0 22px;
+    }
+    .action-record-timeline-item::before {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: -33px;
+      width: 12px;
+      height: 12px;
+      background: #fff;
+      border: 2px solid #b9c4d1;
+      border-radius: 50%;
+    }
+    .action-record-timeline-item.done::before { background: #175cd3; border-color: #175cd3; }
+    .action-record-timeline-meta { display: flex; flex-wrap: wrap; gap: 8px; color: #98a2b3; font-size: 11px; }
+    .action-record-timeline-item > strong { display: block; margin: 6px 0 4px; color: #253046; font-size: 13px; }
+    .action-record-timeline-item > p { margin: 0; color: #667085; font-size: 12px; line-height: 1.55; }
+    .action-record-timeline-id,
+    .action-record-timeline-state { padding: 1px 5px; background: #f2f4f7; border-radius: 3px; }
     .log-detail-summary {
       display: flex;
       align-items: flex-start;
@@ -31573,6 +32002,13 @@
       logModuleFilter: "全部模块",
       logResultFilter: "全部结果",
       logSearch: "",
+      actionRecordTime: "近30天",
+      actionRecordScene: "全部场景",
+      actionRecordExecution: "全部执行方式",
+      actionRecordStatus: "全部处理状态",
+      actionRecordFocus: "",
+      actionRecordDetailTab: "detail",
+      selectedActionRecordId: "",
       selectedId: null,
       goal: "帮我基于这批 ASIN 筛选适合英国站测款的发饰产品，并生成商品 Brief、套图、Listing 和 D30 新品测试计划。",
       listingVersion: "SEO 覆盖版",
@@ -31743,7 +32179,7 @@
         ["pricing", "价格与促销策略", "percent"]
       ].filter(([view]) => !hiddenOperationViews.has(view))},
       { title: "沉淀与管理", items: [
-        ["logs", "动作日志", "history"],
+        ["logs", "经营动作记录", "history"],
         ["failure", "经营复盘", "clipboard-list"],
         ["knowledge", "企业经营知识库", "library-big"],
         ["rules", "经营策略中心", "sliders-horizontal"]
@@ -31898,7 +32334,7 @@
         targetStage:"正常经营", targetView:"库存与补货", requiresConfirmation:true, dataQuality:"完整"
       },
       {
-        id:"NP-002", sku:"YL-HOM-033", asin:"B0HOME033", product:"桌面线缆收纳盒", site:"DE", store:"Rhein-DE01", owner:"周屿",
+        id:"NP-002", relatedTaskId:"TASK-NP-002", sku:"YL-HOM-033", asin:"B0HOME033", product:"桌面线缆收纳盒", site:"DE", store:"Rhein-DE01", owner:"周屿",
         firstShipQty:20, testReplenishQty:16, fbaFirstAvailableDate:"2026-06-18", sellingDays:27, effectiveTestDays:25, planDays:30,
         fbaAvailableStock:34, testSoldQty:2, node:"D15", checkpointSales:{D7:1,D15:2,D30:null}, exposure:3400, clicks:91, sessions:182, adOrders:2,
         ad:"£39", tacos:"35%", profit:"-£0.2", listing:"可售", buybox:"正常", baseAd:"已开启", blockers:[],
@@ -31910,7 +32346,7 @@
         targetStage:"保持新品测试", targetView:"新品测试", requiresConfirmation:true, dataQuality:"完整"
       },
       {
-        id:"NP-003", sku:"YL-BEA-099", asin:"B0BEAU099", product:"便携化妆镜", site:"UK", store:"Nordic-UK02", owner:"林舟",
+        id:"NP-003", relatedTaskId:"TASK-NP-003", sku:"YL-BEA-099", asin:"B0BEAU099", product:"便携化妆镜", site:"UK", store:"Nordic-UK02", owner:"林舟",
         firstShipQty:20, testReplenishQty:0, fbaFirstAvailableDate:"2026-05-28", sellingDays:48, effectiveTestDays:48, planDays:30,
         fbaAvailableStock:18, testSoldQty:0, node:"D30", checkpointSales:{D7:0,D15:0,D30:0}, exposure:2138, clicks:3, sessions:64, adOrders:0,
         ad:"£22", tacos:"--", profit:"-£0.6", listing:"可售", buybox:"正常", baseAd:"已开启", blockers:[],
@@ -32389,24 +32825,24 @@
 
     const inactive = [
       {
-        id:"INA-001", generatedAt:"2026-07-13", sku:"YL-HOM-033", asin:"B0HOME033", product:"桌面线缆收纳盒", site:"DE", store:"Rhein-DE01",
+        id:"INA-001", relatedTaskId:"TASK-NP-002", generatedAt:"2026-07-13", sku:"YL-HOM-033", asin:"B0HOME033", product:"桌面线缆收纳盒", site:"DE", store:"Rhein-DE01",
         sourceScene:"新品测试", sourceRule:"D15 弱动销观察", ruleVersion:"V2.4", ruleTrigger:"有效开售 15 天，销量 1-3，广告接近止损线",
         ruleFacet:{groupKey:"inactive_signal",groupLabel:"动销判断",groupNote:"规则识别的不动销与周转异常",groupOrder:10,groupIcon:"chart-no-axes-column-increasing",itemKey:"D15_WEAK_SALES",itemLabel:"D15 弱动销",itemOrder:20,itemTone:"warn"},
         stage:"新品测试", lifecycleNode:"D15", operatingDays:27, node:"D15 弱动销", issueType:"D15 弱动销", disposalStage:"D15 弱动销处置", disposalLevel:"P1", level:"P1",
         decisionMode:"负责人确认",
         triggerReason:"15 日销量 2，点击有但转化弱，广告接近止损线", desc:"D15 弱动销，先修正转化和广告，不直接清货。",
-        noSaleDays:6, sales7:1, sales15:2, sales30:2, fbaStock:34, agedDays:27, coverDays:"21 天", inventoryValue:"€238", adSpend:"€39", tacos:"35%", acos:"68%", cvr:"0.47%", profit:"-€0.2", listing:"可售", buybox:"正常",
+        weakSales15Max:3, noSaleDays:6, sales7:1, sales15:2, sales30:2, fbaStock:34, agedDays:27, coverDays:"21 天", inventoryValue:"€238", adSpend:"€39", tacos:"35%", acos:"68%", cvr:"0.47%", profit:"-€0.2", listing:"可售", buybox:"正常",
         action:"",
         actualAction:"已收缩无效广告，调价方案待确认", processResult:"部分完成：广告已收缩，调价方案待确认", failure:"等待负责人确认", failureNote:"调价方案尚未确认", owner:"周屿", status:"处理中", resolvedAt:"-", actualProcessedAt:"2026-07-15 11:05", resultSubmittedAt:"2026-07-15 11:10", due:"明天"
       },
       {
-        id:"INA-002", generatedAt:"2026-07-13", sku:"YL-BEA-099", asin:"B0BEAU099", product:"便携化妆镜", site:"UK", store:"Nordic-UK02",
+        id:"INA-002", relatedTaskId:"TASK-NP-003", generatedAt:"2026-07-13", sku:"YL-BEA-099", asin:"B0BEAU099", product:"便携化妆镜", site:"UK", store:"Nordic-UK02",
         sourceScene:"新品测试", sourceRule:"D30 仍未出单", ruleVersion:"V3.0", ruleTrigger:"近 30 日销量 = 0，库存 > 0，Listing 可售",
         ruleFacet:{groupKey:"inactive_signal",groupLabel:"动销判断",groupNote:"规则识别的不动销与周转异常",groupOrder:10,groupIcon:"chart-no-axes-column-increasing",itemKey:"D30_ZERO_ORDER",itemLabel:"D30 零单",itemOrder:10,itemTone:"bad"},
         stage:"新品测试", lifecycleNode:"D30", operatingDays:48, node:"D30 零单", issueType:"D30 零单", disposalStage:"D30 去留决策", disposalLevel:"P0", level:"P0",
         decisionMode:"运营主管确认",
         triggerReason:"30 日销量 0，剩余库存 18，广告仍有消耗", desc:"D30 仍无订单且库存可售，默认进入不动销处置，不自动切生命周期。",
-        noSaleDays:30, sales7:0, sales15:0, sales30:0, fbaStock:18, agedDays:48, coverDays:"无法预测", inventoryValue:"£162", adSpend:"£22", tacos:"--", acos:"--", cvr:"0%", profit:"--", listing:"可售", buybox:"正常",
+        zeroOrderThreshold:0, noSaleDays:30, sales7:0, sales15:0, sales30:0, fbaStock:18, agedDays:48, coverDays:"无法预测", inventoryValue:"£162", adSpend:"£22", tacos:"--", acos:"--", cvr:"0%", profit:"--", listing:"可售", buybox:"正常",
         action:"",
         actualAction:"-", processResult:"-", failure:"-", owner:"林舟", status:"待处理", resolvedAt:"-", actualProcessedAt:"-", due:"今天"
       },
@@ -32417,10 +32853,10 @@
         stage:"正常经营", lifecycleNode:"持续巡检", operatingDays:273, node:"高库存低销量", issueType:"高库存低销量", disposalStage:"老品周转处置", disposalLevel:"P1", level:"P1",
         decisionMode:"负责人确认",
         triggerReason:"库存覆盖 92 天，30 日销量较上月下降 60%，广告仍在消耗", desc:"老品不是 0 单，但周转变慢，先防止继续补货。",
-        noSaleDays:3, sales7:12, sales15:36, sales30:120, fbaStock:260, agedDays:126, coverDays:"92 天", inventoryValue:"£1,940", adSpend:"£84", tacos:"28%", acos:"52%", cvr:"4.6%", profit:"-£0.8", listing:"可售", buybox:"正常",
+        highCoverageThreshold:60, salesDeclineThreshold:"-50%", salesChangeRate30d:"-60%", recoveryBatchesRequired:2, noSaleDays:3, sales7:12, sales15:36, sales30:120, fbaStock:260, agedDays:126, coverDays:"92 天", inventoryValue:"£1,940", adSpend:"£84", tacos:"28%", acos:"52%", cvr:"4.6%", profit:"-£0.8", listing:"可售", buybox:"正常",
         action:"",
         actualAction:"已收缩高耗广告并暂停补货", processResult:"已完成：广告和补货动作已执行", failure:"-", owner:"许青", status:"已完成", resolvedAt:"2026-07-14 16:20", actualProcessedAt:"2026-07-14 16:20", resultSubmittedAt:"2026-07-14 16:25", deadline:"2026-07-14 18:00", due:"已完成",
-        effectStatus:"待观察", reviewWindow:"动作后 7 个有效经营日", reviewMetrics:"销量、库存覆盖、TACoS、利润/单", reviewOwner:"许青", reviewDue:"满足观察窗口后自动复查",
+        effectStatus:"待观察", reviewWindow:"动作后 14 个有效经营日", reviewMetrics:"库存覆盖、D30 销量变化率、Listing、Buy Box", reviewOwner:"许青", reviewDue:"满足 14 个有效经营日后自动复查",
         effectConclusion:"当前数据截止时间早于动作完成时间，尚未形成处理后数据"
       },
       {
@@ -32430,7 +32866,7 @@
         stage:"正常经营", lifecycleNode:"持续巡检", operatingDays:411, node:"长期低动销", issueType:"长期低动销", disposalStage:"滞销观察", disposalLevel:"P1", level:"P1",
         decisionMode:"负责人确认",
         triggerReason:"库龄 148 天，库存覆盖 96 天，近 30 日销量 8", desc:"长期有少量销量但库存占用高，先停止补货并验证价格动作。",
-        noSaleDays:9, sales7:1, sales15:3, sales30:8, fbaStock:76, agedDays:148, coverDays:"96 天", inventoryValue:"€608", adSpend:"€6", tacos:"11%", acos:"29%", cvr:"1.15%", profit:"€0.3", listing:"可售", buybox:"正常",
+        agedInventoryThreshold:90, highCoverageThreshold:60, lowSales30Max:10, recoveryBatchesRequired:2, noSaleDays:9, sales7:1, sales15:3, sales30:8, fbaStock:76, agedDays:148, coverDays:"96 天", inventoryValue:"€608", adSpend:"€6", tacos:"11%", acos:"29%", cvr:"1.15%", profit:"€0.3", listing:"可售", buybox:"正常",
         action:"",
         actualAction:"-", processResult:"-", failure:"-", owner:"苏禾", status:"待处理", resolvedAt:"-", actualProcessedAt:"-", due:"48小时内"
       },
@@ -32441,7 +32877,7 @@
         stage:"正常经营", lifecycleNode:"持续巡检", operatingDays:64, node:"连续零单", issueType:"连续零单", disposalStage:"经营复核", disposalLevel:"P1", level:"P1",
         decisionMode:"负责人确认",
         triggerReason:"近 14 日销量 0，库存 86 件，可售条件正常", desc:"可售条件正常但持续零单，需负责人确认经营动作。",
-        noSaleDays:14, sales7:0, sales15:0, sales30:6, fbaStock:86, agedDays:64, coverDays:"无法预测", inventoryValue:"€774", adSpend:"€12", tacos:"--", acos:"--", cvr:"0%", profit:"€1.4", listing:"可售", buybox:"正常",
+        noSaleThreshold:14, recoveryBatchesRequired:2, noSaleDays:14, sales7:0, sales15:0, sales30:6, fbaStock:86, agedDays:64, coverDays:"无法预测", inventoryValue:"€774", adSpend:"€12", tacos:"--", acos:"--", cvr:"0%", profit:"€1.4", listing:"可售", buybox:"正常",
         action:"",
         actualAction:"-", processResult:"已忽略：季节性商品尚未进入销售窗口", failure:"业务确认无需处理", failureReason:"业务确认无需处理", failureNote:"季节性商品尚未进入销售窗口", owner:"周屿", status:"已忽略", resolvedAt:"2026-07-14 17:10", actualProcessedAt:"-", resultSubmittedAt:"2026-07-14 17:10", due:"已忽略"
       }
@@ -32477,6 +32913,161 @@
       { id:"LOG-VIEW-002", eventClass:"配置变更", module:"经营视图", event:"团队视图发布", related:"VIEW-TEAM-001", type:"视图发布", content:"发布“本周主管关注”团队视图", user:"运营主管", time:"2026-07-10 15:12", before:"草稿", after:"已发布到菜单", reason:"团队需要统一查看高优先级任务", result:"已生效", source:"经营策略中心", impact:"左侧菜单新增团队视图入口", validation:"不改变规则与生命周期" },
       { id:"LOG-KB-003", eventClass:"业务动作", module:"经营复盘", event:"复查确认有效", related:"FLR-004", sku:"YL-OUT-008", asin:"B0OUT008", type:"结果复盘", content:"恢复 Buy Box 后 3 日新增 4 单，确认动作有效", user:"运营负责人", time:"2026-07-14 17:22", before:"有库存但 Listing 不可售", after:"恢复可售并恢复出单", reason:"Buy Box 丢失", result:"已完成", source:"经营复盘", impact:"处理经验进入知识候选", validation:"由管理员确认后才能发布知识" },
       { id:"LOG-KNOW-001", eventClass:"配置变更", module:"企业经营知识库", event:"知识发布", related:"KNOW-004", type:"知识变更", content:"发布“有库存但不可售时先修复 Buy Box”处置经验", user:"租户管理员", time:"2026-07-14 18:04", before:"知识候选", after:"已发布", reason:"复盘结果有效且证据完整", result:"已生效", source:"企业经营知识库", impact:"AI 建议可引用该企业经验", validation:"不自动改变结构化规则" }
+    ];
+
+    const actionRecordSeeds = [
+      {
+        id:"ACT-0186", resultSubmittedTime:"2026-08-12 10:26", actualExecuteTime:"2026-08-12 10:18", action:"恢复 Listing 可售状态",
+        lifecycle:"新品测试", checkpoint:"D18", scene:"新品测试", product:"BOCX7H3M", sku:"SHFM2P213GCD", asin:"BOCX7H3M",
+        actual:"已修复配送模板并重新提交平台审核", before:"Listing 状态：停售", after:"Listing 状态：审核中",
+        user:"林林", role:"运营专员", execution:"人工执行", approval:"人工执行，无额外审批", status:"待复查", focus:"待复查",
+        resolutionType:"后续复查", resolutionTitle:"自动复查", resolutionDetail:"平台审核通过后，复查 Listing 可售状态及后续经营数据",
+        reviewTime:"平台审核通过后 24 小时", reviewSource:"Amazon Listing、订单、广告、FBA 库存",
+        source:"待处理任务 TASK-0186", reason:"新品测试期间 Listing 不可售，已连续命中 1 次", ruleVersion:"Listing 可售性检查 R-LST-004 · v2.1",
+        triggerTime:"2026-08-10 23:25", snapshotTime:"2026-08-10 23:20", receiptId:"SUB-20260812-0186", issueId:"ISS-0186", taskId:"TASK-0186", reviewId:"REV-0186", effectId:"--",
+        triggerEvidence:[
+          {metric:"Listing 状态",value:"停售",condition:"必须为可售",result:"命中",source:"Amazon Listing API",time:"2026-08-10 23:20"},
+          {metric:"近 30 天销量",value:"0 单",condition:"新品 D18 应正常可售",result:"辅助证据",source:"订单数据",time:"2026-08-10 23:20"},
+          {metric:"FBA 可售 / 在途",value:"0 / 0 件",condition:"用于判断恢复后风险",result:"参考",source:"FBA Inventory",time:"2026-08-10 23:19"}
+        ],
+        reviewPlan:[
+          {metric:"Listing 状态",baseline:"审核中",target:"恢复可售",source:"Amazon Listing API"},
+          {metric:"近 24 小时订单",baseline:"0 单",target:"记录实际订单数",source:"订单数据"},
+          {metric:"广告状态",baseline:"暂停",target:"记录启用状态与花费",source:"Amazon Ads"}
+        ]
+      },
+      {
+        id:"ACT-0182", resultSubmittedTime:"2026-08-11 18:05", actualExecuteTime:"2026-08-11 17:52", action:"调整首批补货数量",
+        lifecycle:"新品测试", checkpoint:"D15", scene:"库存补货", product:"B0D82LMK", sku:"YL-LAMP-04", asin:"B0D82LMK",
+        actual:"AI 建议补货 300 件，人工调整为 150 件并提交采购", before:"库存覆盖：14 天", after:"采购单：150 件",
+        user:"刘海华", role:"运营主管", execution:"人工执行", approval:"运营主管人工确认", status:"待复查", focus:"待复查",
+        resolutionType:"后续复查", resolutionTitle:"自动复查", resolutionDetail:"2026-08-18 复查缺货风险与资金占用",
+        reviewTime:"2026-08-18 09:00", reviewSource:"库存、销量、在途、采购单", source:"待处理任务 TASK-0182",
+        reason:"库存覆盖低于供应周期与安全天数之和", ruleVersion:"新品库存风险 R-REP-003 · v1.3", triggerTime:"2026-08-11 09:12", snapshotTime:"2026-08-11 09:10",
+        receiptId:"PO-UK-20260811-0150", issueId:"ISS-0182", taskId:"TASK-0182", reviewId:"REV-0182", effectId:"--",
+        triggerEvidence:[
+          {metric:"库存覆盖",value:"14 天",condition:"低于供应周期 30 天 + 安全天数 7 天",result:"命中",source:"ERP 库存 / 销量",time:"2026-08-11 09:10"},
+          {metric:"供应周期",value:"30 天",condition:"取当前供应商交期",result:"依据",source:"SCM 供应商档案",time:"2026-08-10 18:00"},
+          {metric:"在途数量",value:"0 件",condition:"无可抵扣在途",result:"命中",source:"SCM 采购单",time:"2026-08-11 09:10"}
+        ],
+        reviewPlan:[
+          {metric:"可售库存",baseline:"42 件",target:"记录实际库存",source:"ERP 库存"},
+          {metric:"在途数量",baseline:"0 件",target:"采购单 150 件进入在途",source:"SCM 采购单"},
+          {metric:"库存覆盖",baseline:"14 天",target:"不得低于 21 天",source:"库存 / 近 7 日销量"}
+        ]
+      },
+      {
+        id:"ACT-0179", resultSubmittedTime:"2026-08-10 16:42", actualExecuteTime:"2026-08-10 16:40", action:"暂停高耗低转广告",
+        lifecycle:"常规经营", checkpoint:"持续巡检", scene:"广告健康", product:"B09K2P7L", sku:"YL-HOME-17", asin:"B09K2P7L",
+        actual:"暂停 6 个低效关键词，保留 3 个核心自然转化词", before:"低效关键词：6 个", after:"已暂停：6 个",
+        user:"系统", role:"经人工审批", execution:"系统自动执行", approval:"运营主管于 2026-08-10 16:38 审批", status:"复查完成", focus:"",
+        resolutionType:"复查结果", resolutionTitle:"有效", resolutionDetail:"广告消耗下降且订单量保持稳定，满足有效判定标准",
+        reviewTime:"2026-08-12 09:00", reviewDataCutoff:"2026-08-11 16:42", reviewSource:"Amazon Ads、订单、利润数据",
+        reviewWindow:"处理前：2026-08-09 16:42—08-10 16:42；处理后：2026-08-10 16:42—08-11 16:42（等长 24 小时）",
+        reviewBasis:"两个完整且等长的 24 小时窗口；花费与订单按窗口总量比较，比例指标按同一口径计算。",
+        source:"经营策略 S-ADS-011", reason:"连续 7 天广告消耗高于经营红线", ruleVersion:"高耗低转广告策略 S-ADS-011 · v1.6",
+        triggerTime:"2026-08-10 09:05", snapshotTime:"2026-08-10 09:00", receiptId:"ADS-JOB-20260810-0179", issueId:"ISS-0179", taskId:"TASK-0179", reviewId:"REV-0179", effectId:"EFF-0179",
+        triggerEvidence:[
+          {metric:"近 7 天 TACoS",value:"24.8%",condition:"> 22%",result:"命中",source:"Amazon Ads / 订单",time:"2026-08-10 09:00"},
+          {metric:"低效关键词",value:"6 个",condition:"花费 > £8 且 0 订单",result:"命中",source:"Amazon Ads Search Term",time:"2026-08-10 08:58"},
+          {metric:"近 7 天广告花费",value:"£486.30",condition:"> £350",result:"命中",source:"Amazon Ads",time:"2026-08-10 09:00"},
+          {metric:"近 7 天订单",value:"42 单",condition:"用于保护订单量",result:"基线",source:"订单数据",time:"2026-08-10 09:00"}
+        ],
+        reviewMetrics:[
+          {metric:"TACoS",before:"24.8%",after:"18.2%",change:"下降 6.6pp",rule:"低于 22%",source:"Amazon Ads / 订单"},
+          {metric:"广告花费（24h）",before:"£69.47",after:"£46.96",change:"下降 £22.51",rule:"较处理前下降",source:"Amazon Ads"},
+          {metric:"订单量（24h）",before:"6 单",after:"6 单",change:"保持不变",rule:"下降不超过 10%",source:"订单数据"},
+          {metric:"单件利润",before:"£3.18",after:"£4.02",change:"增加 £0.84",rule:"> £0",source:"利润数据"}
+        ]
+      },
+      {
+        id:"ACT-0174", resultSubmittedTime:"2026-08-09 14:18", actualExecuteTime:"2026-08-09 14:17", action:"清货折扣执行失败",
+        lifecycle:"老品清退", checkpoint:"D30", scene:"清货处置", product:"B07R8X4N", sku:"YL-OLD-22", asin:"B07R8X4N",
+        actual:"提交 20% 优惠券时平台返回活动冲突，未完成执行", before:"可售库存：286 件", after:"折扣未生效",
+        user:"系统", role:"自动化任务", execution:"系统自动执行", approval:"运营主管于 2026-08-09 14:15 审批", status:"执行失败", focus:"执行失败",
+        resolutionType:"后续处理", resolutionTitle:"新任务处理", resolutionDetail:"已生成 TASK-0189，等待运营处理活动冲突", linkedTask:"TASK-0189",
+        source:"待处理任务 TASK-0174", reason:"D30 零单且库存覆盖超过 120 天", ruleVersion:"D30 清货处置 R-CLR-008 · v2.0",
+        triggerTime:"2026-08-09 09:10", snapshotTime:"2026-08-09 09:00", receiptId:"PROMO-ERR-409-0174", issueId:"ISS-0174", taskId:"TASK-0174", reviewId:"--", effectId:"--",
+        triggerEvidence:[
+          {metric:"近 30 天销量",value:"0 单",condition:"= 0 单",result:"命中",source:"订单数据",time:"2026-08-09 09:00"},
+          {metric:"可售库存",value:"286 件",condition:"> 0 件",result:"命中",source:"FBA Inventory",time:"2026-08-09 08:59"},
+          {metric:"库存覆盖",value:"> 120 天",condition:"> 90 天",result:"命中",source:"库存 / 销量",time:"2026-08-09 09:00"}
+        ]
+      },
+      {
+        id:"ACT-0168", resultSubmittedTime:"2026-08-08 11:32", actualExecuteTime:"2026-08-08 11:20", action:"补充主图容量表达",
+        lifecycle:"新品测试", checkpoint:"D15", scene:"新品测试", product:"B08M5K1Q", sku:"YL-BAG-09", asin:"B08M5K1Q",
+        actual:"替换主图并补充容量对比信息", before:"主图：未突出容量", after:"主图：已替换", user:"王敏", role:"内容运营", execution:"人工执行", approval:"内容运营人工执行",
+        status:"复查完成", focus:"未达预期", resolutionType:"复查结果", resolutionTitle:"未达预期", resolutionDetail:"转化率未改善，已进入业务复核",
+        reviewTime:"2026-08-12 11:32", reviewDataCutoff:"2026-08-12 11:32", reviewSource:"流量、转化、价格、评价数据",
+        reviewWindow:"处理前：2026-08-04 11:32—08-08 11:32；处理后：2026-08-08 11:32—08-12 11:32（等长 4 天）",
+        reviewBasis:"两个完整且等长的 4 天窗口；CVR 使用各窗口订单量 ÷ 详情页访问量计算。",
+        source:"待处理任务 TASK-0168", reason:"点击稳定但转化率持续低于同类商品", ruleVersion:"新品低转化检查 R-CVR-006 · v1.4",
+        triggerTime:"2026-08-08 09:10", snapshotTime:"2026-08-08 09:00", receiptId:"SUB-20260808-0168", issueId:"ISS-0168", taskId:"TASK-0168", reviewId:"REV-0168", effectId:"EFF-0168",
+        triggerEvidence:[
+          {metric:"近 7 天 CVR",value:"4.1%",condition:"< 5.0%",result:"命中",source:"流量 / 订单",time:"2026-08-08 09:00"},
+          {metric:"近 7 天点击",value:"618 次",condition:"> 500 次",result:"样本充足",source:"流量数据",time:"2026-08-08 09:00"},
+          {metric:"Buy Box",value:"98.2%",condition:"> 95%",result:"排除干扰",source:"Amazon Listing",time:"2026-08-08 08:58"}
+        ],
+        reviewMetrics:[
+          {metric:"CVR",before:"4.1%",after:"4.0%",change:"下降 0.1pp",rule:"应提升且达到 5%",source:"流量 / 订单"},
+          {metric:"详情页访问（4d）",before:"1,054",after:"1,088",change:"增加 34",rule:"样本量不少于 1,000",source:"流量数据"},
+          {metric:"订单量（4d）",before:"43 单",after:"44 单",change:"增加 1 单",rule:"增幅应高于访问增幅",source:"订单数据"}
+        ]
+      },
+      {
+        id:"ACT-0161", resultSubmittedTime:"2026-08-07 09:45", actualExecuteTime:"2026-08-07 09:42", action:"忽略本次补货建议",
+        lifecycle:"稳定经营", checkpoint:"持续巡检", scene:"库存补货", product:"B0A67T2P", sku:"YL-KID-12", asin:"B0A67T2P",
+        actual:"供应商已确认停产，本次不再补货并保留原因", before:"系统建议：补货 80 件", after:"本次不执行",
+        user:"赵凯", role:"供应链负责人", execution:"人工执行", approval:"供应链负责人人工确认", status:"已关闭", focus:"",
+        resolutionType:"关闭说明", resolutionTitle:"无需继续处理", resolutionDetail:"再次命中时生成关联记录",
+        source:"待处理任务 TASK-0161", reason:"库存覆盖低于供应周期", ruleVersion:"库存补货检查 R-REP-003 · v1.3",
+        triggerTime:"2026-08-07 09:12", snapshotTime:"2026-08-07 09:10", receiptId:"SUB-20260807-0161", issueId:"ISS-0161", taskId:"TASK-0161", reviewId:"--", effectId:"CLS-0161",
+        triggerEvidence:[
+          {metric:"库存覆盖",value:"18 天",condition:"< 供应周期 30 天",result:"命中",source:"ERP 库存 / 销量",time:"2026-08-07 09:10"},
+          {metric:"供应商状态",value:"停产",condition:"人工补充事实",result:"关闭依据",source:"供应链负责人",time:"2026-08-07 09:42"}
+        ]
+      },
+      {
+        id:"ACT-0156", resultSubmittedTime:"2026-08-05 17:20", actualExecuteTime:"2026-08-05 17:08", action:"降低补货量并继续观察",
+        lifecycle:"新品测试", checkpoint:"D30", scene:"库存补货", product:"B0D82LMK", sku:"YL-LAMP-04", asin:"B0D82LMK",
+        actual:"第二次降低采购数量，从 150 件调整为 100 件", before:"建议采购：150 件", after:"实际采购：100 件",
+        user:"刘海华", role:"运营主管", execution:"人工执行", approval:"运营主管人工确认", status:"复查完成", focus:"问题再次出现",
+        resolutionType:"复查结果", resolutionTitle:"问题再次出现", resolutionDetail:"库存风险再次命中，本批到货后合并复查",
+        reviewTime:"2026-08-12 09:30", reviewDataCutoff:"2026-08-12 09:30", reviewSource:"库存、销量、在途数据",
+        reviewWindow:"基线快照：2026-08-05 09:10；复查快照：2026-08-12 09:30；销量均取各快照前连续 7 天",
+        reviewBasis:"库存和在途按两个快照点比较；日均销量均按各快照前连续 7 天计算。",
+        source:"关联动作 ACT-0149", reason:"同一库存风险在观察期再次出现", ruleVersion:"新品库存风险 R-REP-003 · v1.3",
+        triggerTime:"2026-08-05 09:12", snapshotTime:"2026-08-05 09:10", receiptId:"PO-UK-20260805-0100", issueId:"ISS-0156", taskId:"TASK-0156", reviewId:"REV-0156", effectId:"EFF-0156", linkedActionId:"ACT-0149",
+        triggerEvidence:[
+          {metric:"库存覆盖",value:"19 天",condition:"< 37 天",result:"命中",source:"ERP 库存 / 销量",time:"2026-08-05 09:10"},
+          {metric:"在途数量",value:"150 件",condition:"已计入在途",result:"依据",source:"SCM 采购单",time:"2026-08-05 09:08"}
+        ],
+        reviewMetrics:[
+          {metric:"库存覆盖",before:"19 天",after:"14 天",change:"下降 5 天",rule:">= 21 天",source:"库存 / 销量"},
+          {metric:"在途数量",before:"150 件",after:"150 件",change:"无变化",rule:"> 0 件",source:"SCM 采购单"},
+          {metric:"近 7 天日均销量",before:"8.0 件",after:"10.6 件",change:"增加 2.6 件",rule:"用于重算覆盖",source:"订单数据"}
+        ]
+      },
+      {
+        id:"ACT-0149", resultSubmittedTime:"2026-08-01 10:06", actualExecuteTime:"2026-08-01 09:55", action:"首次调整补货量",
+        lifecycle:"新品测试", checkpoint:"D10", scene:"库存补货", product:"B0D82LMK", sku:"YL-LAMP-04", asin:"B0D82LMK",
+        actual:"将系统建议的 220 件调整为 150 件", before:"库存覆盖：19 天", after:"实际采购：150 件",
+        user:"刘海华", role:"运营主管", execution:"人工执行", approval:"运营主管人工确认", status:"待复查", focus:"待复查",
+        resolutionType:"后续复查", resolutionTitle:"自动复查", resolutionDetail:"2026-08-15 复查销量、库存与在途",
+        reviewTime:"2026-08-15 09:00", reviewSource:"销量、库存、在途、采购单", source:"待处理任务 TASK-0149",
+        reason:"库存覆盖低于供应周期", ruleVersion:"新品库存风险 R-REP-003 · v1.2", triggerTime:"2026-08-01 09:12", snapshotTime:"2026-08-01 09:10",
+        receiptId:"PO-UK-20260801-0150", issueId:"ISS-0149", taskId:"TASK-0149", reviewId:"REV-0149", effectId:"--",
+        triggerEvidence:[
+          {metric:"库存覆盖",value:"19 天",condition:"< 35 天",result:"命中",source:"ERP 库存 / 销量",time:"2026-08-01 09:10"},
+          {metric:"在途数量",value:"0 件",condition:"无可抵扣在途",result:"命中",source:"SCM 采购单",time:"2026-08-01 09:08"}
+        ],
+        reviewPlan:[
+          {metric:"可售库存",baseline:"152 件",target:"记录实际库存",source:"ERP 库存"},
+          {metric:"在途数量",baseline:"0 件",target:"采购单 150 件进入在途",source:"SCM 采购单"},
+          {metric:"库存覆盖",baseline:"19 天",target:">= 21 天",source:"库存 / 近 7 日销量"}
+        ]
+      }
     ];
 
     const OPERATION_CLOSURE_STORAGE_KEY = "yilian-operation-closure-v8";
@@ -40044,7 +40635,7 @@
 
     function findNewProductTask(row, taskKind = "", activeOnly = true) {
       return exceptions.find(item =>
-        (item.sourceRowId === row.id || (item.sourceScene === "新品测试" && item.sku === row.sku && item.asin === row.asin))
+        (item.id === row.relatedTaskId || item.sourceRowId === row.id)
         && (!taskKind || item.taskKind === taskKind)
         && (!activeOnly || !["已完成","已忽略"].includes(item.status))
       );
@@ -40859,7 +41450,12 @@
     }
 
     function inactiveTaskRecord(row) {
-      return exceptions.find(task => task.id === row.taskId || task.inactiveId === row.id);
+      if (!row) return null;
+      const explicitTaskId = row.taskId || row.relatedTaskId;
+      return exceptions.find(task =>
+        (explicitTaskId && task.id === explicitTaskId)
+        || task.inactiveId === row.id
+      ) || null;
     }
 
     function inactiveOperatingDays(row) {
@@ -40931,15 +41527,15 @@
     function findFormalInactiveRecord(source, includeClosed = false) {
       if (!source) return null;
       return inactive.find(item => {
-        const sameOffer = item.sku === source.sku
-          && item.asin === source.asin
-          && (!source.site || item.site === source.site)
-          && (!source.store || item.store === source.store);
+        const explicitInactiveId = source.relatedInactiveId || source.inactiveId;
+        const explicitTaskId = source.relatedTaskId || source.taskId;
+        const sameExplicitRelation = (explicitInactiveId && item.id === explicitInactiveId)
+          || (explicitTaskId && (item.taskId === explicitTaskId || item.relatedTaskId === explicitTaskId));
         const sameSource = item.sourceRowId && item.sourceRowId === source.id;
         const hasFormalHit = Boolean(item.ruleFacet?.itemKey && item.sourceRule && item.ruleVersion);
         const statusValue = inactiveStatusValue(item);
         return hasFormalHit
-          && (sameOffer || sameSource)
+          && (sameExplicitRelation || sameSource)
           && (includeClosed || !["已完成","已忽略","已闭环"].includes(statusValue));
       }) || null;
     }
@@ -40958,11 +41554,14 @@
 
     function inactiveTaskDataSnapshot(row) {
       return [
+        ["连续无单天数",String(row.noSaleDays ?? "-")],
         ["近7日销量",String(row.sales7 ?? "-")],
         ["15日销量",String(row.sales15 ?? "-")],
         ["30日销量",String(row.sales30 ?? "-")],
+        ["D30 销量变化率",String(row.salesChangeRate30d ?? "-")],
         ["库存",row.fbaStock === undefined || row.fbaStock === null ? "-" : `${row.fbaStock} 件`],
         ["库存覆盖",row.coverDays || "-"],
+        ["库存库龄",row.agedDays === undefined || row.agedDays === null ? "-" : `${row.agedDays} 天`],
         ["Listing 状态",row.listing || "-"],
         ["Buy Box",row.buybox || "-"],
         ["TACoS",row.tacos || "-"],
@@ -40976,9 +41575,12 @@
       if (existing) {
         row.taskId = existing.id;
         existing.inactiveId = row.id;
+        existing.action = inactiveTaskSuggestion(row);
+        existing.hitSnapshot = existing.hitSnapshot?.length ? existing.hitSnapshot : inactiveTaskDataSnapshot(row);
+        existing.currentData = inactiveTaskDataSnapshot(row);
         return existing;
       }
-      row.taskId = row.taskId || `TASK-${row.id}`;
+      row.taskId = row.taskId || row.relatedTaskId || `TASK-${row.id}`;
       const task = {
         id:row.taskId,
         inactiveId:row.id,
@@ -41071,7 +41673,7 @@
         return `${change > 0 ? "+" : ""}${change}${suffix}`;
       };
       const baseline = task.verificationPlanSnapshot?.baseline || {};
-      row.effectStatus = evaluation.dataIncomplete ? "数据不足" : result;
+      row.effectStatus = result === "无法判断" ? "无法判断" : evaluation.dataIncomplete ? "数据不足" : result;
       row.reviewDataTime = dataTime;
       row.reviewSales = `${value("近7日销量","近 7 日销量")}/${value("15日销量")}/${value("30日销量","30 日销量")}`;
       row.reviewSalesChange = `D30 ${delta(baseline["30日销量"] ?? baseline["30 日销量"] ?? row.sales30, value("30日销量","30 日销量"))}`;
@@ -41083,7 +41685,7 @@
       row.reviewTacosChange = delta(baseline.TACoS ?? row.tacos, row.reviewTacos, "%");
       row.reviewProfit = String(value("利润/单","平均利润/单","利润"));
       row.reviewProfitChange = delta(baseline["利润/单"] ?? row.profit, row.reviewProfit);
-      row.reviewDue = evaluation.dataIncomplete ? "下一次完整数据同步后" : "已完成";
+      row.reviewDue = result === "无法判断" ? "等待人工补充配置或有效数据" : evaluation.dataIncomplete ? "下一次完整数据同步后" : "已完成";
       row.effectConclusion = evaluation.note;
     }
 
@@ -41557,10 +42159,67 @@
       return match ? Number(match[0]) : Number.NaN;
     }
 
+    function inactiveSourceForTask(row) {
+      return inactive.find(item => item.id === row?.inactiveId || item.taskId === row?.id) || null;
+    }
+
+    function inactiveVerificationPolicy(row) {
+      const source = inactiveSourceForTask(row) || row;
+      const ruleKey = source?.ruleFacet?.itemKey;
+      if (!ruleKey) return null;
+      const base = {
+        version:Number(String(source.ruleVersion || "V1").replace(/[^\d.]/g, "") || 1),
+        sourceRule:source.sourceRule || row.rule,
+        criteriaMode:"all",
+        missingDataAction:"等待下一次完整数据同步，连续 3 次仍不足则标记无法判断",
+        recurrentAction:"保留原任务与结果，重新命中时创建或合并关联任务",
+        requiredRecoveryBatches:Number(source.recoveryBatchesRequired || (/D15_|D30_/.test(ruleKey) ? 1 : 2)),
+        guardrails:[
+          {metric:"Listing 状态",comparator:"恢复为",target:"可售"},
+          {metric:"Buy Box",comparator:"恢复为",target:"正常"}
+        ]
+      };
+      if (ruleKey === "D15_WEAK_SALES") return {
+        ...base, policyId:"VERIFY-INA-D15", reviewCycle:"7 天后",
+        recoveryCriterion:"D15 销量越过命中时弱动销阈值，且基础可售条件正常",
+        criteria:[{metric:"15日销量",comparator:"大于",target:String(source.weakSales15Max ?? 3),unit:"件",window:"近 15 个完整自然日"}]
+      };
+      if (ruleKey === "D30_ZERO_ORDER") return {
+        ...base, policyId:"VERIFY-INA-D30", reviewCycle:"7 天后",
+        recoveryCriterion:"D30 恢复出单，且基础可售条件正常",
+        criteria:[{metric:"30日销量",comparator:"大于",target:String(source.zeroOrderThreshold ?? 0),unit:"件",window:"近 30 个完整自然日"}]
+      };
+      if (ruleKey === "REGULAR_ZERO_ORDER") return {
+        ...base, policyId:"VERIFY-INA-ZERO", reviewCycle:"7 天后",
+        recoveryCriterion:"连续无单天数低于命中阈值，且基础可售条件正常",
+        criteria:[{metric:"连续无单天数",comparator:"小于",target:String(source.noSaleThreshold ?? 30),unit:"天",window:"连续有效可售自然日"}]
+      };
+      if (ruleKey === "HIGH_STOCK_LOW_SALES") return {
+        ...base, policyId:"VERIFY-INA-HIGH-STOCK", reviewCycle:"14 天后",
+        recoveryCriterion:"库存覆盖和 D30 销量变化率均越过命中阈值",
+        criteria:[
+          {metric:"库存覆盖天数",comparator:"小于等于",target:String(source.highCoverageThreshold ?? 60),unit:"天",window:"当前已发布快照"},
+          {metric:"D30 销量变化率",comparator:"大于",target:String(source.salesDeclineThreshold ?? "-50%"),unit:"%",window:"当前 30 日对比前 30 日"}
+        ]
+      };
+      if (ruleKey === "LONG_TERM_SLOW") return {
+        ...base, policyId:"VERIFY-INA-LONG-SLOW", reviewCycle:"30 天后", criteriaMode:"any",
+        recoveryCriterion:"库存覆盖恢复或 D30 销量越过低动销阈值",
+        criteria:[
+          {metric:"库存覆盖天数",comparator:"小于等于",target:String(source.highCoverageThreshold ?? 60),unit:"天",window:"当前已发布快照"},
+          {metric:"30日销量",comparator:"大于",target:String(source.lowSales30Max ?? 10),unit:"件",window:"近 30 个完整自然日"}
+        ]
+      };
+      return null;
+    }
+
     const STRATEGY_POLICY_STORAGE_KEY = "yilian-strategy-policy-v2";
     const STRATEGY_CONFIGURATION_STORAGE_KEY = "yilian-strategy-configuration-v2";
 
     function defaultExceptionVerificationPolicy(row) {
+      const inactivePolicy = inactiveVerificationPolicy(row);
+      if (inactivePolicy) return inactivePolicy;
+      if (row?.inactiveId) return null;
       const signature = `${row?.rule || ""} ${row?.type || ""} ${row?.sourceScene || ""}`;
       const base = {
         policyId:"VERIFY-GENERIC",
@@ -41583,6 +42242,7 @@
 
     function configuredExceptionVerificationPolicy(row) {
       const fallback = defaultExceptionVerificationPolicy(row);
+      if (!fallback) return null;
       try {
         const configuration = JSON.parse(localStorage.getItem(STRATEGY_CONFIGURATION_STORAGE_KEY) || "null");
         const signature = `${row?.rule || ""} ${row?.type || ""} ${row?.sourceScene || ""}`;
@@ -41613,7 +42273,16 @@
 
     function createExceptionVerificationSnapshot(row, mode) {
       const configured = configuredExceptionVerificationPolicy(row);
+      if (!configured) return null;
       const startedAt = new Date();
+      const criteria = configured.criteria?.map(item => ({ ...item })) || [{
+        metric:configured.metric,
+        comparator:configured.comparator,
+        target:String(configured.target ?? ""),
+        unit:"",
+        window:"按效果策略"
+      }];
+      const guardrails = configured.guardrails?.map(item => ({ ...item })) || [];
       return {
         planId:`VRP-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
         policyId:configured.policyId,
@@ -41631,6 +42300,21 @@
         target:String(configured.target ?? ""),
         missingDataAction:configured.missingDataAction,
         recurrentAction:configured.recurrentAction,
+        criteriaMode:configured.criteriaMode || "all",
+        criteria,
+        guardrails,
+        requiredRecoveryBatches:Number(configured.requiredRecoveryBatches || 1),
+        recoveryBatchesMet:0,
+        ruleThresholdSnapshot:{
+          sourceRule:configured.sourceRule || row.rule,
+          ruleVersion:row.ruleVersion || "V1.0",
+          criteriaMode:configured.criteriaMode || "all",
+          criteria:criteria.map(item => ({ ...item })),
+          guardrails:guardrails.map(item => ({ ...item })),
+          recoveryBatches:Number(configured.requiredRecoveryBatches || 1),
+          site:row.site || "",
+          store:row.store || ""
+        },
         baseline:Object.fromEntries(row.hitSnapshot || row.evidence || []),
         status:"scheduled",
         retryCount:0
@@ -41643,7 +42327,10 @@
         "近7日订单量":["近7日订单量","近7日销量","近 7 日销量","7 日销量","销量"],
         "近7日销量":["近7日销量","近 7 日销量","7 日销量"],
         "30日销量":["30日销量","30 日销量"],
+        "连续无单天数":["连续无单天数","连续零单天数"],
+        "D30 销量变化率":["D30 销量变化率","30 日销量变化率","销量变化率"],
         "Listing 状态":["Listing 状态","Listing"],
+        "Buy Box":["Buy Box","Buy Box 状态"],
         "TACoS":["TACoS"],
         "库存覆盖天数":["库存覆盖天数","库存覆盖","覆盖天数"],
         "平均利润/单":["平均利润/单","利润/单","利润"]
@@ -41659,6 +42346,8 @@
       const expected = exceptionMetricNumber(target);
       if (Number.isNaN(actual) || Number.isNaN(expected)) return null;
       if (comparator === "小于") return actual < expected;
+      if (comparator === "小于等于") return actual <= expected;
+      if (comparator === "大于等于") return actual >= expected;
       if (comparator === "等于") return actual === expected;
       return actual > expected;
     }
@@ -41672,17 +42361,34 @@
     function evaluateExceptionVerification(row) {
       const plan = row?.verificationPlanSnapshot;
       if (!plan) return null;
-      const metric = exceptionMetricValue(row, plan.metric);
-      const metricPassed = compareVerificationMetric(metric.raw, plan.comparator, plan.target);
-      const problemRecovered = !exceptionRuleStillMatches(row);
-      const dataIncomplete = metricPassed === null || /数据不足|数据待补|待补齐|缺失/.test(`${row.dataQuality || ""}`);
+      if (row.inactiveId && !plan.ruleThresholdSnapshot) {
+        return { dataIncomplete:false, configurationMissing:true, problemRecovered:false, metricPassed:false, partialProgress:false, note:"历史处置缺少命中时规则阈值快照，无法按原口径复查。" };
+      }
+      const criteria = plan.ruleThresholdSnapshot?.criteria || plan.criteria || [{metric:plan.metric,comparator:plan.comparator,target:plan.target}];
+      const guardrails = plan.ruleThresholdSnapshot?.guardrails || plan.guardrails || [];
+      const evaluateItem = item => {
+        const metric = exceptionMetricValue(row, item.metric);
+        return { ...item, key:metric.key, raw:metric.raw, passed:compareVerificationMetric(metric.raw, item.comparator, item.target) };
+      };
+      const criterionResults = criteria.map(evaluateItem);
+      const guardrailResults = guardrails.map(evaluateItem);
+      const allResults = [...criterionResults, ...guardrailResults];
+      const dataIncomplete = allResults.some(item => item.passed === null) || /数据不足|数据待补|待补齐|缺失/.test(`${row.dataQuality || ""}`);
+      const criteriaMode = plan.ruleThresholdSnapshot?.criteriaMode || plan.criteriaMode || "all";
+      const criteriaPassed = criteriaMode === "any" ? criterionResults.some(item => item.passed === true) : criterionResults.every(item => item.passed === true);
+      const guardrailsPassed = guardrailResults.every(item => item.passed === true);
+      const problemRecovered = !dataIncomplete && criteriaPassed && guardrailsPassed;
+      const partialProgress = !dataIncomplete && !problemRecovered && guardrailsPassed && criterionResults.some(item => item.passed === true);
+      const detail = allResults.map(item => `${item.key} ${item.raw ?? "缺失"}（要求${item.comparator}${item.target}）`).join("；");
       return {
         dataIncomplete,
+        configurationMissing:false,
         problemRecovered,
-        metricPassed,
-        metricLabel:metric.key,
-        metricValue:metric.raw ?? "缺失",
-        note:`原问题${problemRecovered ? "已恢复" : "仍命中"}；${metric.key} ${metric.raw ?? "缺失"}，达标条件为${plan.comparator}${plan.target}。`
+        metricPassed:problemRecovered,
+        partialProgress,
+        criterionResults,
+        guardrailResults,
+        note:`原问题${problemRecovered ? "达到恢复条件" : partialProgress ? "部分改善" : "未达到恢复条件"}；${detail}。`
       };
     }
 
@@ -41697,6 +42403,24 @@
         return Number.NaN;
       };
       const text = (...keys) => keys.map(key => data[key]).filter(Boolean).join(" ");
+      const source = inactiveSourceForTask(row);
+      const ruleKey = source?.ruleFacet?.itemKey;
+      if (ruleKey) {
+        const sales15 = number("15日销量");
+        const sales30 = number("30日销量", "30 日销量");
+        const inventory = number("库存", "FBA 库存", "FBA 可售");
+        const noSaleDays = number("连续无单天数", "连续零单天数");
+        const cover = number("库存覆盖", "库存覆盖天数", "覆盖天数");
+        const salesChange = number("D30 销量变化率", "30 日销量变化率", "销量变化率");
+        const age = number("库存库龄", "库龄");
+        const listingOk = /可售/.test(text("Listing", "Listing 状态")) && !/不可售|异常|下架|抑制/.test(text("Listing", "Listing 状态"));
+        const buyBoxOk = /正常/.test(text("Buy Box", "Buy Box 状态"));
+        if (ruleKey === "D15_WEAK_SALES") return !Number.isNaN(sales15) && sales15 >= 0 && sales15 <= Number(source.weakSales15Max ?? 3) && inventory > 0 && listingOk && buyBoxOk;
+        if (ruleKey === "D30_ZERO_ORDER") return !Number.isNaN(sales30) && sales30 <= Number(source.zeroOrderThreshold ?? 0) && inventory > 0 && listingOk && buyBoxOk;
+        if (ruleKey === "REGULAR_ZERO_ORDER") return !Number.isNaN(noSaleDays) && noSaleDays >= Number(source.noSaleThreshold ?? 30) && inventory > 0 && listingOk && buyBoxOk;
+        if (ruleKey === "HIGH_STOCK_LOW_SALES") return sales30 > 0 && cover > Number(source.highCoverageThreshold ?? 60) && salesChange <= exceptionMetricNumber(source.salesDeclineThreshold ?? "-50%") && listingOk && buyBoxOk;
+        if (ruleKey === "LONG_TERM_SLOW") return age >= Number(source.agedInventoryThreshold ?? 90) && cover > Number(source.highCoverageThreshold ?? 60) && sales30 >= 1 && sales30 <= Number(source.lowSales30Max ?? 10) && listingOk && buyBoxOk;
+      }
       const signature = `${row.rule || ""} ${row.type || ""}`;
       if (/D30.*(?:0单|零单|未出单)|D30 仍 0 单/.test(signature)) {
         const sales = number("30 日销量", "30日销量");
@@ -41879,11 +42603,16 @@
         previousReview.knowledgeStatus = "暂不提炼";
       }
       const plan = createExceptionVerificationSnapshot(row, mode);
+      if (!plan) {
+        row.verificationStatus = "效果策略配置缺失，无法生成复查计划";
+        return null;
+      }
       row.verificationPlanSnapshot = plan;
       row.verificationPlanId = plan.planId;
       row.actionLogId = actionLog.id;
       row.verificationStatus = `等待${plan.reviewCycle}结果验证`;
-      const note = `复查计划 ${plan.planId}：${plan.reviewCycle}检查${plan.metric}${plan.comparator}${plan.target}，并独立判断原问题是否恢复。`;
+      const checkItems = (plan.criteria || []).map(item => `${item.metric}${item.comparator}${item.target}`).join("、");
+      const note = `复查计划 ${plan.planId}：${plan.reviewCycle}检查${checkItems || `${plan.metric}${plan.comparator}${plan.target}`}，并独立判断原问题是否恢复。`;
       const review = addBusinessReview({ ...row, sourceLog: actionLog.id }, "继续观察", note, { actionLogId:actionLog.id });
       Object.assign(review, {
         sourceId: row.id,
@@ -41908,12 +42637,13 @@
         || failureReasons.find(item => item.sourceId === row?.id && item.status === "待复查")
         || failureReasons.find(item => item.sourceId === row?.id);
       if (!review) return null;
-      const dataIncomplete = /数据不足|数据待补|待补齐|缺失/.test(`${row.status || ""} ${row.processResult || ""} ${row.dataQuality || ""} ${note || ""}`);
+      const terminalUnknown = result === "无法判断";
+      const dataIncomplete = !terminalUnknown && /数据不足|数据待补|待补齐|缺失/.test(`${row.status || ""} ${row.processResult || ""} ${row.dataQuality || ""} ${note || ""}`);
       const needsMoreObservation = result === "继续观察";
       review.after = note;
       review.impact = note;
-      review.result = dataIncomplete ? "数据不足" : result;
-      review.status = dataIncomplete ? "数据待补齐" : needsMoreObservation ? "待复查" : result === "有效" ? "待总结" : "待优化";
+      review.result = terminalUnknown ? "无法判断" : dataIncomplete ? "数据不足" : result;
+      review.status = terminalUnknown ? "待人工确认" : dataIncomplete ? "数据待补齐" : needsMoreObservation ? "待复查" : result === "有效" ? "待总结" : "待优化";
       review.contribution = dataIncomplete
         ? "当前缺少用于复查的关键数据，暂不判断动作效果。"
         : result === "有效"
@@ -41921,10 +42651,10 @@
           : needsMoreObservation
             ? "当前已有改善迹象，但尚不足以沉淀经验，系统将按下一复查周期继续校验。"
             : "处理后仍命中原问题，本次做法暂不沉淀为企业经验。";
-      review.knowledgeStatus = dataIncomplete || result === "无效" || result === "部分有效" || needsMoreObservation ? "暂不提炼" : "待判断";
+      review.knowledgeStatus = terminalUnknown || dataIncomplete || result === "无效" || result === "部分有效" || needsMoreObservation ? "暂不提炼" : "待判断";
       if (row?.verificationPlanSnapshot) {
-        row.verificationPlanSnapshot.status = dataIncomplete || needsMoreObservation ? "scheduled" : "completed";
-        row.verificationPlanSnapshot.completedAt = dataIncomplete || needsMoreObservation ? "" : currentDataTimestamp();
+        row.verificationPlanSnapshot.status = terminalUnknown ? "completed" : dataIncomplete || needsMoreObservation ? "scheduled" : "completed";
+        row.verificationPlanSnapshot.completedAt = terminalUnknown || (!dataIncomplete && !needsMoreObservation) ? currentDataTimestamp() : "";
         review.verificationPolicySnapshot = { ...row.verificationPlanSnapshot };
       }
       syncKnowledgeUsageReviewStatus(review);
@@ -42285,83 +43015,178 @@
       return row.sku || row.asin || row.related || "--";
     }
 
-    function actionLogSearchText(row) {
-      return [
-        row.event, row.type, row.content, row.reason, row.sku, row.asin,
-        row.user, row.related, row.id, logModule(row), logSourceLabel(row)
-      ].filter(Boolean).join(" ").toLowerCase();
+    function isActualBusinessActionLog(row) {
+      if (logCategory(row) !== "业务动作" || !hasActualBusinessActionLog(row)) return false;
+      const signature = `${row.event || ""} ${row.type || ""} ${row.content || ""}`;
+      if (/自动生成|阶段自动流转|进入经营视图|异常任务生成|任务生成|重复命中合并|负责人分配|负责人变更|复查确认/.test(signature)) return false;
+      return /提交处理结果|销售条件恢复|调价|补货|清货|停售|停投|暂停|修改|修复|执行|处置/.test(signature);
     }
 
-    function actionLogTimeValue(row) {
-      if (row.time === "刚刚") return Number.MAX_SAFE_INTEGER;
-      const timestamp = Date.parse(String(row.time || "").replace(" ", "T"));
+    function normalizeBusinessActionLog(row) {
+      const sourceTask = exceptions.find(item => item.id === row.related)
+        || inactive.find(item => item.id === row.related || item.taskId === row.related);
+      const linkedReview = failureReasons.find(item => item.actionLogId === row.id || item.sourceLog === row.id);
+      const reviewComplete = linkedReview && !/待|继续观察|数据不足/.test(`${linkedReview.status || ""} ${linkedReview.result || ""}`);
+      const failed = /失败|无法执行/.test(`${row.result || ""} ${row.failure || ""}`);
+      const closed = /忽略|关闭/.test(`${row.result || ""} ${row.type || ""}`);
+      const recordStatus = failed ? "执行失败" : reviewComplete ? "复查完成" : closed ? "已关闭" : "待复查";
+      const resolutionTitle = recordStatus === "执行失败" ? "需要重新处理"
+        : recordStatus === "复查完成" ? (linkedReview.result || "已完成")
+        : recordStatus === "已关闭" ? "无需继续处理" : "自动复查";
+      const evidenceValue = sourceTask?.triggerReason || sourceTask?.desc || row.before || "已记录任务生成时的业务快照";
+      return {
+        id:row.id,
+        resultSubmittedTime:row.resultSubmittedAt || row.time || "--",
+        actualExecuteTime:row.actualProcessedAt || row.time || "--",
+        action:row.actionType || row.type || row.event || "经营动作",
+        lifecycle:sourceTask?.stage || sourceTask?.sourceScene || logModule(row),
+        checkpoint:sourceTask?.lifecycleNode || sourceTask?.node || "持续巡检",
+        scene:sourceTask?.sourceScene || logModule(row),
+        product:row.asin || row.sku || row.related || "--",
+        sku:row.sku || "--",
+        asin:row.asin || "--",
+        actual:row.actionNote ? `${row.content || row.type}：${row.actionNote}` : row.content || row.type || "--",
+        before:row.before || sourceTask?.desc || "--",
+        after:row.after || row.result || "--",
+        user:row.user || sourceTask?.owner || "系统",
+        role:row.user === "系统" ? "自动化任务" : "业务负责人",
+        execution:row.user === "系统" ? "系统自动执行" : "人工执行",
+        approval:row.user === "系统" ? "按已审批策略执行" : "人工提交处理结果",
+        status:recordStatus,
+        focus:recordStatus === "执行失败" ? "执行失败" : recordStatus === "待复查" ? "待复查" : linkedReview?.result === "有效" ? "" : recordStatus === "复查完成" ? "未达预期" : "",
+        resolutionType:recordStatus === "复查完成" ? "复查结果" : recordStatus === "待复查" ? "后续复查" : recordStatus === "执行失败" ? "后续处理" : "关闭说明",
+        resolutionTitle,
+        resolutionDetail:linkedReview?.impact || row.reviewNote || row.validation || (recordStatus === "执行失败" ? "修复阻塞后重新执行" : "下一次数据同步后按规则快照复查"),
+        reviewTime:sourceTask?.reviewDate || sourceTask?.reviewDue || row.review || "待规则周期到期",
+        reviewSource:"销售、广告、库存、Listing 与本次任务相关数据",
+        source:row.source || "待处理中心",
+        reason:row.reason || sourceTask?.rule || sourceTask?.desc || "经营任务处理",
+        ruleVersion:sourceTask?.sourceRule ? `${sourceTask.sourceRule} · ${sourceTask.ruleVersion || "当前版本"}` : row.reason || "任务生成时规则快照",
+        triggerTime:sourceTask?.lastHit || sourceTask?.generatedAt || row.time || "--",
+        snapshotTime:sourceTask?.generatedAt || row.time || "--",
+        receiptId:row.attachment || "--",
+        issueId:sourceTask?.id || row.related || "--",
+        taskId:sourceTask?.id || row.related || "--",
+        reviewId:linkedReview?.id || "--",
+        effectId:reviewComplete ? `EFF-${String(linkedReview.id || row.id).replace(/^[^-]+-/, "")}` : "--",
+        triggerEvidence:[
+          {metric:"任务命中结论",value:evidenceValue,condition:sourceTask?.ruleTrigger || row.reason || "命中来源规则",result:"命中",source:row.source || sourceTask?.sourceScene || "待处理中心",time:sourceTask?.generatedAt || row.time || "--"},
+          {metric:"执行前状态",value:row.before || "已保留快照",condition:"用于与处理结果比较",result:"基线",source:"任务快照",time:sourceTask?.generatedAt || row.time || "--"}
+        ],
+        reviewPlan:recordStatus === "待复查" ? [{metric:"任务相关核心指标",baseline:row.before || "执行前快照",target:row.validation || "按规则快照判断是否恢复",source:"经营数据同步"}] : [],
+        reviewMetrics:[]
+      };
+    }
+
+    function businessActionRecords() {
+      const dynamicRows = logs.filter(isActualBusinessActionLog).map(normalizeBusinessActionLog);
+      const seen = new Set();
+      return [...actionRecordSeeds, ...dynamicRows].filter(row => {
+        if (seen.has(row.id)) return false;
+        seen.add(row.id);
+        return true;
+      });
+    }
+
+    function actionRecordSearchText(row) {
+      return [row.id, row.action, row.product, row.sku, row.asin, row.actual, row.user, row.source, row.reason, row.scene]
+        .filter(Boolean).join(" ").toLowerCase();
+    }
+
+    function actionRecordTimeValue(row) {
+      if (row.resultSubmittedTime === "刚刚") return Number.MAX_SAFE_INTEGER;
+      const timestamp = Date.parse(String(row.resultSubmittedTime || "").replace(" ", "T"));
       return Number.isNaN(timestamp) ? 0 : timestamp;
     }
 
-    function filteredActionLogs() {
-      const tabs = ["业务动作", "系统运行", "配置变更", "全部事件"];
-      const activeTab = tabs.includes(state.filter) ? state.filter : "业务动作";
+    function filteredActionRecords() {
       const query = String(state.logSearch || "").trim().toLowerCase();
-      return logs.filter(row => {
-        if (activeTab !== "全部事件" && logCategory(row) !== activeTab) return false;
-        if (state.logModuleFilter !== "全部模块" && logModule(row) !== state.logModuleFilter) return false;
-        if (state.logResultFilter !== "全部结果" && (row.result || "已完成") !== state.logResultFilter) return false;
-        if (query && !actionLogSearchText(row).includes(query)) return false;
+      const referenceDate = new Date("2026-08-13T00:00:00");
+      return businessActionRecords().filter(row => {
+        if (state.actionRecordFocus && row.focus !== state.actionRecordFocus) return false;
+        if (state.actionRecordTime !== "全部时间") {
+          const recordDate = new Date(`${String(row.resultSubmittedTime).slice(0, 10)}T00:00:00`);
+          const age = (referenceDate - recordDate) / 86400000;
+          if (state.actionRecordTime === "近7天" && age > 7) return false;
+          if (state.actionRecordTime === "近30天" && age > 30) return false;
+        }
+        if (state.actionRecordScene !== "全部场景" && row.scene !== state.actionRecordScene) return false;
+        if (state.actionRecordExecution !== "全部执行方式" && row.execution !== state.actionRecordExecution) return false;
+        if (state.actionRecordStatus !== "全部处理状态" && row.status !== state.actionRecordStatus) return false;
+        if (query && !actionRecordSearchText(row).includes(query)) return false;
         return true;
-      }).sort((a, b) => actionLogTimeValue(b) - actionLogTimeValue(a));
+      }).sort((a, b) => actionRecordTimeValue(b) - actionRecordTimeValue(a));
+    }
+
+    function actionRecordStatusPill(row) {
+      const className = row.status === "复查完成" || row.status === "已关闭" ? "complete"
+        : row.status === "执行失败" ? "failed" : "waiting";
+      return `<span class="action-record-status ${className}">${escapeHtml(row.status)}</span>`;
     }
 
     function renderLogs() {
-      const tabs = ["业务动作", "系统运行", "配置变更", "全部事件"];
-      const activeTab = tabs.includes(state.filter) ? state.filter : "业务动作";
-      const modules = ["全部模块", ...new Set(logs.map(logModule))];
-      const results = ["全部结果", ...new Set(logs.map(row => row.result || "已完成"))];
-      const detailRows = filteredActionLogs();
-      const tabCount = tab => tab === "全部事件" ? logs.length : logs.filter(row => logCategory(row) === tab).length;
-      const hasActiveFilters = state.logModuleFilter !== "全部模块" || state.logResultFilter !== "全部结果" || Boolean(state.logSearch);
+      const allRows = businessActionRecords();
+      const detailRows = filteredActionRecords();
+      const focusRows = state.actionRecordTime === "全部时间" ? allRows : allRows.filter(row => {
+        const age = (new Date("2026-08-13T00:00:00") - new Date(`${String(row.resultSubmittedTime).slice(0, 10)}T00:00:00`)) / 86400000;
+        return state.actionRecordTime === "近7天" ? age <= 7 : age <= 30;
+      });
+      const focusOptions = [
+        ["执行失败", focusRows.filter(row => row.focus === "执行失败").length, "circle-x"],
+        ["待复查", focusRows.filter(row => row.focus === "待复查").length, "clock-3"],
+        ["未达预期", focusRows.filter(row => row.focus === "未达预期").length, "trending-down"],
+        ["问题再次出现", focusRows.filter(row => row.focus === "问题再次出现").length, "repeat-2"]
+      ];
+      const scenes = ["全部场景", ...new Set(allRows.map(row => row.scene).filter(Boolean))];
+      const hasActiveFilters = state.actionRecordFocus || state.actionRecordTime !== "近30天" || state.actionRecordScene !== "全部场景"
+        || state.actionRecordExecution !== "全部执行方式" || state.actionRecordStatus !== "全部处理状态" || Boolean(state.logSearch);
       return `
-        <section class="np-page action-log-page">
-          <section class="action-log-shell">
-            <div class="action-log-tabs">
-              ${tabs.map(tab => `<button class="np-detail-tab ${activeTab === tab ? "active" : ""}" data-action="setFilter" data-filter="${tab}">${escapeHtml(tab)}<span class="action-log-tab-count">${tabCount(tab)}</span></button>`).join("")}
-              <button class="btn action-log-export" data-action="exportActionLogs"><i data-lucide="download"></i>导出</button>
+        <section class="np-page action-record-page">
+          <header class="action-record-page-head">
+            <div><span>沉淀与管理 / 经营动作记录</span><h1>经营动作记录</h1><p>记录已实际执行或明确关闭的经营动作，以及后续复查形成的结果。</p></div>
+            <div class="np-toolbar-actions"><button class="icon-btn" data-action="resetOperationDemo" title="重置演示数据" aria-label="重置演示数据"><i data-lucide="rotate-ccw"></i></button><button class="btn" data-action="exportActionLogs"><i data-lucide="download"></i>导出记录</button></div>
+          </header>
+          <section class="action-record-attention">
+            <div class="action-record-attention-title"><i data-lucide="circle-alert"></i><div><strong>需要关注</strong><span>优先处理失败、待复查和未达预期的动作</span></div></div>
+            <div class="action-record-attention-options">
+              ${focusOptions.map(([label, count, icon]) => `<button class="action-record-focus ${state.actionRecordFocus === label ? "active" : ""}" data-action="setActionRecordFocus" data-focus="${label}"><i data-lucide="${icon}"></i><span>${label}</span><strong>${count}</strong></button>`).join("")}
+              <button class="action-record-clear" data-action="clearActionRecordFocus" ${state.actionRecordFocus ? "" : "hidden"}>清除关注</button>
             </div>
-            <div class="action-log-toolbar">
-              <select data-log-filter="module">${modules.map(item => `<option ${item === state.logModuleFilter ? "selected" : ""}>${escapeHtml(item)}</option>`).join("")}</select>
-              <select data-log-filter="result">${results.map(item => `<option ${item === state.logResultFilter ? "selected" : ""}>${escapeHtml(item)}</option>`).join("")}</select>
-              <span class="action-log-result-meta" id="actionLogVisibleCount">显示 ${detailRows.length} 条</span>
-              <button class="action-log-reset" id="actionLogReset" data-action="resetActionLogFilters" ${hasActiveFilters ? "" : "hidden"}>重置</button>
-              <label class="action-log-search"><i data-lucide="search"></i><input data-log-search value="${escapeHtml(state.logSearch || "")}" placeholder="搜索事件、MSKU、ASIN、操作人"></label>
+          </section>
+          <section class="action-record-shell">
+            <div class="action-record-toolbar">
+              <select data-action-record-filter="time" aria-label="结果提交时间范围"><option ${state.actionRecordTime === "近7天" ? "selected" : ""}>近7天</option><option ${state.actionRecordTime === "近30天" ? "selected" : ""}>近30天</option><option ${state.actionRecordTime === "全部时间" ? "selected" : ""}>全部时间</option></select>
+              <select data-action-record-filter="scene" aria-label="经营场景">${scenes.map(item => `<option ${item === state.actionRecordScene ? "selected" : ""}>${escapeHtml(item)}</option>`).join("")}</select>
+              <select data-action-record-filter="execution" aria-label="执行方式"><option ${state.actionRecordExecution === "全部执行方式" ? "selected" : ""}>全部执行方式</option><option ${state.actionRecordExecution === "人工执行" ? "selected" : ""}>人工执行</option><option ${state.actionRecordExecution === "系统自动执行" ? "selected" : ""}>系统自动执行</option></select>
+              <select data-action-record-filter="status" aria-label="处理状态"><option ${state.actionRecordStatus === "全部处理状态" ? "selected" : ""}>全部处理状态</option><option ${state.actionRecordStatus === "待复查" ? "selected" : ""}>待复查</option><option ${state.actionRecordStatus === "复查完成" ? "selected" : ""}>复查完成</option><option ${state.actionRecordStatus === "执行失败" ? "selected" : ""}>执行失败</option><option ${state.actionRecordStatus === "已关闭" ? "selected" : ""}>已关闭</option></select>
+              <span class="action-log-result-meta" id="actionRecordVisibleCount">显示 ${detailRows.length} 条</span>
+              <button class="action-log-reset" id="actionRecordReset" data-action="resetActionLogFilters" ${hasActiveFilters ? "" : "hidden"}>重置</button>
+              <label class="action-log-search"><i data-lucide="search"></i><input data-action-record-search value="${escapeHtml(state.logSearch || "")}" placeholder="搜索商品、ASIN、MSKU、动作、记录编号"></label>
             </div>
-            <div class="np-detail-table-wrap action-log-table-wrap">
-                <table class="np-detail-table np-log-table" id="actionLogTable">
-                  <thead><tr><th>时间</th><th>事件</th><th>关联对象</th><th>事件内容</th><th>操作人</th><th>结果</th><th>来源</th></tr></thead>
-                  <tbody>
-                    ${detailRows.map(row => {
-                      const [tone, bg] = logTone(row.result || row.type);
-                      const searchText = actionLogSearchText(row);
-                      return `<tr data-action="openLogDetail" data-id="${escapeHtml(row.id)}" data-search="${escapeHtml(searchText)}">
-                        <td><strong>${escapeHtml(row.time)}</strong><span class="log-muted-line">${escapeHtml(row.id)}</span></td>
-                        <td><span class="np-log-event-cell"><strong>${escapeHtml(row.event || row.type)}</strong><span class="log-muted-line">${escapeHtml(logModule(row))}</span></span></td>
-                        <td><span class="np-log-object-cell"><strong>${escapeHtml(logObject(row))}</strong><span class="log-muted-line">${escapeHtml(row.related || "--")}</span></span></td>
-                        <td><span class="np-log-action-cell"><strong>${escapeHtml(row.content || row.type)}</strong><span class="log-muted-line">${escapeHtml(row.reason || "--")}</span></span></td>
-                        <td>${escapeHtml(row.user || "系统")}</td>
-                        <td><span class="log-type-pill" style="--tone:${tone};--bg:${bg}">${escapeHtml(row.result || "已完成")}</span></td>
-                        <td><span class="np-system-log-cell"><strong>${escapeHtml(logSourceLabel(row))}</strong><span class="log-muted-line">${escapeHtml(logCategory(row))}</span></span></td>
-                      </tr>`;
-                    }).join("") || `<tr><td colspan="7"><div class="empty">当前筛选条件下暂无日志</div></td></tr>`}
-                    ${detailRows.length ? `<tr id="actionLogSearchEmpty" hidden><td colspan="7"><div class="empty">未找到匹配的日志</div></td></tr>` : ""}
-                  </tbody>
-                </table>
+            <div class="action-record-table-wrap">
+              <table class="action-record-table" id="actionRecordTable">
+                <thead><tr><th>结果提交时间</th><th>经营动作</th><th>商品</th><th>实际执行</th><th>执行人 / 方式</th><th>处理状态</th><th>复查结果 / 后续处理</th></tr></thead>
+                <tbody>
+                  ${detailRows.map(row => `<tr data-action="openActionRecordDetail" data-id="${escapeHtml(row.id)}" data-search="${escapeHtml(actionRecordSearchText(row))}">
+                    <td><strong>${escapeHtml(row.resultSubmittedTime)}</strong><small>${escapeHtml(row.id)}</small></td>
+                    <td><strong>${escapeHtml(row.action)}</strong><small>${escapeHtml([row.lifecycle, row.checkpoint].filter(Boolean).join(" · "))}</small></td>
+                    <td><strong>${escapeHtml(row.product || row.asin)}</strong><small>MSKU ${escapeHtml(row.sku || "--")}</small></td>
+                    <td><strong>${escapeHtml(row.actual)}</strong><small>${escapeHtml(row.before)} → ${escapeHtml(row.after)}</small></td>
+                    <td><strong>${escapeHtml(row.user)}</strong><small>${row.execution === "系统自动执行" ? "系统执行 · 人工已审批" : "人工执行"}</small></td>
+                    <td>${actionRecordStatusPill(row)}</td>
+                    <td><span>${escapeHtml(row.resolutionType)}</span><strong>${escapeHtml(row.resolutionTitle)}</strong><small>${escapeHtml(row.resolutionDetail)}</small></td>
+                  </tr>`).join("") || `<tr><td colspan="7"><div class="empty">当前筛选条件下暂无经营动作记录</div></td></tr>`}
+                  ${detailRows.length ? `<tr id="actionRecordSearchEmpty" hidden><td colspan="7"><div class="empty">未找到匹配的经营动作记录</div></td></tr>` : ""}
+                </tbody>
+              </table>
             </div>
-            <div class="action-log-boundary"><i data-lucide="info"></i><span>数据缺失和同步异常只进入系统运行日志，不生成经营待办；列表仅记录关键事件，不记录搜索、筛选和查看操作。</span></div>
+            <div class="action-log-boundary"><i data-lucide="info"></i><span>同步、规则计算和配置变更保留在系统审计中，不占用经营动作主视图。</span></div>
           </section>
         </section>
       `;
     }
 
     function renderSystemLogs() {
-      if (!["系统运行", "全部事件"].includes(state.filter)) state.filter = "系统运行";
       return renderLogs();
     }
 
@@ -43909,6 +44734,113 @@
     function closeDrawer() {
       qs("#drawerMask").classList.remove("open");
       qs("#drawer").classList.remove("open", "wide");
+    }
+
+    function actionRecordProgressMarkup(row) {
+      const steps = [
+        ["问题发现", "已识别"],
+        ["任务处理", "已提交"],
+        ["动作执行", row.status === "执行失败" ? "执行失败" : "已记录"],
+        ["结果复查", row.status === "复查完成" ? "已完成" : row.status === "待复查" ? "待复查" : row.status === "已关闭" ? "已关闭" : "未生成"]
+      ];
+      const completed = row.status === "复查完成" || row.status === "已关闭" ? 4 : row.status === "待复查" ? 3 : 2;
+      return `<div class="action-record-progress">${steps.map(([label, note], index) => `<div class="${index < completed ? "done" : ""}"><i></i><strong>${escapeHtml(label)}</strong><small>${escapeHtml(note)}</small></div>`).join("")}</div>`;
+    }
+
+    function actionRecordEvidenceMarkup(row) {
+      const evidence = row.triggerEvidence || [];
+      return `<section class="action-record-detail-section">
+        <h3>触发依据</h3><span class="action-record-section-note">完整保留规则、来源和命中时的数据快照</span>
+        <div class="action-record-evidence-summary">
+          <div><span>识别结论</span><strong>${escapeHtml(row.reason || "--")}</strong></div>
+          <div><span>规则及版本</span><strong>${escapeHtml(row.ruleVersion || "--")}</strong></div>
+          <div><span>来源记录</span><strong>${escapeHtml(row.source || "--")}</strong></div>
+          <div><span>命中时间</span><strong>${escapeHtml(row.triggerTime || "--")}</strong></div>
+          <div><span>数据快照时间</span><strong>${escapeHtml(row.snapshotTime || "--")}</strong></div>
+        </div>
+        <div class="action-record-evidence-list">
+          <div class="action-record-evidence-head"><span>判断指标</span><span>实际值</span><span>判断条件</span><span>结果</span></div>
+          ${evidence.map(item => `<div class="action-record-evidence-row"><div class="action-record-evidence-main"><strong>${escapeHtml(item.metric)}</strong><strong>${escapeHtml(item.value)}</strong><span>${escapeHtml(item.condition)}</span><span class="action-record-evidence-hit">${escapeHtml(item.result)}</span></div><div class="action-record-evidence-source"><span>来源：${escapeHtml(item.source)}</span><span>数据时间：${escapeHtml(item.time || row.snapshotTime || "--")}</span></div></div>`).join("") || `<div class="empty">暂无可展示的命中证据</div>`}
+        </div>
+      </section>`;
+    }
+
+    function actionRecordReviewMarkup(row) {
+      if (row.status === "复查完成") {
+        return `<section class="action-record-detail-section">
+          <h3>复查结果</h3><span class="action-record-section-note">复查完成：${escapeHtml(row.reviewTime || "--")}</span>
+          <div class="action-record-review-box">
+            <strong>${escapeHtml(row.resolutionTitle)}</strong><p>${escapeHtml(row.resolutionDetail)}</p>
+            <div class="action-record-review-list">
+              <div class="action-record-review-head"><span>复查指标</span><span>处理前</span><span>复查值</span><span>变化</span><span>判定标准</span></div>
+              ${(row.reviewMetrics || []).map(item => `<div class="action-record-review-row"><div class="action-record-review-row-main"><strong>${escapeHtml(item.metric)}</strong><span>${escapeHtml(item.before)}</span><strong>${escapeHtml(item.after)}</strong><strong>${escapeHtml(item.change)}</strong><span>${escapeHtml(item.rule)}</span></div><div class="action-record-review-rule"><span>来源：${escapeHtml(item.source)}</span></div></div>`).join("") || `<div class="empty">该记录由历史复查生成，详细指标待数据回补</div>`}
+            </div>
+            <div class="action-record-review-meta">
+              ${row.reviewWindow ? `<div class="full"><span>数据对比周期</span><strong>${escapeHtml(row.reviewWindow)}</strong></div>` : ""}
+              ${row.reviewBasis ? `<div class="full"><span>比较口径</span><strong>${escapeHtml(row.reviewBasis)}</strong></div>` : ""}
+              <div><span>指标窗口截止时间</span><strong>${escapeHtml(row.reviewDataCutoff || row.reviewTime || "--")}</strong></div>
+              <div><span>复查数据来源</span><strong>${escapeHtml(row.reviewSource || "--")}</strong></div>
+            </div>
+          </div>
+        </section>`;
+      }
+      if (row.status === "待复查") {
+        return `<section class="action-record-detail-section">
+          <h3>后续复查</h3><span class="action-record-section-note">尚未产生复查结果</span>
+          <div class="action-record-review-box">
+            <strong>${escapeHtml(row.resolutionTitle)}</strong><p>${escapeHtml(row.resolutionDetail)}</p>
+            <div class="action-record-review-list">${(row.reviewPlan || []).map(item => `<div class="action-record-plan-row"><div><span>检查指标</span><strong>${escapeHtml(item.metric)}</strong></div><div><span>当前基线</span><strong>${escapeHtml(item.baseline)}</strong></div><div><span>复查标准 / 数据来源</span><strong>${escapeHtml(item.target)} · ${escapeHtml(item.source)}</strong></div></div>`).join("") || `<div class="empty">复查计划将在任务关闭时固化</div>`}</div>
+            <div class="action-record-review-meta"><div><span>计划复查时间</span><strong>${escapeHtml(row.reviewTime || "待触发")}</strong></div><div><span>计划读取数据</span><strong>${escapeHtml(row.reviewSource || "--")}</strong></div></div>
+          </div>
+        </section>`;
+      }
+      if (row.status === "执行失败") {
+        return `<section class="action-record-detail-section"><h3>失败与后续处理</h3><span class="action-record-section-note">需要人工继续处理</span><div class="action-record-review-box"><strong>未执行成功</strong><p>${escapeHtml(row.actual)}</p><div class="action-record-review-meta"><div><span>后续方式</span><strong>${escapeHtml(row.resolutionTitle)}</strong></div><div><span>关联任务</span><strong>${escapeHtml(row.linkedTask || "待生成")}</strong></div><div class="full"><span>下一步</span><strong>${escapeHtml(row.resolutionDetail)}</strong></div></div></div></section>`;
+      }
+      return `<section class="action-record-detail-section"><h3>关闭说明</h3><span class="action-record-section-note">本次动作已结束</span><div class="action-record-review-box"><strong>${escapeHtml(row.resolutionTitle)}</strong><p>${escapeHtml(row.resolutionDetail)}</p></div></section>`;
+    }
+
+    function actionRecordDetailMarkup(row) {
+      return `<div class="action-record-detail-summary"><div>${actionRecordStatusPill(row)}<span>${escapeHtml([row.lifecycle, row.checkpoint, row.scene].filter(Boolean).join(" · "))}</span></div><strong>${escapeHtml(row.resolutionType)}：${escapeHtml(row.resolutionTitle)}</strong><p>${escapeHtml(row.resolutionDetail)}</p></div>
+        ${actionRecordProgressMarkup(row)}
+        <section class="action-record-detail-section"><h3>动作概况</h3><span class="action-record-section-note">本次经营动作</span><div class="action-record-facts">
+          <div class="action-record-fact"><span>商品</span><strong>${escapeHtml(row.product || row.asin)}<br>MSKU ${escapeHtml(row.sku || "--")}</strong></div>
+          <div class="action-record-fact"><span>生命周期 / 检查点</span><strong>${escapeHtml(row.lifecycle || "--")} · ${escapeHtml(row.checkpoint || "--")}</strong></div>
+          <div class="action-record-fact"><span>经营场景</span><strong>${escapeHtml(row.scene || "--")}</strong></div>
+          <div class="action-record-fact"><span>执行人</span><strong>${escapeHtml(row.user || "--")} · ${escapeHtml(row.role || "--")}</strong></div>
+          <div class="action-record-fact full"><span>执行方式 / 审批</span><strong>${escapeHtml(row.execution || "--")} · ${escapeHtml(row.approval || "--")}</strong></div>
+        </div></section>
+        ${actionRecordEvidenceMarkup(row)}
+        <section class="action-record-detail-section"><h3>执行记录</h3><span class="action-record-section-note">用户提交或接口回执</span><div class="action-record-fact full" style="margin-bottom:10px"><span>执行详情</span><strong>${escapeHtml(row.actual)}</strong></div><div class="action-record-change"><div><span>执行前</span><strong>${escapeHtml(row.before)}</strong></div><i data-lucide="arrow-right"></i><div><span>执行后</span><strong>${escapeHtml(row.after)}</strong></div></div></section>
+        ${actionRecordReviewMarkup(row)}
+        <section class="action-record-detail-section"><h3>追溯信息</h3><span class="action-record-section-note">用于查询与审计</span><div class="action-record-trace-grid">
+          <div><span>动作记录编号</span><strong>${escapeHtml(row.id)}</strong></div><div><span>外部回执编号</span><strong>${escapeHtml(row.receiptId || "--")}</strong></div>
+          <div><span>实际执行时间</span><strong>${escapeHtml(row.actualExecuteTime || "--")}</strong></div><div><span>结果提交时间</span><strong>${escapeHtml(row.resultSubmittedTime || "--")}</strong></div>
+          <div><span>问题 / 任务</span><strong>${escapeHtml(row.issueId || "--")} / ${escapeHtml(row.taskId || "--")}</strong></div><div><span>复查 / 效果</span><strong>${escapeHtml(row.reviewId || "--")} / ${escapeHtml(row.effectId || "--")}</strong></div>
+          <div class="full"><span>来源记录</span><strong>${escapeHtml(row.source || "--")}</strong></div>
+        </div></section>`;
+    }
+
+    function actionRecordTimelineMarkup(row) {
+      const reviewStatus = row.status === "复查完成" ? "已完成" : row.status === "待复查" ? "待复查" : row.status === "已关闭" ? "已关闭" : "未生成";
+      const chain = [
+        {id:row.issueId,time:row.triggerTime,title:"问题识别",status:"已识别",text:row.reason,done:true},
+        {id:row.taskId,time:row.triggerTime,title:"任务生成",status:"已提交",text:`来源 ${row.ruleVersion}，进入待处理中心。`,done:true},
+        {id:row.id,time:row.actualExecuteTime,title:row.action,status:row.status === "执行失败" ? "执行失败" : "已记录",text:row.actual,done:row.status !== "执行失败"},
+        {id:row.reviewId,time:row.reviewTime,title:"结果复查",status:reviewStatus,text:row.status === "待复查" ? row.resolutionDetail : row.resolutionTitle,done:row.status === "复查完成" || row.status === "已关闭"},
+        {id:row.effectId,time:row.reviewTime,title:"效果结果",status:row.status === "复查完成" ? row.resolutionTitle : "未生成",text:row.status === "复查完成" ? row.resolutionDetail : "达到复查条件后生成独立效果记录。",done:row.status === "复查完成"}
+      ];
+      return `<div class="action-record-detail-summary"><strong>${escapeHtml(row.action)}的操作链路</strong><p>按问题、任务、动作、复查和效果记录串联；同商品历史通过底部入口单独查看。</p></div><div class="action-record-timeline">${chain.map(item => `<div class="action-record-timeline-item ${item.done ? "done" : ""}"><div class="action-record-timeline-meta"><span>${escapeHtml(item.time || "--")}</span><span class="action-record-timeline-id">${escapeHtml(item.id || "--")}</span><span class="action-record-timeline-state">${escapeHtml(item.status)}</span></div><strong>${escapeHtml(item.title)}</strong><p>${escapeHtml(item.text || "--")}</p></div>`).join("")}</div>`;
+    }
+
+    function openActionRecordDrawer(row) {
+      if (!row) return;
+      state.selectedActionRecordId = row.id;
+      const tab = state.actionRecordDetailTab === "timeline" ? "timeline" : "detail";
+      const body = `<div class="action-record-detail-shell"><nav class="action-record-detail-tabs"><button class="${tab === "detail" ? "active" : ""}" data-action="setActionRecordDetailTab" data-tab="detail">动作详情</button><button class="${tab === "timeline" ? "active" : ""}" data-action="setActionRecordDetailTab" data-tab="timeline">操作链路</button></nav>${tab === "timeline" ? actionRecordTimelineMarkup(row) : actionRecordDetailMarkup(row)}</div>`;
+      const switchLabel = tab === "timeline" ? "返回动作详情" : "查看操作链路";
+      const switchIcon = tab === "timeline" ? "file-text" : "list-tree";
+      openDrawer(`${row.product || row.asin} · ${row.action}`, body, `<button class="btn" data-action="filterSameProductActionRecords" data-id="${escapeHtml(row.id)}"><i data-lucide="filter"></i>查看同商品记录</button><button class="btn primary" data-action="toggleActionRecordDetailTab" data-id="${escapeHtml(row.id)}"><i data-lucide="${switchIcon}"></i>${switchLabel}</button>`);
     }
 
     function openCreditPurchasePreview(payload = {}) {
@@ -45524,7 +46456,7 @@
           toast("不进入不动销处置", "当前属于基础可售阻断，应先修复 Listing 或 Buy Box。");
           return;
         }
-        const existing = inactive.find(item => item.asin === row.asin || item.sku === row.sku);
+        const existing = findFormalInactiveRecord(row, true);
         if (existing) {
           closeDrawer(); setView("inactive"); requestAnimationFrame(() => handlers.openInactive({dataset:{id:existing.id}}));
           toast("已打开现有处置记录", "同一商品不重复生成不动销任务。");
@@ -46384,6 +47316,7 @@
         if(hasExecutedAction && actionType==="其他动作（自定义）" && !customAction){toast("请填写自定义动作", "选择其他动作时，需要填写实际动作名称。");return;}
         if(hasExecutedAction && !actionNote){toast("请填写动作说明", "请说明实际调整内容、执行范围或数量。");return;}
         if(hasExecutedAction && !actualTime){toast("请选择实际处理时间", "实际动作与结果提交时间必须分别记录。");return;}
+        if(hasExecutedAction && Date.parse(actualTime) > Date.now() + 300000){toast("实际处理时间不能晚于当前时间", "请填写动作真实发生的时间。");return;}
         if(outcome!=="已完成" && !reason){toast("请选择原因", "部分完成或无法执行时需要保留未完成原因。");return;}
         if(outcome!=="已完成" && !failureNote){toast("请填写未完成说明", outcome==="无法执行" ? "请说明无法执行的具体情况。" : "请说明剩余未完成事项。");return;}
         const actualActionName=hasExecutedAction ? (actionType==="其他动作（自定义）" ? customAction : actionType) : "";
@@ -46395,18 +47328,18 @@
         if(linkedTask) linkedTask.verificationStatus=outcome==="已完成" ? "处理已完成" : outcome==="无法执行" ? "无法执行，等待重新处理" : "部分完成，等待继续处理";
         const actionLog=addActionLog(linkedTask || row,{type:"不动销处置",content:hasExecutedAction?row.actualAction:row.failure,actionType:hasExecutedAction?actionType:"",actionNote:hasExecutedAction?actionNote:"",actualProcessedAt:row.actualProcessedAt,resultSubmittedAt:submittedAt,user:currentExceptionActor().name,before:previousStatus,after:row.processResult,failure:row.failure,review:outcome==="已完成"?"按策略观察周期复查":"完成剩余动作后再复查",result:row.status});
         if(linkedTask && outcome==="已完成") {
-          ensureAutomaticBusinessReviewForException(linkedTask, actionLog, "resolved");
+          const review=ensureAutomaticBusinessReviewForException(linkedTask, actionLog, "resolved");
           const plan=linkedTask.verificationPlanSnapshot;
-          row.effectStatus="待观察";
-          row.reviewWindow=plan?.reviewCycle || "按来源规则关联的效果策略";
-          row.reviewMetrics=plan ? `${plan.metric} ${plan.comparator} ${plan.target}` : "待效果策略配置";
-          row.reviewDue=plan?.dueAt ? new Date(plan.dueAt).toLocaleString("zh-CN",{year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false}).replaceAll("/","-") : "下一次完整数据同步后";
-          row.effectConclusion=`等待${row.reviewWindow}核对原问题是否解除，并验证${row.reviewMetrics}。`;
+          row.effectStatus=review && plan ? "待观察" : "无法判断";
+          row.reviewWindow=plan?.reviewCycle || "效果策略配置缺失";
+          row.reviewMetrics=plan ? (plan.criteria || []).map(item=>`${item.metric} ${item.comparator} ${item.target}`).join("；") : "无法生成复查指标";
+          row.reviewDue=plan?.dueAt ? new Date(plan.dueAt).toLocaleString("zh-CN",{year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false}).replaceAll("/","-") : plan ? "下一次完整数据同步后" : "等待管理员补齐效果策略";
+          row.effectConclusion=plan ? `等待${row.reviewWindow}核对原问题是否解除，并验证${row.reviewMetrics}。` : "来源规则未关联可用的效果策略，当前无法启动复查。";
         }
         state.inactiveResultPreviousStatus=null;
         closeModal(); closeDrawer(); render(); toast("处置结果已提交", outcome==="已完成" ? "任务已完成，动作日志和结果验证计划已同步生成。" : outcome==="无法执行" ? "任务已退回待处理，阻塞原因已写入动作日志。" : "任务保持处理中，未完成原因已写入动作日志。");
       },
-      ignoreInactive(el){ const row=inactive.find(item=>item.id===el.dataset.id); if(!row)return; if(!inactiveTaskPermission(row,"operate")){toast("无权操作该处置","仅负责人、运营主管或企业管理员可忽略。");return;} if(["已完成","已忽略"].includes(inactiveStatusValue(row))){toast("任务已结束","当前状态不能再忽略。");return;} openModal("忽略不动销处置", `<div class="form-row"><label>忽略原因</label><select class="input" id="inactiveIgnoreType"><option>业务确认无需处理</option><option>数据误报</option><option>已在线下处理</option><option>暂不适用</option></select></div><div class="form-row"><label>补充说明</label><textarea class="textarea" id="inactiveIgnoreReason" placeholder="说明本次忽略的业务依据"></textarea></div>`, `<button class="btn" data-action="closeModal">取消</button><button class="btn danger" data-action="confirmIgnoreInactive" data-id="${el.dataset.id}">确认忽略</button>`); },
+      ignoreInactive(el){ const row=inactive.find(item=>item.id===el.dataset.id); if(!row)return; if(!inactiveTaskPermission(row,"operate")){toast("无权操作该处置","仅负责人、运营主管或企业管理员可忽略。");return;} if(["已完成","已忽略"].includes(inactiveStatusValue(row))){toast("任务已结束","当前状态不能再忽略。");return;} openModal("忽略不动销处置", `<div class="form-row"><label>忽略原因</label><select class="input" id="inactiveIgnoreType"><option>业务确认无需处理</option><option>数据误报</option><option>已在线下处理</option><option>暂不适用</option></select></div><div class="form-row"><label>忽略说明</label><textarea class="textarea" id="inactiveIgnoreReason" placeholder="说明本次忽略的业务依据"></textarea></div>`, `<button class="btn" data-action="closeModal">取消</button><button class="btn danger" data-action="confirmIgnoreInactive" data-id="${el.dataset.id}">确认忽略</button>`); },
       confirmIgnoreInactive(el){ const row=inactive.find(item=>item.id===el.dataset.id); const note=qs("#inactiveIgnoreReason")?.value.trim(); if(!row)return; if(!inactiveTaskPermission(row,"operate")){toast("无权操作该处置","仅负责人、运营主管或企业管理员可忽略。");return;} if(["已完成","已忽略"].includes(inactiveStatusValue(row))){toast("任务已结束","当前状态不能再忽略。");return;} if(!note){toast("请填写忽略依据", "忽略会改变任务状态，必须保留具体原因。");return;} const reason=qs("#inactiveIgnoreType")?.value || "其他原因";const submittedAt=currentDataTimestamp().slice(0,16);row.status="已忽略";row.failureReason=reason;row.failureNote=note;row.failure=`${reason}：${note}`;row.processResult=`已忽略：${note}`;row.actualAction="-";row.actualProcessedAt="-";row.resultSubmittedAt=submittedAt;row.resolvedAt=submittedAt;row.due="已忽略";syncInactiveTask(row);const task=inactiveTaskRecord(row);if(task){task.recheckAfterSync=true;task.verificationStatus="已忽略，后续同步仍会重新判断";task.ignoreReason=row.failure;}addActionLog(task||row,{type:"忽略不动销处置",content:row.failure,user:currentExceptionActor().name,before:row.triggerReason,after:row.processResult,failure:row.failure,review:"后续同步继续判断",result:"已忽略",resultSubmittedAt:submittedAt}); closeModal(); closeDrawer(); render(); toast("处置已忽略", "本次任务已关闭；后续同步如再次命中，将生成关联的新处置任务。"); },
       openException(el){
         const e=exceptions.find(x=>x.id===el.dataset.id); if (!e) return;
@@ -46667,6 +47600,7 @@
         const attachment=qs("#exceptionResultAttachment")?.files?.[0];
         if(!actualAction){toast("请填写实际动作", "需要记录实际执行内容，才能提交处理结果。");return;}
         if(!actualTime){toast("请选择实际执行时间", "实际执行时间与结果提交时间需要分开记录。");return;}
+        if(Date.parse(actualTime)>Date.now()+300000){toast("实际执行时间不能晚于当前时间", "请填写动作真实发生的时间。");return;}
         if(!note){toast("请补充结果说明", "说明问题是否解决，或后续需要观察什么。");return;}
         const needsFailureReason=["partial","failed"].includes(mode);
         if(needsFailureReason && !failureReason){toast("请选择未完整执行原因", "问题尚未解决时需要保留可追溯的原因。");return;}
@@ -46770,30 +47704,37 @@
           const plan=row.verificationPlanSnapshot;
           if(plan?.status==="scheduled" && verificationPlanIsDue(plan)){
             const evaluation=evaluateExceptionVerification(row);
-            if(evaluation?.dataIncomplete){
+            if(evaluation?.configurationMissing){
+              row.verificationStatus="配置缺失，无法判断";
+              completeAutomaticBusinessReview(row,"无法判断",evaluation.note);
+              syncInactiveVerificationFromTask(row,evaluation,"无法判断",syncTime);
+              addActionLog(row,{type:"结果验证",content:evaluation.note,before:"等待结果验证",after:row.verificationStatus,failure:"命中时规则阈值快照缺失",review:"由管理员补齐配置后重新发起",result:"无法判断",user:"系统"});
+            }else if(evaluation?.dataIncomplete){
               plan.retryCount=(plan.retryCount || 0)+1;
               if(plan.retryCount>=3 || /转人工/.test(plan.missingDataAction || "")){
-                row.verificationStatus="复查数据不足，待人工确认";
-                completeAutomaticBusinessReview(row,"继续观察",`${evaluation.note} 已达到自动重试上限，转人工复查。`);
+                row.verificationStatus="连续 3 次复查数据不足，无法判断";
+                completeAutomaticBusinessReview(row,"无法判断",`${evaluation.note} 已达到自动重试上限。`);
+                syncInactiveVerificationFromTask(row,evaluation,"无法判断",syncTime);
               }else{
                 row.verificationStatus=`复查数据不足，等待重试 ${plan.retryCount}/3`;
                 completeAutomaticBusinessReview(row,"继续观察",`${evaluation.note} 暂不判断动作效果。`);
+                syncInactiveVerificationFromTask(row,evaluation,"数据不足",syncTime);
               }
               observingCount+=1;
-              syncInactiveVerificationFromTask(row,evaluation,"数据不足",syncTime);
-              addActionLog(row,{type:"结果验证",content:evaluation.note,before:"等待结果验证",after:row.verificationStatus,failure:"关键指标缺失",review:"下一次完整数据同步后",result:"数据不足",user:"系统"});
+              addActionLog(row,{type:"结果验证",content:evaluation.note,before:"等待结果验证",after:row.verificationStatus,failure:"关键指标缺失",review:plan.status==="completed"?"等待人工补齐后重新发起":"下一次完整数据同步后",result:plan.status==="completed"?"无法判断":"数据不足",user:"系统"});
             }else{
-              const bothPassed=evaluation.problemRecovered && evaluation.metricPassed;
-              const partiallyPassed=evaluation.problemRecovered || evaluation.metricPassed;
-              const result=bothPassed ? "有效" : partiallyPassed ? "部分有效" : "无效";
-              row.verificationStatus=bothPassed
+              const requiredBatches=Number(plan.ruleThresholdSnapshot?.recoveryBatches || plan.requiredRecoveryBatches || 1);
+              plan.recoveryBatchesMet=evaluation.problemRecovered ? Number(plan.recoveryBatchesMet || 0)+1 : 0;
+              const recoveryPending=evaluation.problemRecovered && plan.recoveryBatchesMet<requiredBatches;
+              const result=recoveryPending ? "继续观察" : evaluation.problemRecovered ? "有效" : evaluation.partialProgress ? "部分有效" : "无效";
+              row.verificationStatus=evaluation.problemRecovered && !recoveryPending
                 ? "原问题已解除，动作效果达标"
-                : evaluation.problemRecovered
-                  ? "原问题已解除，效果指标未达标"
-                  : evaluation.metricPassed
-                    ? "效果指标已达标，但原问题仍命中"
+                : recoveryPending
+                  ? `恢复条件已满足，等待连续批次 ${plan.recoveryBatchesMet}/${requiredBatches}`
+                  : evaluation.partialProgress
+                    ? "部分指标改善，原问题尚未完全解除"
                     : "原问题仍命中，效果指标未达标";
-              if(evaluation.problemRecovered){
+              if(evaluation.problemRecovered && !recoveryPending){
                 row.lastHit="本次未命中";
                 recoveredCount+=1;
                 if(row.status==="处理中"){
@@ -46801,14 +47742,14 @@
                   row.completedAt="刚刚";
                   delete row.observationUntil;
                 }
-              }else{
+              }else if(!evaluation.problemRecovered){
                 appendOrMergeRecurrent(row,"复查后再次命中");
               }
               completeAutomaticBusinessReview(row,result,evaluation.note);
               syncInactiveVerificationFromTask(row,evaluation,result,syncTime);
               if(result==="有效") verifiedCount+=1;
-              else if(result==="部分有效") observingCount+=1;
-              addActionLog(row,{type:"结果验证",content:evaluation.note,before:"等待结果验证",after:row.verificationStatus,failure:"-",review:evaluation.problemRecovered?"按动作效果结论归档":"进入关联任务继续处理",result,user:"系统"});
+              else if(result==="部分有效" || recoveryPending) observingCount+=1;
+              addActionLog(row,{type:"结果验证",content:evaluation.note,before:"等待结果验证",after:row.verificationStatus,failure:"-",review:recoveryPending?"下一完整数据批次继续确认":evaluation.problemRecovered?"按动作效果结论归档":"进入关联任务继续处理",result,user:"系统"});
             }
           }else if(plan?.status==="scheduled"){
             row.verificationStatus=`等待${plan.reviewCycle}结果验证`;
@@ -46904,6 +47845,46 @@
       completeInactive(){
         setView("inactive");
         toast("不支持批量直接完成", "请逐项记录实际动作、处理结果和未完成原因，避免丢失经营记录。");
+      },
+      setActionRecordFocus(el){
+        const focus = el.dataset.focus || "";
+        state.actionRecordFocus = state.actionRecordFocus === focus ? "" : focus;
+        state.actionRecordStatus = "全部处理状态";
+        render();
+      },
+      clearActionRecordFocus(){
+        state.actionRecordFocus = "";
+        render();
+      },
+      openActionRecordDetail(el){
+        const row = businessActionRecords().find(item => item.id === el.dataset.id);
+        if (!row) return;
+        state.actionRecordDetailTab = "detail";
+        openActionRecordDrawer(row);
+      },
+      setActionRecordDetailTab(el){
+        const row = businessActionRecords().find(item => item.id === state.selectedActionRecordId);
+        if (!row) return;
+        state.actionRecordDetailTab = el.dataset.tab === "timeline" ? "timeline" : "detail";
+        openActionRecordDrawer(row);
+      },
+      toggleActionRecordDetailTab(el){
+        const row = businessActionRecords().find(item => item.id === (el.dataset.id || state.selectedActionRecordId));
+        if (!row) return;
+        state.actionRecordDetailTab = state.actionRecordDetailTab === "timeline" ? "detail" : "timeline";
+        openActionRecordDrawer(row);
+      },
+      filterSameProductActionRecords(el){
+        const row = businessActionRecords().find(item => item.id === el.dataset.id);
+        if (!row) return;
+        state.actionRecordFocus = "";
+        state.actionRecordScene = "全部场景";
+        state.actionRecordExecution = "全部执行方式";
+        state.actionRecordStatus = "全部处理状态";
+        state.logSearch = row.asin || row.product || row.sku;
+        closeDrawer();
+        render();
+        toast("已筛选同商品记录", `当前显示 ${row.asin || row.product} 的经营动作。`);
       },
       addLog(){ addLog(); },
       addLogFor(el){ addLog(el.dataset.id); },
@@ -47861,19 +48842,26 @@
         state.logModuleFilter = "全部模块";
         state.logResultFilter = "全部结果";
         state.logSearch = "";
+        state.actionRecordTime = "近30天";
+        state.actionRecordScene = "全部场景";
+        state.actionRecordExecution = "全部执行方式";
+        state.actionRecordStatus = "全部处理状态";
+        state.actionRecordFocus = "";
         render();
       },
+      resetOperationDemo(){
+        localStorage.removeItem(OPERATION_CLOSURE_STORAGE_KEY);
+        location.reload();
+      },
       exportActionLogs(){
-        const rows = filteredActionLogs();
-        if (!rows.length) { toast("暂无可导出日志", "请调整筛选条件后重试。"); return; }
+        const rows = filteredActionRecords();
+        if (!rows.length) { toast("暂无可导出记录", "请调整筛选条件后重试。"); return; }
         const columns = [
-          ["时间", row => row.time], ["日志编号", row => row.id], ["分类", row => logCategory(row)],
-          ["模块", row => logModule(row)], ["事件", row => row.event || row.type],
-          ["关联对象", row => logObject(row)], ["事件内容", row => row.content || row.type],
-          ["操作人", row => row.user || "系统"], ["结果", row => row.result || "已完成"],
-          ["来源", row => logSourceLabel(row)], ["发生原因", row => row.reason || ""],
-          ["变更前", row => row.before || ""], ["变更后", row => row.after || ""],
-          ["下游影响", row => row.impact || ""], ["后续验证", row => row.validation || ""]
+          ["结果提交时间", row => row.resultSubmittedTime], ["实际执行时间", row => row.actualExecuteTime], ["记录编号", row => row.id],
+          ["经营动作", row => row.action], ["ASIN", row => row.asin], ["MSKU", row => row.sku],
+          ["实际执行", row => row.actual], ["执行人", row => row.user], ["执行方式", row => row.execution],
+          ["处理状态", row => row.status], ["复查结果/后续处理", row => `${row.resolutionTitle}：${row.resolutionDetail}`],
+          ["触发依据", row => row.reason], ["来源规则", row => row.ruleVersion], ["来源记录", row => row.source]
         ];
         const csvCell = value => `"${String(value ?? "").replaceAll('"', '""')}"`;
         const csv = [columns.map(([label]) => csvCell(label)).join(","), ...rows.map(row => columns.map(([, getValue]) => csvCell(getValue(row))).join(","))].join("\n");
@@ -47881,12 +48869,12 @@
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `动作日志-${new Date().toISOString().slice(0, 10)}.csv`;
+        link.download = `经营动作记录-${new Date().toISOString().slice(0, 10)}.csv`;
         document.body.appendChild(link);
         link.click();
         link.remove();
         URL.revokeObjectURL(url);
-        toast("动作日志已导出", `已导出当前筛选结果 ${rows.length} 条。`);
+        toast("经营动作记录已导出", `已导出当前筛选结果 ${rows.length} 条。`);
       },
       setStrategyCenterTab(el){
         state.strategyCenterTab = ["lifecycle", "views", "rules"].includes(el.dataset.tab) ? el.dataset.tab : "lifecycle";
@@ -49405,21 +50393,21 @@
     });
 
     document.addEventListener("input", event => {
-      if (!event.target?.matches?.("[data-log-search]")) return;
+      if (!event.target?.matches?.("[data-action-record-search]")) return;
       const rawQuery = event.target.value.trim();
       const query = rawQuery.toLowerCase();
       state.logSearch = rawQuery;
       let visibleCount = 0;
-      document.querySelectorAll("#actionLogTable tbody tr[data-search]").forEach(row => {
+      document.querySelectorAll("#actionRecordTable tbody tr[data-search]").forEach(row => {
         row.hidden = Boolean(query && !String(row.dataset.search || "").includes(query));
         if (!row.hidden) visibleCount += 1;
       });
-      const count = document.querySelector("#actionLogVisibleCount");
+      const count = document.querySelector("#actionRecordVisibleCount");
       if (count) count.textContent = `显示 ${visibleCount} 条`;
-      const empty = document.querySelector("#actionLogSearchEmpty");
+      const empty = document.querySelector("#actionRecordSearchEmpty");
       if (empty) empty.hidden = visibleCount > 0;
-      const reset = document.querySelector("#actionLogReset");
-      if (reset) reset.hidden = !rawQuery && state.logModuleFilter === "全部模块" && state.logResultFilter === "全部结果";
+      const reset = document.querySelector("#actionRecordReset");
+      if (reset) reset.hidden = !rawQuery && !state.actionRecordFocus && state.actionRecordTime === "近30天" && state.actionRecordScene === "全部场景" && state.actionRecordExecution === "全部执行方式" && state.actionRecordStatus === "全部处理状态";
     });
 
     document.addEventListener("change", event => {
@@ -49484,6 +50472,18 @@
       if (logFilter) {
         if (logFilter === "module") state.logModuleFilter = event.target.value;
         if (logFilter === "result") state.logResultFilter = event.target.value;
+        render();
+        return;
+      }
+      const actionRecordFilter = event.target?.dataset?.actionRecordFilter;
+      if (actionRecordFilter) {
+        if (actionRecordFilter === "time") state.actionRecordTime = event.target.value;
+        if (actionRecordFilter === "scene") state.actionRecordScene = event.target.value;
+        if (actionRecordFilter === "execution") state.actionRecordExecution = event.target.value;
+        if (actionRecordFilter === "status") {
+          state.actionRecordStatus = event.target.value;
+          state.actionRecordFocus = "";
+        }
         render();
         return;
       }
