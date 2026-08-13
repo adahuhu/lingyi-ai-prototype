@@ -33296,7 +33296,7 @@
       const failureLabel = qs("#inactiveFailureLabel");
       const failureInput = qs("#inactiveFailureNote");
       const actualTimeInput = qs("#inactiveActualTime");
-      if (failureLabel) failureLabel.textContent = outcome === "无法执行" ? "情况说明" : "未完成说明";
+      if (failureLabel) failureLabel.textContent = "未完成说明";
       if (failureInput) failureInput.placeholder = outcome === "无法执行"
         ? "说明无法执行的具体阻塞，便于重新分配或后续处理"
         : "说明剩余未完成事项及后续需要继续处理的内容";
