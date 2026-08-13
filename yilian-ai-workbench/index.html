@@ -33070,7 +33070,8 @@
       }
     ];
 
-    const OPERATION_CLOSURE_STORAGE_KEY = "yilian-operation-closure-v8";
+    const OPERATION_CLOSURE_STORAGE_KEY = "yilian-operation-closure-v9";
+    const OPERATION_CLOSURE_SCHEMA_VERSION = 2;
 
     function replaceCollection(target, source) {
       if (!Array.isArray(source)) return;
@@ -33080,7 +33081,7 @@
     function restoreOperationClosureState() {
       try {
         const snapshot = JSON.parse(localStorage.getItem(OPERATION_CLOSURE_STORAGE_KEY) || "null");
-        if (!snapshot || snapshot.version !== 1) return false;
+        if (!snapshot || snapshot.version !== OPERATION_CLOSURE_SCHEMA_VERSION) return false;
         replaceCollection(exceptions, snapshot.exceptions);
         replaceCollection(inactive, snapshot.inactive);
         replaceCollection(failureReasons, snapshot.failureReasons);
@@ -33095,7 +33096,7 @@
     function saveOperationClosureState() {
       try {
         localStorage.setItem(OPERATION_CLOSURE_STORAGE_KEY, JSON.stringify({
-          version:1,
+          version:OPERATION_CLOSURE_SCHEMA_VERSION,
           lifecycleDataTime:state.lifecycleDataTime,
           exceptions,
           inactive,

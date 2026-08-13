@@ -27,7 +27,7 @@
   "entryNeedles": [
     "yilian-strategy-policy-v2",
     "evaluateExceptionVerification",
-    "yilian-operation-closure-v8",
+    "const OPERATION_CLOSURE_STORAGE_KEY",
     "syncInactiveVerificationFromTask",
     "[\"logs\", \"经营动作记录\", \"history\"]",
     "function businessActionRecords()",
@@ -35,6 +35,7 @@
     "实际执行时间",
     "操作链路",
     "const problemRecovered = !dataIncomplete && criteriaPassed && guardrailsPassed",
-    "plan.recoveryBatchesMet=evaluation.problemRecovered"
+    "plan.recoveryBatchesMet=evaluation.problemRecovered",
+    "const OPERATION_CLOSURE_SCHEMA_VERSION"
   ]
 }
