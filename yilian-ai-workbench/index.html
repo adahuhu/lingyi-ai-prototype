@@ -30938,9 +30938,10 @@
       border-bottom: 1px solid #e3e9f1;
       background: #fbfcfe;
       display: grid;
-      grid-template-columns: minmax(300px, 1fr) 118px 142px 132px auto auto auto;
+      grid-template-columns: minmax(260px, 1fr) 112px 126px 122px repeat(5, max-content);
       align-items: center;
       gap: 8px;
+      overflow-x: auto;
     }
     .inactive-ops-search {
       height: 36px;
@@ -30964,56 +30965,107 @@
     .inactive-ops-page .new-product-dimension-list > button {
       grid-template-columns: minmax(92px, 1fr) minmax(56px, 84px) 24px;
     }
-    .inactive-disposal-table { min-width: 2720px; table-layout: fixed; }
-    .inactive-disposal-table thead tr:first-child th {
+    .inactive-disposal-table { table-layout: fixed; }
+    .inactive-disposal-table thead tr.inactive-table-group-head th {
       position: sticky;
       top: 0;
-      z-index: 4;
-      height: 42px;
-      background: #f8fafc;
+      z-index: 7;
+      height: 31px;
+      padding: 0 12px;
+      border-right: 1px solid #e4eaf2;
+      background: #f5f8fc;
+      color: #5e6c82;
+      font-size: 11.5px;
+      font-weight: 720;
+      text-align: center;
       white-space: nowrap;
     }
-    .inactive-disposal-table thead th:nth-child(1), .inactive-disposal-table tbody td:nth-child(1) { width: 72px; min-width: 72px; }
-    .inactive-disposal-table thead th:nth-child(2), .inactive-disposal-table tbody td:nth-child(2) { width: 94px; min-width: 94px; }
-    .inactive-disposal-table thead th:nth-child(3), .inactive-disposal-table tbody td:nth-child(3) { width: 230px; min-width: 230px; }
-    .inactive-disposal-table thead th:nth-child(4), .inactive-disposal-table tbody td:nth-child(4) { width: 118px; min-width: 118px; }
-    .inactive-disposal-table thead th:nth-child(5), .inactive-disposal-table tbody td:nth-child(5) { width: 120px; min-width: 120px; }
-    .inactive-disposal-table thead th:nth-child(6), .inactive-disposal-table tbody td:nth-child(6) { width: 110px; min-width: 110px; }
-    .inactive-disposal-table thead th:nth-child(7), .inactive-disposal-table tbody td:nth-child(7) { width: 150px; min-width: 150px; }
-    .inactive-disposal-table thead th:nth-child(8), .inactive-disposal-table tbody td:nth-child(8) { width: 240px; min-width: 240px; }
-    .inactive-disposal-table thead th:nth-child(9), .inactive-disposal-table tbody td:nth-child(9) { width: 130px; min-width: 130px; }
-    .inactive-disposal-table thead th:nth-child(10), .inactive-disposal-table tbody td:nth-child(10) { width: 90px; min-width: 90px; }
-    .inactive-disposal-table thead th:nth-child(11), .inactive-disposal-table tbody td:nth-child(11) { width: 110px; min-width: 110px; }
-    .inactive-disposal-table thead th:nth-child(12), .inactive-disposal-table tbody td:nth-child(12) { width: 88px; min-width: 88px; }
-    .inactive-disposal-table thead th:nth-child(13), .inactive-disposal-table tbody td:nth-child(13) { width: 105px; min-width: 105px; }
-    .inactive-disposal-table thead th:nth-child(14), .inactive-disposal-table tbody td:nth-child(14) { width: 95px; min-width: 95px; }
-    .inactive-disposal-table thead th:nth-child(15), .inactive-disposal-table tbody td:nth-child(15) { width: 230px; min-width: 230px; }
-    .inactive-disposal-table thead th:nth-child(16), .inactive-disposal-table tbody td:nth-child(16) { width: 230px; min-width: 230px; }
-    .inactive-disposal-table thead th:nth-child(17), .inactive-disposal-table tbody td:nth-child(17) { width: 90px; min-width: 90px; }
-    .inactive-disposal-table thead th:nth-child(18), .inactive-disposal-table tbody td:nth-child(18) { width: 100px; min-width: 100px; }
-    .inactive-disposal-table thead th:nth-child(19), .inactive-disposal-table tbody td:nth-child(19) { width: 110px; min-width: 110px; }
-    .inactive-disposal-table thead th:nth-child(20), .inactive-disposal-table tbody td:nth-child(20) { width: 90px; min-width: 90px; }
-    .inactive-disposal-table thead th:nth-child(1),
-    .inactive-disposal-table tbody tr.inactive-ops-main > td:nth-child(1) { left: 0; }
-    .inactive-disposal-table thead th:nth-child(2),
-    .inactive-disposal-table tbody tr.inactive-ops-main > td:nth-child(2) { left: 72px; }
-    .inactive-disposal-table thead th:nth-child(3),
-    .inactive-disposal-table tbody tr.inactive-ops-main > td:nth-child(3) { left: 166px; }
-    .inactive-disposal-table thead th:nth-child(1),
-    .inactive-disposal-table thead th:nth-child(2),
-    .inactive-disposal-table thead th:nth-child(3) { position: sticky; z-index: 9 !important; background: #f8fafc; }
-    .inactive-disposal-table tbody tr.inactive-ops-main > td:nth-child(1),
-    .inactive-disposal-table tbody tr.inactive-ops-main > td:nth-child(2),
-    .inactive-disposal-table tbody tr.inactive-ops-main > td:nth-child(3) { position: sticky; z-index: 5; background: #fff; }
-    .inactive-disposal-table thead th:nth-child(3),
-    .inactive-disposal-table tbody tr.inactive-ops-main > td:nth-child(3) { box-shadow: 8px 0 12px rgba(15, 23, 42, .035); }
-    .inactive-disposal-table thead th:last-child,
-    .inactive-disposal-table tbody tr.inactive-ops-main > td:last-child { position: sticky; right: 0; z-index: 6; background: #fff; box-shadow: -8px 0 12px rgba(15, 23, 42, .04); }
-    .inactive-disposal-table thead th:last-child { z-index: 9 !important; background: #f8fafc; }
+    .inactive-disposal-table thead tr.inactive-table-column-head th {
+      position: sticky;
+      top: 31px;
+      z-index: 7;
+      height: 43px;
+      padding: 0 14px;
+      background: #fafbfd;
+      color: #647189;
+      white-space: nowrap;
+    }
+    .inactive-disposal-table thead tr.inactive-table-column-head th:not(.inactive-sticky-left):not(.inactive-sticky-right),
+    .inactive-disposal-table tbody tr.inactive-ops-main > td:not(.inactive-sticky-left):not(.inactive-sticky-right) {
+      position: static !important;
+      left: auto !important;
+      right: auto !important;
+      box-shadow: none !important;
+    }
+    .inactive-disposal-table .inactive-sticky-left {
+      position: sticky !important;
+      z-index: 6;
+      background: #fff;
+    }
+    .inactive-disposal-table thead .inactive-sticky-left {
+      z-index: 11 !important;
+      background: #fafbfd !important;
+    }
+    .inactive-disposal-table .inactive-sticky-left.is-sticky-edge {
+      box-shadow: 8px 0 12px rgba(15, 23, 42, .035);
+    }
+    .inactive-disposal-table .inactive-sticky-right {
+      position: sticky !important;
+      right: 0 !important;
+      z-index: 8;
+      background: #fff;
+      box-shadow: -8px 0 12px rgba(15, 23, 42, .04);
+    }
+    .inactive-disposal-table thead .inactive-sticky-right {
+      z-index: 12 !important;
+      background: #fafbfd !important;
+    }
     .inactive-disposal-table .inactive-ops-main td { height: 88px; padding: 12px 14px; text-align: left; }
     .inactive-disposal-table .inactive-ops-main:hover td { background: #f8fbff; }
-    .inactive-disposal-table .inactive-ops-main:hover td:nth-child(-n+3),
-    .inactive-disposal-table .inactive-ops-main:hover td:last-child { background: #f8fbff; }
+    .inactive-disposal-table .inactive-ops-main:hover td.inactive-sticky-left,
+    .inactive-disposal-table .inactive-ops-main:hover td.inactive-sticky-right { background: #f8fbff; }
+    .inactive-disposal-table th.inactive-number-column,
+    .inactive-disposal-table td.inactive-number-column { text-align: right; }
+    .inactive-disposal-table td.inactive-number-column .inactive-table-metric { justify-items: end; }
+    .inactive-column-config { display: grid; gap: 14px; }
+    .inactive-column-config-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: #344054;
+    }
+    .inactive-column-config-summary small { color: #7b8798; }
+    .inactive-column-config-groups {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .inactive-column-config-group {
+      padding: 12px;
+      border: 1px solid #e1e7ef;
+      border-radius: 8px;
+      background: #fff;
+    }
+    .inactive-column-config-group h4 {
+      margin: 0 0 9px;
+      color: #344054;
+      font-size: 13px;
+    }
+    .inactive-column-config-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 12px; }
+    .inactive-column-config-option {
+      min-height: 30px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #475467;
+      font-size: 12px;
+    }
+    .inactive-column-config-option input { width: 15px; height: 15px; accent-color: #1677ff; }
+    .inactive-column-config-option em { margin-left: auto; color: #98a2b3; font-size: 10.5px; font-style: normal; }
+    @media (max-width: 860px) {
+      .inactive-column-config-groups { grid-template-columns: 1fr; }
+    }
     .inactive-ops-data.align-left { justify-items: start; text-align: left; }
     .inactive-table-copy {
       min-width: 0;
@@ -31762,6 +31814,7 @@
     .credit-attachment-copy small { color: var(--muted); }
     .credit-attachment-action { color: var(--primary); font-weight: 800; }
   </style>
+  <link rel="stylesheet" href="./assets/dashboard-v4.css">
 </head>
 <body>
   <div class="app">
@@ -31981,6 +32034,61 @@
 
     const savedHealthCardPreference = loadHealthCardPreference();
 
+    const inactiveColumnCatalog = [
+      { key:"product", label:"商品 / MSKU / ASIN", group:"商品信息", width:230, required:true, sticky:"left" },
+      { key:"site", label:"站点", group:"商品信息", width:80 },
+      { key:"store", label:"店铺", group:"商品信息", width:126 },
+      { key:"owner", label:"负责人", group:"商品信息", width:90 },
+      { key:"priority", label:"优先级", group:"任务信息", width:72 },
+      { key:"status", label:"处理状态", group:"任务信息", width:94 },
+      { key:"id", label:"处置编号", group:"任务信息", width:110 },
+      { key:"stage", label:"生命周期阶段", group:"生命周期", width:120 },
+      { key:"operatingDays", label:"经营时长", group:"生命周期", width:110, title:"当前数据日期减首次可售日期" },
+      { key:"issue", label:"识别问题", group:"识别结果", width:150 },
+      { key:"trigger", label:"触发原因", group:"识别结果", width:240 },
+      { key:"sales7", label:"D7 销量", group:"销量", width:88, align:"number" },
+      { key:"sales15", label:"D15 销量", group:"销量", width:88, align:"number" },
+      { key:"sales30", label:"D30 销量", group:"销量", width:88, align:"number" },
+      { key:"fbaStock", label:"FBA 可售", group:"库存", width:96, align:"number" },
+      { key:"coverDays", label:"库存覆盖", group:"库存", width:105, align:"number" },
+      { key:"agedDays", label:"库龄", group:"库存", width:88, align:"number" },
+      { key:"adSpend", label:"近 30 日广告花费", group:"广告与利润", width:124, align:"number" },
+      { key:"profit", label:"近 30 日利润/单", group:"广告与利润", width:120, align:"number" },
+      { key:"suggestion", label:"建议", group:"处置记录", width:230 },
+      { key:"execution", label:"执行情况", group:"处置记录", width:210 },
+      { key:"due", label:"处理期限", group:"处置记录", width:100 },
+      { key:"generatedAt", label:"发现时间", group:"处置记录", width:110 },
+      { key:"action", label:"操作", group:"处置记录", width:90, required:true, sticky:"right" }
+    ];
+    const inactiveColumnStorageKey = "yilianInactiveColumnPreferenceV1";
+    const inactiveDefaultColumnKeys = inactiveColumnCatalog.map(column => column.key);
+    const inactiveRequiredColumnKeys = inactiveColumnCatalog.filter(column => column.required).map(column => column.key);
+
+    function loadInactiveColumnPreference() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(inactiveColumnStorageKey) || "{}");
+        const visible = Array.isArray(saved.visible)
+          ? saved.visible.filter(key => inactiveDefaultColumnKeys.includes(key))
+          : [...inactiveDefaultColumnKeys];
+        inactiveRequiredColumnKeys.forEach(key => {
+          if (!visible.includes(key)) visible.push(key);
+        });
+        return visible.length ? visible : [...inactiveDefaultColumnKeys];
+      } catch (error) {
+        return [...inactiveDefaultColumnKeys];
+      }
+    }
+
+    function saveInactiveColumnPreference() {
+      try {
+        localStorage.setItem(inactiveColumnStorageKey, JSON.stringify({ visible:[...state.inactiveVisibleColumns] }));
+      } catch (error) {
+        // The prototype can run without persistent browser storage.
+      }
+    }
+
+    const savedInactiveColumnPreference = loadInactiveColumnPreference();
+
     const state = {
       view: getRouteView(),
       filter: "all",
@@ -32083,6 +32191,7 @@
       inactiveDueFilter: "all",
       inactiveCardFilters: {},
       inactiveRecommendedOnly: false,
+      inactiveVisibleColumns: new Set(savedInactiveColumnPreference),
       exceptionActor: {
         name: "林舟",
         role: "运营主管",
@@ -32150,7 +32259,7 @@
         ["assets", "商品资产库", "archive"]
       ]},
       { title: "商品经营", items: [
-        ["aiCockpit", "AI驾驶舱", "sparkles"],
+        ["aiCockpit", "经营分析", "chart-no-axes-combined"],
         ["asinOverview", "ASIN总览", "table-properties"],
         ["product360", "ASIN 360", "scan-search"],
         ["exceptions", "待处理中心", "circle-alert"],
@@ -32184,7 +32293,7 @@
       ]}
     ];
     const routeTitleFallbacks = {
-      aiCockpit: "AI驾驶舱",
+      aiCockpit: "经营分析",
       lifecycleDashboard: "ASIN运营中心",
       systemLogs: "系统记录",
       creditProducts: "套餐管理",
@@ -35293,8 +35402,8 @@
           conclusion:"按当前销售速度，该商品预计 12 天后断货。",
           evidence:["近7日销量较前周期增长18%。","FBA可售库存仅可覆盖12天。","采购与入仓周期约18天。","当前在途数量不足。","已排除短期促销造成的销量峰值。"],
           evidenceLabels:["销量","库存","时效","在途","排除项"],
-          priorityReason:"该事项同时具备影响高、处理窗口短、会直接中断销售三个特征，因此被排为本轮第一优先级。",
-          prioritySignals:["仅剩 3 天有效决策窗口","延迟处理预计造成约 6 天销售中断","库存风险会直接阻断销售","需要采购与物流协同确认"],
+          priorityReason:"处理窗口最短，且会直接阻断销售，因此优先级由 3 升至 1。",
+          prioritySignals:["仅剩 3 天有效决策窗口","延迟处理预计造成约 6 天销售中断","需要采购与物流协同确认","库存风险会直接阻断销售"],
           impact:"若本周未启动补货，预计会出现约6天的销售中断。",
           action:"今天确认补货数量，并在8月15日前发起采购。",
           boundary:"当前判断尚未纳入国庆前物流拥堵影响，需要采购负责人确认运输计划。",
@@ -35561,24 +35670,24 @@
       if (mode === "empty") {
         return {
           eyebrow:"演示案例 · 不写入真实数据",
-          support:"从一个商品出发，看羿链如何把经营事实转成结论、动作与复查。",
-          boundaryShort:"固定演示数据",
-          reviewShort:"体验后导入真实商品",
+          changes:["固定演示数据","完整判断结构","不写入真实任务"],
+          systemSummary:"演示结构已就绪 · 4 个判断环节 · 0 项真实业务写入",
+          systemDetail:"系统将依次展示对象识别、经营判断、人工确认和结果复查。",
           visual:"journey",
           steps:[
-            ["01","识别现状","读取商品、市场和经营事实"],
-            ["02","形成判断","给出结论、依据和影响"],
-            ["03","承接动作","人工确认后进入任务"],
-            ["04","验证结果","按约定指标自动复查"]
+            ["01","识别现状","商品与经营事实"],
+            ["02","形成判断","结论、依据与影响"],
+            ["03","承接动作","人工确认进入任务"],
+            ["04","验证结果","按约定指标复查"]
           ]
         };
       }
       if (mode === "authorized") {
         return {
           eyebrow:"首次巡检已就绪",
-          support:"已连接的数据足以启动第一次经营扫描，系统尚未生成任何虚构结论。",
-          boundaryShort:"巡检结果需人工确认",
-          reviewShort:"完成后生成经营事项",
+          changes:["已就绪 3 项","待运行 1 项","尚未生成经营结论"],
+          systemSummary:"已核对 3 类连接状态 · 1 项经营规则等待运行",
+          systemDetail:"商品主数据、库存订单和广告表现已连接；经营规则将在首次巡检时运行。",
           visual:"readiness",
           readiness:[
             ["商品主数据","已就绪"],
@@ -35591,17 +35700,27 @@
       if (mode === "generated") {
         return {
           eyebrow:"首批生成结果 · 等待业务审核",
-          support:"重点不再是继续生成，而是让 Listing 与套图进入审核和上新流程。",
-          boundaryShort:"尚未纳入上架表现",
-          reviewShort:"审核后进入新品测试",
+          changes:["Listing 结构已完成","套图缺 2 类信息","当前待业务审核"],
+          systemSummary:"已生成 2 类内容资产 · 发现 2 项信息缺口 · 等待人工审核",
+          systemDetail:"系统已完成 Listing 结构和套图方向检查；尺寸对比与使用场景仍需内容负责人确认。",
           visual:"artifacts"
         };
       }
       return {
         eyebrow: mode === "mature" ? "本轮第一优先 · 持续经营中" : "本轮第一优先 · 首轮经营分析",
-        support: mode === "mature" ? "系统已同时跟踪待处理、执行中与等待复查事项。" : "系统已开始把经营变化转成可确认的业务动作。",
-        boundaryShort:"物流拥堵尚未纳入",
-        reviewShort:"任务完成后 7 天",
+        changes: issue.id === "issue-stockout"
+          ? ["较上一轮提前 4 天","优先级 3 → 1","新增 2 个风险信号","判断可信度：高"]
+          : issue.stage === "opportunity"
+            ? ["需求信号继续变化","立项优先级待确认","新增 1 项供应链边界"]
+            : issue.stage === "launch"
+              ? ["新增 1 个内容缺口","推进状态待确认","判断可信度：中"]
+              : ["优先级较上一轮上升","新增 1 个经营信号","判断可信度：中"],
+        systemSummary: issue.id === "issue-stockout"
+          ? "已核对 4 类数据 · 已排除 1 个异常因素 · 仍有 1 项人工边界待确认"
+          : `已核对 ${Math.min(4, (issue.source || []).length)} 类数据 · 已形成阶段判断 · 仍需 ${issue.owner} 确认`,
+        systemDetail: issue.id === "issue-stockout"
+          ? "已比较近 14 日订单和近 7 日销量变化，核对 FBA 库存、在途库存和采购任务，并排除促销活动造成的短期峰值。"
+          : `本轮已核对${(issue.source || []).slice(0, 3).join("、")}，当前判断仍受“${issue.boundary}”约束。`,
         visual:"equation"
       };
     }
@@ -35621,13 +35740,29 @@
           </div>
         `;
       }
-      const values = [
-        ["销量","+18%","近7日较前周期"],
-        ["库存覆盖","12天","FBA 当前可售"],
-        ["补货周期","18天","采购及入仓"],
-        ["预计中断","6天","未及时补货"]
-      ];
-      return `<div class="ops-judgment-equation" aria-label="断货风险判断关系">${values.map(([label, value, note], index) => `<div class="ops-equation-item ${index === values.length - 1 ? "risk" : ""}"><span>${label}</span><strong>${value}</strong><small>${note}</small></div>${index < values.length - 1 ? `<i>${index === 1 ? "<" : "→"}</i>` : ""}`).join("")}</div>`;
+      if (issue.id === "issue-stockout") {
+        return `
+          <div class="ops-judgment-relation" aria-label="库存覆盖与补货周期判断关系">
+            <div class="ops-relation-sequence">
+              <div class="ops-relation-item"><span>销量加速</span><strong>+18%</strong><small>近 7 日较前周期</small></div>
+              <i>→</i>
+              <div class="ops-relation-item"><span>库存覆盖</span><strong>12 天</strong><small>FBA 当前可售</small></div>
+              <i class="compare">&lt;</i>
+              <div class="ops-relation-item"><span>补货周期</span><strong>18 天</strong><small>采购及入仓</small></div>
+              <i>→</i>
+              <div class="ops-relation-item risk"><span>预计断销</span><strong>6 天</strong><small>未及时补货</small></div>
+            </div>
+            <div class="ops-relation-result"><strong>12 天库存覆盖小于 18 天补货周期，已形成 6 天供应缺口。</strong><span>有效决策窗口仅剩 3 天</span></div>
+          </div>
+        `;
+      }
+      const relationByStage = {
+        opportunity:[["需求信号","持续增长"],["竞争结构","头部集中"],["供应链","差异不足"],["当前判断","补充后立项"]],
+        launch:[["内容基础","已完成"],["信息缺口","待补齐"],["经营影响","阻碍上新"],["当前判断","优先完善"]],
+        onsale:[["经营变化","已识别"],["影响范围","待确认"],["处理窗口",issue.due],["当前判断","优先处理"]]
+      };
+      const values = relationByStage[issue.stage] || relationByStage.onsale;
+      return `<div class="ops-judgment-relation generic" aria-label="经营判断关系"><div class="ops-relation-sequence">${values.map(([label, value], index) => `<div class="ops-relation-item ${index === values.length - 1 ? "result" : ""}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>${index < values.length - 1 ? `<i>→</i>` : ""}`).join("")}</div></div>`;
     }
 
     function renderOpsSourcePanel(issue) {
@@ -35649,6 +35784,15 @@
       `;
     }
 
+    function homeIssueSignal(issue) {
+      if (issue.status === "等待复查") return "已运行 7 天";
+      if (/确认|审核/.test(issue.status)) return "等待人工确认";
+      if (issue.stage === "opportunity") return "新增机会信号";
+      if (issue.stage === "launch") return "新增内容缺口";
+      if (/广告|转化|库存|断货/.test(`${issue.object}${issue.conclusion}`)) return "优先级上升";
+      return "本轮已更新";
+    }
+
     function renderOpsPriority(issue) {
       const arranged = homeAppliedStatus(issue) === "已安排";
       const evidenceOpen = state.homeFullEvidenceOpen && state.homeExpandedIssueId === issue.id;
@@ -35657,20 +35801,20 @@
       const priority = homePriorityExplanation(issue);
       const presentation = homeModePresentation(issue);
       const showAdjust = !["empty", "authorized"].includes(homeModeKey());
-      const stageCount = Math.max(1, homeStageIssues().length);
+      const prioritySignals = priority.signals.slice(0, 3);
+      const priorityCount = Math.max(1, Math.min(4, homeIssues().length));
       return `
-        <section class="ops-priority ops-priority-${homeModeKey()}" aria-label="今日优先事项">
+        <section class="ops-priority-panel ops-priority-panel-${homeModeKey()}" aria-label="今日优先事项">
           <div class="ops-priority-head">
             <div class="ops-issue-topline">
               <span class="ops-stage-tag">${escapeHtml(issue.phase)}</span>
               <span class="ops-object-name">${escapeHtml(object.name)}</span>
               ${object.meta.map(value => `<span class="ops-object-meta">${escapeHtml(value)}</span>`).join("")}
-              <span class="ops-priority-rank">优先级 1/${stageCount}</span>
               <span class="ops-status-tag ${homeStatusClass(issue)}">${escapeHtml(homeAppliedStatus(issue))}</span>
             </div>
             <div class="ops-inline-meta">
               <small>更新于今天 10:30</small>
-              <small>负责人 ${escapeHtml(issue.owner)}</small>
+              <small>优先级 1/${priorityCount}</small>
             </div>
           </div>
           <div class="ops-priority-body">
@@ -35678,20 +35822,27 @@
               <div class="ops-conclusion">
                 <span class="ops-state-eyebrow">${escapeHtml(presentation.eyebrow)}</span>
                 <h2>${escapeHtml(issue.conclusion)}</h2>
-                <p>${escapeHtml(presentation.support)}</p>
+                <div class="ops-judgment-changes" aria-label="较上一轮判断变化">${presentation.changes.map(change => `<span>${escapeHtml(change)}</span>`).join("")}</div>
               </div>
               ${renderHomeStateVisual(issue, presentation)}
-              ${presentation.visual === "equation" ? `<div class="ops-priority-why"><span class="ops-section-label">为什么排在第一</span><div><strong>${escapeHtml(priority.summary)}</strong></div></div>` : ""}
+              <div class="ops-intelligence-row">
+                <details class="ops-system-status">
+                  <summary><span class="ops-system-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span><b>本轮系统已完成</b><strong>${escapeHtml(presentation.systemSummary)}</strong></span><i data-lucide="chevron-down"></i></summary>
+                  <p>${escapeHtml(presentation.systemDetail)}</p>
+                </details>
+                ${presentation.visual === "equation" ? `<div class="ops-priority-why"><span class="ops-section-label">为什么优先</span><div class="ops-priority-signals">${prioritySignals.map(signal => `<span>${escapeHtml(signal)}</span>`).join("")}</div><strong>${escapeHtml(priority.summary)}</strong></div>` : ""}
+              </div>
               <div class="ops-action-band">
                 <div class="ops-action-copy">
-                  <div class="ops-action-main"><span>${homeModeKey() === "empty" ? "开始体验" : homeModeKey() === "authorized" ? "下一步" : homeModeKey() === "generated" ? "进入审核" : "建议今天完成"}</span><strong>${escapeHtml(issue.action)}</strong></div>
+                  <div class="ops-action-main"><span>${homeModeKey() === "empty" ? "开始体验" : homeModeKey() === "authorized" ? "下一步" : homeModeKey() === "generated" ? "进入审核" : "建议动作"}</span><strong>${escapeHtml(issue.action)}</strong></div>
                   <div class="ops-action-details">
-                    <div class="ops-action-detail"><span>执行边界</span><p>${escapeHtml(presentation.boundaryShort)}</p></div>
-                    <div class="ops-action-detail"><span>自动复查</span><p>${escapeHtml(presentation.reviewShort)}</p></div>
+                    <div class="ops-action-detail"><span>执行边界</span><p>${escapeHtml(issue.boundary)}</p></div>
+                    <div class="ops-action-detail"><span>自动复查</span><p>${escapeHtml(issue.review)}</p></div>
                   </div>
                 </div>
                 <div class="ops-priority-actions">
                   <button type="button" class="ops-btn primary" data-action="openHomeTaskDrawer" data-id="${escapeHtml(issue.id)}" ${arranged ? "disabled" : ""}>${arranged ? "已安排，等待复查" : escapeHtml(issue.primaryLabel || "确认建议动作")}</button>
+                  ${arranged ? `<span class="ops-arranged-review">预计复查 ${escapeHtml(issue.reviewDate)}</span>` : ""}
                   ${showAdjust ? `<button type="button" class="ops-btn ghost" data-action="openHomeAdjustDrawer" data-id="${escapeHtml(issue.id)}">调整建议</button>` : ""}
                   <button type="button" class="ops-text-action" data-action="toggleHomeIssueEvidence" data-id="${escapeHtml(issue.id)}">${evidenceOpen ? "收起完整依据" : "查看完整依据"}</button>
                   ${extraActions.map(action => `<button type="button" class="ops-btn" data-action="${escapeHtml(action.action)}" data-id="${escapeHtml(issue.id)}">${escapeHtml(action.label)}</button>`).join("")}
@@ -35728,17 +35879,17 @@
     }
 
     function renderOpsIssueStream(activeIssue) {
-      const stage = homeStageKey();
-      const streamTitle = homeModeKey() === "empty" ? "继续体验经营场景" : homeModeKey() === "authorized" ? "首次巡检后将在这里形成事项" : homeModeKey() === "generated" ? "待审核与下一步" : "其他经营事项";
+      const streamTitle = "跨阶段待推进事项";
       const issues = homeIssues().filter(issue => issue.id !== activeIssue.id);
-      const preferredIds = stage === "onsale" && /^(mature|operating)$/.test(homeModeKey())
-        ? ["issue-listing-image", "issue-coffee-conversion", "issue-image-review"]
+      const preferredIds = /^(mature|operating)$/.test(homeModeKey())
+        ? ["issue-listing-image", "issue-coffee-conversion", "issue-image-review", "issue-ad-rank"]
         : [];
       const allRows = [...issues].sort((a, b) => {
         const aPreferred = preferredIds.indexOf(a.id);
         const bPreferred = preferredIds.indexOf(b.id);
         if (aPreferred >= 0 || bPreferred >= 0) return (aPreferred < 0 ? 99 : aPreferred) - (bPreferred < 0 ? 99 : bPreferred);
-        return Number(b.stage === stage) - Number(a.stage === stage);
+        const dueWeight = value => /今天/.test(value) ? 0 : /明天/.test(value) ? 1 : /本周/.test(value) ? 2 : 3;
+        return dueWeight(a.due) - dueWeight(b.due);
       });
       const rows = state.homeShowAllIssues ? allRows : allRows.slice(0, 3);
       return `
@@ -35746,7 +35897,7 @@
           <div class="ops-stream-head">
             <div>
               <h2>${streamTitle}</h2>
-              <p>当前阶段事项优先排列，点击可在原位置查看依据、边界和后续复查。</p>
+              <p>按全局经营优先级排列，覆盖商品机会、上新准备和在售经营。</p>
             </div>
             <div class="ops-stream-tools"><span class="ops-stream-count">${homeModeKey() === "empty" ? "可体验" : homeModeKey() === "authorized" ? "巡检后自动生成" : "持续分析中"} · ${allRows.length} 项</span>${allRows.length > 3 ? `<button type="button" class="ops-stream-more" data-action="toggleHomeAllIssues">${state.homeShowAllIssues ? "收起" : `查看全部 ${allRows.length} 项`}</button>` : ""}</div>
           </div>
@@ -35760,13 +35911,14 @@
                   <span class="ops-issue-main"><strong>${escapeHtml(object.name)}</strong></span>
                   <span class="ops-issue-conclusion">${escapeHtml(issue.conclusion)}</span>
                   <span class="ops-issue-action"><b>下一步</b>${escapeHtml(issue.action)}</span>
+                  <span class="ops-issue-signal">${escapeHtml(homeIssueSignal(issue))}</span>
                   <span class="ops-issue-state-wrap"><span class="ops-status-tag ops-issue-state ${homeStatusClass(issue)}">${escapeHtml(homeAppliedStatus(issue))}</span><small>${escapeHtml(issue.status === "等待复查" ? issue.reviewDate : issue.due)}</small></span>
                   <i data-lucide="${expanded ? "chevron-up" : "chevron-down"}"></i>
                 </button>
                 ${expanded ? renderOpsIssueDetail(issue) : ""}
               </article>
             `;
-          }).join("") || `<div class="empty" style="padding:22px 2px;">当前阶段暂无其它事项，切换阶段可查看完整经营链路。</div>`}
+          }).join("") || `<div class="empty" style="padding:22px 2px;">暂无其它待推进事项，切换阶段可查看完整经营链路。</div>`}
         </section>
       `;
     }
@@ -41867,6 +42019,70 @@
       const stores = [...new Set(permissionRows.map(row => row.store))];
       const owners = [...new Set(permissionRows.map(row => row.owner))];
       const advancedFilterCount = [store,priority,due].filter(value => value !== "all").length;
+      inactiveRequiredColumnKeys.forEach(key => state.inactiveVisibleColumns.add(key));
+      const visibleColumns = inactiveColumnCatalog.filter(column => state.inactiveVisibleColumns.has(column.key));
+      const columnGroups = visibleColumns.reduce((groups,column) => {
+        const current = groups[groups.length - 1];
+        if (current?.name === column.group) current.columns.push(column);
+        else groups.push({ name:column.group, columns:[column] });
+        return groups;
+      }, []);
+      const leftStickyColumns = visibleColumns.filter(column => column.sticky === "left");
+      const stickyLeftOffsets = new Map();
+      let stickyLeft = 0;
+      leftStickyColumns.forEach(column => {
+        stickyLeftOffsets.set(column.key, stickyLeft);
+        stickyLeft += column.width;
+      });
+      const lastLeftStickyKey = leftStickyColumns.at(-1)?.key;
+      const tableMinWidth = visibleColumns.reduce((total,column) => total + column.width, 0);
+      const columnCell = (column,row) => {
+        const status = inactiveStatusValue(row);
+        const result = resultFor(row);
+        const enterpriseSuggestion = inactiveEnterpriseSuggestion(row);
+        const profitValue = inactiveProfitPerUnit(row);
+        const profitTone = Number(row.sales30) !== 0 && numericValue(row.profit) < 0 ? "loss" : "";
+        const [actionLabel,actionName] = actionMeta(row);
+        const valueCell = value => `<span class="inactive-table-metric"><strong>${text(value)}</strong></span>`;
+        switch (column.key) {
+          case "product": return `<span class="np-product-cell inactive-ops-product"><span><strong>${text(row.product)}</strong></span><small>${text(row.sku)} / ${text(row.asin)}</small></span>`;
+          case "site": return valueCell(row.site);
+          case "store": return `<span class="inactive-table-copy"><strong>${text(row.store)}</strong></span>`;
+          case "owner": return `<span class="inactive-ops-owner"><strong>${text(row.owner)}</strong></span>`;
+          case "priority": return `<span class="inactive-ops-priority ${levelFor(row).toLowerCase()}">${levelFor(row)}</span>`;
+          case "status": return `<span class="np-pill ${statusTone(status)}">${text(status)}</span>`;
+          case "id": return valueCell(row.id);
+          case "stage": return `<span class="inactive-table-copy"><strong>${text(row.stage)}</strong></span>`;
+          case "operatingDays": return `<span class="inactive-table-metric"><strong>${text(inactiveOperatingDaysText(row))}</strong><small>${inactiveOperatingDays(row) === null ? "首次可售时间待同步" : "自首次可售起"}</small></span>`;
+          case "issue": return `<span class="inactive-table-copy"><strong>${text(issueFor(row))}</strong></span>`;
+          case "trigger": return `<span class="inactive-table-copy clamp" title="${text(row.triggerReason)}"><strong>${text(row.triggerReason)}</strong></span>`;
+          case "sales7": return valueCell(row.sales7);
+          case "sales15": return valueCell(row.sales15);
+          case "sales30": return valueCell(row.sales30);
+          case "fbaStock": return valueCell(row.fbaStock === undefined || row.fbaStock === null || row.fbaStock === "" || row.fbaStock === "-" ? "--" : `${row.fbaStock} 件`);
+          case "coverDays": return valueCell(row.coverDays);
+          case "agedDays": return valueCell(row.agedDays === undefined || row.agedDays === null || row.agedDays === "" || row.agedDays === "-" ? "--" : `${row.agedDays} 天`);
+          case "adSpend": return valueCell(row.adSpend);
+          case "profit": return `<span class="inactive-table-metric ${profitTone}"><strong>${text(profitValue)}</strong></span>`;
+          case "suggestion": return `<span class="inactive-table-copy clamp" title="${text(enterpriseSuggestion?.text || "暂无企业建议")}"><strong>${text(enterpriseSuggestion?.text || "暂无企业建议")}</strong><small>${text(enterpriseSuggestion?.source || "请结合经营数据人工判断")}</small></span>`;
+          case "execution": return `<span class="inactive-table-copy clamp inactive-table-result ${result.tone}" title="${text(result.detail)}"><strong>${text(result.label)}</strong>${result.detail&&result.detail!==result.label?`<small>${text(result.detail)}</small>`:""}</span>`;
+          case "due": return `<span class="inactive-ops-owner"><strong>${text(row.due)}</strong></span>`;
+          case "generatedAt": return valueCell(row.generatedAt);
+          case "action": return `<button class="btn small" data-action="${actionName}" data-id="${text(row.id)}">${actionLabel}</button>`;
+          default: return valueCell("-");
+        }
+      };
+      const columnAttributes = column => {
+        const classes = [column.align === "number" ? "inactive-number-column" : ""];
+        const styles = [`width:${column.width}px`,`min-width:${column.width}px`];
+        if (column.sticky === "left") {
+          classes.push("inactive-sticky-left");
+          if (column.key === lastLeftStickyKey) classes.push("is-sticky-edge");
+          styles.push(`left:${stickyLeftOffsets.get(column.key) || 0}px`);
+        }
+        if (column.sticky === "right") classes.push("inactive-sticky-right");
+        return `class="${classes.filter(Boolean).join(" ")}" style="${styles.join(";")}" data-column="${column.key}"`;
+      };
       return `<section class="np-page inactive-ops-page">
         <section class="inactive-ops-list">
           <div class="inactive-rule-toolbar">
@@ -41882,6 +42098,7 @@
             <select id="inactiveStatusFilter" aria-label="处理状态">${tabs.map(tab => `<option value="${tab}" ${activeTab===tab?"selected":""}>${tab === "全部" ? "全部状态" : tab} ${statusCounts[tab]}</option>`).join("")}</select>
             <button class="btn small ${advancedFilterCount ? "primary" : ""}" data-action="openInactiveAdvancedFilters"><i data-lucide="list-filter"></i>更多筛选${advancedFilterCount ? ` ${advancedFilterCount}` : ""}</button>
             <span class="np-data-time">当前数据：<b>${escapeHtml(state.lifecycleDataTime)}</b></span>
+            <button class="btn small" data-action="openInactiveColumnConfig"><i data-lucide="columns-3"></i>列配置</button>
             <button class="btn small" data-action="exportInactive"><i data-lucide="download"></i>导出</button>
             ${(search || site !== "all" || owner !== "all" || activeTab !== "全部" || selectedJudgment || advancedFilterCount) ? `<button class="btn small" data-action="resetInactiveFilters"><i data-lucide="rotate-ccw"></i>重置</button>` : ""}
           </div>
@@ -41892,36 +42109,10 @@
             ${queue.length ? `<button class="btn small ${state.inactiveRecommendedOnly ? "primary" : ""}" data-action="toggleInactiveRecommended"><i data-lucide="${state.inactiveRecommendedOnly ? "list" : "list-filter"}"></i>${state.inactiveRecommendedOnly ? "查看全部" : "仅看优先项"}</button>` : ""}
           </div>
           ${state.inactiveRecommendedOnly ? `<div class="new-product-active-filters"><span>当前筛选</span><button data-action="toggleInactiveRecommended">优先项<i data-lucide="x"></i></button><em>${rows.length} 条结果</em></div>` : ""}
-          <div class="inactive-ops-table-wrap"><table class="np-detail-table inactive-ops-table inactive-disposal-table"><thead><tr><th>优先级</th><th>处理状态</th><th>商品 / MSKU / ASIN</th><th>站点 / 店铺</th><th>生命周期阶段</th><th title="当前数据日期减首次可售日期">经营时长</th><th>识别问题</th><th>触发原因</th><th>销量 D7/D15/D30</th><th>FBA 可售</th><th>库存覆盖</th><th>库龄</th><th>近 30 日广告花费</th><th>近 30 日利润/单</th><th>建议</th><th>执行情况</th><th>负责人</th><th>处理期限</th><th>发现时间</th><th>操作</th></tr></thead><tbody>${rows.map(row => {
-            const [actionLabel,actionName]=actionMeta(row);
-            const status=inactiveStatusValue(row);
-            const result=resultFor(row);
-            const profitTone=Number(row.sales30)!==0&&numericValue(row.profit)<0?"loss":"";
-            const enterpriseSuggestion=inactiveEnterpriseSuggestion(row);
-            const profitValue=inactiveProfitPerUnit(row);
-            return `<tr class="inactive-ops-main">
-              <td><span class="inactive-ops-priority ${levelFor(row).toLowerCase()}">${levelFor(row)}</span></td>
-              <td><span class="np-pill ${statusTone(status)}">${text(status)}</span></td>
-              <td><span class="np-product-cell inactive-ops-product"><span><strong>${text(row.product)}</strong></span><small>${text(row.sku)} / ${text(row.asin)}</small></span></td>
-              <td><span class="inactive-ops-data align-left"><strong>${text(row.site)}</strong><small>${text(row.store)}</small></span></td>
-              <td><span class="inactive-ops-data align-left"><strong>${text(row.stage)}</strong></span></td>
-              <td><span class="inactive-table-metric"><strong>${text(inactiveOperatingDaysText(row))}</strong><small>${inactiveOperatingDays(row) === null ? "首次可售时间待同步" : "自首次可售起"}</small></span></td>
-              <td><span class="inactive-table-copy"><strong>${text(issueFor(row))}</strong></span></td>
-              <td><span class="inactive-table-copy clamp" title="${text(row.triggerReason)}"><strong>${text(row.triggerReason)}</strong></span></td>
-              <td><span class="inactive-table-metric"><strong>${text(row.sales7)}/${text(row.sales15)}/${text(row.sales30)}</strong></span></td>
-              <td><span class="inactive-table-metric"><strong>${row.fbaStock === undefined || row.fbaStock === null || row.fbaStock === "" || row.fbaStock === "-" ? "--" : `${text(row.fbaStock)} 件`}</strong></span></td>
-              <td><span class="inactive-table-metric"><strong>${text(row.coverDays)}</strong></span></td>
-              <td><span class="inactive-table-metric"><strong>${text(row.agedDays)} 天</strong></span></td>
-              <td><span class="inactive-table-metric"><strong>${text(row.adSpend)}</strong></span></td>
-              <td><span class="inactive-table-metric ${profitTone}"><strong>${text(profitValue)}</strong></span></td>
-              <td><span class="inactive-table-copy clamp" title="${text(enterpriseSuggestion?.text || "暂无企业建议")}"><strong>${text(enterpriseSuggestion?.text || "暂无企业建议")}</strong><small>${text(enterpriseSuggestion?.source || "请结合经营数据人工判断")}</small></span></td>
-              <td><span class="inactive-table-copy clamp inactive-table-result ${result.tone}" title="${text(result.detail)}"><strong>${text(result.label)}</strong>${result.detail&&result.detail!==result.label?`<small>${text(result.detail)}</small>`:""}</span></td>
-              <td><span class="inactive-ops-owner"><strong>${text(row.owner)}</strong></span></td>
-              <td><span class="inactive-ops-owner"><strong>${text(row.due)}</strong></span></td>
-              <td><span class="inactive-table-metric"><strong>${text(row.generatedAt)}</strong></span></td>
-              <td><button class="btn small" data-action="${actionName}" data-id="${text(row.id)}">${actionLabel}</button></td>
-            </tr>`;
-          }).join("") || `<tr><td colspan="20"><div class="empty">当前筛选暂无不动销处置记录</div></td></tr>`}</tbody></table></div>
+          <div class="inactive-ops-table-wrap"><table class="np-detail-table inactive-ops-table inactive-disposal-table" style="min-width:${tableMinWidth}px"><colgroup>${visibleColumns.map(column => `<col style="width:${column.width}px">`).join("")}</colgroup><thead>
+            <tr class="inactive-table-group-head">${columnGroups.map(group => `<th colspan="${group.columns.length}">${escapeHtml(group.name)}</th>`).join("")}</tr>
+            <tr class="inactive-table-column-head">${visibleColumns.map(column => `<th ${columnAttributes(column)}${column.title ? ` title="${escapeHtml(column.title)}"` : ""}>${escapeHtml(column.label)}</th>`).join("")}</tr>
+          </thead><tbody>${rows.map(row => `<tr class="inactive-ops-main">${visibleColumns.map(column => `<td ${columnAttributes(column)}>${columnCell(column,row)}</td>`).join("")}</tr>`).join("") || `<tr><td colspan="${visibleColumns.length}"><div class="empty">当前筛选暂无不动销处置记录</div></td></tr>`}</tbody></table></div>
         </section>
       </section>`;
     }
@@ -45844,6 +46035,38 @@
         state.inactiveDueFilter = "all";
         closeModal();
         render();
+      },
+      openInactiveColumnConfig(){
+        const groups = inactiveColumnCatalog.reduce((result,column) => {
+          const group = result.find(item => item.name === column.group);
+          if (group) group.columns.push(column);
+          else result.push({ name:column.group, columns:[column] });
+          return result;
+        }, []);
+        openModal("列配置", `<div class="inactive-column-config">
+          <div class="inactive-column-config-summary"><div><strong>选择列表显示字段</strong><small> 商品和操作列固定显示</small></div><b id="inactiveColumnConfigCount">已显示 ${state.inactiveVisibleColumns.size}/${inactiveColumnCatalog.length} 列</b></div>
+          <div class="inactive-column-config-groups">${groups.map(group => `<section class="inactive-column-config-group"><h4>${escapeHtml(group.name)}</h4><div class="inactive-column-config-options">${group.columns.map(column => `<label class="inactive-column-config-option"><input type="checkbox" data-inactive-column-toggle value="${column.key}" ${state.inactiveVisibleColumns.has(column.key)?"checked":""} ${column.required?"disabled":""}><span>${escapeHtml(column.label)}</span>${column.required?"<em>固定</em>":""}</label>`).join("")}</div></section>`).join("")}</div>
+        </div>`, `<button class="btn" data-action="resetInactiveColumnConfig">恢复默认</button><button class="btn" data-action="closeModal">取消</button><button class="btn primary" data-action="saveInactiveColumnConfig">保存</button>`);
+      },
+      syncInactiveColumnConfigCount(){
+        const checked = qsa("[data-inactive-column-toggle]:checked", qs("#modal")).length;
+        const count = qs("#inactiveColumnConfigCount", qs("#modal"));
+        if (count) count.textContent = `已显示 ${checked}/${inactiveColumnCatalog.length} 列`;
+      },
+      resetInactiveColumnConfig(){
+        qsa("[data-inactive-column-toggle]", qs("#modal")).forEach(input => { input.checked = true; });
+        handlers.syncInactiveColumnConfigCount();
+      },
+      saveInactiveColumnConfig(){
+        const visible = qsa("[data-inactive-column-toggle]:checked", qs("#modal")).map(input => input.value);
+        inactiveRequiredColumnKeys.forEach(key => {
+          if (!visible.includes(key)) visible.push(key);
+        });
+        state.inactiveVisibleColumns = new Set(visible);
+        saveInactiveColumnPreference();
+        closeModal();
+        render();
+        toast("列配置已保存", `当前显示 ${visible.length} 列，重新进入页面仍会保留。`);
       },
       exportInactive(){
         toast("已生成不动销处置明细", "导出包含处置编号、商品、生命周期、规则依据、企业建议、任务状态和完整处理记录。");
@@ -50416,6 +50639,10 @@
     });
 
     document.addEventListener("change", event => {
+      if (event.target?.matches?.("[data-inactive-column-toggle]")) {
+        handlers.syncInactiveColumnConfigCount();
+        return;
+      }
       if (event.target?.matches?.('input[name="healthProcessingAction"]')) {
         const rowId = qs('[data-action="routeHealthProcessingAction"]', qs("#drawer"))?.dataset.id;
         const row = healthRows.find(item => item.id === rowId);
@@ -50638,6 +50865,12 @@
     });
 
     document.addEventListener("keydown", event => {
+      const homeKeyboardControl = event.target?.closest?.(".ops-stage-button, .ops-issue-button, .ops-priority-actions button");
+      if (homeKeyboardControl && (event.key === "Enter" || event.key === " ")) {
+        event.preventDefault();
+        homeKeyboardControl.click();
+        return;
+      }
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") { event.preventDefault(); openSearch(); }
       if (event.key === "Enter" && document.activeElement?.id === "globalSearch") openSearch();
       if (event.key === "Enter" && document.activeElement?.id === "asinStatusSearch") {
